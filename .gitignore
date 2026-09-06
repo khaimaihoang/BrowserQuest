@@ -4,4 +4,3 @@ client/audio/music
 .DS_Store
 *.swp
 .idea
-node_env/
