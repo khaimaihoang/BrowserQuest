@@ -1,0 +1,10 @@
+- When the Ninja "Enter_The_Shadows," they will be in sneak-mode.
+- Attacking from the shadows could deal more damage, but it forces sneak-mode out.
+- Receiving damage when the ninja is in the shadows also forces sneak-mode out.
+
+
+- "Deadly_Dash" and "Thousand_Blades" could be used to teleport over enemies.
+- "Thousand_Blades" can be chained to attack a group of enemies (for example, one frame of the effect on each nearby enemy).
+
+
+- "Smoke_Bomb" is meant to teleport the Ninja away from harm.

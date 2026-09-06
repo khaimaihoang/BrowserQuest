@@ -1,0 +1,11 @@
+*Frame size* 
+
+- LavaTiles: 8x8px
+- BigBubble: 16x16px
+
+
+*Frame Duration*
+
+- LavaTiles: 300ms
+- BigBubble: 300ms
+

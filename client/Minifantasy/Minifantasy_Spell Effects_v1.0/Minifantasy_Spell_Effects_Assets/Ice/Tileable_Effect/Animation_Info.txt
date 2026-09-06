@@ -1,0 +1,22 @@
+In the spritesheet there are 3 different ice shard variations separated for one empty row.
+For each of this variations:
+
+1st row: Starting effect
+2nd row: Countinious effect (loopable)
+3rd row: Ending effect
+
+
+*Frame size* 
+
+- 8x8px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+
+Notes: 
+
+You can use this tiled effect to create your own spell patterns (check the Premade_Spell_Effects folder included in this asset pack for refferences and ideas)

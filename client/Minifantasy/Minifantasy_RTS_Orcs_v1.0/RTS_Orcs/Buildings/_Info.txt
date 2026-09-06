@@ -1,0 +1,19 @@
+- Each building has 7 versions:
+	- 1 pre-construction state
+	- 2 under construction states
+	- 1 completed state
+	- 2 Damaged states
+	- 1 Destroyed state
+
+- The buildings have different square base sizes:
+	- 64x64px for the Stronghold
+	- 48x48px for the Barracks, Hunters_Camp and the Warg_Pen
+	- 32x32px for the Forge, the Pig_Farm and the Field
+
+- Possible Building Functions:
+	- Stronghold, the main production building for workers and basic upgrades
+	- Barracks, melee units, and melee-focused upgrades
+	- Hunters_Camp, ranged units and ranged-focused upgrades
+	- Warg_Pen, chivalry and chivalry-focused upgrades
+	- Forge, general upgrades/unit unlocks
+	- Pig_Farm/fields, food production, unit limit

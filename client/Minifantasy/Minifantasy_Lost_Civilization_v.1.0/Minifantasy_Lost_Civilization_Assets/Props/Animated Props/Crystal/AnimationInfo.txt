@@ -1,0 +1,5 @@
+*All Crystals*
+
+- Frame size: 24x40px
+- Frame duration: 200ms
+

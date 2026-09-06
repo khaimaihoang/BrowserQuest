@@ -1,0 +1,16 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Emerge, Submerge, Attack, Dmg, Die/Disappear, Appear
+
+- 200ms: Idle
+
+Note:
+This creature moves underground: 
+- Submerges in the current location
+- Moves out of sight
+- Emerges in a new location

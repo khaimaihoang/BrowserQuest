@@ -1,0 +1,16 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Impact, Reset
+
+- 200ms: Roll
+
+
+Notes:
+- This companion has been designed to act as an offensive or defensive support.
+- The stone can be used to stun and/or damage enemies.
+- It can also work as an stand alone enemy.

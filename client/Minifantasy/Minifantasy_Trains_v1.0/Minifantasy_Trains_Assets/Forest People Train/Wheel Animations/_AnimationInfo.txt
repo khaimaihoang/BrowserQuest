@@ -1,0 +1,12 @@
+*Frame size* 
+
+- 32x32px: For both animations.
+
+
+*Frame Duration*
+
+- 100ms: Moving
+
+- 200ms: Idle
+
+

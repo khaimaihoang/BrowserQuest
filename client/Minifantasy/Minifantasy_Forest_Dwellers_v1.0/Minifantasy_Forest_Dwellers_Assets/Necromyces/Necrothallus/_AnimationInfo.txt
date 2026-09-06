@@ -1,0 +1,15 @@
+*Frame size* 
+
+- 48x48px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Die, Dmg
+
+- 200ms: Idle, Walk, Plant_Necrofungus
+
+
+NOTE: 
+- Plant_Necrofungus animation intentionally comes in two directions only: Front Right and Front Left
+- A Necrofungus creature should be spawned at the end of the Plant_Necrofungus animation cycle

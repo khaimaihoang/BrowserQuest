@@ -1,0 +1,28 @@
+*Frame Size*
+
+Big Eyes: 24x16px
+Small Eyes: 16x16px
+Wall Eyes: 8x8px
+
+
+*Frame Duration*
+
+200ms for all the animations
+
+---
+Notes:
+
+- Each row is a different animation
+- For Big and Small Eyes, the animations are:
+	· 1st row: Left gaze
+	· 2nd row: Right gaze
+	· 3rd row: Right Blink
+	· 4th Row: Left Blink
+
+- For Wall Eyes, the animations are:
+	· 1st row: Side to side gaze
+	· 2nd row: Left gaze
+	· 3rd row: Right gaze
+	· 4th row: Centered blink
+	· 5th row: Right Blink
+	· 6th row: Left Blink

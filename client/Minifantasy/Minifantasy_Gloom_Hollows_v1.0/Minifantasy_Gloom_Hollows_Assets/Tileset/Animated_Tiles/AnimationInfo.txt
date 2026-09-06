@@ -1,0 +1,6 @@
+*Water Tiles*
+
+- The water animation uses 6 frames
+- The mockup frame sizes are 40x40px and 72x72px (for diagonals)
+- Each individual water tile is 8x8px
+- Frame duration: 300ms

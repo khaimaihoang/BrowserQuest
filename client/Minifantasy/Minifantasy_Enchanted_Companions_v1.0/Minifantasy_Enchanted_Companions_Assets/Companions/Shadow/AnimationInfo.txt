@@ -1,0 +1,18 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Swap Effect
+
+- 200ms: Idle, Walk
+
+
+
+Notes:
+
+
+- This companion has been designed to act as defensive support.
+- The Shadow will wander around the player looking for safe zones, allowing the player to Teleport to that location if needed.

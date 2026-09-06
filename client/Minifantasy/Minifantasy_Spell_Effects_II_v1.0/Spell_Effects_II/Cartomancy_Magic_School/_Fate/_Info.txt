@@ -1,0 +1,49 @@
+IMPORTANT: These effects are meant to be used in combination with the folders /_Tileable_Effect, /Aura and /Draw
+
+*** EFFECTS ***
+
+- Death (a damage-over-time effect)
+- Emperor (a tileable wall effect for self-protection and keeping enemies at bay)
+- Hermit (a blink effect for safe teleportation)
+- Sun (a confusion/blind effect)
+- Sword (a direct damage effect)
+- Wheel (randomly applies buffs or debuffs to self/allies or enemies - additional status effects available in Minifantasy - Magic Weapons & Effects)
+
+
+
+*Frame size*
+
+- Emperor_Effect: 8x16px
+- All the rest: 32x32px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+*Sprite Sheet Rows for:*
+
+Death_Effect:
+
+- 1st: Appear
+- 2nd: Idle
+- 3rd: Hit
+- 4th: Disappear
+- The following 4 rows are the same as above but facing left
+
+Emperor_Effect:
+
+- 1st: Appear
+- 2nd: Disappear
+
+Hermit_Effect:
+
+- 1st: Blink out
+- 2nd: Blink in
+
+Sun_Effect:
+
+- 1st: Start
+- 2nd: Continuous
+- 3rd: End

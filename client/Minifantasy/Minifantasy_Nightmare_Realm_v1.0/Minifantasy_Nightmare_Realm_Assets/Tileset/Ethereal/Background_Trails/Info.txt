@@ -1,0 +1,9 @@
+This is a special tile set designed to create trails that cross the background of the scene (under the floating platforms).
+
+The tiles are 136x136px.
+
+This should be the second layer at the bottom (after your Background layer).
+
+You can extend each trail as much as you need by repeating the pattern.
+
+You can also adjust the alpha value of the trail to create softer effects.

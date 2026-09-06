@@ -1,0 +1,21 @@
+Minifantasy - Forest Dwellers features a diverse collection of nature-based creatures and monsters divided into three distinct categories. Each of these categories has a thematic thread that links all their respective creatures. They have been designed to make sure they fit into a believable ecosystem and to inspire interesting game mechanics.
+
++ Woodborn: Sentient treepeople that protect and heal the forests.
+
+- Tree Spirits: Small saplings that heal the forest and its inhabitants (five models based on different trees*)
+- Forest guardians: When a Tree Spirit grows, it turns into a guardian. These warriors protect the forest against malicious forces (five models based on different trees* with two variations each)
+
+*These tree variations are consistent with tree types available in the collection: Birch, Hickory, Oak, Pine and Willow.
+
+
++ Grimflorals: Predatory flower-like monsters that inhabit deep jungles and murky swamps.
+
+- Creeperlings: Hyperactive small plant-like monsters whose only drive is an insatiable hunger
+- Alpha Creeper: If a Creeperling feeds on enough prey for a long period, it turns into an Alpha Creeper, a big monstrosity that even preys on other powerful monsters.
+
+
++ Necromyces: Parasitic colonies formed by horrible fungal creatures.
+
+- Necrothallus: A horrendous monstrosity formed, or covered by, a colony of parasitic fungus.
+- Necrofungus: Parasitic creatures that are always looking for new hosts, preferably humanoid.
+- Fungified Corpse: A zombified host used by Necrofungus to overwhelm possible attackers and spread their colonies.

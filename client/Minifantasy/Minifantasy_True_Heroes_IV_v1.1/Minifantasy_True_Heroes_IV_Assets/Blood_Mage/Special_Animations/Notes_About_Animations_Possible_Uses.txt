@@ -1,0 +1,3 @@
+- "Extract_Power" animation can be used to get blood power out of the Mage's reserve before using other Blood abilities (it can be a game mechanic)
+
+- "Floating_Blood" animation (in the "Vampirize" folder) can be used to have blood power ready to use, leaving a blood charge floating over the Mage's head.

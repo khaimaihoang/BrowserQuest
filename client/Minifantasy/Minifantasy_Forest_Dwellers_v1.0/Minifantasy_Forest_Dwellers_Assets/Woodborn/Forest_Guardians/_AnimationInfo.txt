@@ -1,0 +1,15 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Attack, Dmg, Die
+- 200ms: Walk, Idle
+
+
+NOTE:
+- All Forest Guardians use the shame shadow sprites. 
+- Shadows are located in this same folder at "_Shadows"
+- When a forest guardian dies, it could be reborn as a Tree Spirit Using the Tree Spirit's animations Sappling and Wakeup

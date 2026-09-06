@@ -1,0 +1,15 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Bite, Pindown, Dmg, Die
+
+- 200ms: Idle, Walk
+
+Notes:
+- This companion has been designed to act as an offensive or defensive support.
+- Pindown can be used to paralyse or hinder enemies
+- It can also work as an stand alone enemy.

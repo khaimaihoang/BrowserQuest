@@ -1,0 +1,10 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Grow, Die/Disappear, Dmg
+
+- 200ms: Crawl

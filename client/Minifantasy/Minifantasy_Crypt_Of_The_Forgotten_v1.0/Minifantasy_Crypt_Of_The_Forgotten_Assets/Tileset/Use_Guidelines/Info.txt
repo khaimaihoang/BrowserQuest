@@ -1,0 +1,7 @@
+This guideline is designed to help you understand how to get the most from this tileset.
+
+You can find 2 main help elements: 
+- A colour code for wall links (tiles with the same colour code in both connecting ends fit)
+- Groups and arrows that show which elements can be overlayed/combined.
+
+You can check 'Use_Guidelines.png' for quick reference, or overlay 'Use_Guidelines_Layer' on the tileset if you want to have it visible while working with the sprite sheet in your preferred software.

@@ -1,0 +1,1 @@
+These two tilesets are sliced in 16x16px

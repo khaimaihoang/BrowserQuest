@@ -1,0 +1,8 @@
+*Frame size* 
+
+- The frame size is specified in the name of each animation file
+
+
+*Frame Duration*
+
+- 100ms

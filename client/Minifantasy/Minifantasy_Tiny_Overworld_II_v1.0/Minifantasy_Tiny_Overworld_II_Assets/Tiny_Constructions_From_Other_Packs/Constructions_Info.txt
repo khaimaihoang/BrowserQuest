@@ -1,0 +1,10 @@
++ These props are inspired by other Minifantasy tilesets that focus on different type of contructions.
+
+- Minifantasy - Farm: https://krishna-palacio.itch.io/minifantasy-farm
+- Minifantasy - Towns II: https://krishna-palacio.itch.io/minifantasy-towns-ii
+- Minifantasy - Raided Village: https://krishna-palacio.itch.io/minifantasy-raided-village
+- Minifantasy - Elven Kingdom: https://krishna-palacio.itch.io/minifantasy-elven-kingdom
+- Minifantasy - Lost Civilization: https://krishna-palacio.itch.io/minifantasy-lost-civilization
+- Minifantasy - Orc Kingdom: https://krishna-palacio.itch.io/minifantasy-orc-kingdom
+- Minifantasy - Persian Palace: https://krishna-palacio.itch.io/minifantasy-persian-palace
+- Minifantasy - Temples And Shrines: https://krishna-palacio.itch.io/minifantasy-temples-and-shrines

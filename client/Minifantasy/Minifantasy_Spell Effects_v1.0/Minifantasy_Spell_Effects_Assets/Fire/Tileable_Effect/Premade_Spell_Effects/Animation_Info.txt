@@ -1,0 +1,15 @@
+*Frame size* 
+
+- Fire_Burning_Hell: 200x200px
+- Fire_Deflagration: 64x64px
+- Fire_Wave_E: 80x40px
+- Fire_Wave_N: 40x80px
+- Fire_Wave_S: 40x80px
+- Fire_Wave_W: 80x40px
+- Fire_Wildfire: 72x72px
+
+
+
+*Frame Duration*
+
+- 100ms: For all the animations.

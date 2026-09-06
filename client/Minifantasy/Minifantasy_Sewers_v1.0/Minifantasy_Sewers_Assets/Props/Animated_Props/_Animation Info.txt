@@ -1,0 +1,12 @@
+*Frame size* 
+
+Pipes:16x32px
+Floating Props Big:16x16px
+Floating Props Small:8x8px
+
+
+*Frame Duration*
+
+200ms
+
+

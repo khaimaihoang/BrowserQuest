@@ -1,0 +1,17 @@
+*Frame duration*
+
+400ms for all the monoliths
+
+
+*Frame sizes*
+
+A: 40x56px
+B: 40x64px
+C: 40x72px
+D: 72x104px
+E: 80x120px
+F: 80x136px
+
+
+
+

@@ -1,0 +1,19 @@
+In this asset pack, you will find the props in 5 different folders organized by themes.
+Each theme contains a selection of props compatible with several Minifantasy asset packs.
+
++ Deserts and wastelands
+
++ Icy wilderness and harsh winters
+
++ Plains and forests
+
++ Swamps and wetlands
+
++ Weird and evil
+
+
+This is simply a way to keep the props organized and easily accessible. 
+I encourage you to mix and match the different assets between them and with different Minifantasy packs.
+
+For example, some bushes from ‘Deserts and Wastelands’ theme fit really well into Minifantasy - Forgotten Plains; 
+while the vines from ‘Weird and Evil’ will perfectly integrate with Minifantasy - Lost Jungle or Silent Swamp.

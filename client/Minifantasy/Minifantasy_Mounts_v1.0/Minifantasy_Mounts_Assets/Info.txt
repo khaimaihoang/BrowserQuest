@@ -1,0 +1,17 @@
++ 'New Mounts' folder includes 5 new rideable mounts plus rider layers for the 6 Minifantasy humanoid races: 
+
+	- Bicycle, Canoe, Magic Carpet, Unicorn and War Horse (with silver and golden armour variants)
+
+
+
++ 'Rider Layers For Other Minifantasy Animals' folder includes rider layers of the 6 humanoid races, 
+   for 18 already existing animals in the Minifantasy collection.
+
+	- Minifantasy - Creatures: Warg
+
+	- Minifantasy - Silent Swamp animal: Giant Toad
+
+	- Minifantasy - Crafting And Professions II animals: Deer, Wild Boar
+
+	- Minifantasy - Wildlife animals: Camel, Elephant, Giant Snail, Goat, Hippo, Horse, Lion, Lioness, 
+					  Moose, Ostrich, Panda, Polar Bear, Rhino, Tiger

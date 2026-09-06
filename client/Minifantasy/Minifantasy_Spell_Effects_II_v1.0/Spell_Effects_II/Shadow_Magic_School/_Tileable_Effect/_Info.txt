@@ -1,0 +1,15 @@
+*Frame size* 
+
+- Double: 8x8px
+- Right: 8x8px
+- Left: 8x16px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+NOTES:
+
+- These are tiled effects that allows you to create custom spell patterns (see the Premade_Spell_Effects folder in this asset pack for examples and inspiration)

@@ -1,0 +1,20 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Hive Dmg, Hive Die, Hive Bee Spawning, Bee Attack, Bee Fly/Idle, Bee Dmg, Bee Die
+
+- 200ms: Hive Fly/Idle
+
+
+
+Notes: 
+
+- This companion has been designed to act as an offensive support.
+- You can use the Hive to Spawn Bees, or just the Bee by itself.
+- They can also work as an stand alone enemy.
+- You could spawn a bunch of bees upon Hive_Die.
+- Fly and Idle use the same animation.

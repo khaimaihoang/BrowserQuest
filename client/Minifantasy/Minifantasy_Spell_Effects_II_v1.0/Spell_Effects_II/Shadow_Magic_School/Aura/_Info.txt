@@ -1,0 +1,21 @@
+*Frame size* 
+
+- 32x32px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+*Sprite Sheet Rows*
+
+- 1st: Cast
+- 2nd: Continuous pulse
+- 3rd: Pulse end
+
+
+NOTES:
+- You can summon Auras with 1 to 4 orbs. You can lose orbs through collisions (melee damage) or by spending them to create missile or sting attacks
+
+- For Missile projectile sprite check /Missile folder

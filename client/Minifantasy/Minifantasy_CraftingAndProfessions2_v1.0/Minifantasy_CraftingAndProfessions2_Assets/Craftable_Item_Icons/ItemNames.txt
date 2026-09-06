@@ -1,0 +1,132 @@
+This List makes reference to the items in the sprite sheets. From left to right, top to bottom.
+
+Dyes:
+- Vials with dyes of different colours
+
+
+Hunting Traps:
+- Claw Traps
+- Box Trap
+
+
+Leather Work Equipment:
+- Hoods
+- Doublets
+- Greaves
+
+
+Ingredients:
+- Sliced Pumpkin
+- Sliced Eggplant
+- Sliced Beet
+- Sliced Tomato
+- Lettuce leaves
+- Sliced Potato
+- Sliced Radish
+- Garlic Clove
+- Sliced pepper
+
+- Dough
+
+- Clean Salmon
+- Clean Hake
+- Clean Sardine
+- Clean Tuna
+- Clean Cod
+
+- Crab Meat
+- Prawn Meat
+- Clam Meat
+- Turtle Meat
+- Frog Meat
+
+- Venison Steak
+- Wild Boar Steak
+- Turkey Breast
+- Rabbit Chop Meat
+- Wolf Chop Meat
+
+
+
+Recipes:
+- Grilled Salmon
+- Grilled Hake
+- Grilled Sardine
+- Grilled Tuna
+- Grilled Cod
+
+- Grilled Crab
+- Grilled Prawn
+- Grilled Turtle
+- Grilled Frog
+
+- Grilled Venison
+- Grilled Wild Boar
+- Grilled Turkey Drum
+- Grilled Rabbit
+- Grilled Wolf
+
+- Braised Salmon 
+- Braised Hake 
+- Braised Sardine 
+- Braised Tuna
+- Braised Cod
+
+- Braised Crab
+- Braised  Prawn
+- Braised  Turtle
+- Braised  Frog
+
+- Braised  Venison
+- Braised  Wild Boar
+- Braised  Turkey
+- Braised  Rabbit
+- Braised  Wolf
+
+
+- Salmon Sushi
+- Hake Sushi
+- Sardine Sushi
+- Tuna Sushi
+- Cod Sushi
+
+
+- Bread
+- Sandwich
+- English Brekfast
+- Pizza
+- Oven turkey
+- Corncob
+
+- Cookie
+- Pancake
+- Cake
+- Cupcake
+
+- Fried egg
+- Omelette
+- Salad
+- Rice
+- Riceball
+
+- Green Cream
+- Pumpkin Cream
+- Eggplant cream
+- Beet Soup
+- Tomato Soup
+- Potato Cream
+- Radish Soup
+
+
+
+Tools:
+- Fishing Rod
+- Fishing Trap
+- Bug Net
+- Hammer
+- Hoe
+- Shovel
+- Watering Can
+
+
+

@@ -1,0 +1,24 @@
+***IMPORTANT***
+
+To build this animation, start with /_Draw.png and then select one of the following six options and their respective effects from the folder /_Fate/ in the root directory:
+
+- Death (a damage-over-time effect)
+- Emperor (a tileable wall effect for self-protection and keeping enemies at bay)
+- Hermit (a blink effect for safe teleportation)
+- Sun (a confusion/blind effect)
+- Sword (a direct damage effect)
+- Wheel (randomly applies buffs or debuffs to self/allies or enemies - additional status effects available in Minifantasy - Magic Weapons & Effects)
+
+
+*Frame size*
+
+- 32x32px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+NOTES:
+- Can be used either as a self-cast spell (releasing a defensive effect on the caster) or as a targeted spell (releasing an offensive effect on the enemy)

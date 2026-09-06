@@ -1,0 +1,11 @@
+*Frame size* 
+
+For all magic candle sizes: 24x32px
+
+
+
+*Frame Duration*
+
+200ms
+
+

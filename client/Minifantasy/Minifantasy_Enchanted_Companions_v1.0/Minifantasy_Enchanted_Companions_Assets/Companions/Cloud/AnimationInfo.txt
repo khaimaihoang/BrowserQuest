@@ -1,0 +1,15 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Attack, Dmg, Die
+
+- 200ms: Idle, Fly
+
+
+Notes:
+- This companion has been designed to act as an offensive support.
+- It can also work as an stand alone enemy.

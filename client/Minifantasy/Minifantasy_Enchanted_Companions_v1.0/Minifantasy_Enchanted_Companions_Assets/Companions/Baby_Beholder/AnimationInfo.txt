@@ -1,0 +1,16 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Shot, Impact, Dmg, Die
+
+- 200ms: Fly/Idle
+
+
+Notes:
+- This companion has been designed to act as an offensive support.
+- It can also work as an stand alone enemy.
+- Fly and Idle uses the same animation.

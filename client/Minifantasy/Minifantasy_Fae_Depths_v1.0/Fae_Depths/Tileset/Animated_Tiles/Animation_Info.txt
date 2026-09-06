@@ -1,0 +1,22 @@
+*Waterfall*
+
+- The waterfall animation uses 4 frames
+- The Sprite sheet frame size is 24x40px
+- However, each individual tile is 8x8px (you can create waterfalls of different sizes)
+- Frame duration: 300ms
+
+
+*Pond*
+
+- The pond animation uses 4 frames
+- The Sprite sheet frame size is 24x40px
+- However, each individual tile is 8x8px (you can create ponds of different sizes)
+- Frame duration: 300ms
+
+
+*Water Reflections*
+
+- The water reflections animations use 8 frames
+- Frame size is 8x8px
+- Each row is a different reflection effect (4 in total)
+- Frame duration: 300ms

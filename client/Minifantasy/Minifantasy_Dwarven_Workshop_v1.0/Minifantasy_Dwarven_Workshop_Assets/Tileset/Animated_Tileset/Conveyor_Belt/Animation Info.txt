@@ -1,0 +1,13 @@
+Top row, clockwise rotation
+Bottom row, anticlockwise rotation
+
+*Frame size* 
+
+16x16px for all Conveyor Belt tiles
+
+
+*Frame Duration*
+
+200ms
+
+

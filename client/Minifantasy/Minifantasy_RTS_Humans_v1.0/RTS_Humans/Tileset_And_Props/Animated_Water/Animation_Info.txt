@@ -1,0 +1,7 @@
+*Water*
+
+- The Water animation uses 2 frames
+- The Sprite sheet frame size is 24x40px
+- However, each individual tile is 8x8px (you can create water bodies of different sizes)
+- Frame duration: 300ms
+

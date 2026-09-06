@@ -1,0 +1,2 @@
+The Layers should be placed/rendered in your image editing software, or game engine, 
+in reverse alphabetical order, starting with 'K- platform' first. 

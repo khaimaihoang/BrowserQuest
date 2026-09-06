@@ -1,0 +1,14 @@
+*Frame duration*
+
+400ms for all the ground tiles
+
+
+*Frame sizes*
+
+8x8px
+8x16px
+8x24px
+16x8px
+24x8px 
+16x16px
+24x24px

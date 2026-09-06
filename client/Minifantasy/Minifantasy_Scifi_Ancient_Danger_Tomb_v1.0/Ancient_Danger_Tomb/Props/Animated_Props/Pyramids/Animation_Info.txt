@@ -1,0 +1,48 @@
+*Frame duration*
+
+400ms for all the Pyramids
+
+
+*Frame sizes*
+
+Pyramid_A : 104x104px
+Splitted_1: 104x168px
+Splitted_2: 128x104px
+Splitted_3: 128x168px
+
+Pyramid_B : 104x104px
+Splitted_1: 104x136px
+Splitted_2: 112x104px
+Splitted_3: 112x136px
+
+Pyramid_C : 88x88px
+Splitted_1: 88x112px
+Splitted_2: 96x88px
+Splitted_3: 112x128px
+
+Pyramid_D : 88x88px
+Splitted_1: 88x104px
+Splitted_2: 96x88px
+Splitted_3: 112x120px
+
+Pyramid_E : 56x56px
+Splitted_1: 56x72px
+Splitted_2: 64x56px
+Splitted_3: 80x88px
+
+Pyramid_F : 72x72px
+Splitted_1: 72x104px
+Splitted_2: 96x72px
+Splitted_3: 96x112px
+
+Pyramid_G : 72x72px
+Splitted_1: 72x88px
+Splitted_2: 80x72px
+Splitted_3: 96x104px
+
+Pyramid_G : 40x40px
+Splitted_1: 40x72px
+Splitted_2: 64x40px
+Splitted_3: 64x72px
+
+

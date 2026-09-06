@@ -1,0 +1,10 @@
+*Frame size* 
+
+L_Chimney: 40x64px
+S_Chimney: 32x64px
+
+
+*Frame Duration*
+
+200ms
+

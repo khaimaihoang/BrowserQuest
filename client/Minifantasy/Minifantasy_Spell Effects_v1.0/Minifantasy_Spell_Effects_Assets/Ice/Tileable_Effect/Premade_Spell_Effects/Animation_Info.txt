@@ -1,0 +1,16 @@
+*Frame size* 
+
+- Ice_Frostbite: 88x88px
+- Ice_Lance_E: 64x24px
+- Ice_Lance_N: 24x64px
+- Ice_Lancee_S: 24x64px
+- Ice_Lance_W: 64x24px
+- Ice_Wall_H: 56x8px
+- Ice_Wall_V: 8x56px
+- Ice_X: 40x40px
+
+
+
+*Frame Duration*
+
+- 100ms: For all the animations.

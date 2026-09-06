@@ -1,0 +1,10 @@
+*Frame size* 
+
+16x24px
+
+
+*Frame Duration*
+
+200ms
+
+

@@ -1,0 +1,12 @@
+*Frame size* 
+
+L:40x40px
+M:32x32px
+S:24x24px
+
+
+*Frame Duration*
+
+200ms
+
+

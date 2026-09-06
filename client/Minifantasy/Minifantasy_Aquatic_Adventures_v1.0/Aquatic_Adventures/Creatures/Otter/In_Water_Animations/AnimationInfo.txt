@@ -1,0 +1,23 @@
+*Frame size* 
+
+- 32x32px: For all the animations
+
+
+
+*Frame Duration*
+
+- 100ms: Attack, Die, Dmg
+
+- 200ms: Idle, Walk, Swim
+
+
+
+NOTES:
+
+- This creature is provided in 6 variants to match the different main water types available in the collection.
+
+- This creature is amphibious, so it can move both in the water and on land.
+
+- In land animations are in the root folder, while in water animations are in their respective folders.
+
+- Shadow layers are designed to be used in land only

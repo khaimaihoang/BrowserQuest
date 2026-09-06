@@ -1,0 +1,29 @@
+*Frame size* 
+
+- Aura: 32x32px
+- Impact: 8x16px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+*Sprite Sheet Rows*
+
+- 1st: Cast
+- 2nd: Continuous Effect
+- 3rd: End
+
+
+NOTES:
+- This aura of cards surrounds the caster to protect them from enemies. Upon collision with an enemy, one of the cards triggers an impact, releasing one of the offensive effects included in this Magic School
+
+- To build Impact animations, start with /_Aura_Impact.png and then select one of the following six options and their respective effects from the folder /_Fate/ in the root directory:
+
+- Death (a damage-over-time effect)
+- Emperor (a tileable wall effect for self-protection and keeping enemies at bay)
+- Hermit (a blink effect for safe teleportation)
+- Sun (a confusion/blind effect)
+- Sword (a direct damage effect)
+- Wheel (randomly applies buffs or debuffs to self/allies or enemies - additional status effects available in Minifantasy - Magic Weapons & Effects)

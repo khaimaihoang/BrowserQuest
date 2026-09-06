@@ -1,0 +1,22 @@
+*Frame size* 
+
+- 32x32px: For all the animations
+
+
+
+*Frame Duration*
+
+- 100ms: Attack, Die, Dmg
+
+- 200ms: Idle, Swim, dive, Emerge
+
+* Underwater Idle and Swim animations are common to all characters and are located in the folder called 'Underwater'
+
+
+NOTES:
+
+- These character animations are provided in 6 water color variants to match the different main water types available in the collection.
+
+- They are available as complete sprites (matching each water type with each race) or as separate layers (bodies and water layers).
+
+- The on land animations for the base characters are available in Minifantasy - Creatures (idle, walk, jump, attack, dmg and die)

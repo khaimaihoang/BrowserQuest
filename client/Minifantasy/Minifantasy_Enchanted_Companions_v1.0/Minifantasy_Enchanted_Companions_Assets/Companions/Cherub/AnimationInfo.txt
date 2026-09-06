@@ -1,0 +1,15 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Love Impact, Dmg, Die
+
+- 200ms: Fly/Idle, Attack
+
+Notes:
+- This companion has been designed to act as an offensive or defensive support.
+- You can use the Attack of the Cherub as a taunt, to turn aggressive foes friendly or even as healing projectile.
+- It can also work as an stand alone enemy.

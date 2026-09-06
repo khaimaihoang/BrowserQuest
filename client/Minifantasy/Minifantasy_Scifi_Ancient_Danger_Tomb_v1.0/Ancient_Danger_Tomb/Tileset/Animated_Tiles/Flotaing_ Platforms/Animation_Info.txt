@@ -1,0 +1,14 @@
+*Frame duration*
+
+400ms for all the platforms
+
+
+*Frame sizes*
+
+Platform A: 16x16px
+Platform B: 16x24px
+Platform C: 16x32px
+Platform D: 24x16px 
+Platform E: 24x32px
+Platform F: 32x16px
+Platform G: 32x40px

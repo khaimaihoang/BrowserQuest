@@ -1,0 +1,22 @@
+*Frame size* 
+
+- 32x32px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+*Sprite Sheet Rows*
+
+- 1st: Cast
+- 2nd: Continuous pulse
+- 3rd: Pulse end
+- 4th: Big explosion alternative end
+
+
+NOTES:
+- This can be used either as a self-cast spell (creating a pulsing aura that damages nearby enemies) or as a targeted spell (creating a pulsing area of effect that damages both the target and nearby enemies)
+
+- The Standalone_Effects folder includes the different parts of the spell so you can use them alone or in combination with other effects included in this asset pack to create your own spell patterns

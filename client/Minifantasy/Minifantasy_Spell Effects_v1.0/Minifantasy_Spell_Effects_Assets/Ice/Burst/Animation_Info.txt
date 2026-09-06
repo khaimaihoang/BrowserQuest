@@ -1,0 +1,15 @@
+*Frame size* 
+
+- 32x32px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+
+Notes:
+
+This effect can be casted directly over enemies, or as an spell that initiate centered
+in the caster doing burst damage to the surrounding enemies.

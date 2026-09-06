@@ -1,0 +1,19 @@
+*Frame size* 
+
+- 32x32px
+
+
+*Frame Duration*
+
+- 200ms
+
+
+
+
+Notes:
+
+- These orbs have been designed with the idea of being used as orbiting or wandering entities that follows the player. 
+
+- They can apply effects upon contact with the enemies, such as burn (fire), freeze (ice), knock back (air) or stun (rock), for example.
+
+- Best results in combination with the effects from Minifantasy - Magic Weapons And Effects.

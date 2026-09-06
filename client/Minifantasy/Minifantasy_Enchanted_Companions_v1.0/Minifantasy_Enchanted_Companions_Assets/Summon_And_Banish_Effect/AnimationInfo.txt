@@ -1,0 +1,17 @@
+*Frame size* 
+
+- 32x32px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+Notes:
+
+- For the Summon_Companion Animation, the companion should appear at the 4th frame of Summon_Companion.
+- Place the chosen companion Idle animation under the Summon_Companion layer.
+
+- For the Banish_Companion Animation, the companion should disappear at the 4th frame of Banish_Companion.
+- Place the Banish_Companion layer over the companion

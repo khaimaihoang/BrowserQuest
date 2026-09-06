@@ -1,0 +1,22 @@
+*Door 1*
+
+- Frame size: 24x32px
+- Frame duration: 200ms
+
+
+*Door 2*
+
+- Frame size: 24x32px
+- Frame duration: 200ms
+
+
+*Door 3*
+
+- Frame size: 24x24px
+- Frame duration: 200ms
+
+
+*Door 4*m
+
+- Frame size: 16x24px
+- Frame duration: 200ms

@@ -1,0 +1,22 @@
+*Frame size* 
+
+- Beam: 8x8px
+- Cast: 24x24px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+*Sprite Sheet Rows*
+
+- See Use_Guideline.png for further reference
+
+
+NOTES:
+- The beam consists of an animated tileset with 9 frames
+- The beam has three segments: two end tiles and one main body tile
+- Diagonal beams include additional corner tiles
+- You can adjust the beam's length by adding or removing tiles
+- When used in combination with Cast (like in the sample GIF), the beam animation should begin on the 9th frame of the Cast, with one of the Beam ends centered in the Cast frame

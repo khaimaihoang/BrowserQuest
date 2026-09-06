@@ -1,0 +1,19 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Hatching, Dmg, Die
+
+- 200ms: Idle, Walk
+
+
+Notes:
+
+- This companion is a weird egg-like creature that, with time, can hatch transformed in nearly any other creature. 
+- Protect it long enough until it hatches a friendly creature that fights for you.
+
+- The Creature should appear at the 16th frame of Hatching animation.
+- Place the chosen creature Idle animation under the Hatching layer.

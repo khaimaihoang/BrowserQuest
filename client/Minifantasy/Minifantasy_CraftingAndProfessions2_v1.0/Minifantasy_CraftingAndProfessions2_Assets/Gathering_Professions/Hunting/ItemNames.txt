@@ -1,0 +1,56 @@
+This List makes reference to the items in the sprite sheets. From left to right, top to bottom.
+
+Male Deer:
+- Antlers
+- Hoof
+- Skin
+- Bone
+- Meat
+
+Female Deer:
+- Antlers
+- Hoof
+- Skin
+- Bone
+- Meat
+
+Wild Boar:
+- Fang
+- Hoof
+- Skin
+- Bone
+- Meat
+
+
+Turkey:
+- Peak
+- Claw
+- Feather
+- Egg
+- Meat
+
+Rabbit:
+- Tail
+- Paw
+- Skin
+- Bone
+- Meat
+
+
+Wolf:
+- Fang
+- Paw
+- Skin
+- Bone
+- Meat
+
+
+Bat:
+- Fangs
+- Claw
+- Wings
+- Guano
+- Blood
+
+
+You can find animations for Wolf and bat in Minifantasy - Creatures asset pack

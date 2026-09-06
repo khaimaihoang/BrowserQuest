@@ -1,0 +1,15 @@
+*Door and Gates animations*
+
++ Door 1
+- Frame size:40x32px
+- Frame duration:200ms
+
++ Door 2:
+- Frame size:40x48px
+- Frame duration:200ms
+
++ Gate:
+- Frame size:40x64px
+- Frame duration:200ms
+
+

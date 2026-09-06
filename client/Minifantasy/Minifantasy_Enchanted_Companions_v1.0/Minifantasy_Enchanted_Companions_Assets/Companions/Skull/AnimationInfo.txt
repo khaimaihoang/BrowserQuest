@@ -1,0 +1,18 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Scare Spell, Dmg, Die
+
+- 200ms: Idle, Fly
+
+
+
+Notes:
+
+- This companion has been designed to act as a defensive support.
+- Scare_Spell will make enemies run away from the skull for a few seconds after it's triggered
+- It can also work as an stand alone enemy.

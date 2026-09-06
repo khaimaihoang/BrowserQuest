@@ -1,0 +1,17 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Attack, Jump, Die and Dmg.
+
+- 200ms: Idle and Walk.
+
+
+
+Notes: 
+
+- This companion has been designed to act as a defensive support.
+- It will resurrect the player upon death

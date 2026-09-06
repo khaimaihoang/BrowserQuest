@@ -1,0 +1,14 @@
+*Frame size* 
+
+- 56x56px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+
+Notes: 
+
+- This spell effect was created by combining modular resources from this asset pack. By mixing and matching elements, you can create your own epic effects!

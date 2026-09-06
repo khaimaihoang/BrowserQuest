@@ -1,0 +1,6 @@
+*Wall*
+
+- The pulsating circuits animation uses 6 frames
+- The Sprite sheet frame size is 296x184px
+- However, each individual tile is 8x8px
+- Frame duration: 400ms

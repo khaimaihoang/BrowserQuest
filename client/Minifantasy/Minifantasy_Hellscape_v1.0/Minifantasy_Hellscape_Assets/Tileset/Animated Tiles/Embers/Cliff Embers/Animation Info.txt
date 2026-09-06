@@ -1,0 +1,15 @@
+To be place over regular cliff tiles.
+
+Use the reference layer to see over which cliff tiles you should place the animated ember tiles.
+
+
+*Frame size* 
+
+8x8px
+
+
+*Frame Duration*
+
+300ms
+
+

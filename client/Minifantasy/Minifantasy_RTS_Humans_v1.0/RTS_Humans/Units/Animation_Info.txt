@@ -1,0 +1,17 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Attack, Die and Dmg
+
+- 200ms: Idle and Walk
+
+
+NOTES:
+- The worker has 3 attack animations for different activities: 
+	- Axe, for cutting trees
+	- Pickaxe, for mining minerals
+	- Hammer, for construction and fixing

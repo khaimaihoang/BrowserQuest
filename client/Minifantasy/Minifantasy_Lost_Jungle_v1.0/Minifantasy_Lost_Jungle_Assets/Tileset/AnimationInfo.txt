@@ -1,0 +1,4 @@
+*Water Tiles*
+
+- Frame size: 8x8px
+- Frame duration: 200ms

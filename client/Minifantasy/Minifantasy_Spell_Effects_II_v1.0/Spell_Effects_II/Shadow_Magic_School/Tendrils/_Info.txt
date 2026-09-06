@@ -1,0 +1,13 @@
+*Frame size* 
+
+- 32x32px
+
+
+*Frame Duration*
+
+- 100ms
+
+NOTES: 
+- Summon Shadow Tendrills that attack, inflicting devastating damage on enemies
+
+

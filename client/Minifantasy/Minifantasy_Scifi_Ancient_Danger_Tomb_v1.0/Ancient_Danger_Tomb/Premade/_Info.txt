@@ -1,0 +1,1 @@
+The .aseprite file includes the animated version of this premade scene with all the animated tiles and props you can see in the mockup.

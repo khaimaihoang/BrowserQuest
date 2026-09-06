@@ -1,0 +1,15 @@
+*Frame size* 
+
+- Electric_Expansive_Shock: 56x56px
+- Electric_Lightning_Cross: 152x152px
+- Electric_Shockwave_E: 80x8px
+- Electric_Shockwave_N: 8x80px
+- Electric_Shockwave_S: 8x80px
+- Electric_Shockwave_W: 80x8px
+- Electric_Simple_AOE: 40x40px
+
+
+
+*Frame Duration*
+
+- 100ms: For all the animations.

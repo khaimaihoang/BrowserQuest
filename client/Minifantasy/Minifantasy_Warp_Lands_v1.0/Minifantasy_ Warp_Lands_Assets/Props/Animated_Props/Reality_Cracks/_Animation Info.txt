@@ -1,0 +1,19 @@
+*Frame Size*
+
+Big Reality Cracks: 216x144px
+Medium Reality Cracks: 104x80px
+Small Reality Cracks: 88x56px
+
+
+*Frame Duration*
+
+300ms for all animations
+
+---
+Notes:
+- These props are meant to be used as ways in and out of the Warp Lands
+- Shadow layers are used only with Reality_Crack_Out
+- You can use these props as static or animated ones
+
+- The background in the GIFs is used as an example. It has been created using Minifantasy - Tiny Overworld asset pack (not included in Minifantasy - Warp Lands)
+- However, the reality cracks have been created to work with any other Minifantasy set

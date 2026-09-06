@@ -1,0 +1,16 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Open, Close, Dmg, Die
+
+- 200ms: Idle, Walk
+
+
+Notes:
+
+- This companion has been designed with the idea of being a portable container.
+- It can be also used as a treasure goblin like in Diablo.

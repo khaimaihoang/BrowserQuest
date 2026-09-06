@@ -1,0 +1,10 @@
+*Floating Pyramid*
+
+- Frame size: 48x64px
+- Frame duration: 200ms
+
+
+*Floating Spheres*
+
+- Frame size: 48x56px
+- Frame duration: 200ms

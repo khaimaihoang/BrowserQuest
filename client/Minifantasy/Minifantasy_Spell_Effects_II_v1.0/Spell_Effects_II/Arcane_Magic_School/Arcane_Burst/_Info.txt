@@ -1,0 +1,14 @@
+*Frame size* 
+
+- 32x32px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+NOTES:
+- This can be used either as a self-cast spell (creating a burst that damages nearby enemies) or as a targeted spell (creating a burst damages both the target and nearby enemies)
+
+- The Standalone_Effects folder includes the different parts of the spell so you can use them alone or in combination with other effects included in this asset pack to create your own spell patterns

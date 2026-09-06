@@ -1,0 +1,10 @@
+*Frame size* 
+
+8x8px for all fountain/water tiles
+
+
+*Frame Duration*
+
+200ms
+
+

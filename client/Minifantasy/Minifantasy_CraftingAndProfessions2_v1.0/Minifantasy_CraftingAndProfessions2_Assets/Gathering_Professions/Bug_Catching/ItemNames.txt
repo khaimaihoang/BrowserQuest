@@ -1,0 +1,15 @@
+This List makes reference to the items in the sprite sheets. From left to right, top to bottom.
+
+Insects:
+- Fly
+- Moth
+- Butterfly
+- Longfly
+- Dragonfly
+
+Materials for each Insect type:
+- Wings
+- Shell
+- Essence
+
+

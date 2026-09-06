@@ -1,0 +1,16 @@
+*Frame size* 
+
+- 32x32px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+
++ Important:
+
+Front layer should be rendered after the character sprite, on top of it.
+
+Back layers should be rendered before the character sprite, below it.

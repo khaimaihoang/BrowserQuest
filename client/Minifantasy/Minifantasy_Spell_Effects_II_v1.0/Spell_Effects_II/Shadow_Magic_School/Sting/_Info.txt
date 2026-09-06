@@ -1,0 +1,13 @@
+*Frame size* 
+
+- 32x32px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+NOTES:
+
+· Can be used either as a self-cast spell (creating a directional short-range attack​) or as a targeted spell (2 orbs Spam on the enemy to deal direct damage​)​​

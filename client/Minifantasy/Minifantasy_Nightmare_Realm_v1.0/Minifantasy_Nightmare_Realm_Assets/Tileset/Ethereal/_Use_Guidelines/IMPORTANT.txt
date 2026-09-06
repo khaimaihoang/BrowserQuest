@@ -1,0 +1,11 @@
+There are two options for the tileset: Ethereal and Solid.
+
+The Ethereal option is the original design, and you will get the best results (oneiric and unreal feel) by using it.
+
+The Solid option has been included as a second choice for people who don't want to use a tileset with an alpha value, or for those using an engine that doesn't allow the use of several layers.
+
+The Ethereal option was created with the idea of having a black background. However, the set also works with backgrounds of any dark color, yielding quite interesting results.
+
+Keep in mind that depending on the background color you may need to adjust the intensitu of the Shadow layers.
+
+Feel free to experiment! :)

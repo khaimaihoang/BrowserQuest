@@ -1,0 +1,24 @@
++ Each folder contains a different set of 4x4 tilesets and props. 
+These tilesets and props correspond to their 8x8 Minifantasy counterpart pack.
+
+- Tiny_Corrupted_Land (Minifantasy - Necropolis): https://krishna-palacio.itch.io/minifantasy-necropolis
+- Tiny_Forests (Minifantasy - Ancient Forests): https://krishna-palacio.itch.io/minifantasy-ancient-forests
+- Tiny_Hellscape (Minifantasy - Hellscape): https://krishna-palacio.itch.io/minifantasy-hellscape
+- Tiny_Jungle (Minifantasy - Lost Jungle): https://krishna-palacio.itch.io/minifantasy-lost-jungle
+- Tiny_Pharaoh_Desert  (Minifantasy - Pharaoh Tomb): https://krishna-palacio.itch.io/minifantasy-pharaoh-tomb
+
+
++ The asset pack also includes the following extras:
+
+- Merging_Tiles (a set of tiles for each biome that helps to merge each into another)
+- Tiny_Constructions_From_Other_Packs (a set of props to be used as locations or POIs from other Minifantasy packs that aren't biomes)
+
+
++ Water Animations
+
+*Frame size* 
+8x8px for all water body tiles
+
+
+*Frame Duration*
+200ms

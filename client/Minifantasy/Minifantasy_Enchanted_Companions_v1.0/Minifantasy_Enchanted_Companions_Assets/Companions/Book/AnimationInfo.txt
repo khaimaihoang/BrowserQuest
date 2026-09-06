@@ -1,0 +1,18 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Spell Cast, Dmg, Die
+
+- 200ms: Fly/Idle
+
+Notes: 
+
+- This companion has been designed to act as an offensive or defensive support.
+- It can also work as an stand alone enemy.
+- Spell_Cast animationcan be used by itself (to repel foes for example), or in combination with other spell effects available in the collection.
+- Fly and Idle use the same animation.
+

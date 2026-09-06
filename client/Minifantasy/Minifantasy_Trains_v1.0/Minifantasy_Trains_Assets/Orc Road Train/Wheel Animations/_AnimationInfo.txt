@@ -1,0 +1,11 @@
+*Frame size* 
+
+- 8x8px: For Wheel_1 Animation.
+- 18x8px: For Wheel_2 Animation.
+
+
+*Frame Duration*
+
+- 100ms
+
+

@@ -1,0 +1,12 @@
+*Frame size* 
+
+Blade Trap: 40x40px
+Giant Ball Trap: 32x32px
+
+
+*Frame Duration*
+
+Blade Trap: 50ms
+Giant Ball Trap: 100ms
+
+

@@ -1,0 +1,19 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Spit, Goo Impact Effect, Dmg, Die
+
+- 200ms: Idle, Walk
+
+
+
+Notes:
+
+- This companion has been designed to act as an offensive or defensive support.
+- The Goo could make damage to enemies when they are hit by it, or when they walk over it. 
+- On the other hand, the Goo could hinder enemies making them to move slower.
+- It can also work as an stand alone enemy.

@@ -1,0 +1,12 @@
+*Frame size* 
+
+- 96x96px: For all the animations.
+
+*Frame Duration*
+
+- 100ms
+
+
+*IMPORTANT!*
+- These animations should be rendered with the Character centered in the middle of its 96×96px frame.
+- This animation has empty frames at the beginning purposefully to properly time the impacts with shooting timing.

@@ -1,0 +1,19 @@
+*Frame size* 
+
+- 8x8px: For all the animations.
+
+
+*Animations*
+
+- 1st row: Show UP
+- 2nd row: Idle
+- 3rd row: Hide
+- 4th row: Dmg
+
+
+*Frame Duration*
+
+- Show UP: 200ms
+- Idle: 200ms
+- Hide: 100ms
+- Dmg: 100ms

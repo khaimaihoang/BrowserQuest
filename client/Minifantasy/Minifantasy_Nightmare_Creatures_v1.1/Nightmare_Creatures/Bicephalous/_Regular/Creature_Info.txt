@@ -1,0 +1,8 @@
+This creature has been designed to follow a special behaviour:
+
+- It is meant to appear initially with its two-headed version.
+- Upon first defeat, the second head becomes a "Slug".
+- Slug will try to run away to a safe place.
+- Slug will grow into a single-headed version.
+- Once the single-headed version is defeated, the creature is gone for good.
+* If a slug is killed before growing into a single-headed version,  the creature is also gone for good. 

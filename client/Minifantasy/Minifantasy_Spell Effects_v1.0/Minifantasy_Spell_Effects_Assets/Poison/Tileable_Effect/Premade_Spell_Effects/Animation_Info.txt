@@ -1,0 +1,13 @@
+*Frame size* 
+
+- Poison_Concentric_Sink: 120x120px
+- Poison_Growing_Cloud: 56x56px
+- Poison_Magic_Trap: 40x40px
+- Poison_Spiralm: 112x120px
+
+
+
+
+*Frame Duration*
+
+- 100ms: For all the animations.

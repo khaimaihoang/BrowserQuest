@@ -1,0 +1,43 @@
+*Frame size*
+ 
+- Slice the sprite sheet in an 8x8px grid
+- 8x8px for all tiles
+- Check the guidelines to identify the frames for each water type
+
+
+*Frame Duration*
+
+Adjust to your liking, I recommend 200ms or 300ms
+
+
+
+NOTESs:
+
++ For characters entering in water:
+
+- For the lightest color water, I suggest removing a line of 1 pixel from the bottom for each animation row (to simulate the depth and the character sinking in).
+
+- For the middle color water,  I suggest removing a line of 1 or 2 pixels from the bottom for each animation row (to simulate the depth and the character sinking in).
+
+- The darkest water color, can be treated as an impassable obstacle, or one you need to swim in (in-water animations for base characters and other creatures are included in this asset pack)
+
+
++ For the expanded tilesets included in this pack:
+
+- Optional water entrances available for the following tilesets:
+	· Forgotten Plains
+	· Desolate Desert
+	· Icy Wilderness
+	· Lost Jungle
+	· Gloom Hollows
+
+- All shore edges are considered water entrances for the following tilesets:
+	· Desolate Desert (only for the Sandy Shore tiles)
+	· Silent Swamp
+	· Fae Depths
+
+- Alternatively, you can ignore water entrance tiles completely and consider all shore edges as practicable water entrances
+
+- All the Gloom Hollows water tiles are considered deep water. There are no shallow or medium water tiles included for this tileset.
+
+

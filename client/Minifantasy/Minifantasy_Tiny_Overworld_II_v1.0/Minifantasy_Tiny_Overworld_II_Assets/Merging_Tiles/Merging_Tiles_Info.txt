@@ -1,0 +1,16 @@
++ To use these merging tilesets you should overlay them to another layer containing a different biome.
+
++ Each Merging tile set is separated into a different row. They are as follows:
+- Corrupted Land
+- Forests Autumn
+- Forests Dark
+- Forests Green
+- Hellscape
+- Jungle
+- Pharaoh Desert soil
+- Pharaoh Desert sand
+
++ Each Row contains:
+- Perimeter merging tileset
+- Shore merging tileset
+- River merging tileset

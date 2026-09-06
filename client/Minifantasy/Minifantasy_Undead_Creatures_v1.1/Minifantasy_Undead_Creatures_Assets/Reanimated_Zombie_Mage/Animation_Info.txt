@@ -1,0 +1,10 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Die, Dmg, Casted_Spell.
+
+- 200ms: Cast, Idle, Walk.

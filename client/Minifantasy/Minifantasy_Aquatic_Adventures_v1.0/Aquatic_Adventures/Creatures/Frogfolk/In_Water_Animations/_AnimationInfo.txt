@@ -1,0 +1,21 @@
+*Frame size* 
+
+- 32x32px: For all the animations
+
+
+
+*Frame Duration*
+
+- 100ms: Attack, Die, Dmg
+
+- 200ms: Idle, Swim, dive, Emerge
+
+
+
+NOTES:
+
+- This creature is provided in 6 water color variants to match the different main water types available in the collection.
+
+- This creature is amphibious, so it can move both in the water and on land.
+ 
+- Shadow layers are designed to be used in land only.

@@ -1,0 +1,20 @@
+This List makes reference to the items in the sprite sheets. From left to right, top to bottom.
+
+
+- Bait
+
+Fish:
+- Salmon
+- Hake
+- Sardine
+- Tuna
+- Cod
+
+Other animals:
+- Crab
+- Prawn
+- Clam
+- Turtle
+- Frog
+
+- Old boot

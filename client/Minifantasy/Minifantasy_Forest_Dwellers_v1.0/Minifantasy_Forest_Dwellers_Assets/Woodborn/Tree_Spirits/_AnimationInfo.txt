@@ -1,0 +1,19 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Die, Dmg, Sappling
+
+- 200ms: Heal, Idle, PlatSeed, WakeUp and Walk.
+
+
+
+NOTE:
+- All Tree Spirits use the shame shadow sprites. Except for the Sappling animation, which includes separate shadow layers for each character.
+- Shadows are located in this same folder at "_Shadows"
+
+
+

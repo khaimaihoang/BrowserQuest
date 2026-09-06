@@ -1,0 +1,15 @@
+*Fae Dust*
+
+- The fae dust animations use 12 frames
+- Frame size is 16x16px
+- Each row is a different effect (4 in total)
+- Frame duration: 200ms
+
+
+*Fae Gate*
+
+- The Fae Gate animation uses 10 frames for each phase (opening, open, closing)
+- The frame size is 56x56px
+- Frame duration: 100ms
+
+

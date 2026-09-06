@@ -1,0 +1,13 @@
+To placed over regular Ground tiles
+
+
+*Frame size* 
+
+8x8px
+
+
+*Frame Duration*
+
+300ms
+
+

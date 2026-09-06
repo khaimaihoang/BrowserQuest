@@ -1,0 +1,16 @@
+*Large Gear*
+
+- Frame size: 32x40px
+- Frame duration: 200ms
+
+
+*Medium Gear*
+
+- Frame size: 16x24px
+- Frame duration: 200ms
+
+
+*Small Gear*
+
+- Frame size: 16x16px
+- Frame duration: 200ms

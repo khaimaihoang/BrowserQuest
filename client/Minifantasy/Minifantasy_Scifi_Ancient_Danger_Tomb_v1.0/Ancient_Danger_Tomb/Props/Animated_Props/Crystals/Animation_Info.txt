@@ -1,0 +1,14 @@
+*Frame duration*
+
+400ms for both crystals
+
+
+*Frame sizes*
+
+Big: 16x32px
+Small: 16x24px
+
+
+
+
+

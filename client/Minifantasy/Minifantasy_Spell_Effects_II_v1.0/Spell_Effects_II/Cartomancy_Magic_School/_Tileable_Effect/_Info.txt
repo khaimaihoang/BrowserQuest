@@ -1,0 +1,24 @@
+*Frame size* 
+
+- Fast: 8x8px
+- Slow: 8x8px
+- High: 8x16px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+NOTES:
+
+- To build special Impact animations, start with a Tileable_Effect.png and then select one of the following six options and their respective effects from the folder /_Fate/ in the root directory:
+
+- Death (a damage-over-time effect)
+- Emperor (a tileable wall effect for self-protection and keeping enemies at bay)
+- Hermit (a blink effect for safe teleportation)
+- Sun (a confusion/blind effect)
+- Sword (a direct damage effect)
+- Wheel (randomly applies buffs or debuffs to self/allies or enemies - additional status effects available in Minifantasy - Magic Weapons & Effects)
+
+- These are tiled effects that allows you to create custom spell patterns (see the Premade_Spell_Effects folder in this asset pack for examples and inspiration)

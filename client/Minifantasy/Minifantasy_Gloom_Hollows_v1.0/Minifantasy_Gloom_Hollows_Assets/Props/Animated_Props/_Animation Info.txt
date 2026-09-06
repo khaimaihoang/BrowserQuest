@@ -1,0 +1,15 @@
+*Frame Size*
+
+24x24px
+
+
+*Frame Duration*
+
+Can vary
+
+---
+Notes:
+
+- You can use these props as static or animated ones.
+- If you want to use these props as static ones, you can use the different glowing levels for more visual variation.
+- If you want to use them as animated props, you can

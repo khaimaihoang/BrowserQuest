@@ -1,0 +1,11 @@
+*Frame size* 
+
+- 64x112px: For Front and Back animations
+- 144x40px: For Left and Right animations
+
+
+*Frame Duration*
+
+- 200ms
+
+

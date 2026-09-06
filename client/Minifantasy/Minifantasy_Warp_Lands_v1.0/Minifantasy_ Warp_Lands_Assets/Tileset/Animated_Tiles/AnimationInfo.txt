@@ -1,0 +1,6 @@
+*Rift Tiles*
+
+- The pulsing Rift animation uses 8 frames
+- The Sprite sheet frame size is 288x336px
+- However, each individual tile is 8x8px
+- Frame duration: 200ms

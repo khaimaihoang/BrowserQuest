@@ -1,0 +1,1 @@
+Overlay Rider Layers over the corresponding Skeletal_Horse sprite sheets.

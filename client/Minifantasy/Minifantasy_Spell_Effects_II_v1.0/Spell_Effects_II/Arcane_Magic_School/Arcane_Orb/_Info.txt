@@ -1,0 +1,20 @@
+*Frame size* 
+
+- 32x32px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+*Sprite Sheet Rows*
+
+- 1st: Cast / Start
+- 2nd: Continuous Orb
+- 3rd: Orb end
+
+
+NOTES:
+
+- The Standalone_Effects folder includes the different parts of the spell so you can use them alone or in combination with other effects included in this asset pack to create your own spell patterns

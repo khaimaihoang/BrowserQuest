@@ -1,0 +1,47 @@
+This guideline is designed to help you understand how to get the most from this tileset.
+
+The Groups show the function of the different elements.
+
+You can check 'Use_Guidelines.png' for quick reference, or overlay 'Use_Guidelines_Layer' on the sprite sheet if you want to have it visible while working with the sprite sheet in your preferred software.
+
+
+IMPORTANT:
+
+To make buildings similar to the ones presented in the mockup, you must use layers and maintain this order (refer to the premade folder to see this structure being used in an .Aseprite file):
+
+FRONT FACADE LAYERS:
+
+	-Front facade props
+
+	-Front facade shadows
+
+	-Front facade
+
+
+BUILDING STRUCTURE, WALLS AND PROPS (Repeat the organization below for additional levels for the buildings)
+
+Structure shadows and Brick wall shadows
+
+	-Props
+
+	-Brick wall
+
+	-Structure
+
+	-Floor
+
+
+BACK FACADE LAYERS
+
+	-Back facade
+
+	-Back facade shadows
+
+
+OUTDOOR GROUND
+
+	-Sidewalk
+
+	-Dirt
+
+	-Road

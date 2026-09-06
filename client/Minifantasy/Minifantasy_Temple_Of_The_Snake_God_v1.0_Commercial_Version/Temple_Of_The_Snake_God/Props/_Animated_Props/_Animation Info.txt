@@ -1,0 +1,8 @@
+*Frame Size*
+
+24x32px: For all Candles
+
+
+*Frame Duration*
+
+200ms: For all Candles

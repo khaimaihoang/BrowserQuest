@@ -1,0 +1,12 @@
+*Frame size* 
+
+- 8x16px
+
+
+*Frame Duration*
+
+- 100ms
+
+
+* The platform sections on the spritesheet's left side are simply included as a reference to indicate the trap location on the wooden platform.
+

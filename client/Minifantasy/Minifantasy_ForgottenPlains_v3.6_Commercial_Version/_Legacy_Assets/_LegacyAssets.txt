@@ -1,0 +1,3 @@
+***The sprite sheets in this folder are outdated.***
+
+I've kept them in this asset pack since some developers may still be using this version.

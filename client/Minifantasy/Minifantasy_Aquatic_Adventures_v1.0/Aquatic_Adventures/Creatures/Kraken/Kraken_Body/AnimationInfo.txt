@@ -1,0 +1,17 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Appear, Disappear, Attack, Die, Dmg
+
+- 200ms: Idle, Swim
+
+
+NOTES:
+
+- This creature is provided in 6 water color variants to match the different main water types available in the collection.
+
+- This creature is composed by a main body and several separate tentacles that will act independent from each other as they were different creatures. 

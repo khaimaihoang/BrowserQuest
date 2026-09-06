@@ -1,0 +1,10 @@
+*Frame size* 
+
+- 32x32px: For all the animations.
+
+
+*Frame Duration*
+
+- 100ms: Die, Dmg, MeleeAttack, Shot and WalkAndShot
+
+- 200ms: Idle and Walk.
