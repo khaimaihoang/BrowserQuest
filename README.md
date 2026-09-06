@@ -1,36 +1,27 @@
-BrowserQuest
-============
+BrowserQuest client documentation
+=================================
 
-BrowserQuest is a HTML5/JavaScript multiplayer game experiment.
+The client side for BrowserQuest has been converted to a more modern development toolset.
 
-Changes from the original
--------------------------
+Current technologies used are:
 
-Initial demonstration is meant to be a 1:1 port with no removals except the socket implementation and bison.
-
-- Moved from javascript to typescript 2.5 for the client and server.
-- Moved client build tools from requirejs to webpack 3.6.
-- Added scripts to package.json
+- Typescript 2.5
+- Webpack 3.6
+- jQuery 2.2.4(Will eventually get rid of this dependency)
+- Lodash 3.10.1 (Will eventually get rid of this dependency)
 
 
-Documentation
--------------
+### Configuration
 
-Documentation is located in client and server directories.
+Copy the current working environment from `client/config/config.{env}.json` to `client/config/config.json`.
 
+### Development
 
-License
--------
+Running the local development environment is easy. Just run `yarn watch:client` and a browser window will open. 
 
-Code is licensed under MPL 2.0. Content is licensed under CC-BY-SA 3.0.
-See the LICENSE file for details.
+To configure the port your local dev server runs on, just change the environment variable `PORT` to your desired port.
 
 
-Credits
--------
-Created by [Little Workshop](http://www.littleworkshop.fr):
+### Serving for production
 
-* Franck Lecollinet - [@whatthefranck](http://twitter.com/whatthefranck)
-* Guillaume Lecollinet - [@glecollinet](http://twitter.com/glecollinet)
-
-Ported by [Matthew Javelet](https://github.com/0xMatt)
+Just run `yarn build:client` and copy your `dist/client` directory to your webservers root.
