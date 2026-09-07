@@ -52,16 +52,25 @@ module.exports = env => {
           { from: 'client/ts/map/mapworker.js', to: 'mapworker.js' },
           { from: 'client/ts/lib/', to: 'lib/' },
           { from: 'client/config/config.prod.json', to: 'client/config/config.json' },
-          { from: 'client/Minifantasy/', to: 'Minifantasy/' },
+          ...(env.NODE_ENV === 'prod' ? [{ from: 'client/Minifantasy/', to: 'Minifantasy/' }] : []),
         ],
+        options: {
+          concurrency: 50,
+        },
       }),
     ],
 
     // Development server configuration
     devServer: {
-      static: {
-        directory: path.join(__dirname, 'dist/client'),
-      },
+      static: [
+        { directory: path.join(__dirname, 'dist/client') },
+        { 
+          directory: path.join(__dirname, 'client'),
+          watch: {
+            ignored: /Minifantasy/
+          }
+        }
+      ],
       compress: true,
       port: 8008,
       open: true,
