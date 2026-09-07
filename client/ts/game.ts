@@ -79,7 +79,7 @@ export class Game {
   debugPathing = false;
 
   // sprites
-  spriteNames = ['hand', 'sword', 'loot', 'target', 'talk', 'sparks', 'shadow16', 'rat', 'skeleton', 'skeleton2', 'spectre', 'boss', 'deathknight',
+  spriteNames = ['hand', 'sword', 'loot', 'target', 'talk', 'sparks', 'shadow16', 'base_human', 'rat', 'skeleton', 'skeleton2', 'spectre', 'boss', 'deathknight',
     'ogre', 'crab', 'snake', 'eye', 'bat', 'goblin', 'wizard', 'guard', 'king', 'villagegirl', 'villager', 'coder', 'agent', 'rick', 'scientist', 'nyan', 'priest',
     'sorcerer', 'octocat', 'beachnpc', 'forestnpc', 'desertnpc', 'lavanpc', 'clotharmor', 'leatherarmor', 'mailarmor',
     'platearmor', 'redarmor', 'goldenarmor', 'firefox', 'death', 'sword1', 'axe', 'chest',
@@ -973,7 +973,7 @@ export class Game {
         console.info(self.playerId + ' is dead');
 
         self.player.stopBlinking();
-        self.player.setSprite(self.sprites['death']);
+        // self.player.setSprite(self.sprites['death']);
         self.player.animate('death', 120, 1, function () {
           console.info(self.playerId + ' was removed');
 

@@ -375,16 +375,17 @@ export class Renderer {
     if (anim && sprite) {
       var frame = anim.currentFrame,
         s = this.scale,
-        x = frame.x * os,
-        y = frame.y * os,
-        w = sprite.width * os,
-        h = sprite.height * os,
+        srcScale = sprite.isMulti ? 1 : os,
+        x = sprite.width * frame.index * srcScale,
+        y = sprite.height * anim.row * srcScale,
+        w = sprite.width * srcScale,
+        h = sprite.height * srcScale,
         ox = sprite.offsetX * s,
         oy = sprite.offsetY * s,
         dx = entity.x * s,
         dy = entity.y * s,
-        dw = w * ds,
-        dh = h * ds;
+        dw = sprite.width * s,
+        dh = sprite.height * s;
 
       if (entity.isFading) {
         this.context.save();
@@ -423,12 +424,15 @@ export class Renderer {
             var baseImg = baseSprite.getImage(anim.name);
             if (baseImg) {
               var baseOffset = baseSprite.getOffset(anim.name);
-              var bx = baseSprite.width * frame.index * os;
-              var by = baseSprite.height * anim.row * os;
-              var bw = baseSprite.width * os;
-              var bh = baseSprite.height * os;
+              var baseSrcScale = baseSprite.isMulti ? 1 : os;
+              var bx = baseSprite.width * frame.index * baseSrcScale;
+              var by = baseSprite.height * anim.row * baseSrcScale;
+              var bw = baseSprite.width * baseSrcScale;
+              var bh = baseSprite.height * baseSrcScale;
+              var bdw = baseSprite.width * s;
+              var bdh = baseSprite.height * s;
               this.context.drawImage(baseImg, bx, by, bw, bh,
-                baseOffset.x * s, baseOffset.y * s, bw * ds, bh * ds);
+                baseOffset.x * s, baseOffset.y * s, bdw, bdh);
             }
           }
         }
@@ -462,19 +466,22 @@ export class Renderer {
         if (weapon) {
           var weaponImg = weapon.getImage(anim.name);
           if (weaponImg) {
+            var weaponSrcScale = weapon.isMulti ? 1 : os;
             var weaponAnimData = weapon.animationData[anim.name],
               index = frame.index < weaponAnimData.length ? frame.index : frame.index % weaponAnimData.length,
-              wx = weapon.width * index * os,
-              wy = weapon.height * anim.row * os,
-              ww = weapon.width * os,
-              wh = weapon.height * os;
+              wx = weapon.width * index * weaponSrcScale,
+              wy = weapon.height * anim.row * weaponSrcScale,
+              ww = weapon.width * weaponSrcScale,
+              wh = weapon.height * weaponSrcScale,
+              wdw = weapon.width * s,
+              wdh = weapon.height * s;
               
             var weaponOffset = weapon.getOffset(anim.name);
 
             this.context.drawImage(weaponImg, wx, wy, ww, wh,
               weaponOffset.x * s,
               weaponOffset.y * s,
-              ww * ds, wh * ds);
+              wdw, wdh);
           }
         }
       }
@@ -743,13 +750,16 @@ export class Renderer {
       sprite = player.getArmorSprite(),
       spriteAnim = sprite.animationData['idle_down'],
       row = spriteAnim.row,
-      w = sprite.width * os,
-      h = sprite.height * os,
-      y = row * h;
+      srcScale = sprite.isMulti ? 1 : os,
+      cw = sprite.width * os,
+      ch = sprite.height * os,
+      w = sprite.width * srcScale,
+      h = sprite.height * srcScale,
+      y = sprite.height * row * srcScale;
 
-    canvas.width = w;
-    canvas.height = h;
-    ctx.clearRect(0, 0, w, h);
+    canvas.width = cw;
+    canvas.height = ch;
+    ctx.clearRect(0, 0, cw, ch);
 
     // shadow
     var shadow = this.game.shadows['small'],
@@ -766,13 +776,16 @@ export class Renderer {
         var baseImg = baseSprite.getImage('idle_down');
         if (baseImg) {
           var baseOffset = baseSprite.getOffset('idle_down');
+          var baseSrcScale = baseSprite.isMulti ? 1 : os;
           var bx = 0;
-          var by = baseSprite.height * baseSprite.animationData['idle_down'].row * os;
-          var bw = baseSprite.width * os;
-          var bh = baseSprite.height * os;
+          var by = baseSprite.height * baseSprite.animationData['idle_down'].row * baseSrcScale;
+          var bw = baseSprite.width * baseSrcScale;
+          var bh = baseSprite.height * baseSrcScale;
           var bdx = (baseOffset.x - sprite.offsetX) * os;
           var bdy = (baseOffset.y - sprite.offsetY) * os;
-          ctx.drawImage(baseImg, bx, by, bw, bh, bdx, bdy, bw, bh);
+          var bdw = baseSprite.width * os;
+          var bdh = baseSprite.height * os;
+          ctx.drawImage(baseImg, bx, by, bw, bh, bdx, bdy, bdw, bdh);
         }
       }
     }
@@ -783,7 +796,7 @@ export class Renderer {
       var sOffset = sprite.getOffset('idle_down');
       var sdx = (sOffset.x - sprite.offsetX) * os;
       var sdy = (sOffset.y - sprite.offsetY) * os;
-      ctx.drawImage(spriteImg, 0, y, w, h, sdx, sdy, w, h);
+      ctx.drawImage(spriteImg, 0, y, w, h, sdx, sdy, cw, ch);
     }
 
     // weapon
@@ -791,13 +804,16 @@ export class Renderer {
     if (weapon) {
       var weaponImg = weapon.getImage('idle_down');
       if (weaponImg) {
-        var ww = weapon.width * os,
-          wh = weapon.height * os,
-          wy = wh * weapon.animationData['idle_down'].row;
+        var weaponSrcScale = weapon.isMulti ? 1 : os;
+        var ww = weapon.width * weaponSrcScale,
+          wh = weapon.height * weaponSrcScale,
+          wy = weapon.height * weapon.animationData['idle_down'].row * weaponSrcScale;
         var wOffset = weapon.getOffset('idle_down');
         var offsetX = (wOffset.x - sprite.offsetX) * os;
         var offsetY = (wOffset.y - sprite.offsetY) * os;
-        ctx.drawImage(weaponImg, 0, wy, ww, wh, offsetX, offsetY, ww, wh);
+        var wdw = weapon.width * os;
+        var wdh = weapon.height * os;
+        ctx.drawImage(weaponImg, 0, wy, ww, wh, offsetX, offsetY, wdw, wdh);
       }
     }
 

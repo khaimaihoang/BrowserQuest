@@ -28,4 +28,18 @@ Thứ tự này đã chuẩn xác chưa?
 
 5. Tọa độ Offset
 BrowserQuest dùng offset_x và offset_y chung cho cả file sprite. Trong is_multi config mới, bạn muốn dùng chung 1 offset cho toàn bộ các file (giống cũ), hay cần tôi hỗ trợ cấu hình offset riêng cho từng hành động (ví dụ offset của Attack khác với Idle) để đề phòng trường hợp khung hình của Minifantasy bị lệch?
-- Tôi thấy nên config riêng ra để đề phòng. Bạn cũng nên dùng công cụ phân tích hình ảnh để phân tích sprite ra trước khi sửa, tránh đoán mò. Nhưng tôi thấy hình như sprite offset giống nhau hết, nhưng cứ tự check lại cho chắc. (nhớ là nhiều khi có anim ít frame/nhiều frame hơn anim khác nha) 
+- Tôi thấy nên config riêng ra để đề phòng. Bạn cũng nên dùng công cụ phân tích hình ảnh để phân tích sprite ra trước khi sửa, tránh đoán mò. Nhưng tôi thấy hình như sprite offset giống nhau hết, nhưng cứ tự check lại cho chắc. (nhớ là nhiều khi có anim ít frame/nhiều frame hơn anim khác nha)
+
+1. Về file F:\GihOt\T004\session.md: Hiện tại hệ thống không thể truy cập được đường dẫn này (có thể do khác ổ đĩa hoặc
+máy). Trong file này có chứa logic cốt lõi nào mà tôi bắt buộc phải đọc không? Nếu có, bạn có thể copy nội dung đó cho
+tôi, hay tôi chỉ cần bám sát các yêu cầu trong SESSION.md hiện tại là đủ?
+2. Ánh xạ Animation (Animation Mapping): Thư mục Base_Human của Minifantasy đang có các hành động: attack, chargedattack, dmg, idle, jump, souldie, spindie, walk. Trong khi đó, các state phổ biến của BrowserQuest thường là idle, walk, atk, die.
+    • Với state die, bạn muốn tôi dùng souldie hay spindie? - spindie
+    • Có cần dùng tới các state như chargedattack, dmg, jump không hay tạm thời bỏ qua? - tạm bỏ qua nhưng mang ý niệm sẽ implement trong tương lai, custom states
+3. Cấu trúc và Vị trí của Config Trung gian:
+    • Bạn muốn lưu file config trung gian này ở đâu? Nằm chung thư mục client/sprites/ như các config cũ (ví dụ đặt tên là mf_human.json), hay đặt ở một nơi khác? - Đặt chung đi cho đồng bộ
+    • Đối với việc ghi đè vũ khí dần dần, bạn muốn tôi ghi đè thẳng logic is_multi: true vào file config vũ khí cũ (ví dụ sword1.json), đổi tên ID của file đó để tham chiếu đến ảnh trong thư mục Minifantasy đúng không? - Thêm 1 format xong thêm cách load 2 cũng được, do tôi cũng cần 1 số sprite cũ để test game ấy
+4. Về Sprite Rỗng (Transparent): Cho các trường hợp vũ khí tàng hình lúc idle, walk... Tôi thấy trong thư mục có file client\Minifantasy\empty.png. Tôi sử dụng luôn file này cho các state bị thiếu, hay bạn muốn tạo một file trong suốt? - Tạo đi bạn, tấm empty này có màu á nên không xài được đâu, mà đặt ở đâu xài chung được như chỗ tấm empty ấy.
+5. Phân tích hình ảnh (Sprite Analysis): Để "tránh đoán mò" về offset và số frame (vì thư mục có file _AnimationInfo.txt
+báo kích thước chung là 32x32px nhưng số lượng frame mỗi file có thể khác nhau), bạn muốn tôi viết một đoạn script nhỏ (bằng Node.js hoặc Python) quét tự động để đếm số frame / check kích thước của các file PNG này để tạo config cho chính xác, hay bạn đã có thông số sẵn rồi? Bạn quét cho chắc ăn nhé, tham khảo sơ qua: D:\Develop\Projects\T004\Assets vì tôi cũng xài same sprite thì phải, mà coi chừng khác tên/case trong tên.
+6. Kiểm thử (Testing): Bạn có nói "thao tác bước 1 làm base sprite human test ổn rồi làm paperdoll". Bước test này là bạn sẽ tự chạy client game lên kiểm tra bằng mắt thường, hay cần tôi viết script tự động để test xem nhân vật hiển thị đúng config chưa? Cả 2 nhé.

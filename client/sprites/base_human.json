@@ -2,21 +2,23 @@
   "id": "base_human",
   "width": 32,
   "height": 32,
-  "offset_x": -16,
-  "offset_y": -16,
+  "offset_x": -8,
+  "offset_y": -7,
   "is_multi": true,
   "base_path": "Minifantasy/Minifantasy_Creatures_v3.3_Commercial_Version/Minifantasy_Creatures_Assets/Base_Humanoids/Human/Base_Human/",
   "animations": {
-    "idle_right": { "length": 14, "row": 2, "file": "HumanIdle.png" },
-    "walk_right": { "length": 6,  "row": 2, "file": "HumanWalk.png" },
-    "atk_right":  { "length": 4,  "row": 2, "file": "HumanAttack.png" },
+    "idle_right": { "length": 14, "row": 0, "file": "humanidle.png" },
+    "walk_right": { "length": 4,  "row": 0, "file": "humanwalk.png" },
+    "atk_right":  { "length": 4,  "row": 0, "file": "humanattack.png" },
     
-    "idle_up":    { "length": 14, "row": 3, "file": "HumanIdle.png" },
-    "walk_up":    { "length": 6,  "row": 3, "file": "HumanWalk.png" },
-    "atk_up":     { "length": 4,  "row": 3, "file": "HumanAttack.png" },
+    "idle_up":    { "length": 14, "row": 3, "file": "humanidle.png" },
+    "walk_up":    { "length": 4,  "row": 3, "file": "humanwalk.png" },
+    "atk_up":     { "length": 4,  "row": 3, "file": "humanattack.png" },
     
-    "idle_down":  { "length": 14, "row": 0, "file": "HumanIdle.png" },
-    "walk_down":  { "length": 6,  "row": 0, "file": "HumanWalk.png" },
-    "atk_down":   { "length": 4,  "row": 0, "file": "HumanAttack.png" }
+    "idle_down":  { "length": 14, "row": 0, "file": "humanidle.png" },
+    "walk_down":  { "length": 4,  "row": 0, "file": "humanwalk.png" },
+    "atk_down":   { "length": 4,  "row": 0, "file": "humanattack.png" },
+    
+    "death":      { "length": 12, "row": 0, "file": "humansouldie.png" }
   }
 }
