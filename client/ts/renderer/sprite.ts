@@ -42,7 +42,8 @@ export class Sprite {
     var self = this;
 
     this.image = new Image();
-    this.image.src = this.filepath;
+    this.image.crossOrigin = 'Anonymous';
+    this.image.src = this.filepath + '?cb=' + new Date().getTime();
 
     this.image.onload = function () {
       self.isLoaded = true;
@@ -84,7 +85,6 @@ export class Sprite {
         data[i] = 255;
         data[i + 1] = data[i + 2] = 75;
       }
-      spriteData.data = data;
 
       ctx.putImageData(spriteData, 0, 0);
 
@@ -97,7 +97,7 @@ export class Sprite {
         height: this.height
       };
     } catch (e) {
-      console.error('Error getting image data for sprite : ' + this.name);
+      console.error('Error getting image data for sprite : ' + this.name, e);
     }
   }
 
@@ -166,7 +166,6 @@ export class Sprite {
       }
     }
 
-    finalData.data = fdata;
     ctx.putImageData(finalData, 0, 0);
 
     this.silhouetteSprite = {

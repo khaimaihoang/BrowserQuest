@@ -285,9 +285,11 @@ export class Game {
         entity.sprite = null;
         entity.setSprite(self.sprites[entity.getSpriteName()]);
       });
-      this.initHurtSprites();
-      this.initShadows();
-      this.initCursors();
+      if (this.spritesLoaded()) {
+        this.initHurtSprites();
+        this.initShadows();
+        this.initCursors();
+      }
     }
   }
 

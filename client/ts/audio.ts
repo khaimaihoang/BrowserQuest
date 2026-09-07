@@ -11,7 +11,7 @@ export class AudioManager {
   sounds = {};
   currentMusic = null;
   areas = [];
-  musicNames = ['village', 'beach', 'forest', 'cave', 'desert', 'lavaland', 'boss'];
+  musicNames = [];
   soundNames = ['loot', 'hit1', 'hit2', 'hurt', 'heal', 'chat', 'revive', 'death', 'firefox', 'achievement', 'kill1', 'kill2', 'noloot', 'teleport', 'chest', 'npc', 'npc-end'];
 
 
@@ -39,13 +39,14 @@ export class AudioManager {
     var loadMusicFiles = function () {
       if (!self.game.renderer.mobile) { // disable music on mobile devices
         console.info('Loading music files...');
-        // Load the village music first, as players always start here
-        self.loadMusic(self.musicNames.shift(), function () {
-          // Then, load all the other music files
-          _.each(self.musicNames, function (name) {
-            self.loadMusic(name);
+        if (self.musicNames.length > 0) {
+          self.loadMusic(self.musicNames.shift(), function () {
+            // Then, load all the other music files
+            _.each(self.musicNames, function (name) {
+              self.loadMusic(name);
+            });
           });
-        });
+        }
       }
     };
 
