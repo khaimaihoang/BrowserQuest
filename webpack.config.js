@@ -52,6 +52,7 @@ module.exports = env => {
           { from: 'client/ts/map/mapworker.js', to: 'mapworker.js' },
           { from: 'client/ts/lib/', to: 'lib/' },
           { from: 'client/config/config.prod.json', to: 'client/config/config.json' },
+          { from: 'client/Minifantasy/', to: 'Minifantasy/' },
         ],
       }),
     ],

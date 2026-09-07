@@ -35,6 +35,15 @@ console.log = function(...args) {
 };
 console.error = function(...args) {
   originalError.apply(console, args);
+  const hasError = args.some(arg => arg instanceof Error);
+  if (!hasError) {
+    const stack = new Error().stack;
+    if (stack) {
+      // Remove the first two lines (Error message and the console.error wrapper frame)
+      const cleanStack = stack.split('\n').slice(2).join('\n');
+      args.push('\nStack trace:\n' + cleanStack);
+    }
+  }
   sendLogToServer('ERROR', args);
 };
 console.warn = function(...args) {
