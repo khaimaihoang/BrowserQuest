@@ -15,6 +15,12 @@ export class Sprite {
   offsetY = 0;
   image: any;
 
+  isMulti = false;
+  basePath = '';
+  multiImages: { [key: string]: any } = {};
+  imagesLoaded = 0;
+  totalImages = 0;
+
   onload_func;
   whiteSprite;
   silhouetteSprite;
@@ -28,14 +34,87 @@ export class Sprite {
 
   loadJSON(data) {
     this.id = data.id;
-    this.filepath = 'img/' + this.scale + '/' + this.id + '.png';
     this.animationData = data.animations;
     this.width = data.width;
     this.height = data.height;
     this.offsetX = (data.offset_x !== undefined) ? data.offset_x : -16;
     this.offsetY = (data.offset_y !== undefined) ? data.offset_y : -16;
 
-    this.load();
+    if (data.is_multi) {
+      this.isMulti = true;
+      this.basePath = data.base_path || '';
+      this.loadMulti();
+    } else {
+      this.filepath = 'img/' + this.scale + '/' + this.id + '.png';
+      this.load();
+    }
+  }
+
+  loadMulti() {
+    var self = this;
+    var uniqueFiles = new Set<string>();
+
+    for (var name in this.animationData) {
+      if (this.animationData[name].file) {
+        uniqueFiles.add(this.animationData[name].file);
+      }
+    }
+
+    this.totalImages = uniqueFiles.size;
+    if (this.totalImages === 0) {
+      this.isLoaded = true;
+      if (this.onload_func) {
+        this.onload_func();
+      }
+      return;
+    }
+
+    uniqueFiles.forEach(file => {
+      var img = new Image();
+      img.crossOrigin = 'Anonymous';
+      // Load directly from basePath without scaling directory logic
+      img.src = this.basePath + file + '?cb=' + new Date().getTime();
+      
+      img.onload = () => {
+        self.multiImages[file] = img;
+        self.imagesLoaded++;
+        if (self.imagesLoaded === self.totalImages) {
+          self.isLoaded = true;
+          if (self.onload_func) {
+            self.onload_func();
+          }
+        }
+      };
+      
+      img.onerror = () => {
+        console.error('Failed to load sprite image: ' + this.basePath + file);
+        self.imagesLoaded++;
+        if (self.imagesLoaded === self.totalImages) {
+          self.isLoaded = true;
+          if (self.onload_func) {
+            self.onload_func();
+          }
+        }
+      };
+    });
+  }
+
+  getImage(animName?: string) {
+    if (this.isMulti && animName && this.animationData[animName]) {
+      let file = this.animationData[animName].file;
+      return file ? this.multiImages[file] : null;
+    }
+    return this.image;
+  }
+
+  getOffset(animName?: string) {
+    if (this.isMulti && animName && this.animationData[animName]) {
+      let animData = this.animationData[animName];
+      let ox = animData.offset_x !== undefined ? animData.offset_x : this.offsetX;
+      let oy = animData.offset_y !== undefined ? animData.offset_y : this.offsetY;
+      return { x: ox, y: oy };
+    }
+    return { x: this.offsetX, y: this.offsetY };
   }
 
   load() {
@@ -66,6 +145,8 @@ export class Sprite {
   }
 
   createHurtSprite() {
+    if (this.isMulti || !this.image) return;
+
     var canvas = document.createElement('canvas'),
       ctx = canvas.getContext('2d'),
       width = this.image.width,
@@ -94,7 +175,9 @@ export class Sprite {
         offsetX: this.offsetX,
         offsetY: this.offsetY,
         width: this.width,
-        height: this.height
+        height: this.height,
+        getImage: function() { return this.image; },
+        getOffset: function() { return { x: this.offsetX, y: this.offsetY }; }
       };
     } catch (e) {
       console.error('Error getting image data for sprite : ' + this.name, e);
@@ -106,6 +189,8 @@ export class Sprite {
   }
 
   createSilhouette() {
+    if (this.isMulti || !this.image) return;
+
     var canvas = document.createElement('canvas'),
       ctx = canvas.getContext('2d'),
       width = this.image.width,
