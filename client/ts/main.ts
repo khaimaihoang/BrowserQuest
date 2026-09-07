@@ -3,6 +3,43 @@ import {Game} from './game';
 import {Detect} from './utils/detect';
 import * as _ from 'lodash';
 
+const originalLog = console.log;
+const originalError = console.error;
+const originalWarn = console.warn;
+const originalInfo = console.info;
+
+function sendLogToServer(level: string, args: any[]) {
+  try {
+    const messages = args.map(arg => {
+      if (typeof arg === 'object') {
+        try { return JSON.stringify(arg); } catch (e) { return String(arg); }
+      }
+      return String(arg);
+    });
+    fetch('/__log', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ level, messages })
+    }).catch(() => {});
+  } catch (e) {}
+}
+
+console.log = function(...args) {
+  originalLog.apply(console, args);
+  sendLogToServer('LOG', args);
+};
+console.error = function(...args) {
+  originalError.apply(console, args);
+  sendLogToServer('ERROR', args);
+};
+console.warn = function(...args) {
+  originalWarn.apply(console, args);
+  sendLogToServer('WARN', args);
+};
+console.info = function(...args) {
+  originalInfo.apply(console, args);
+  sendLogToServer('INFO', args);
+};
 
 var app, game;
 

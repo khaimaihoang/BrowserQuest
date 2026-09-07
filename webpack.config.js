@@ -74,6 +74,19 @@ module.exports = env => {
           warnings: false,
         },
       },
+      setupMiddlewares: (middlewares, devServer) => {
+        if (!devServer) {
+          throw new Error('webpack-dev-server is not defined');
+        }
+        const fs = require('fs');
+        devServer.app.use(require('express').json());
+        devServer.app.post('/__log', (req, res) => {
+          const logLine = `[${new Date().toISOString()}] ${req.body.level}: ${req.body.messages.join(' ')}\n`;
+          fs.appendFileSync(path.resolve(__dirname, 'browser_logs.txt'), logLine);
+          res.sendStatus(200);
+        });
+        return middlewares;
+      },
       // Optional: Add headers for better development experience
 
     },
