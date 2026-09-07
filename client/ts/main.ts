@@ -8,9 +8,14 @@ const originalError = console.error;
 const originalWarn = console.warn;
 const originalInfo = console.info;
 
+const sessionId = Math.random().toString(36).substring(2, 15);
+
 function sendLogToServer(level: string, args: any[]) {
   try {
     const messages = args.map(arg => {
+      if (arg instanceof Error) {
+        return arg.stack || arg.message || String(arg);
+      }
       if (typeof arg === 'object') {
         try { return JSON.stringify(arg); } catch (e) { return String(arg); }
       }
@@ -19,7 +24,7 @@ function sendLogToServer(level: string, args: any[]) {
     fetch('/__log', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ level, messages })
+      body: JSON.stringify({ level, messages, sessionId })
     }).catch(() => {});
   } catch (e) {}
 }

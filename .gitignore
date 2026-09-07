@@ -5,3 +5,7 @@ client/audio/music
 *.swp
 .idea
 browser_logs.txt
+
+browser_logs_old.txt
+
+browser_logs_old.txt

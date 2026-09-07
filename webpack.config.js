@@ -79,10 +79,23 @@ module.exports = env => {
           throw new Error('webpack-dev-server is not defined');
         }
         const fs = require('fs');
+        const logPath = path.resolve(__dirname, 'browser_logs.txt');
+        const oldLogPath = path.resolve(__dirname, 'browser_logs_old.txt');
+        
+        let currentSessionId = null;
+
         devServer.app.use(require('express').json());
         devServer.app.post('/__log', (req, res) => {
+          if (req.body.sessionId && req.body.sessionId !== currentSessionId) {
+            currentSessionId = req.body.sessionId;
+            if (fs.existsSync(logPath)) {
+              const oldLogs = fs.readFileSync(logPath, 'utf8');
+              fs.writeFileSync(oldLogPath, oldLogs);
+              fs.unlinkSync(logPath);
+            }
+          }
           const logLine = `[${new Date().toISOString()}] ${req.body.level}: ${req.body.messages.join(' ')}\n`;
-          fs.appendFileSync(path.resolve(__dirname, 'browser_logs.txt'), logLine);
+          fs.appendFileSync(logPath, logLine);
           res.sendStatus(200);
         });
         return middlewares;
