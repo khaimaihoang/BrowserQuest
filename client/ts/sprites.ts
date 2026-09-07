@@ -2,6 +2,7 @@ const agent = require('../sprites/agent.json');
 const arrow = require('../sprites/arrow.json');
 const axe = require('../sprites/axe.json');
 const bat = require('../sprites/bat.json');
+const base_human = require('../sprites/base_human.json');
 const beachnpc = require('../sprites/beachnpc.json');
 const bluesword = require('../sprites/bluesword.json');
 const boss = require('../sprites/boss.json');
@@ -62,7 +63,7 @@ const sorcerer = require('../sprites/sorcerer.json');
 const sparks = require('../sprites/sparks.json');
 const spectre = require('../sprites/spectre.json');
 const sword = require('../sprites/sword.json');
-const sword1 = require('../sprites/platearmor.json');
+const sword1 = require('../sprites/sword1.json');
 const sword2 = require('../sprites/sword2.json');
 const talk = require('../sprites/talk.json');
 const target = require('../sprites/target.json');
@@ -75,6 +76,7 @@ export const sprites = {
   arrow,
   axe,
   bat,
+  base_human,
   beachnpc,
   bluesword,
   boss,

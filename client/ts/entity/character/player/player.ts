@@ -9,6 +9,7 @@ export class Player extends Character {
   nameOffsetY = -10;
 
   // sprites
+  baseSpriteName = 'base_human';
   spriteName = 'clotharmor';
   weaponName = 'sword1';
 

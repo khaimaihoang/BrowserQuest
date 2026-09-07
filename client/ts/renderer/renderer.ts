@@ -416,7 +416,29 @@ export class Renderer {
             shadow.width * os * ds, shadow.height * os * ds);
         }
 
-        this.context.drawImage(sprite.image, x, y, w, h, ox, oy, dw, dh);
+        // Draw Base Body if Player
+        if (entity instanceof Player && entity.baseSpriteName) {
+          var baseSprite = this.game.sprites[entity.baseSpriteName];
+          if (baseSprite) {
+            var baseImg = baseSprite.getImage(anim.name);
+            if (baseImg) {
+              var baseOffset = baseSprite.getOffset(anim.name);
+              var bx = baseSprite.width * frame.index * os;
+              var by = baseSprite.height * anim.row * os;
+              var bw = baseSprite.width * os;
+              var bh = baseSprite.height * os;
+              this.context.drawImage(baseImg, bx, by, bw, bh,
+                baseOffset.x * s, baseOffset.y * s, bw * ds, bh * ds);
+            }
+          }
+        }
+
+        // Draw Armor (the main sprite of the entity)
+        var spriteImg = sprite.getImage(anim.name);
+        if (spriteImg) {
+          var spriteOffset = sprite.getOffset(anim.name);
+          this.context.drawImage(spriteImg, x, y, w, h, spriteOffset.x * s, spriteOffset.y * s, dw, dh);
+        }
 
         if (entity instanceof Item && entity.kind !== Types.Entities.CAKE) {
           var sparks = this.game.sprites['sparks'],
@@ -438,17 +460,22 @@ export class Renderer {
         var weapon = this.game.sprites[entity.getWeaponName()];
 
         if (weapon) {
-          var weaponAnimData = weapon.animationData[anim.name],
-            index = frame.index < weaponAnimData.length ? frame.index : frame.index % weaponAnimData.length,
-            wx = weapon.width * index * os,
-            wy = weapon.height * anim.row * os,
-            ww = weapon.width * os,
-            wh = weapon.height * os;
+          var weaponImg = weapon.getImage(anim.name);
+          if (weaponImg) {
+            var weaponAnimData = weapon.animationData[anim.name],
+              index = frame.index < weaponAnimData.length ? frame.index : frame.index % weaponAnimData.length,
+              wx = weapon.width * index * os,
+              wy = weapon.height * anim.row * os,
+              ww = weapon.width * os,
+              wh = weapon.height * os;
+              
+            var weaponOffset = weapon.getOffset(anim.name);
 
-          this.context.drawImage(weapon.image, wx, wy, ww, wh,
-            weapon.offsetX * s,
-            weapon.offsetY * s,
-            ww * ds, wh * ds);
+            this.context.drawImage(weaponImg, wx, wy, ww, wh,
+              weaponOffset.x * s,
+              weaponOffset.y * s,
+              ww * ds, wh * ds);
+          }
         }
       }
 
@@ -715,32 +742,64 @@ export class Renderer {
       player = this.game.player,
       sprite = player.getArmorSprite(),
       spriteAnim = sprite.animationData['idle_down'],
-      // character
       row = spriteAnim.row,
       w = sprite.width * os,
       h = sprite.height * os,
-      y = row * h,
-      // weapon
-      weapon = this.game.sprites[this.game.player.getWeaponName()],
-      ww = weapon.width * os,
-      wh = weapon.height * os,
-      wy = wh * row,
-      offsetX = (weapon.offsetX - sprite.offsetX) * os,
-      offsetY = (weapon.offsetY - sprite.offsetY) * os,
-      // shadow
-      shadow = this.game.shadows['small'],
+      y = row * h;
+
+    canvas.width = w;
+    canvas.height = h;
+    ctx.clearRect(0, 0, w, h);
+
+    // shadow
+    var shadow = this.game.shadows['small'],
       sw = shadow.width * os,
       sh = shadow.height * os,
       ox = -sprite.offsetX * os,
       oy = -sprite.offsetY * os;
-
-    canvas.width = w;
-    canvas.height = h;
-
-    ctx.clearRect(0, 0, w, h);
     ctx.drawImage(shadow.image, 0, 0, sw, sh, ox, oy, sw, sh);
-    ctx.drawImage(sprite.image, 0, y, w, h, 0, 0, w, h);
-    ctx.drawImage(weapon.image, 0, wy, ww, wh, offsetX, offsetY, ww, wh);
+
+    // base
+    if (player.baseSpriteName) {
+      var baseSprite = this.game.sprites[player.baseSpriteName];
+      if (baseSprite) {
+        var baseImg = baseSprite.getImage('idle_down');
+        if (baseImg) {
+          var baseOffset = baseSprite.getOffset('idle_down');
+          var bx = 0;
+          var by = baseSprite.height * baseSprite.animationData['idle_down'].row * os;
+          var bw = baseSprite.width * os;
+          var bh = baseSprite.height * os;
+          var bdx = (baseOffset.x - sprite.offsetX) * os;
+          var bdy = (baseOffset.y - sprite.offsetY) * os;
+          ctx.drawImage(baseImg, bx, by, bw, bh, bdx, bdy, bw, bh);
+        }
+      }
+    }
+
+    // armor
+    var spriteImg = sprite.getImage('idle_down');
+    if (spriteImg) {
+      var sOffset = sprite.getOffset('idle_down');
+      var sdx = (sOffset.x - sprite.offsetX) * os;
+      var sdy = (sOffset.y - sprite.offsetY) * os;
+      ctx.drawImage(spriteImg, 0, y, w, h, sdx, sdy, w, h);
+    }
+
+    // weapon
+    var weapon = this.game.sprites[this.game.player.getWeaponName()];
+    if (weapon) {
+      var weaponImg = weapon.getImage('idle_down');
+      if (weaponImg) {
+        var ww = weapon.width * os,
+          wh = weapon.height * os,
+          wy = wh * weapon.animationData['idle_down'].row;
+        var wOffset = weapon.getOffset('idle_down');
+        var offsetX = (wOffset.x - sprite.offsetX) * os;
+        var offsetY = (wOffset.y - sprite.offsetY) * os;
+        ctx.drawImage(weaponImg, 0, wy, ww, wh, offsetX, offsetY, ww, wh);
+      }
+    }
 
     return canvas.toDataURL('image/png');
   }
