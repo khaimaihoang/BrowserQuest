@@ -1,45 +1,155 @@
-Giờ ngâm cứu cách tôi tạo cái race human ở f:\GihOt\T004 đi (F:\GihOt\T004\session.md) tôi muốn dùng client\Minifantasy\Minifantasy_Creatures_v3.3_Commercial_Version\Minifantasy_Creatures_Assets\Base_Humanoids\Human\Base_Human cho sprite player của người chơi, và F:\GihOt\BrowserQuest\client\Minifantasy\Minifantasy_AMyriadOfNPCs_v.1.0\Minifantasy_NPCs_Assets\Generic_NPCs\Idle\Body\Shirt làm paperdoll cho áo giáp thay vì dùng cả 1 sprite cho player + giáp cụ thể (chọn màu tương ứng giáp tương ứng), match anim 1-1 ví dụ như idle-idle, die-die, nếu không có thì dùng sprite rỗng/transparent
+# Kiến Trúc Tích Hợp Paperdoll Minifantasy (Technical Specification)
 
-Config 1 config trung gian để map/ref sprite với tên trong config chứ đừng copy/rename/di chuyển sprite khỏi minifantasy vì tôi muốn quản lý nó như hiện tại
+Tài liệu kỹ thuật tổng hợp kiến trúc, đặc tả dữ liệu và lịch sử triển khai hệ thống **Paperdoll** sử dụng asset pack **Minifantasy** cho dự án **BrowserQuest**.
 
-Vũ khí thì hiện tại tôi chưa có state idle, die, ... chỉ mới có attack thôi, ở F:\GihOt\BrowserQuest\client\Minifantasy\Minifantasy_Weapons_v3.0\Minifantasy_Weapons_Assets\Slash_Attacks\Sword, cứ thao tác giống paperdoll quần áo, same rule anims, có thì dùng, không thì transparent/rỗng
+---
 
-Config trung gian sử dụng cờ `is_multi: true` để cho phép Sprite multiple cũng được, thông qua việc ánh xạ các hành động/hướng cụ thể tới tên tệp tương ứng. để thay dần dần, không làm hỏng hết tất cả các sprite khác
+## 1. Tổng Quan Kiến Trúc & Yêu Cầu Kỹ Thuật
 
-Có thể thao tác bước 1 là làm base sprite human trước nào test ổn rồi thì làm paperdoll cho giáp, tuân thủ quy tắc OOP, SOLID, data driven
+### 1.1. Mục Tiêu
+- Chuyển đổi mô hình sprite nguyên khối (monolithic sprite) của nhân vật Player sang cơ chế **Paperdoll**:
+  - Tách lớp cơ thể cơ bản (`Base Human`) riêng biệt.
+  - Tách trang phục / giáp (`Armor/Shirt`) thành lớp layer phủ lên cơ thể.
+  - Tách vũ khí (`Weapon`) thành lớp render độc lập.
+- Giữ nguyên cấu trúc thư mục gốc của asset pack `Minifantasy` trong `client/Minifantasy/`, tuyệt đối **không đổi tên / di chuyển** file asset Minifantasy nhằm thuận tiện cho việc cập nhật sau này.
+- Cung cấp cơ chế tương thích ngược (backwards compatibility) cho các sprite BrowserQuest nguyên bản.
 
-1. Ánh xạ hướng (Row mapping)
-Các file ảnh của Minifantasy (như HumanWalk.png, HumanIdle.png) bao gồm 4 hàng (row) tương ứng với 4 hướng. Bạn vui lòng xác nhận thứ tự các hướng của 4 hàng này là gì?
-- Hàng 0 = Trước phải, Hàng 1 = Trước trái, Hàng 2 = Lên phải, Hàng 3 = Lên trái.
+### 1.2. Thứ Tự Vẽ Lớp (Render Layer Order)
+Quy trình composite sprite của Player trên Canvas 2D tuân theo thứ tự phân tầng từ dưới lên:
+```text
+1. Shadow (Bóng nhân vật)
+   └── 2. Base Body (base_human)
+        └── 3. Armor / Paperdoll (clotharmor, platearmor, leatherarmor, ...)
+             └── 4. Weapon (sword1, axe, morningstar, ...)
+```
 
-2. Ghi đè hay tạo mới Config Vũ khí?
-BrowserQuest hiện đã có sẵn các config vũ khí (như sword1.json, sword2.json). Với vũ khí lấy từ Slash_Attacks\Sword của Minifantasy, bạn muốn tôi ghi đè (overwrite) cấu trúc is_multi lên các file config cũ, hay tạo một config vũ khí hoàn toàn mới (ví dụ: mf_sword.json) và đổi tên vũ khí mặc định của Player thành tên mới này?
-- Ghi đè sprite mới lên sprite cũ đi, thay dần dần.
+---
 
-3. Hiện tượng "biến mất" của vũ khí
-Vì Slash_Attacks\Sword hiện tại chỉ có state attack (không có idle, walk, die), việc dùng rule "không có thì rỗng/transparent" sẽ dẫn đến việc thanh kiếm sẽ hoàn toàn tàng hình khi nhân vật đang đứng im hoặc đi bộ. Bạn xác nhận hành vi này là hoàn toàn đúng ý bạn chứ?
-- Đúng rồi, vũ khí tàn hình ở mấy anim khác.
+## 2. Định Dạng Cấu Hình Sprite Mở Rộng (`is_multi`)
 
-4. Thứ tự vẽ (Draw Order)
-Trong lớp Renderer, thứ tự vẽ hiện tại tôi đang định thiết kế cho Player là:
-Shadow (Bóng) -> Base Human (Cơ thể) -> Armor/Shirt (Áo giáp) -> Weapon (Vũ khí).
-Thứ tự này đã chuẩn xác chưa?
-- Đúng rồi, thứ tự ổn.
+Để hỗ trợ sprite tổng hợp từ nhiều file rời rạc của Minifantasy mà không phá vỡ engine BrowserQuest, cấu hình JSON của sprite được mở rộng với cờ `is_multi: true`.
 
-5. Tọa độ Offset
-BrowserQuest dùng offset_x và offset_y chung cho cả file sprite. Trong is_multi config mới, bạn muốn dùng chung 1 offset cho toàn bộ các file (giống cũ), hay cần tôi hỗ trợ cấu hình offset riêng cho từng hành động (ví dụ offset của Attack khác với Idle) để đề phòng trường hợp khung hình của Minifantasy bị lệch?
-- Tôi thấy nên config riêng ra để đề phòng. Bạn cũng nên dùng công cụ phân tích hình ảnh để phân tích sprite ra trước khi sửa, tránh đoán mò. Nhưng tôi thấy hình như sprite offset giống nhau hết, nhưng cứ tự check lại cho chắc. (nhớ là nhiều khi có anim ít frame/nhiều frame hơn anim khác nha)
+### 2.1. Cấu Trúc JSON Schema Mở Rộng
+```json
+{
+  "id": "<sprite_id>",
+  "width": 32,
+  "height": 32,
+  "offset_x": -8,
+  "offset_y": -7,
+  "is_multi": true,
+  "base_path": "<relative_path_to_assets>/",
+  "animations": {
+    "<anim_name>": {
+      "length": <number_of_frames>,
+      "row": <row_index>,
+      "file": "<relative_filename_to_base_path>",
+      "offset_x": <optional_override_offset_x>,
+      "offset_y": <optional_override_offset_y>
+    }
+  }
+}
+```
 
-1. Về file F:\GihOt\T004\session.md: Hiện tại hệ thống không thể truy cập được đường dẫn này (có thể do khác ổ đĩa hoặc
-máy). Trong file này có chứa logic cốt lõi nào mà tôi bắt buộc phải đọc không? Nếu có, bạn có thể copy nội dung đó cho
-tôi, hay tôi chỉ cần bám sát các yêu cầu trong SESSION.md hiện tại là đủ?
-2. Ánh xạ Animation (Animation Mapping): Thư mục Base_Human của Minifantasy đang có các hành động: attack, chargedattack, dmg, idle, jump, souldie, spindie, walk. Trong khi đó, các state phổ biến của BrowserQuest thường là idle, walk, atk, die.
-    • Với state die, bạn muốn tôi dùng souldie hay spindie? - spindie
-    • Có cần dùng tới các state như chargedattack, dmg, jump không hay tạm thời bỏ qua? - tạm bỏ qua nhưng mang ý niệm sẽ implement trong tương lai, custom states
-3. Cấu trúc và Vị trí của Config Trung gian:
-    • Bạn muốn lưu file config trung gian này ở đâu? Nằm chung thư mục client/sprites/ như các config cũ (ví dụ đặt tên là mf_human.json), hay đặt ở một nơi khác? - Đặt chung đi cho đồng bộ
-    • Đối với việc ghi đè vũ khí dần dần, bạn muốn tôi ghi đè thẳng logic is_multi: true vào file config vũ khí cũ (ví dụ sword1.json), đổi tên ID của file đó để tham chiếu đến ảnh trong thư mục Minifantasy đúng không? - Thêm 1 format xong thêm cách load 2 cũng được, do tôi cũng cần 1 số sprite cũ để test game ấy
-4. Về Sprite Rỗng (Transparent): Cho các trường hợp vũ khí tàng hình lúc idle, walk... Tôi thấy trong thư mục có file client\Minifantasy\empty.png. Tôi sử dụng luôn file này cho các state bị thiếu, hay bạn muốn tạo một file trong suốt? - Tạo đi bạn, tấm empty này có màu á nên không xài được đâu, mà đặt ở đâu xài chung được như chỗ tấm empty ấy.
-5. Phân tích hình ảnh (Sprite Analysis): Để "tránh đoán mò" về offset và số frame (vì thư mục có file _AnimationInfo.txt
-báo kích thước chung là 32x32px nhưng số lượng frame mỗi file có thể khác nhau), bạn muốn tôi viết một đoạn script nhỏ (bằng Node.js hoặc Python) quét tự động để đếm số frame / check kích thước của các file PNG này để tạo config cho chính xác, hay bạn đã có thông số sẵn rồi? Bạn quét cho chắc ăn nhé, tham khảo sơ qua: D:\Develop\Projects\T004\Assets vì tôi cũng xài same sprite thì phải, mà coi chừng khác tên/case trong tên.
-6. Kiểm thử (Testing): Bạn có nói "thao tác bước 1 làm base sprite human test ổn rồi làm paperdoll". Bước test này là bạn sẽ tự chạy client game lên kiểm tra bằng mắt thường, hay cần tôi viết script tự động để test xem nhân vật hiển thị đúng config chưa? Cả 2 nhé.
+### 2.2. Chi Tiết Thuộc Tính
+- `is_multi` (*boolean*): Khi `true`, sprite sẽ chuyển sang cơ chế tải nhiều ảnh qua `loadMulti()` thay vì `load()` một ảnh duy nhất từ `img/<scale>/<id>.png`.
+- `base_path` (*string*): Thư mục gốc chứa các frame ảnh của sprite này.
+- `animations.<anim_name>.file` (*string*): File ảnh tương ứng với hành động. Nếu chuỗi rỗng `""`, engine coi như trạng thái này tàng hình / transparent (không render).
+- `animations.<anim_name>.row` (*number*): Chỉ số hàng cần cắt trong sheet ảnh:
+  - **Hàng 0**: Hướng Xuống / Phải (Front-facing: `idle_down`, `idle_right`, `walk_down`, `walk_right`, `atk_down`, `atk_right`).
+  - **Hàng 3**: Hướng Lên (Back-facing: `idle_up`, `walk_up`, `atk_up`).
+- `animations.<anim_name>.length` (*number*): Số lượng frame thực tế của animation:
+  - `idle`: 14 frames.
+  - `walk`: 4 frames.
+  - `atk`: 4 frames.
+  - `death`: 12 frames (sử dụng `humansouldie.png`).
+- `offset_x`, `offset_y` (*number*): Tọa độ căn chỉnh điểm gốc (anchor) hiển thị. Chuẩn của Minifantasy 32x32 trên lưới BrowserQuest là `offset_x: -8`, `offset_y: -7` (thay thế mức mặc định `-16, -16`). Cấu hình animation riêng có thể ghi đè nếu cần thiết.
+
+---
+
+## 3. Thiết Kế & Thay Đổi Trong Source Code
+
+### 3.1. Sprite Loader & Multi-Image Management ([sprite.ts](file:///F:/GihOt/BrowserQuest/client/ts/renderer/sprite.ts))
+- **Thuộc tính mới**:
+  - `isMulti: boolean`: Cờ nhận diện sprite dạng đa file.
+  - `basePath: string`: Đường dẫn cơ sở.
+  - `multiImages: { [key: string]: HTMLImageElement }`: Bộ nhớ cache lưu các đối tượng `Image` theo tên file.
+  - `imagesLoaded / totalImages`: Quản lý tiến trình tải bất đồng bộ tất cả unique image files.
+- **Phương thức mới**:
+  - `loadMulti()`: Trích xuất danh sách file duy nhất từ `animationData`, tải song song tất cả các ảnh và kích hoạt `onload_func` khi toàn bộ ảnh đã nạp xong.
+  - `getImage(animName?: string)`: Trả về `HTMLImageElement` tương ứng với animation cụ thể nếu là `isMulti`, ngược lại trả về `this.image` nguyên bản.
+  - `getOffset(animName?: string)`: Lấy tọa độ offset riêng của từng animation (nếu có định nghĩa) hoặc fallback về `offsetX` / `offsetY` toàn cục của sprite.
+- **Xử lý An Toàn (Crash Prevention)**:
+  - Chặn `createHurtSprite()` và `createSilhouette()` đối với `isMulti` để tránh crash khi `this.image` không tồn tại ở sprite đa file.
+
+### 3.2. Renderer Engine ([renderer.ts](file:///F:/GihOt/BrowserQuest/client/ts/renderer/renderer.ts))
+- **Render Entity / Player Layering**:
+  - Tại `drawCharacter` / `drawEntity`, tính toán lại `srcScale` (với sprite thông thường là `os`, với `isMulti` lấy trực tiếp `1` do asset Minifantasy nguyên bản không có tiền tố folder tỷ lệ scale).
+  - Tích hợp vẽ tuần tự: `baseSprite` -> `armorSprite` -> `weaponSprite`.
+  - Hỗ trợ modulo frame cho vũ khí: `frame.index % weaponAnimData.length` tránh crash lệch số frame giữa các layer.
+- **Character Preview UI**:
+  - Tại `getCharacterImageDataUrl`, tái tạo chính xác các lớp Base, Armor, Weapon và Shadow lên off-screen canvas với đúng hệ scale và offset nhằm hiển thị avatar/preview đồng nhất với màn hình in-game.
+
+### 3.3. Tối Ưu Hóa Build & Static Serving ([webpack.config.js](file:///F:/GihOt/BrowserQuest/client/../webpack.config.js))
+- Xử lý vấn đề cạn kiệt file descriptors trên hệ điều hành (**EMFILE errors**) do lượng asset Minifantasy rất lớn:
+  - Trong môi trường phát triển (`development`), cấu hình `devServer.static` trỏ thẳng tới thư mục `client/` thay vì copy hàng ngàn file qua `CopyWebpackPlugin`.
+  - Cấu hình file watcher bỏ qua thư mục `Minifantasy/`: `watch: { ignored: /Minifantasy/ }`.
+  - Giới hạn `concurrency: 50` khi build production.
+
+---
+
+## 4. Bảng Ánh Xạ Dữ Liệu Minifantasy (Asset Mapping Matrix)
+
+### 4.1. Base Human (`client/sprites/base_human.json`)
+- **Asset Dir**: `Minifantasy/Minifantasy_Creatures_v3.3_Commercial_Version/Minifantasy_Creatures_Assets/Base_Humanoids/Human/Base_Human/`
+
+| Animation Name | Frames | Row Index | Source File |
+| :--- | :--- | :--- | :--- |
+| `idle_down` | 14 | 0 | `humanidle.png` |
+| `idle_right`| 14 | 0 | `humanidle.png` |
+| `idle_up`   | 14 | 3 | `humanidle.png` |
+| `walk_down` | 4  | 0 | `humanwalk.png` |
+| `walk_right`| 4  | 0 | `humanwalk.png` |
+| `walk_up`   | 4  | 3 | `humanwalk.png` |
+| `atk_down`  | 4  | 0 | `humanattack.png` |
+| `atk_right` | 4  | 0 | `humanattack.png` |
+| `atk_up`    | 4  | 3 | `humanattack.png` |
+| `death`     | 12 | 0 | `humansouldie.png` |
+
+### 4.2. Armors & Paperdolls (`clotharmor`, `leatherarmor`, `mailarmor`, `platearmor`, `redarmor`, `goldenarmor`)
+- **Asset Dir**: `Minifantasy/Minifantasy_AMyriadOfNPCs_v.1.0/Minifantasy_NPCs_Assets/Generic_NPCs/`
+
+| Action | Row Index | Source Subpath | Ghi Chú |
+| :--- | :--- | :--- | :--- |
+| `idle_*` | 0 (Down/Right), 3 (Up) | `Idle/Body/Shirt/minifantasy_npcsidle_shirt_<color>.png` | 14 frames |
+| `walk_*` | 0 (Down/Right), 3 (Up) | `Walk/Body/Shirt/minifantasy_npcswalk_shirt_<color>.png` | 4 frames |
+| `atk_*`  | 0 (Down/Right), 3 (Up) | `""` (transparent) | Minifantasy NPC không có sheet atk riêng cho shirt |
+| `death`  | 0 | `Die/Body/Shirt/minifantasy_npcsdie_shirt_<color>.png` | 12 frames |
+
+### 4.3. Weapons (`sword1`, `sword2`, `redsword`, `goldensword`, `axe`, `morningstar`)
+- **Asset Dir**: `Minifantasy/Minifantasy_Weapons_v3.0/Minifantasy_Weapons_Assets/Slash_Attacks/`
+
+| Action | Row Index | Source File | Ghi Chú |
+| :--- | :--- | :--- | :--- |
+| `idle_*` | - | `""` (transparent) | Không hiển thị khi đứng im |
+| `walk_*` | - | `""` (transparent) | Không hiển thị khi di chuyển |
+| `atk_down` / `atk_right` | 0 | `<Type>/slash_<weapon>_f.png` | Cắt chém hướng trước mặt (Front) |
+| `atk_up` | 3 | `<Type>/slash_<weapon>_b.png` | Cắt chém hướng lưng (Back) |
+| `death`  | - | `""` (transparent) | Không hiển thị khi chết |
+
+---
+
+## 5. Lịch Sử Phân Tích & Tiến Trình Commit (Từ `34c134d8`)
+
+| Commit ID | Tiêu Đề / Thay Đổi | Phân Tích Kỹ Thuật |
+| :--- | :--- | :--- |
+| [`34c134d8`](file:///F:/GihOt/BrowserQuest/SESSION.md#L1) | `temp: restore minifantasy paperdoll logic` | - Tái thiết lập kiến trúc paperdoll cơ bản: thêm `is_multi`, `loadMulti()`, `getImage()`, `getOffset()` vào [sprite.ts](file:///F:/GihOt/BrowserQuest/client/ts/renderer/sprite.ts).<br>- Bổ sung cấu hình [base_human.json](file:///F:/GihOt/BrowserQuest/client/sprites/base_human.json), cập nhật [clotharmor.json](file:///F:/GihOt/BrowserQuest/client/sprites/clotharmor.json) và [sword1.json](file:///F:/GihOt/BrowserQuest/client/sprites/sword1.json).<br>- Tích hợp các bước render xếp chồng Base -> Armor -> Weapon trong [renderer.ts](file:///F:/GihOt/BrowserQuest/client/ts/renderer/renderer.ts).<br>- Ghi nhận cấu hình initial Q&A trong `SESSION.md`. |
+| [`25e70ec4`](file:///F:/GihOt/BrowserQuest/webpack.config.js#L50-L75) | `fix: resolve EMFILE errors by optimizing webpack devServer and CopyWebpackPlugin for Minifantasy assets` | - Khắc phục crash `EMFILE: too many open files` do Webpack cố gắng copy hàng ngàn file asset Minifantasy khi dev.<br>- Chuyển sang phục vụ tĩnh trực tiếp từ `client/` qua `devServer.static` và bỏ qua watch thư mục `Minifantasy`. |
+| [`7be6ffff`](file:///F:/GihOt/BrowserQuest/client/ts/renderer/renderer.ts#L370-L480) | `fix(sprites): fix base_human visibility, rendering offsets, walk animation frames, and orientation facing` | - Sửa lỗi nhân vật tàng hình: đưa `base_human` vào mảng danh sách khởi tạo `spriteNames` của [game.ts](file:///F:/GihOt/BrowserQuest/client/ts/game.ts).<br>- Chuẩn hóa offset: cập nhật từ `-16, -16` thành `offset_x: -8`, `offset_y: -7` giúp nhân vật đứng chuẩn trên ô gạch.<br>- Điều chỉnh số frame animation bước đi `walk` từ 6 xuống 4 frame theo đúng texture Minifantasy.<br>- Chuẩn hóa hướng hàng (Row mapping): hàng 0 cho Hướng Xuống/Phải, hàng 3 cho Hướng Lên.<br>- Đồng bộ định dạng `is_multi` cho toàn bộ danh mục giáp (`leatherarmor`, `mailarmor`, `platearmor`, `redarmor`, `goldenarmor`) và vũ khí (`sword2`, `redsword`, `goldensword`, `axe`, `morningstar`).<br>- Sửa tên file chữ hoa -> chữ thường (`humanidle.png`, `humanwalk.png`, `humanattack.png`, `humansouldie.png`) phù hợp case-sensitivity môi trường build. |
+
+---
+
+## 6. Kế Hoạch Mở Rộng Tiếp Theo (Future Roadmap)
+1. **Custom Action States**: Hỗ trợ bổ sung các animation đặc thù của Minifantasy chưa có trong BrowserQuest như `jump`, `chargedattack`, `dmg` khi phát triển thêm cơ chế gameplay mới.
+2. **Idle/Walk Weapon Sprites**: Bổ sung asset tư thế cầm vũ khí ở trạng thái đứng im/di chuyển (nếu có asset phù hợp) để loại bỏ hiện tượng vũ khí tàng hình ngoài lúc chém.
+3. **Automated Sprite Validation**: Triển khai script CI/test để kiểm tra kích thước ảnh, số frame thực tế và đối chiếu schema JSON tránh lỗi cấu hình sai lệch.
