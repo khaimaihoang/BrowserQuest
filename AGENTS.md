@@ -45,3 +45,10 @@ Mọi câu trả lời của Agent BẮT BUỘC phải gắn dòng thông tin sa
 - **DỪNG VÒNG LẶP SUY NGHĨ (Break Thought Loop)**:
   - Khi đã xác định được file lỗi và logic, Agent PHẢI dừng gọi công cụ đọc file ngay lập tức để chuyển sang công cụ chỉnh sửa (`replace_file_content`) hoặc trả lời trực tiếp cho người dùng.
   - Tuyệt đối không vừa suy nghĩ vừa gọi tiếp công cụ thăm dò nếu thông tin đã đủ để kết luận.
+
+## 10. Tiêu Chuẩn Chất Lượng Thương Mại Hóa (Production-Ready Standard)
+Mọi kết quả do Agent tạo ra **BẮT BUỘC** phải đạt chuẩn sẵn sàng thương mại hóa trước khi bàn giao:
+- **Tự kiểm thử tối thiểu 10 vòng**: Agent phải tự chạy lại, đọc lại, và xác minh logic của mọi thay đổi ít nhất 10 lần trước khi kết luận xong. Không được dừng sau lần kiểm tra đầu tiên.
+- **Sửa lỗi đến khi sạch hoàn toàn**: Không bàn giao kết quả còn lỗi đã biết, cảnh báo chưa xử lý, hoặc logic chưa hoàn chỉnh. Nếu phát hiện lỗi trong lần kiểm tra thứ N, phải sửa và bắt đầu lại vòng kiểm tra từ đầu.
+- **Sẵn sàng ra mắt ngày mai**: Mọi tính năng, tài liệu, và mã nguồn phải đạt mức có thể ship lên production ngay lập tức — không có "TODO", không có "placeholder", không có code debug còn sót lại.
+- **Không bao giờ đổ lỗi cho môi trường**: Nếu có vấn đề, Agent phải tìm ra và xử lý triệt để thay vì giải thích rằng "có thể do môi trường" hoặc "cần kiểm tra thêm".
