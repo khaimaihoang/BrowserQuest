@@ -1589,7 +1589,9 @@ export class Game {
    */
   forEachEntity(callback) {
     _.each(this.entities, function (entity) {
-      callback(entity);
+      if (entity) {
+        callback(entity);
+      }
     });
   }
 
@@ -1599,7 +1601,7 @@ export class Game {
    */
   forEachMob(callback) {
     _.each(this.entities, function (entity) {
-      if (entity instanceof Mob) {
+      if (entity && entity instanceof Mob) {
         callback(entity);
       }
     });

@@ -9,12 +9,12 @@
     "idle_right": {
       "length": 14,
       "row": 0,
-      "file": "Idle/Body/Shirt/minifantasy_npcsidle_shirt_green.png"
+      "file": "Idle/Body/Shirt/minifantasy_npcsidle_shirt_grey.png"
     },
     "walk_right": {
       "length": 4,
       "row": 0,
-      "file": "Walk/Body/Shirt/minifantasy_npcswalk_shirt_green.png"
+      "file": "Walk/Body/Shirt/minifantasy_npcswalk_shirt_grey.png"
     },
     "atk_right": {
       "length": 4,
@@ -27,7 +27,7 @@
       "file": "Idle/Body/Shirt/minifantasy_npcsidle_shirt_grey.png"
     },
     "walk_up": {
-      "length": 6,
+      "length": 4,
       "row": 3,
       "file": "Walk/Body/Shirt/minifantasy_npcswalk_shirt_grey.png"
     },
@@ -42,7 +42,7 @@
       "file": "Idle/Body/Shirt/minifantasy_npcsidle_shirt_grey.png"
     },
     "walk_down": {
-      "length": 6,
+      "length": 4,
       "row": 0,
       "file": "Walk/Body/Shirt/minifantasy_npcswalk_shirt_grey.png"
     },

@@ -20,7 +20,7 @@
     "atk_right": {
       "length": 4,
       "row": 0,
-      "file": "Sword/slash_sword_f.png"
+      "file": "Dagger/slash_dagger_f.png"
     },
     "idle_up": {
       "length": 14,
@@ -35,7 +35,7 @@
     "atk_up": {
       "length": 4,
       "row": 3,
-      "file": "Sword/slash_sword_b.png"
+      "file": "Dagger/slash_dagger_b.png"
     },
     "idle_down": {
       "length": 14,
@@ -50,7 +50,7 @@
     "atk_down": {
       "length": 4,
       "row": 0,
-      "file": "Sword/slash_sword_f.png"
+      "file": "Dagger/slash_dagger_f.png"
     },
     "death": {
       "length": 12,

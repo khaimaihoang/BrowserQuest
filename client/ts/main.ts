@@ -55,6 +55,16 @@ console.info = function(...args) {
   sendLogToServer('INFO', args);
 };
 
+window.addEventListener('error', (event) => {
+  const errorObj = event.error || event.message;
+  sendLogToServer('ERROR', [errorObj]);
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+  const reason = event.reason;
+  sendLogToServer('ERROR', ['Unhandled Promise Rejection:', reason]);
+});
+
 var app, game;
 
 var initApp = function () {

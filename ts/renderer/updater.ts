@@ -29,6 +29,9 @@ export class Updater {
     var self = this;
 
     this.game.forEachEntity(function (entity) {
+      if (!entity) {
+        return;
+      }
       var isCharacter = entity instanceof Character;
 
       if (entity.isLoaded) {
@@ -72,6 +75,9 @@ export class Updater {
       z = this.game.currentZoning;
 
     this.game.forEachEntity(function (entity) {
+      if (!entity) {
+        return;
+      }
       m = entity.movement;
       if (m) {
         if (m.inProgress) {
@@ -207,6 +213,9 @@ export class Updater {
     var t = this.game.currentTime;
 
     this.game.forEachEntity(function (entity) {
+      if (!entity) {
+        return;
+      }
       var anim = entity.currentAnimation;
 
       if (anim) {

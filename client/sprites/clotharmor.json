@@ -1,5 +1,4 @@
 {
-  "id": "clotharmor",
   "width": 32,
   "height": 32,
   "offset_x": -8,
@@ -7,18 +6,56 @@
   "is_multi": true,
   "base_path": "Minifantasy/Minifantasy_AMyriadOfNPCs_v.1.0/Minifantasy_NPCs_Assets/Generic_NPCs/",
   "animations": {
-    "idle_right": { "length": 14, "row": 0, "file": "Idle/Body/Shirt/minifantasy_npcsidle_shirt_white.png" },
-    "walk_right": { "length": 4,  "row": 0, "file": "Walk/Body/Shirt/minifantasy_npcswalk_shirt_white.png" },
-    "atk_right":  { "length": 4,  "row": 0, "file": "" },
-    
-    "idle_up":    { "length": 14, "row": 3, "file": "Idle/Body/Shirt/minifantasy_npcsidle_shirt_white.png" },
-    "walk_up":    { "length": 4,  "row": 3, "file": "Walk/Body/Shirt/minifantasy_npcswalk_shirt_white.png" },
-    "atk_up":     { "length": 4,  "row": 3, "file": "" },
-    
-    "idle_down":  { "length": 14, "row": 0, "file": "Idle/Body/Shirt/minifantasy_npcsidle_shirt_white.png" },
-    "walk_down":  { "length": 4,  "row": 0, "file": "Walk/Body/Shirt/minifantasy_npcswalk_shirt_white.png" },
-    "atk_down":   { "length": 4,  "row": 0, "file": "" },
-    
-    "death":      { "length": 12, "row": 0, "file": "Die/Body/Shirt/minifantasy_npcsdie_shirt_white.png" }
-  }
+    "idle_right": {
+      "length": 14,
+      "row": 0,
+      "file": "Idle/Body/Shirt/minifantasy_npcsidle_shirt_white.png"
+    },
+    "walk_right": {
+      "length": 4,
+      "row": 0,
+      "file": "Walk/Body/Shirt/minifantasy_npcswalk_shirt_white.png"
+    },
+    "atk_right": {
+      "length": 4,
+      "row": 0,
+      "file": ""
+    },
+    "idle_up": {
+      "length": 14,
+      "row": 3,
+      "file": "Idle/Body/Shirt/minifantasy_npcsidle_shirt_white.png"
+    },
+    "walk_up": {
+      "length": 4,
+      "row": 3,
+      "file": "Walk/Body/Shirt/minifantasy_npcswalk_shirt_white.png"
+    },
+    "atk_up": {
+      "length": 4,
+      "row": 3,
+      "file": ""
+    },
+    "idle_down": {
+      "length": 14,
+      "row": 0,
+      "file": "Idle/Body/Shirt/minifantasy_npcsidle_shirt_white.png"
+    },
+    "walk_down": {
+      "length": 4,
+      "row": 0,
+      "file": "Walk/Body/Shirt/minifantasy_npcswalk_shirt_white.png"
+    },
+    "atk_down": {
+      "length": 4,
+      "row": 0,
+      "file": ""
+    },
+    "death": {
+      "length": 12,
+      "row": 0,
+      "file": "Die/Body/Shirt/minifantasy_npcsdie_shirt_white.png"
+    }
+  },
+  "id": "clotharmor"
 }

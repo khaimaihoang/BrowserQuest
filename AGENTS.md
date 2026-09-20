@@ -22,3 +22,13 @@ Khi làm việc với các thành phần giao diện người dùng (UI), hãy k
 ## 5. Quy Trình Phối Hợp
 - **Question -> Options -> Decision -> Draft -> Approval**: Luôn hỏi và đề xuất 2-4 lựa chọn trước khi chốt giải pháp.
 - Đừng tự động ghi đè file lớn nếu chưa báo cáo cho người dùng.
+
+## 6. Khám Phá Mã Nguồn & Knowledge Graph (codebase-memory-mcp)
+Toàn bộ các tác vụ khám phá mã nguồn PHẢI ưu tiên sử dụng Knowledge Graph (`codebase-memory-mcp`) thay vì `grep/glob` thông thường để đảm bảo tốc độ tức thì và độ chính xác ngữ nghĩa cao:
+- **Tìm kiếm class, methods, functions, symbols**: Sử dụng `search_graph`.
+- **Lần vết hàm gọi (call chain / dependencies)**: Sử dụng `trace_path` (theo hướng `inbound` hoặc `outbound`).
+- **Đọc code chi tiết của hàm / class**: Sử dụng `get_code_snippet`.
+- **Tổng quan kiến trúc, modules & hotspots**: Sử dụng `get_architecture`.
+- **Truy vấn quan hệ phức tạp**: Sử dụng `query_graph` (Cypher query).
+- *Chỉ dùng `grep/glob` dự phòng khi tìm kiếm chuỗi ký tự thô (string literals), thông báo lỗi, file cấu hình hoặc khi MCP không đủ dữ liệu.*
+

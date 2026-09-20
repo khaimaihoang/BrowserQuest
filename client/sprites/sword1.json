@@ -7,18 +7,55 @@
   "is_multi": true,
   "base_path": "Minifantasy/Minifantasy_Weapons_v3.0/Minifantasy_Weapons_Assets/Slash_Attacks/",
   "animations": {
-    "idle_right": { "length": 14, "row": 0, "file": "" },
-    "walk_right": { "length": 4,  "row": 0, "file": "" },
-    "atk_right":  { "length": 4,  "row": 0, "file": "Sword/slash_sword_f.png" },
-    
-    "idle_up":    { "length": 14, "row": 3, "file": "" },
-    "walk_up":    { "length": 4,  "row": 3, "file": "" },
-    "atk_up":     { "length": 4,  "row": 3, "file": "Sword/slash_sword_b.png" },
-    
-    "idle_down":  { "length": 14, "row": 0, "file": "" },
-    "walk_down":  { "length": 4,  "row": 0, "file": "" },
-    "atk_down":   { "length": 4,  "row": 0, "file": "Sword/slash_sword_f.png" },
-    
-    "death":      { "length": 12, "row": 0, "file": "" }
+    "idle_right": {
+      "length": 14,
+      "row": 0,
+      "file": ""
+    },
+    "walk_right": {
+      "length": 4,
+      "row": 0,
+      "file": ""
+    },
+    "atk_right": {
+      "length": 4,
+      "row": 0,
+      "file": "Sword/slash_sword_f.png"
+    },
+    "idle_up": {
+      "length": 14,
+      "row": 3,
+      "file": ""
+    },
+    "walk_up": {
+      "length": 4,
+      "row": 3,
+      "file": ""
+    },
+    "atk_up": {
+      "length": 4,
+      "row": 3,
+      "file": "Sword/slash_sword_b.png"
+    },
+    "idle_down": {
+      "length": 14,
+      "row": 0,
+      "file": ""
+    },
+    "walk_down": {
+      "length": 4,
+      "row": 0,
+      "file": ""
+    },
+    "atk_down": {
+      "length": 4,
+      "row": 0,
+      "file": "Sword/slash_sword_f.png"
+    },
+    "death": {
+      "length": 12,
+      "row": 0,
+      "file": ""
+    }
   }
 }
