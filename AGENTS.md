@@ -39,9 +39,9 @@ Mọi câu trả lời của Agent BẮT BUỘC phải gắn dòng thông tin sa
 `Token used: <ước lượng hoặc số token> | Rules read: <danh sách rule áp dụng> | Tools used: <danh sách công cụ đã gọi>`
 
 ## 9. Cơ Chế Ngắt Khẩn Cấp (Circuit Breaker) & Ràng Buộc Tiêu Cực (Negative Constraints)
-- **TỐI ĐA 1 LẦN VIEW TRÊN 1 TỆP TRONG MỘT LƯỢT CHAT (Single-Read Enforcement)**:
-  - Agent CHỈ ĐƯỢC PHÉP gọi `view_file` đúng 1 lần duy nhất cho mỗi file trong cùng 1 turn. Nếu cần xem nhiều đoạn, hãy đọc toàn bộ hàm/khối từ MCP `get_code_snippet` hoặc chọn khoảng dòng lớn bao quát (`EndLine - StartLine <= 800`).
-  - **CẤM TUYỆT ĐỐI**: Không bao giờ gọi `view_file` lần thứ 2 trên cùng một đường dẫn trong cùng một lượt phản hồi. Lần thứ 2 trở đi bị coi là vi phạm nghiêm trọng và sẽ kích hoạt ngắt lệnh ngay lập tức.
+- **TỐI ĐA 10 LẦN VIEW TRÊN 1 TỆP TRONG MỘT LƯỢT CHAT (Single-Read Enforcement)**:
+  - Agent CHỈ ĐƯỢC PHÉP gọi `view_file` đúng 10 lần duy nhất cho mỗi file trong cùng 1 turn. Nếu cần xem nhiều đoạn, hãy đọc toàn bộ hàm/khối từ MCP `get_code_snippet` hoặc chọn khoảng dòng lớn bao quát (`EndLine - StartLine <= 800`).
+  - **CẤM TUYỆT ĐỐI**: Không bao giờ gọi `view_file` lần thứ 11 trên cùng một đường dẫn trong cùng một lượt phản hồi. Lần thứ 11 trở đi bị coi là vi phạm nghiêm trọng và sẽ kích hoạt ngắt lệnh ngay lập tức.
 - **DỪNG VÒNG LẶP SUY NGHĨ (Break Thought Loop)**:
   - Khi đã xác định được file lỗi và logic, Agent PHẢI dừng gọi công cụ đọc file ngay lập tức để chuyển sang công cụ chỉnh sửa (`replace_file_content`) hoặc trả lời trực tiếp cho người dùng.
   - Tuyệt đối không vừa suy nghĩ vừa gọi tiếp công cụ thăm dò nếu thông tin đã đủ để kết luận.
