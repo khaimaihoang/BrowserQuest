@@ -53,7 +53,7 @@ export class Renderer {
 
     this.initFPS();
 
-    this.upscaledRendering = this.context.mozImageSmoothingEnabled !== undefined;
+    this.upscaledRendering = this.context.imageSmoothingEnabled !== undefined || this.context.mozImageSmoothingEnabled !== undefined;
     this.supportsSilhouettes = this.upscaledRendering;
 
     this.rescale(this.getScaleFactor());
@@ -106,9 +106,7 @@ export class Renderer {
 
     this.createCamera();
 
-    this.context.mozImageSmoothingEnabled = false;
-    this.background.mozImageSmoothingEnabled = false;
-    this.foreground.mozImageSmoothingEnabled = false;
+    this.disableImageSmoothing();
 
     this.initFont();
     this.initFPS();
@@ -136,6 +134,21 @@ export class Renderer {
     this.forecanvas.width = this.canvas.width;
     this.forecanvas.height = this.canvas.height;
     console.debug('#foreground set to ' + this.forecanvas.width + ' x ' + this.forecanvas.height);
+
+    this.disableImageSmoothing();
+  }
+
+  disableImageSmoothing() {
+    var contexts = [this.context, this.background, this.foreground];
+    for (var i = 0; i < contexts.length; i++) {
+      var ctx = contexts[i];
+      if (ctx) {
+        ctx.imageSmoothingEnabled = false;
+        (ctx as any).webkitImageSmoothingEnabled = false;
+        (ctx as any).mozImageSmoothingEnabled = false;
+        (ctx as any).msImageSmoothingEnabled = false;
+      }
+    }
   }
 
   initFPS() {
