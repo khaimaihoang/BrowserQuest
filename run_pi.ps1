@@ -23,11 +23,16 @@
       powershell -ExecutionPolicy Bypass -File .\run_pi.ps1
       powershell -ExecutionPolicy Bypass -File .\run_pi.ps1 --model deepseek/deepseek-v4-pro
 
+    Unless you pass --model (or --provider) yourself, Pi starts on
+    deepseek/deepseek-flash.
+
     Environment overrides
     ---------------------
-      HEADROOM_PORT   Port for the Headroom proxy (default 8787)
-      SKIP_HEADROOM=1 Skip starting/using the Headroom proxy
-      SKIP_INSTALL=1  Skip the tool presence/installation step
+      HEADROOM_PORT     Port for the Headroom proxy (default 8787)
+      SKIP_HEADROOM=1   Skip starting/using the Headroom proxy
+      SKIP_INSTALL=1    Skip the tool presence/installation step
+      PI_DEFAULT_MODEL  Startup model when no --model/--provider is given
+                        (default deepseek/deepseek-flash)
 #>
 
 $ErrorActionPreference = "Stop"
@@ -39,6 +44,7 @@ $HeadroomPort   = if ($env:HEADROOM_PORT) { [int]$env:HEADROOM_PORT } else { 878
 $HeadroomUrl    = "http://localhost:$HeadroomPort"
 $SkipHeadroom   = $env:SKIP_HEADROOM -match '^(1|true|yes)$'
 $SkipInstall    = $env:SKIP_INSTALL  -match '^(1|true|yes)$'
+$DefaultModel   = if ($env:PI_DEFAULT_MODEL) { $env:PI_DEFAULT_MODEL } else { "deepseek/deepseek-flash" }
 
 $AgentDir       = if ($env:PI_CODING_AGENT_DIR) { $env:PI_CODING_AGENT_DIR } else { Join-Path $HOME ".pi\agent" }
 $PiBinDir       = Join-Path $AgentDir "bin"
@@ -400,16 +406,31 @@ if (-not (Get-Command pi -ErrorAction SilentlyContinue)) {
     exit 1
 }
 
+# Startup model: deepseek/deepseek-flash by default. An explicit --model or
+# --provider on the command line always wins over the default.
+$modelSpecified = $false
+foreach ($arg in $args) {
+    if ($arg -eq "--model" -or $arg -like "--model=*" -or
+        $arg -eq "--provider" -or $arg -like "--provider=*") { $modelSpecified = $true }
+}
+$modelArgs = @()
+if ($modelSpecified) {
+    Write-Ok "Model selection overridden on the command line."
+} else {
+    $modelArgs = @("--model", $DefaultModel)
+    Write-Ok "Default model: $DefaultModel"
+}
+
 # Auto-recall: inject pinned/recent memories into the system prompt. Only the
 # changed section is re-sent each turn (prefix-cache friendly).
 $recallExt = Join-Path $PSScriptRoot "tools\dsh-ltm-mcp\dsh-ltm-recall.ts"
 if (Test-Path $recallExt) {
     Write-Ok "Auto-recall extension enabled."
     Write-Step "Launching Pi..."
-    & pi --extension $recallExt @args
+    & pi --extension $recallExt @modelArgs @args
 } else {
     Write-Warn2 "dsh-ltm auto-recall extension not found - starting without it."
     Write-Step "Launching Pi..."
-    & pi @args
+    & pi @modelArgs @args
 }
 exit $LASTEXITCODE
