@@ -224,6 +224,15 @@ var initApp = function () {
     $('#resize-check').bind('webkitTransitionEnd', app.resizeUi.bind(app));
     $('#resize-check').bind('oTransitionEnd', app.resizeUi.bind(app));
 
+    // Fullscreen: cập nhật camera/canvas khi cửa sổ đổi kích thước (debounce).
+    var resizeTimeout;
+    $(window).resize(function () {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(function () {
+        app.resizeUi();
+      }, 150);
+    });
+
     console.info('App initialized.');
 
     initGame();

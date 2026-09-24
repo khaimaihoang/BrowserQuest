@@ -22,13 +22,24 @@ export class Camera {
   }
 
   rescale() {
-    var factor = this.renderer.mobile ? 1 : 2;
+    var tilesize = this.renderer.tilesize,
+      scale = this.renderer.scale || 2,
+      el = document.querySelector('#canvas') as HTMLElement,
+      w = (el && el.clientWidth) ? el.clientWidth : window.innerWidth,
+      h = (el && el.clientHeight) ? el.clientHeight : window.innerHeight;
 
-    this.gridW = 15 * factor;
-    this.gridH = 7 * factor;
+    // Số ô nhìn thấy suy từ kích thước vùng chơi (giống Kaetram), không cố định.
+    // Dùng ceil để canvas phủ kín vùng chơi (phần dư bị bar HUD/container che).
+    this.gridW = Math.ceil(w / (tilesize * scale));
+    this.gridH = Math.ceil(h / (tilesize * scale));
+
+    // Chặn biên: tối thiểu để không vỡ layout nhỏ, tối đa để không render quá nhiều tile (màn 4K).
+    if (this.gridW < 15) this.gridW = 15;
+    else if (this.gridW > 60) this.gridW = 60;
+    if (this.gridH < 7) this.gridH = 7;
+    else if (this.gridH > 34) this.gridH = 34;
 
     console.debug('---------');
-    console.debug('Factor:' + factor);
     console.debug('W:' + this.gridW + ' H:' + this.gridH);
   }
 
