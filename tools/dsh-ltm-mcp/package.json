@@ -1,0 +1,16 @@
+{
+  "name": "dsh-ltm-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Minimal MCP stdio bridge exposing @tr1v3r/dsh-ltm long-term memory (CJK-aware search, scopes, dedupe, merge) as model tools to any MCP client (Pi, Cursor, Claude).",
+  "type": "module",
+  "bin": {
+    "dsh-ltm-mcp": "mcp-server.mjs"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "dependencies": {
+    "@tr1v3r/dsh-ltm": "0.2.1"
+  }
+}

@@ -10,10 +10,13 @@
          auto-installing them with winget -> scoop -> choco when missing. This is
          what stops Pi from trying (and failing) to download them at startup.
       2. Start the Headroom proxy on port 8787 (skipped when it is already up).
-      3. Point Pi's LLM traffic at Headroom and route general HTTP through it,
-         bypassing the proxy for localhost like run_agy.ps1 does.
-      4. Make sure codebase-memory-mcp is registered in Pi's MCP config.
-      5. Run Pi, forwarding every argument you pass to this script.
+      3. Point Pi's LLM provider base URLs (OpenAI/Anthropic) at Headroom.
+         Everything else (incl. DeepSeek, which uses its own baseUrl) connects
+         directly - Headroom is not a general HTTP/CONNECT proxy.
+      4. Register Pi's MCP servers: codebase-memory-mcp, unity-synaptic, and
+         the bundled dsh-ltm long-term-memory bridge (tools/dsh-ltm-mcp).
+      5. Load the dsh-ltm auto-recall extension and run Pi, forwarding every
+         argument you pass to this script.
 
     Usage
     -----
@@ -167,23 +170,29 @@ if (-not $SkipHeadroom) {
 }
 
 # ===========================================================================
-# 3. Route traffic through Headroom (mirrors run_agy.ps1)
+# 3. Route LLM traffic through Headroom
 # ===========================================================================
-if (-not $SkipHeadroom) {
-    Write-Step "Routing Pi through Headroom..."
 
-    # LLM API base URLs (Pi honours these to override provider endpoints).
+# Headroom is an LLM optimization proxy ONLY (OpenAI-compatible at /v1 and
+# Anthropic at /). It does NOT support generic CONNECT tunneling, so it must
+# never be set as HTTP_PROXY/HTTPS_PROXY - that makes every HTTPS request
+# (DeepSeek, npm, github, telemetry) fail with "Connection error" (404).
+# Clear any stale proxy inherited from the parent shell so Pi connects direct.
+Remove-Item Env:HTTP_PROXY  -ErrorAction SilentlyContinue
+Remove-Item Env:HTTPS_PROXY -ErrorAction SilentlyContinue
+Remove-Item Env:http_proxy  -ErrorAction SilentlyContinue
+Remove-Item Env:https_proxy -ErrorAction SilentlyContinue
+Remove-Item Env:NO_PROXY    -ErrorAction SilentlyContinue
+Remove-Item Env:no_proxy    -ErrorAction SilentlyContinue
+
+if (-not $SkipHeadroom) {
+    Write-Step "Routing LLM traffic through Headroom..."
+
+    # Point only the LLM provider base URLs at Headroom. Providers with their
+    # own baseUrl (e.g. DeepSeek -> https://api.deepseek.com) ignore these and
+    # connect directly to the vendor.
     $env:OPENAI_BASE_URL    = "$HeadroomUrl/v1"
     $env:ANTHROPIC_BASE_URL = "$HeadroomUrl"
-
-    # General outbound HTTP goes through Headroom as well.
-    $env:HTTP_PROXY  = $HeadroomUrl
-    $env:HTTPS_PROXY = $HeadroomUrl
-
-    # Never proxy the local proxy itself, and keep Pi's own update/registry
-    # traffic direct so tooling still works.
-    $env:NO_PROXY = "localhost,127.0.0.1,::1,pi.dev,registry.npmjs.org"
-    $env:no_proxy = $env:NO_PROXY
 } else {
     Write-Step "Headroom routing disabled - using direct connections."
 }
@@ -196,7 +205,8 @@ if ($env:NODE_OPTIONS -notmatch '--use-system-ca') {
 }
 
 # ===========================================================================
-# 4. Ensure the codebase-memory MCP server is registered for Pi
+# 4. Ensure the MCP servers (codebase-memory-mcp, unity-synaptic, dsh-ltm) are
+#    registered for Pi
 # ===========================================================================
 function Resolve-CodebaseMemoryExe {
     $cmd = Get-Command codebase-memory-mcp -ErrorAction SilentlyContinue
@@ -209,14 +219,68 @@ function Resolve-CodebaseMemoryExe {
     return ($candidates | Where-Object { Test-Path $_ } | Select-Object -First 1)
 }
 
-function Ensure-CodebaseMemoryMcp {
-    $configPath = Join-Path $AgentDir "mcp.json"
-    $exe = Resolve-CodebaseMemoryExe
-    if (-not $exe) {
-        Write-Warn2 "codebase-memory-mcp was not found - skipping MCP registration."
-        return
+function Resolve-UnitySynaptic {
+    # unity-synaptic runs the Synaptic MCP index-supersave.js via Node.
+    $node = (Get-Command node -ErrorAction SilentlyContinue).Source
+    if (-not $node) { $node = "E:/Program Files/nodejs/node.exe" }
+    if (-not (Test-Path $node)) { return $null }
+
+    $candidates = @(
+        (Join-Path $env:LOCALAPPDATA "Synaptic\MCPServer\index-supersave.js"),
+        (Join-Path $env:LOCALAPPDATA "Synaptic\MCPServer\index.js")
+    )
+    $script = ($candidates | Where-Object { Test-Path $_ } | Select-Object -First 1)
+    if (-not $script) { return $null }
+
+    return [pscustomobject]@{ Command = $node; Args = @($script) }
+}
+
+function Resolve-DshLtmMcp {
+    # The dsh-ltm long-term-memory bridge ships with this repo under tools/dsh-ltm-mcp.
+    $candidates = @(
+        (Join-Path $PSScriptRoot "tools\dsh-ltm-mcp\mcp-server.mjs"),
+        (Join-Path $PSScriptRoot "dsh-ltm-mcp\mcp-server.mjs")
+    )
+    return ($candidates | Where-Object { Test-Path $_ } | Select-Object -First 1)
+}
+
+function Ensure-DshLtmDeps {
+    param([Parameter(Mandatory)][string]$ServerDir)
+    $engine = Join-Path $ServerDir "node_modules\@tr1v3r\dsh-ltm"
+    if (Test-Path $engine) {
+        Write-Ok "dsh-ltm engine already installed."
+        return $true
     }
-    $exeJson = $exe -replace '\\', '/'
+    if (-not (Get-Command npm -ErrorAction SilentlyContinue)) {
+        Write-Warn2 "npm was not found - cannot install the dsh-ltm MCP dependencies."
+        return $false
+    }
+    Write-Step "Installing dsh-ltm MCP dependencies (npm install)..."
+    $saved = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    try {
+        Push-Location $ServerDir
+        & npm install --no-audit --no-fund | Out-Host
+    } finally {
+        Pop-Location
+        $ErrorActionPreference = $saved
+    }
+    if (Test-Path $engine) {
+        Write-Ok "dsh-ltm MCP dependencies installed."
+        return $true
+    }
+    Write-Warn2 "dsh-ltm MCP dependencies are still missing - skipping its registration."
+    return $false
+}
+
+function Ensure-McpServer {
+    param(
+        [Parameter(Mandatory)][string]$Name,
+        [Parameter(Mandatory)][string]$Command,
+        [Parameter()][object[]]$ArgList = @(),
+        [Parameter()][hashtable]$Env = @{}
+    )
+    $configPath = Join-Path $AgentDir "mcp.json"
 
     $config = $null
     if (Test-Path $configPath) {
@@ -234,22 +298,59 @@ function Ensure-CodebaseMemoryMcp {
     }
     $servers = $config.mcpServers
 
-    if ($servers.PSObject.Properties["codebase-memory-mcp"]) {
-        Write-Ok "codebase-memory-mcp already registered in $configPath."
+    if ($servers.PSObject.Properties[$Name]) {
+        Write-Ok "$Name already registered in $configPath."
         return
     }
 
-    $entry = [pscustomobject]@{ command = $exeJson; args = @() }
-    $servers | Add-Member -MemberType NoteProperty -Name "codebase-memory-mcp" -Value $entry -Force
+    $commandJson = $Command -replace '\\', '/'
+    $argsJson    = @($ArgList | ForEach-Object { $_ -replace '\\', '/' })
+    $entry = [pscustomobject]@{ command = $commandJson; args = $argsJson }
+    if ($Env.Count -gt 0) {
+        $envObj = [pscustomobject]@{}
+        foreach ($key in $Env.Keys) {
+            $envObj | Add-Member -MemberType NoteProperty -Name $key -Value (($Env[$key]) -replace '\\', '/')
+        }
+        $entry | Add-Member -MemberType NoteProperty -Name "env" -Value $envObj
+    }
+    $servers | Add-Member -MemberType NoteProperty -Name $Name -Value $entry -Force
 
     $json = $config | ConvertTo-Json -Depth 100
     # Write UTF-8 without a BOM so Node's JSON.parse accepts the file.
     [System.IO.File]::WriteAllText($configPath, $json)
-    Write-Ok "Registered codebase-memory-mcp in $configPath."
+    Write-Ok "Registered $Name in $configPath."
 }
 
-Write-Step "Ensuring codebase-memory MCP is configured..."
-Ensure-CodebaseMemoryMcp
+Write-Step "Ensuring MCP servers are configured..."
+
+$codebaseExe = Resolve-CodebaseMemoryExe
+if ($codebaseExe) {
+    Ensure-McpServer -Name "codebase-memory-mcp" -Command $codebaseExe
+} else {
+    Write-Warn2 "codebase-memory-mcp was not found - skipping MCP registration."
+}
+
+$synaptic = Resolve-UnitySynaptic
+if ($synaptic) {
+    Ensure-McpServer -Name "unity-synaptic" -Command $synaptic.Command -ArgList $synaptic.Args
+} else {
+    Write-Warn2 "unity-synaptic (Synaptic MCP) was not found - skipping MCP registration."
+}
+
+$dshLtmServer = Resolve-DshLtmMcp
+if ($dshLtmServer) {
+    $serverDir = Split-Path -Parent $dshLtmServer
+    if (Ensure-DshLtmDeps -ServerDir $serverDir) {
+        $nodeExe = (Get-Command node -ErrorAction SilentlyContinue).Source
+        if (-not $nodeExe) { $nodeExe = "E:/Program Files/nodejs/node.exe" }
+        # One memory DB shared by the MCP tools and the auto-recall extension.
+        if (-not $env:DSH_LTM_DB) { $env:DSH_LTM_DB = Join-Path $AgentDir "memory\ltm.db" }
+        Ensure-McpServer -Name "dsh-ltm" -Command $nodeExe -ArgList @($dshLtmServer) `
+            -Env @{ DSH_LTM_DB = $env:DSH_LTM_DB }
+    }
+} else {
+    Write-Warn2 "dsh-ltm MCP bridge (tools/dsh-ltm-mcp) was not found - skipping its registration."
+}
 
 # ===========================================================================
 # 5. Run Pi
@@ -259,6 +360,16 @@ if (-not (Get-Command pi -ErrorAction SilentlyContinue)) {
     exit 1
 }
 
-Write-Step "Launching Pi..."
-& pi @args
+# Auto-recall: inject pinned/recent memories into the system prompt. Only the
+# changed section is re-sent each turn (prefix-cache friendly).
+$recallExt = Join-Path $PSScriptRoot "tools\dsh-ltm-mcp\dsh-ltm-recall.ts"
+if (Test-Path $recallExt) {
+    Write-Ok "Auto-recall extension enabled."
+    Write-Step "Launching Pi..."
+    & pi --extension $recallExt @args
+} else {
+    Write-Warn2 "dsh-ltm auto-recall extension not found - starting without it."
+    Write-Step "Launching Pi..."
+    & pi @args
+}
 exit $LASTEXITCODE

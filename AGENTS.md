@@ -52,3 +52,17 @@ Mọi kết quả do Agent tạo ra **BẮT BUỘC** phải đạt chuẩn sẵn
 - **Sửa lỗi đến khi sạch hoàn toàn**: Không bàn giao kết quả còn lỗi đã biết, cảnh báo chưa xử lý, hoặc logic chưa hoàn chỉnh. Nếu phát hiện lỗi trong lần kiểm tra thứ N, phải sửa và bắt đầu lại vòng kiểm tra từ đầu.
 - **Sẵn sàng ra mắt ngày mai**: Mọi tính năng, tài liệu, và mã nguồn phải đạt mức có thể ship lên production ngay lập tức — không có "TODO", không có "placeholder", không có code debug còn sót lại.
 - **Không bao giờ đổ lỗi cho môi trường**: Nếu có vấn đề, Agent phải tìm ra và xử lý triệt để thay vì giải thích rằng "có thể do môi trường" hoặc "cần kiểm tra thêm".
+
+## 11. Hồ Sơ Thực Thi Nghiêm Ngặt & Giảm Token (Strict Execution Profile)
+- **Định Hướng Đường Dẫn Trực Tiếp (Zero Broad Searches)**: TUYỆT ĐỐI KHÔNG chạy tìm kiếm đệ quy (`grep_search`, `find_by_name`) trên thư mục gốc `F:\GihOt\BrowserQuest`. Mở trực tiếp đường dẫn đã biết (`client/`, `server/`, `shared/`, `config/`, `docs/`, `tools/`).
+- **Sửa File Trực Tiếp (No Scratch Script Overkill)**: Đọc và sửa file trực tiếp bằng `view_file` / `replace_file_content`. KHÔNG tạo hoặc chạy script Python/batch tạm cho việc đọc file, diff, hay validate văn bản cơ bản.
+- **Bảo Toàn Ngân Sách Token**: Giữ số lần gọi công cụ ở mức tối thiểu (1–3 lần có chủ đích mỗi lượt). Tránh gọi chuỗi công cụ dây chuyền hoặc thăm dò suy đoán.
+- **Codebase Memory MCP & unity-synaptic First**: Luôn ưu tiên `codebase-memory-mcp` (`search_graph`, `trace_path`, `get_code_snippet`, `query_graph`, `get_architecture`) để khám phá mã nguồn. Dùng `unity-synaptic` MCP cho kiểm tra runtime Unity khi cần. Chỉ fallback sang grep/đọc file cho cấu hình tĩnh (JSON/config) hoặc khi MCP không hỗ trợ.
+- **Đọc Có Chủ Đích (Targeted Reading)**: Khi đọc mã, chọn khoảng dòng cụ thể (span <= 800 dòng) hoặc dùng `get_code_snippet`. KHÔNG đọc từng lát 10–30 dòng liên tục trên cùng một file (tối đa 2–3 lần đọc có chủ đích mỗi file mỗi lượt).
+- **Không Rà Quét File Suy Đoán**: KHÔNG quét `node_modules/`, `dist/`, `sessions/`, `logs/`, `maps/`, `sprites/`, `audio/`, `img/`. Chỉ dựa vào tên class/hàm rõ ràng hoặc quy ước đường dẫn đã biết.
+- **Không Đoán Lặp (No Iterative Guessing)**: Nếu một lệnh hoặc thao tác sửa file thất bại 2 lần, DỪNG ngay và yêu cầu làm rõ. Không brute-force lặp lại.
+- **Mặc Định Sửa Đơn File**: Mỗi lượt chỉ sửa 1 file đích trừ khi người dùng yêu cầu rõ ràng thay đổi nhiều file.
+- **Zero Log Dumps**: KHÔNG trả về toàn bộ output build/console. Chỉ trích xuất đúng tên file, số dòng, và mã lỗi.
+- **Trình Bày Diff**: Đưa thay đổi mã dạng unified diff với ±5 dòng ngữ cảnh.
+- **Tóm Tắt Thực Thi**: Kết thúc bằng 1 câu tóm tắt ngắn gọn việc đã làm.
+- **Link Clickable**: Mọi tham chiếu file/ký hiệu phải dùng markdown link (`[tên](file:///đường/dẫn)`).
