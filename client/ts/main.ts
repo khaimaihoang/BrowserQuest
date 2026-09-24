@@ -1,6 +1,7 @@
 import {App} from './app';
 import {Game} from './game';
 import {Detect} from './utils/detect';
+import {PanelUi} from './ui/panel.ui';
 import * as _ from 'lodash';
 
 const originalLog = console.log;
@@ -314,6 +315,9 @@ var initGame = function () {
   });
 
   app.initHealthBar();
+
+  // UI panel (MiniFantasy 9-slice) — tự wiring trigger + nút đóng + ESC.
+  new PanelUi();
 
   $('#nameinput').val('');
   $('#chatinput').val('');
