@@ -53,12 +53,34 @@ function Write-Step($msg) { Write-Host "[run_pi] $msg" -ForegroundColor Cyan }
 function Write-Ok($msg)   { Write-Host "   [ok] $msg" -ForegroundColor Green }
 function Write-Warn2($msg){ Write-Host "   [!!] $msg" -ForegroundColor Yellow }
 
-# Re-read PATH from the registry so binaries installed during this session are
-# visible to the current process (and to the Pi child process we spawn).
+# Make sure this session (and the Pi child we spawn) can see user-installed
+# tools. This is intentionally NON-DESTRUCTIVE: it only APPENDS entries the
+# session is missing and never removes existing ones, so session-local tools
+# keep working. It also guarantees the npm global dir and Pi's bin dir are
+# reachable - the usual cause of "pi: not recognized".
 function Update-SessionPath {
+    $npmDir = Join-Path $env:APPDATA "npm"
+
+    $seen = New-Object -TypeName 'System.Collections.Generic.HashSet[string]' -ArgumentList ([StringComparer]::OrdinalIgnoreCase)
+    $current = @()
+    foreach ($p in ($env:Path -split ";")) {
+        $t = "$p".Trim()
+        if ($t -and $seen.Add($t.TrimEnd('\'))) { $current += $t }
+    }
+
     $machine = [Environment]::GetEnvironmentVariable("Path", "Machine")
     $user    = [Environment]::GetEnvironmentVariable("Path", "User")
-    $env:Path = (@($machine, $user) | Where-Object { $_ }) -join ";"
+    $additions = @()
+    foreach ($c in (@($npmDir, $PiBinDir) + @($machine -split ";") + @($user -split ";"))) {
+        $t = "$c".Trim()
+        if (-not $t) { continue }
+        if ($seen.Add($t.TrimEnd('\'))) { $additions += $t }
+    }
+
+    if ($additions.Count -gt 0) {
+        $env:Path = (@($current) + $additions) -join ";"
+        Write-Ok "Session PATH refreshed (+$($additions.Count) entries)."
+    }
 }
 
 # A tool counts as available if it is on PATH or already sits in Pi's bin dir
@@ -69,6 +91,10 @@ function Test-ToolFile {
     if (Test-Path (Join-Path $PiBinDir $ExeName)) { return $true }
     return $false
 }
+
+# Reconcile PATH up front so every later lookup (rg, fd, headroom, pi, node,
+# npm) sees user-installed tools without clobbering session-local entries.
+Update-SessionPath
 
 # ===========================================================================
 # 1. Ensure ripgrep + fd are present
