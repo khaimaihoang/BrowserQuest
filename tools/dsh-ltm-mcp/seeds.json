@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "description": "Seed long-term memories for this project. Applied by run_pi.ps1 into the current machine's project scope; idempotent because the engine's near-duplicate check skips anything already stored. Pinned entries always render first in recall.",
+  "memories": [
+    {
+      "text": "run_pi.ps1: Headroom is an LLM optimization proxy only (no CONNECT tunneling). Never set HTTP_PROXY/HTTPS_PROXY to it; DeepSeek connects directly via its own baseUrl. Pi's MCP servers are codebase-memory-mcp, unity-synaptic, and the bundled dsh-ltm memory bridge at tools/dsh-ltm-mcp.",
+      "tags": ["pi", "headroom", "run_pi", "mcp"],
+      "pinned": true
+    },
+    {
+      "text": "BrowserQuest = Node.js + webpack + TypeScript browser MMO (package.json name fate-of-the-four; deps express, socket.io, jquery, lodash). Client: client/ (npm run watch:client | build:client, webpack.config.js). Server: server/ (npm run watch:server = tsx server/ts/main.ts; build:server = tsc -p ./server). Shared: shared/.",
+      "tags": ["browserquest", "stack"],
+      "pinned": true
+    },
+    {
+      "text": "BrowserQuest working rules (AGENTS.md): propose 2-4 options before large changes; never overwrite big files without reporting; production-ready only (no TODO/placeholder/debug); discover code via codebase-memory-mcp, no broad recursive search on repo root; targeted reads (span <=800); zero log dumps; design docs in docs/.",
+      "tags": ["browserquest", "rules"],
+      "pinned": true
+    }
+  ]
+}

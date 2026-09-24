@@ -44,6 +44,15 @@ friendly) instead of replacing the whole prompt. `run_pi.ps1` loads it with
 The extension shares `engine.mjs` and the same SQLite store as the MCP server, so
 what the tools write shows up in recall automatically.
 
+## Seed memories
+
+`seeds.json` holds the pinned baseline conventions (run_pi/Headroom setup, stack,
+working rules). `run_pi.ps1` applies them once per machine through
+`seed-memories.mjs`, guarded by the marker `~/.pi/agent/memory/.dsh-ltm-seeded`.
+The seeder is idempotent — the engine's near-duplicate check skips anything
+already stored — so re-running never duplicates. Seeds land in the current
+machine's own project scope, because Git scope hashes are path specific.
+
 ## Run it manually
 
 ```sh

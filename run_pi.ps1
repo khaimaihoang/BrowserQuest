@@ -273,6 +273,45 @@ function Ensure-DshLtmDeps {
     return $false
 }
 
+function Initialize-DshLtmSeeds {
+    param(
+        [Parameter(Mandatory)][string]$ServerDir,
+        [Parameter(Mandatory)][string]$NodeExe
+    )
+    $seeder = Join-Path $ServerDir "seed-memories.mjs"
+    $seeds  = Join-Path $ServerDir "seeds.json"
+    if (-not (Test-Path $seeder) -or -not (Test-Path $seeds)) { return }
+
+    # Applied once per machine; the seeder itself is idempotent (dedupe).
+    $memoryDir = Join-Path $AgentDir "memory"
+    $marker = Join-Path $memoryDir ".dsh-ltm-seeded"
+    if (Test-Path $marker) {
+        Write-Ok "dsh-ltm seed memories already applied."
+        return
+    }
+
+    Write-Step "Seeding dsh-ltm memories..."
+    $saved = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    $code = 1
+    try {
+        # Seed into the repository's own project scope.
+        Push-Location $PSScriptRoot
+        & $NodeExe $seeder | Out-Host
+        $code = $LASTEXITCODE
+    } finally {
+        Pop-Location
+        $ErrorActionPreference = $saved
+    }
+    if ($code -eq 0) {
+        New-Item -ItemType Directory -Force -Path $memoryDir | Out-Null
+        Set-Content -Path $marker -Value (Get-Date -Format o)
+        Write-Ok "dsh-ltm seed memories applied."
+    } else {
+        Write-Warn2 "dsh-ltm seeding exited with code $code - will retry next launch."
+    }
+}
+
 function Ensure-McpServer {
     param(
         [Parameter(Mandatory)][string]$Name,
@@ -347,6 +386,7 @@ if ($dshLtmServer) {
         if (-not $env:DSH_LTM_DB) { $env:DSH_LTM_DB = Join-Path $AgentDir "memory\ltm.db" }
         Ensure-McpServer -Name "dsh-ltm" -Command $nodeExe -ArgList @($dshLtmServer) `
             -Env @{ DSH_LTM_DB = $env:DSH_LTM_DB }
+        Initialize-DshLtmSeeds -ServerDir $serverDir -NodeExe $nodeExe
     }
 } else {
     Write-Warn2 "dsh-ltm MCP bridge (tools/dsh-ltm-mcp) was not found - skipping its registration."
