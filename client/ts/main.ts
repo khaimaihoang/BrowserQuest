@@ -315,8 +315,8 @@ var initGame = function () {
 
   app.initHealthBar();
 
-  $('#nameinput').attr('value', '');
-  $('#chatbox').attr('value', '');
+  $('#nameinput').val('');
+  $('#chatinput').val('');
 
   if (game.renderer.mobile || game.renderer.tablet) {
     $('#foreground').bind('touchstart', function (event) {
@@ -395,11 +395,11 @@ var initGame = function () {
       $chat = $('#chatinput');
 
     if (key === 13) {
-      if ($chat.attr('value') !== '') {
+      if ($chat.val() !== '') {
         if (game.player) {
-          game.say($chat.attr('value'));
+          game.say($chat.val() as string);
         }
-        $chat.attr('value', '');
+        $chat.val('');
         app.hideChat();
         $('#foreground').focus();
         return false;
@@ -417,7 +417,7 @@ var initGame = function () {
 
   $('#nameinput').keypress(function (event) {
     var $name = $('#nameinput'),
-      name = $name.attr('value');
+      name = $name.val() as string;
 
     if (event.keyCode === 13) {
       if (name !== '') {
