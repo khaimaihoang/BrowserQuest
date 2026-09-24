@@ -1,6 +1,8 @@
 ---
 paths:
-  - "src/ui/**"
+  - "client/ts/ui/**"
+  - "client/css/**"
+  - "client/index.html"
 ---
 
 # UI Code Rules
