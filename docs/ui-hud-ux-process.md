@@ -8,6 +8,7 @@
 > CSS `@import` + module TS trong `client/ts/ui/`; dùng dev server HMR đã có sẵn.
 >
 > **Tài liệu liên quan:**
+> - [ui-slice-pipeline.md](./ui-slice-pipeline.md) — pipeline asset từ atlas Minifantasy
 > - [ui-hud-architecture-guide.md](./ui-hud-architecture-guide.md) — kiến trúc UI hiện tại
 > - [kaetram-ui-review.md](./kaetram-ui-review.md) — mẫu tham chiếu Kaetram
 > - `.agents/rules/ui-code.md` — ràng buộc UI

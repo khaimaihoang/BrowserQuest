@@ -1,0 +1,1101 @@
+{
+  "name": "minifantasy-grim",
+  "source": "client/Minifantasy/Minifantasy_UI _Overhaul_v1.0/_Minifantasy_UI_Overhaul_Assets/Grim_Minifantasy_UI/_grim_ui.png",
+  "grid": 16,
+  "themes": {
+    "default": "dark",
+    "offsets": {
+      "dark": 0,
+      "green": 912,
+      "blue": 1824,
+      "red": 2736,
+      "white": 3648
+    }
+  },
+  "scales": [
+    1,
+    2,
+    3
+  ],
+  "output": {
+    "image": "client/img/{scale}/ui",
+    "css": "client/css/ui-slices.generated.css",
+    "lab": "client/ui-lab.html",
+    "preview": "tools/ui/out/preview.png"
+  },
+  "css": {
+    "prefix": "ui",
+    "pixelated": true
+  },
+  "_groups": {
+    "_source": "set_use_guidelines.png (block coords + 544 for the 'UI' block)",
+    "PANELS": "x54-266 y646-762",
+    "DIVIDERS": "x298-375 y652-708",
+    "SLIDERS": "x287-383 y715-770",
+    "CHECK BOXES": "x205-370 y807-866",
+    "TOGGLE BUTTONS": "x205-370 y884-943",
+    "SLOTS": "x29-184 y765-985",
+    "TABS": "x154-618 y631-1019",
+    "RESOURCES_BARS_CONTAINERS": "x635-856 y756-988",
+    "PUSH_BUTTONS": "16x16 / 48x16 / 16x48 / 48x48 at y1040/1088",
+    "RESOURCE_FILLS": "bottom of atlas, y1747 / y1821, one colour per column"
+  },
+  "_doc": [
+    "rect = [x, y, w, h] in atlas pixels. themed slices get x + offsets[theme].",
+    "themed=false -> absolute rect, exported once (coloured resource fills).",
+    "slice = 9-slice border width in source pixels (must be < min(w,h)/2).",
+    "nine=false -> discrete sprite.",
+    "",
+    "TOUCH-FIRST STATES: active=selected/on (LIGHTER sprite) . active selector,",
+    "pressed=:active+.pressed, checked=:checked+.checked, disabled=:disabled+.disabled.",
+    "hover is desktop-only (@media (hover: hover)); hoverUses reuses a state sprite."
+  ],
+  "slices": {
+    "_comment_panels": "PANELS",
+    "panel": {
+      "rect": [
+        112,
+        704,
+        48,
+        48
+      ],
+      "nine": true,
+      "slice": 7,
+      "repeat": "repeat"
+    },
+    "panel-slim": {
+      "rect": [
+        64,
+        704,
+        16,
+        48
+      ],
+      "nine": true,
+      "slice": 7,
+      "repeat": "repeat"
+    },
+    "panel-textured": {
+      "rect": [
+        208,
+        700,
+        48,
+        56
+      ],
+      "nine": true,
+      "slice": [
+        6,
+        15,
+        6,
+        15
+      ],
+      "repeat": "repeat",
+      "stretch": "y",
+      "overlays": [
+        {
+          "rect": [
+            223,
+            700,
+            18,
+            6
+          ],
+          "anchor": "tc"
+        },
+        {
+          "rect": [
+            223,
+            750,
+            18,
+            6
+          ],
+          "anchor": "bc"
+        }
+      ]
+    },
+    "panel-header": {
+      "rect": [
+        208,
+        652,
+        48,
+        24
+      ],
+      "nine": false
+    },
+    "panel-title": {
+      "rect": [
+        112,
+        656,
+        48,
+        16
+      ],
+      "nine": false
+    },
+    "_comment_buttons": "PUSH BUTTONS 2x2: disabled(=[80,544]) / disabled-pressed / active / active-pressed",
+    "button": {
+      "rect": [
+        80,
+        544,
+        48,
+        48
+      ],
+      "nine": true,
+      "slice": 7,
+      "repeat": "repeat",
+      "states": {
+        "disabled-pressed": [
+          336,
+          544,
+          48,
+          48
+        ],
+        "active": [
+          208,
+          544,
+          48,
+          48
+        ],
+        "active-pressed": [
+          464,
+          544,
+          48,
+          48
+        ]
+      },
+      "hoverUses": "active"
+    },
+    "button-slim": {
+      "rect": [
+        32,
+        544,
+        16,
+        48
+      ],
+      "nine": true,
+      "slice": 7,
+      "repeat": "repeat",
+      "states": {
+        "disabled-pressed": [
+          288,
+          544,
+          16,
+          48
+        ],
+        "active": [
+          160,
+          544,
+          16,
+          48
+        ],
+        "active-pressed": [
+          416,
+          544,
+          16,
+          48
+        ]
+      },
+      "hoverUses": "active"
+    },
+    "button-thin": {
+      "rect": [
+        80,
+        1040,
+        48,
+        16
+      ],
+      "nine": true,
+      "slice": 7,
+      "repeat": "repeat",
+      "states": {
+        "disabled-pressed": [
+          336,
+          1040,
+          48,
+          16
+        ],
+        "active": [
+          208,
+          1040,
+          48,
+          16
+        ],
+        "active-pressed": [
+          464,
+          1040,
+          48,
+          16
+        ]
+      },
+      "hoverUses": "active"
+    },
+    "button-tiny": {
+      "rect": [
+        32,
+        1040,
+        16,
+        16
+      ],
+      "nine": true,
+      "slice": 5,
+      "repeat": "repeat",
+      "states": {
+        "disabled-pressed": [
+          288,
+          1040,
+          16,
+          16
+        ],
+        "active": [
+          160,
+          1040,
+          16,
+          16
+        ],
+        "active-pressed": [
+          416,
+          1040,
+          16,
+          16
+        ]
+      },
+      "hoverUses": "active"
+    },
+    "_comment_sliders": "SLIDERS (slice [t,r,b,l] giu 2 mui ten o 2 dau)",
+    "slider-track-v": {
+      "rect": [
+        309,
+        723,
+        7,
+        42
+      ],
+      "nine": true,
+      "slice": [
+        8,
+        0,
+        8,
+        0
+      ],
+      "repeat": "repeat",
+      "stretch": "y"
+    },
+    "slider-track-h": {
+      "rect": [
+        339,
+        740,
+        42,
+        7
+      ],
+      "nine": true,
+      "slice": [
+        0,
+        8,
+        0,
+        8
+      ],
+      "repeat": "repeat",
+      "stretch": "x"
+    },
+    "slider-thumb-v": {
+      "rect": [
+        293,
+        741,
+        7,
+        6
+      ],
+      "nine": false
+    },
+    "slider-thumb-h": {
+      "rect": [
+        325,
+        740,
+        6,
+        7
+      ],
+      "nine": false
+    },
+    "_comment_dividers": "DIVIDERS",
+    "divider-v": {
+      "rect": [
+        311,
+        659,
+        3,
+        42
+      ],
+      "nine": false
+    },
+    "divider-h": {
+      "rect": [
+        323,
+        678,
+        42,
+        3
+      ],
+      "nine": false
+    },
+    "_comment_slots": "SLOTS - o tui do (item cell), sprite co dinh, KHONG 9-slice",
+    "slot": {
+      "rect": [
+        33,
+        769,
+        14,
+        14
+      ],
+      "nine": false,
+      "states": {
+        "active": [
+          33,
+          817,
+          14,
+          14
+        ]
+      }
+    },
+    "slot-sm": {
+      "rect": [
+        82,
+        770,
+        12,
+        12
+      ],
+      "nine": false
+    },
+    "slot-md": {
+      "rect": [
+        109,
+        781,
+        22,
+        22
+      ],
+      "nine": false,
+      "states": {
+        "active": [
+          109,
+          829,
+          22,
+          22
+        ]
+      }
+    },
+    "slot-wide": {
+      "rect": [
+        155,
+        829,
+        26,
+        22
+      ],
+      "nine": false
+    },
+    "slot-pill": {
+      "rect": [
+        31,
+        911,
+        18,
+        18
+      ],
+      "nine": false
+    },
+    "slot-lg": {
+      "rect": [
+        125,
+        925,
+        54,
+        54
+      ],
+      "nine": false
+    },
+    "_comment_check": "CHECK BOXES",
+    "radio": {
+      "rect": [
+        210,
+        818,
+        12,
+        12
+      ],
+      "nine": false,
+      "states": {
+        "pressed": [
+          258,
+          818,
+          12,
+          12
+        ],
+        "checked": [
+          306,
+          818,
+          12,
+          12
+        ],
+        "checked-pressed": [
+          354,
+          818,
+          12,
+          12
+        ]
+      }
+    },
+    "checkbox": {
+      "rect": [
+        210,
+        850,
+        12,
+        12
+      ],
+      "nine": false,
+      "states": {
+        "pressed": [
+          258,
+          850,
+          12,
+          12
+        ],
+        "checked": [
+          306,
+          850,
+          12,
+          12
+        ],
+        "checked-pressed": [
+          354,
+          850,
+          12,
+          12
+        ]
+      }
+    },
+    "_comment_toggles": "TOGGLE BUTTONS",
+    "toggle-v": {
+      "rect": [
+        212,
+        896,
+        8,
+        16
+      ],
+      "nine": false,
+      "states": {
+        "pressed": [
+          260,
+          896,
+          8,
+          16
+        ],
+        "checked": [
+          308,
+          896,
+          8,
+          16
+        ],
+        "checked-pressed": [
+          356,
+          896,
+          8,
+          16
+        ]
+      }
+    },
+    "toggle-h": {
+      "rect": [
+        208,
+        932,
+        16,
+        8
+      ],
+      "nine": false,
+      "states": {
+        "pressed": [
+          256,
+          932,
+          16,
+          8
+        ],
+        "checked": [
+          304,
+          932,
+          16,
+          8
+        ],
+        "checked-pressed": [
+          352,
+          932,
+          16,
+          8
+        ]
+      }
+    },
+    "_comment_tabs": "TABS - corners = tab icon (4 tab x normal/active); edges = khung tab",
+    "tab-icon-1": {
+      "rect": [
+        432,
+        660,
+        16,
+        12
+      ],
+      "nine": false,
+      "states": {
+        "active": [
+          560,
+          660,
+          16,
+          16
+        ]
+      }
+    },
+    "tab-icon-2": {
+      "rect": [
+        404,
+        688,
+        12,
+        16
+      ],
+      "nine": false,
+      "states": {
+        "active": [
+          532,
+          688,
+          16,
+          16
+        ]
+      }
+    },
+    "tab-icon-3": {
+      "rect": [
+        464,
+        688,
+        12,
+        16
+      ],
+      "nine": false,
+      "states": {
+        "active": [
+          588,
+          688,
+          16,
+          16
+        ]
+      }
+    },
+    "tab-icon-4": {
+      "rect": [
+        432,
+        720,
+        16,
+        12
+      ],
+      "nine": false,
+      "states": {
+        "active": [
+          560,
+          716,
+          16,
+          16
+        ]
+      }
+    },
+    "tab-top": {
+      "rect": [
+        416,
+        756,
+        48,
+        12
+      ],
+      "nine": false,
+      "states": {
+        "active": [
+          544,
+          756,
+          48,
+          16
+        ]
+      }
+    },
+    "tab-bottom": {
+      "rect": [
+        416,
+        848,
+        48,
+        12
+      ],
+      "nine": false,
+      "states": {
+        "active": [
+          544,
+          844,
+          48,
+          16
+        ]
+      }
+    },
+    "tab-left": {
+      "rect": [
+        404,
+        784,
+        12,
+        48
+      ],
+      "nine": false,
+      "states": {
+        "active": [
+          532,
+          784,
+          16,
+          48
+        ]
+      }
+    },
+    "tab-right": {
+      "rect": [
+        464,
+        784,
+        12,
+        48
+      ],
+      "nine": false,
+      "states": {
+        "active": [
+          588,
+          784,
+          16,
+          48
+        ]
+      }
+    },
+    "_comment_resources": "RESOURCE'S BARS & CONTAINERS",
+    "bar-h": {
+      "rect": [
+        672,
+        854,
+        48,
+        20
+      ],
+      "nine": true,
+      "slice": [
+        0,
+        14,
+        0,
+        14
+      ],
+      "repeat": "repeat",
+      "stretch": "x",
+      "overlays": [
+        {
+          "rect": [
+            686,
+            854,
+            20,
+            20
+          ],
+          "anchor": "center"
+        }
+      ],
+      "flatten": true
+    },
+    "bar-h-md": {
+      "rect": [
+        672,
+        887,
+        48,
+        17
+      ],
+      "nine": true,
+      "slice": [
+        0,
+        14,
+        0,
+        14
+      ],
+      "repeat": "repeat",
+      "stretch": "x",
+      "overlays": [
+        {
+          "rect": [
+            686,
+            887,
+            20,
+            17
+          ],
+          "anchor": "center"
+        }
+      ],
+      "flatten": true
+    },
+    "bar-h-sm": {
+      "rect": [
+        672,
+        920,
+        48,
+        16
+      ],
+      "nine": true,
+      "slice": [
+        0,
+        14,
+        0,
+        14
+      ],
+      "repeat": "repeat",
+      "stretch": "x",
+      "overlays": [
+        {
+          "rect": [
+            686,
+            920,
+            20,
+            16
+          ],
+          "anchor": "center"
+        }
+      ],
+      "flatten": true
+    },
+    "bar-h-xs": {
+      "rect": [
+        672,
+        952,
+        48,
+        15
+      ],
+      "nine": true,
+      "slice": [
+        0,
+        14,
+        0,
+        14
+      ],
+      "repeat": "repeat",
+      "stretch": "x",
+      "overlays": [
+        {
+          "rect": [
+            686,
+            952,
+            20,
+            15
+          ],
+          "anchor": "center"
+        }
+      ],
+      "flatten": true
+    },
+    "bar-v": {
+      "rect": [
+        646,
+        784,
+        20,
+        48
+      ],
+      "nine": true,
+      "slice": [
+        14,
+        0,
+        14,
+        0
+      ],
+      "repeat": "repeat",
+      "stretch": "y",
+      "overlays": [
+        {
+          "rect": [
+            646,
+            798,
+            20,
+            20
+          ],
+          "anchor": "center"
+        }
+      ],
+      "flatten": true
+    },
+    "bar-v-md": {
+      "rect": [
+        679,
+        784,
+        17,
+        48
+      ],
+      "nine": true,
+      "slice": [
+        14,
+        0,
+        14,
+        0
+      ],
+      "repeat": "repeat",
+      "stretch": "y",
+      "overlays": [
+        {
+          "rect": [
+            679,
+            798,
+            17,
+            20
+          ],
+          "anchor": "center"
+        }
+      ],
+      "flatten": true
+    },
+    "bar-v-sm": {
+      "rect": [
+        712,
+        784,
+        16,
+        48
+      ],
+      "nine": true,
+      "slice": [
+        14,
+        0,
+        14,
+        0
+      ],
+      "repeat": "repeat",
+      "stretch": "y",
+      "overlays": [
+        {
+          "rect": [
+            712,
+            798,
+            16,
+            20
+          ],
+          "anchor": "center"
+        }
+      ],
+      "flatten": true
+    },
+    "bar-v-xs": {
+      "rect": [
+        744,
+        784,
+        15,
+        48
+      ],
+      "nine": true,
+      "slice": [
+        14,
+        0,
+        14,
+        0
+      ],
+      "repeat": "repeat",
+      "stretch": "y",
+      "overlays": [
+        {
+          "rect": [
+            744,
+            798,
+            15,
+            20
+          ],
+          "anchor": "center"
+        }
+      ],
+      "flatten": true
+    },
+    "container": {
+      "rect": [
+        804,
+        784,
+        40,
+        32
+      ],
+      "nine": false
+    },
+    "container-md": {
+      "rect": [
+        808,
+        828,
+        32,
+        24
+      ],
+      "nine": false
+    },
+    "container-sm": {
+      "rect": [
+        813,
+        864,
+        22,
+        16
+      ],
+      "nine": false
+    },
+    "_comment_fills": "RESOURCE FILLS (colours live in each column -> themed:false). slice=7: 7px dau bi vat, ruot phang moi tile dung",
+    "bar-fill-red": {
+      "rect": [
+        67,
+        1821,
+        42,
+        6
+      ],
+      "nine": true,
+      "slice": [
+        0,
+        7,
+        0,
+        7
+      ],
+      "repeat": "repeat",
+      "stretch": "x",
+      "themed": false
+    },
+    "bar-fill-blue": {
+      "rect": [
+        979,
+        1821,
+        42,
+        6
+      ],
+      "nine": true,
+      "slice": [
+        0,
+        7,
+        0,
+        7
+      ],
+      "repeat": "repeat",
+      "stretch": "x",
+      "themed": false
+    },
+    "bar-fill-gold": {
+      "rect": [
+        1891,
+        1821,
+        42,
+        6
+      ],
+      "nine": true,
+      "slice": [
+        0,
+        7,
+        0,
+        7
+      ],
+      "repeat": "repeat",
+      "stretch": "x",
+      "themed": false
+    },
+    "bar-fill-green": {
+      "rect": [
+        2803,
+        1821,
+        42,
+        6
+      ],
+      "nine": true,
+      "slice": [
+        0,
+        7,
+        0,
+        7
+      ],
+      "repeat": "repeat",
+      "stretch": "x",
+      "themed": false
+    },
+    "bar-fill-purple": {
+      "rect": [
+        3715,
+        1821,
+        42,
+        6
+      ],
+      "nine": true,
+      "slice": [
+        0,
+        7,
+        0,
+        7
+      ],
+      "repeat": "repeat",
+      "stretch": "x",
+      "themed": false
+    },
+    "bar-fill-v-red": {
+      "rect": [
+        45,
+        1747,
+        6,
+        42
+      ],
+      "nine": true,
+      "slice": [
+        7,
+        0,
+        7,
+        0
+      ],
+      "repeat": "repeat",
+      "stretch": "y",
+      "themed": false
+    },
+    "bar-fill-v-blue": {
+      "rect": [
+        957,
+        1747,
+        6,
+        42
+      ],
+      "nine": true,
+      "slice": [
+        7,
+        0,
+        7,
+        0
+      ],
+      "repeat": "repeat",
+      "stretch": "y",
+      "themed": false
+    },
+    "bar-fill-v-gold": {
+      "rect": [
+        1869,
+        1747,
+        6,
+        42
+      ],
+      "nine": true,
+      "slice": [
+        7,
+        0,
+        7,
+        0
+      ],
+      "repeat": "repeat",
+      "stretch": "y",
+      "themed": false
+    },
+    "bar-fill-v-green": {
+      "rect": [
+        2781,
+        1747,
+        6,
+        42
+      ],
+      "nine": true,
+      "slice": [
+        7,
+        0,
+        7,
+        0
+      ],
+      "repeat": "repeat",
+      "stretch": "y",
+      "themed": false
+    },
+    "bar-fill-v-purple": {
+      "rect": [
+        3693,
+        1747,
+        6,
+        42
+      ],
+      "nine": true,
+      "slice": [
+        7,
+        0,
+        7,
+        0
+      ],
+      "repeat": "repeat",
+      "stretch": "y",
+      "themed": false
+    }
+  }
+}

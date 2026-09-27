@@ -6,7 +6,8 @@
 > Áp dụng cho: MiniFantasy UI panel (`client/css/panel.css`,
 > `client/img/{1,2,3}/ui/*`) và mọi UI pixel-art thêm sau này.
 >
-> Liên quan: [ui-hud-ux-process.md](./ui-hud-ux-process.md) ·
+> Liên quan: [ui-slice-pipeline.md](./ui-slice-pipeline.md) ·
+> [ui-hud-ux-process.md](./ui-hud-ux-process.md) ·
 > [ui-hud-architecture-guide.md](./ui-hud-architecture-guide.md) ·
 > [kaetram-ui-review.md](./kaetram-ui-review.md)
 

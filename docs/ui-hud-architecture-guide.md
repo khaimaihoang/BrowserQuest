@@ -4,6 +4,10 @@
 > và quy trình chuẩn để thêm một HUD mới.
 >
 > Phạm vi áp dụng: `client/` (DOM + CSS + jQuery) và các rules `.agents/rules/ui-code.md`.
+>
+> Tài liệu liên quan: [ui-slice-pipeline.md](./ui-slice-pipeline.md) (asset/sprite từ atlas),
+> [ui-pixel-perfect-9slice.md](./ui-pixel-perfect-9slice.md) (9-slice), 
+> [ui-hud-ux-process.md](./ui-hud-ux-process.md) (quy trình tách file).
 
 ---
 
