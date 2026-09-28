@@ -9,3 +9,8 @@ browser_logs.txt
 browser_logs_old.txt
 
 browser_logs_old.txt
+
+# UI packer build artifacts (regenerate with: npm run ui:pack)
+tools/ui/out/
+__pycache__/
+*.pyc

@@ -1,6 +1,7 @@
 import {App} from './app';
 import {Game} from './game';
 import {Detect} from './utils/detect';
+import {PanelUi} from './ui/panel.ui';
 import * as _ from 'lodash';
 
 const originalLog = console.log;
@@ -224,6 +225,15 @@ var initApp = function () {
     $('#resize-check').bind('webkitTransitionEnd', app.resizeUi.bind(app));
     $('#resize-check').bind('oTransitionEnd', app.resizeUi.bind(app));
 
+    // Fullscreen: cập nhật camera/canvas khi cửa sổ đổi kích thước (debounce).
+    var resizeTimeout;
+    $(window).resize(function () {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(function () {
+        app.resizeUi();
+      }, 150);
+    });
+
     console.info('App initialized.');
 
     initGame();
@@ -306,8 +316,11 @@ var initGame = function () {
 
   app.initHealthBar();
 
-  $('#nameinput').attr('value', '');
-  $('#chatbox').attr('value', '');
+  // UI panel (MiniFantasy 9-slice) — tự wiring trigger + nút đóng + ESC.
+  new PanelUi();
+
+  $('#nameinput').val('');
+  $('#chatinput').val('');
 
   if (game.renderer.mobile || game.renderer.tablet) {
     $('#foreground').bind('touchstart', function (event) {
@@ -386,11 +399,11 @@ var initGame = function () {
       $chat = $('#chatinput');
 
     if (key === 13) {
-      if ($chat.attr('value') !== '') {
+      if ($chat.val() !== '') {
         if (game.player) {
-          game.say($chat.attr('value'));
+          game.say($chat.val() as string);
         }
-        $chat.attr('value', '');
+        $chat.val('');
         app.hideChat();
         $('#foreground').focus();
         return false;
@@ -408,7 +421,7 @@ var initGame = function () {
 
   $('#nameinput').keypress(function (event) {
     var $name = $('#nameinput'),
-      name = $name.attr('value');
+      name = $name.val() as string;
 
     if (event.keyCode === 13) {
       if (name !== '') {

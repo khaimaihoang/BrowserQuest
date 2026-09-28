@@ -276,6 +276,9 @@ export class Game {
   setSpriteScale(scale) {
     var self = this;
 
+    // Sprites chưa load (resize có thể xảy ra trước loadSprites) — bỏ qua an toàn.
+    if (!this.spritesets) return;
+
     if (this.renderer.upscaledRendering) {
       this.sprites = this.spritesets[0];
     } else {

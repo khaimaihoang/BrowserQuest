@@ -1,0 +1,315 @@
+#!/usr/bin/env python3
+"""make-slice-editor.py — generate client/ui-slice-editor.html.
+
+Interactive 9-slice editor:
+  * pick a slice, drag the 4 slice guides
+  * add / drag a CENTRE-ORNAMENT overlay rect (the piece that must NOT tile)
+  * live preview that mirrors the packer (cleaned base + flattened middle)
+  * copy the resulting `slice` / `overlays` JSON back into slices.json
+
+    python tools/make-slice-editor.py
+"""
+from __future__ import annotations
+
+import json
+import urllib.parse
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+
+TEMPLATE = r"""<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Slice Editor — Minifantasy</title>
+<style>
+:root{color-scheme:dark}
+body{margin:0;padding:12px;background:#1b1b21;color:#dfe3ea;font:13px system-ui}
+h1{font-size:16px;margin:0 0 8px}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px;padding:8px;background:#23232b;border-radius:6px}
+select,input{background:#2c2c36;color:#e6e6ee;border:1px solid #43434f;border-radius:4px;padding:4px 6px;font:12px monospace}
+select{min-width:200px}
+.num{width:56px}
+label{color:#9aa3b2;font-size:12px}
+.wrap{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.box{background:#23232b;border-radius:6px;padding:8px}
+.box h2{font-size:12px;margin:0 0 6px;color:#8fd0ff;font-weight:600;letter-spacing:.4px}
+canvas{display:block;image-rendering:pixelated;background:
+ linear-gradient(45deg,#2b2b34 25%,transparent 25%) 0 0/12px 12px,
+ linear-gradient(-45deg,#2b2b34 25%,transparent 25%) 0 6px/12px 12px,
+ linear-gradient(45deg,transparent 75%,#2b2b34 75%) 6px -6px/12px 12px,
+ linear-gradient(-45deg,transparent 75%,#2b2b34 75%) -6px 0/12px 12px,#1f1f27}
+#sprite{cursor:crosshair;border:1px solid #43434f}
+.pv .row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.pv .lbl{width:66px;color:#8b93a3;font:11px monospace}
+.pv canvas{border:1px solid #43434f}
+pre{background:#16161c;border:1px solid #2f2f39;border-radius:4px;padding:8px;font:12px monospace;color:#cfe;white-space:pre-wrap}
+button{background:#2d6cdf;border:0;color:#fff;border-radius:4px;padding:5px 10px;cursor:pointer;font:12px system-ui}
+button:hover{background:#3a7cf0}
+button.ghost{background:#3a3a46}
+.hint{color:#8b93a3;font-size:11px}
+.ov{color:#ff8ce0}
+</style></head><body>
+<h1>Slice Editor — slice guides + hoạ tiết tâm</h1>
+<div class="bar">
+  <label>slice</label><select id="pick"></select>
+  <label>rect</label><input id="rect" class="num" style="width:170px">
+  <label>t</label><input id="t" class="num" type="number" value="0">
+  <label>r</label><input id="r" class="num" type="number" value="0">
+  <label>b</label><input id="b" class="num" type="number" value="0">
+  <label>l</label><input id="l" class="num" type="number" value="0">
+  <label>repeat</label><select id="rep" style="min-width:100px">
+    <option>repeat</option><option>space</option><option>round</option><option>stretch</option></select>
+  <label>kéo</label><select id="axis" style="min-width:130px">
+    <option value="both">cả 2 (9-slice)</option>
+    <option value="x">chỉ ngang (t=b=0)</option>
+    <option value="y">chỉ dọc (l=r=0)</option></select>
+  <label>zoom</label><input id="zoom" type="range" min="2" max="20" value="8">
+</div>
+<div class="bar">
+  <span class="ov">■ hoạ tiết tâm:</span>
+  <label>x</label><input id="ox" class="num" type="number">
+  <label>y</label><input id="oy" class="num" type="number">
+  <label>w</label><input id="ow" class="num" type="number">
+  <label>h</label><input id="oh" class="num" type="number">
+  <label>anchor</label><select id="oa" style="min-width:110px">
+    <option>center</option><option>tc</option><option>bc</option><option>lc</option><option>rc</option></select>
+  <button id="addOv">+ Thêm overlay</button>
+  <button id="delOv" class="ghost">Xoá overlay</button>
+  <label><input id="flat" type="checkbox"> flatten dải giữa</label>
+  <span id="msg" class="hint"></span>
+</div>
+<div class="bar"><button id="copy">Copy JSON slice</button>
+  <span class="hint">cam/đỏ = slice · hồng = hoạ tiết tâm (kéo cạnh để đổi, kéo trong để di chuyển)</span></div>
+<div class="wrap">
+  <div class="box"><h2>SPRITE</h2><canvas id="sprite"></canvas></div>
+  <div class="box pv"><h2>PREVIEW (9-slice + overlay)</h2><div id="pvs"></div></div>
+  <div class="box" style="min-width:300px"><h2>JSON</h2><pre id="json"></pre></div>
+</div>
+<script>
+const ATLAS="__ATLAS__", DATA=__DATA__;
+const img=new Image(); img.src=ATLAS;
+let cur=null, sl=[0,0,0,0], ovs=[], drag=null, axis='both';
+const $=id=>document.getElementById(id);
+
+function parseSl(s){ if(Array.isArray(s)){const v=s.slice(0,4);while(v.length<4)v.push(0);return v.map(Number);} const n=Number(s)||0; return [n,n,n,n]; }
+function clampAxis(){ if(axis==='x'){sl[0]=0;sl[2]=0;} if(axis==='y'){sl[1]=0;sl[3]=0;} }
+function previewSizes(w,h){ const o=[[w,h],[w*2,h*2],[w*3,h*3]];
+  if(w/h>=2) o.push([Math.max(360,w*6),h],[w,h*3]);
+  else if(h/w>=2) o.push([w,Math.max(360,h*6)],[w*3,h]);
+  else o.push([w*5,h*2],[w*2,h*5]);
+  return o; }
+
+/* ---- build a "cleaned" source: overlay regions removed + middle flattened ---- */
+let clean=null;
+function buildClean(){
+  const [x,y,w,h]=cur.rect, [t,r,b,l]=sl;
+  const cv=document.createElement('canvas'); cv.width=w; cv.height=h;
+  const c=cv.getContext('2d'); c.imageSmoothingEnabled=false;
+  c.drawImage(img,x,y,w,h,0,0,w,h);
+  // remove overlays (fill each row from the pixel just left, or col from above
+  // when the overlay spans the full width)
+  for(const ov of ovs){
+    const [ox,oy,ow,oh]=ov.rect, rx=ox-x, ry=oy-y;
+    if(ow>=w){
+      for(let i=0;i<ow;i++){ const px=Math.min(Math.max(rx+i,0),w-1);
+        const d=c.getImageData(px,Math.min(Math.max(ry-1,0),h-1),1,1).data;
+        for(let j=0;j<oh;j++){ const yy=ry+j; if(yy>=0&&yy<h) c.putImageData(new ImageData(new Uint8ClampedArray(d),1,1),px,yy); } }
+    } else {
+      for(let j=0;j<oh;j++){ const sy=Math.min(Math.max(ry+j,0),h-1);
+        const d=c.getImageData(Math.min(Math.max(rx-1,0),w-1),sy,1,1).data;
+        for(let i=0;i<ow;i++){ const xx=rx+i; if(xx>=0&&xx<w) c.putImageData(new ImageData(new Uint8ClampedArray(d),1,1),xx,sy); } }
+    }
+  }
+  // flatten the middle band along the stretch axis
+  if(cur.flatten && w-l-r>0 && h-t-b>0){
+    if(axis==='y'){
+      const cy=t+((h-t-b)>>1), row=c.getImageData(0,cy,w,1);
+      for(let j=t;j<h-b;j++) c.putImageData(row,0,j);
+    } else {
+      const cx=l+((w-l-r)>>1), col=c.getImageData(cx,0,1,h);
+      for(let i=l;i<w-r;i++) c.putImageData(col,i,0);
+    }
+  }
+  clean=cv;
+}
+function crop(ctx,im,dx,dy,x,y,w,h){ if(w>0&&h>0) ctx.drawImage(im,x,y,w,h,dx,dy,w,h); }
+function tileX(ctx,im,dx,dy,dw,sx,sy,sw,sh){ for(let x=0;x<dw;x+=sw) crop(ctx,im,dx+x,dy,Math.min(sw,dw-x),sh,sx,sy,Math.min(sw,dw-x),sh); }
+function tileY(ctx,im,dx,dy,dh,sx,sy,sw,sh){ for(let y=0;y<dh;y+=sh) crop(ctx,im,dx,dy+y,sw,Math.min(sh,dh-y),sx,sy,sw,Math.min(sh,dh-y)); }
+function tileXY(ctx,im,dx,dy,dw,dh,sx,sy,sw,sh){ for(let y=0;y<dh;y+=sh) for(let x=0;x<dw;x+=sw) crop(ctx,im,dx+x,dy+y,Math.min(sw,dw-x),Math.min(sh,dh-y),sx+x,sy+y,Math.min(sw,dw-x),Math.min(sh,dh-y)); }
+
+function compose(cv,ow,oh){
+  const [x,y,w,h]=cur.rect, [t,r,b,l]=sl;
+  ow=Math.max(ow,l+r); oh=Math.max(oh,t+b);
+  cv.width=ow; cv.height=oh;
+  const c=cv.getContext('2d'); c.imageSmoothingEnabled=false; c.clearRect(0,0,ow,oh);
+  const im=(clean&&cur.overlays&&cur.overlays.length)?clean:img;
+  crop(c,im,0,0,0,0,l,t); crop(c,im,ow-r,0,w-r,0,r,t);
+  crop(c,im,0,oh-b,0,h-b,l,b); crop(c,im,ow-r,oh-b,w-r,h-b,r,b);
+  if(cur.repeat==='stretch'){
+    crop(c,im,l,0,w-l-r,t,l,0,ow-l-r,t); crop(c,im,l,oh-b,w-l-r,h-b,l,ow-b,ow-l-r,b);
+    crop(c,im,0,t,l,h-t-b,0,t,l,oh-t-b); crop(c,im,ow-r,t,r,h-t-b,ow-r,t,r,oh-t-b);
+    crop(c,im,l,t,w-l-r,h-t-b,l,t,ow-l-r,oh-t-b);
+  } else {
+    tileX(c,im,l,0,ow-l-r,l,0,w-l-r,t); tileX(c,im,l,oh-b,ow-l-r,l,h-b,w-l-r,b);
+    tileY(c,im,0,t,oh-t-b,0,t,l,h-t-b); tileY(c,im,ow-r,t,oh-t-b,w-r,t,r,h-t-b);
+    tileXY(c,im,l,t,ow-l-r,oh-t-b,l,t,w-l-r,h-t-b);
+  }
+  // draw the centre ornaments at their anchors
+  if(cur.overlays) for(const ov of cur.overlays){
+    const [ox,oy,oW,oH]=ov.rect, sx=ox-x, sy=oy-y;
+    let dx=Math.round((ow-oW)/2), dy=Math.round((oh-oH)/2);
+    if(ov.anchor==='tc'){ dx=Math.round((ow-oW)/2); dy=0; }
+    else if(ov.anchor==='bc'){ dx=Math.round((ow-oW)/2); dy=oh-oH; }
+    else if(ov.anchor==='lc'){ dx=0; dy=Math.round((oh-oH)/2); }
+    else if(ov.anchor==='rc'){ dx=ow-oW; dy=Math.round((oh-oH)/2); }
+    crop(c,img,dx,dy,sx,sy,oW,oH);
+  }
+}
+function drawSprite(){
+  const [x,y,w,h]=cur.rect, Z=+$('zoom').value;
+  const cv=$('sprite'); cv.width=w*Z+2; cv.height=h*Z+2;
+  const c=cv.getContext('2d'); c.imageSmoothingEnabled=false; c.clearRect(0,0,cv.width,cv.height);
+  c.drawImage(img,x,y,w,h,1,1,w*Z,h*Z);
+  clampAxis();
+  const [t,r,b,l]=sl;
+  const line=(a,b2,cc,dd,col)=>{ c.strokeStyle=col; c.lineWidth=2; c.beginPath(); c.moveTo(a,b2); c.lineTo(cc,dd); c.stroke(); };
+  if(axis!=='y'&&(l||r)){ line(1+l*Z,1,1+l*Z,1+h*Z,'#ff8c00'); line(1+(w-r)*Z,1,1+(w-r)*Z,1+h*Z,'#ff8c00'); }
+  if(axis!=='x'&&(t||b)){ line(1,1+t*Z,1+w*Z,1+t*Z,'#ff3c3c'); line(1,1+(h-b)*Z,1+w*Z,1+(h-b)*Z,'#ff3c3c'); }
+  ovs.forEach((ov,i)=>{ const [ox,oy,oW,oH]=ov.rect;
+    const X=(ox-x)*Z+1, Y=(oy-y)*Z+1, W=oW*Z, H=oH*Z;
+    c.strokeStyle='#ff8ce0'; c.lineWidth=2; c.strokeRect(X,Y,W,H);
+    c.fillStyle='rgba(255,140,224,.15)'; c.fillRect(X,Y,W,H);
+    c.fillStyle='#ff8ce0'; c.font='10px monospace'; c.fillText('ov'+(i+1),X+2,Y+10);
+  });
+}
+function drawPreview(){
+  buildClean();
+  const [x,y,w,h]=cur.rect, host=$('pvs'); host.innerHTML='';
+  for(const [ow,oh] of previewSizes(w,h)){
+    const row=document.createElement('div'); row.className='row';
+    const lbl=document.createElement('span'); lbl.className='lbl'; lbl.textContent=ow+'x'+oh;
+    const cv=document.createElement('canvas'); const sc=Math.min(2,Math.max(1,420/ow));
+    cv.style.width=(ow*sc)+'px'; cv.style.height=(oh*sc)+'px';
+    compose(cv,ow,oh); row.appendChild(lbl); row.appendChild(cv); host.appendChild(row);
+  }
+}
+function syncOvInputs(){
+  const o=ovs[0];
+  $('ox').value=o?o.rect[0]:''; $('oy').value=o?o.rect[1]:'';
+  $('ow').value=o?o.rect[2]:''; $('oh').value=o?o.rect[3]:'';
+  $('oa').value=o?(o.anchor||'center'):'center';
+}
+function update(){
+  clampAxis();
+  const [t,r,b,l]=sl; $('t').value=t;$('r').value=r;$('b').value=b;$('l').value=l;
+  $('axis').value=axis; $('flat').checked=!!cur.flatten; syncOvInputs();
+  drawSprite(); drawPreview();
+  let j='"'+cur.name+'": { "rect": ['+cur.rect.join(', ')+'], "nine": true, "slice": ['+sl.join(', ')+'], "repeat": "'+(cur.repeat||'repeat')+'"';
+  if(axis==='x') j+=', "stretch": "x"'; else if(axis==='y') j+=', "stretch": "y"';
+  if(cur.flatten) j+=', "flatten": true';
+  if(ovs.length) j+=',\n  "overlays": ['+ovs.map(o=>'{ "rect": ['+o.rect.join(', ')+'], "anchor": "'+(o.anchor||'center')+'" }').join(', ')+']';
+  j+=' }';
+  $('json').textContent=j;
+}
+function pick(name){
+  cur=DATA[name]; cur.name=name;
+  sl=parseSl(cur.slice||0);
+  ovs=(cur.overlays||[]).map(o=>({rect:o.rect.slice(),anchor:o.anchor||'center'}));
+  axis=(sl[0]===0&&sl[2]===0)?'x':(sl[1]===0&&sl[3]===0)?'y':'both';
+  $('pick').value=name; $('rect').value=cur.rect.join(','); $('rep').value=cur.repeat||'repeat';
+  update();
+}
+$('pick').addEventListener('change',e=>pick(e.target.value));
+['t','r','b','l'].forEach((k,i)=>$(k).addEventListener('input',()=>{ sl[i]=+$(k).value; update(); }));
+$('rep').addEventListener('change',e=>{ cur.repeat=e.target.value; update(); });
+$('axis').addEventListener('change',e=>{ axis=e.target.value; update(); });
+$('flat').addEventListener('change',e=>{ cur.flatten=e.target.checked; update(); });
+$('zoom').addEventListener('input',drawSprite);
+$('rect').addEventListener('change',()=>{ cur.rect=$('rect').value.split(',').map(Number); update(); });
+function ovFromInputs(){ if(!ovs[0]) ovs[0]={rect:[0,0,0,0],anchor:'center'};
+  ovs[0].rect=[+$('ox').value,+$('oy').value,+$('ow').value,+$('oh').value]; ovs[0].anchor=$('oa').value; update(); }
+['ox','oy','ow','oh'].forEach(k=>$(k).addEventListener('input',ovFromInputs));
+$('oa').addEventListener('change',ovFromInputs);
+$('addOv').onclick=()=>{ const [x,y,w,h]=cur.rect; ovs.push({rect:[x+(w>>1)-8,y+(h>>1)-8,16,16],anchor:'center'}); update(); };
+$('delOv').onclick=()=>{ ovs=[]; update(); };
+$('copy').onclick=()=>{ navigator.clipboard.writeText($('json').textContent); $('msg').textContent='copied!'; setTimeout(()=>$('msg').textContent='',1500); };
+
+const cv=$('sprite');
+function evPos(e){ const r=cv.getBoundingClientRect(); return {x:(e.clientX-r.left)*(cv.width/r.width), y:(e.clientY-r.top)*(cv.height/r.height)}; }
+cv.addEventListener('mousedown',e=>{
+  const [x,y,w,h]=cur.rect, p=evPos(e), z=+$('zoom').value;
+  // overlay edges first
+  for(let i=0;i<ovs.length;i++){ const [ox,oy,oW,oH]=ovs[i].rect;
+    const X=(ox-x)*z+1, Y=(oy-y)*z+1, W=oW*z, H=oH*z;
+    const near=[['oL',Math.abs(p.x-X)],['oR',Math.abs(p.x-(X+W))],['oT',Math.abs(p.y-Y)],['oB',Math.abs(p.y-(Y+H))]];
+    const inside = p.x>=X&&p.x<=X+W&&p.y>=Y&&p.y<=Y+H;
+    near.sort((a,b)=>a[1]-b[1]);
+    if(near[0][1]<8){ drag={kind:near[0][0],i}; e.preventDefault(); return; }
+    if(inside){ drag={kind:'oMove',i,dx:p.x-X,dy:p.y-Y}; e.preventDefault(); return; }
+  }
+  const [t,r,b,l]=sl;
+  let c=[['l',Math.abs(p.x-(1+l*z))],['r',Math.abs(p.x-(1+(w-r)*z))],['t',Math.abs(p.y-(1+t*z))],['b',Math.abs(p.y-(1+(h-b)*z))]];
+  if(axis==='x') c=c.filter(v=>v[0]==='l'||v[0]==='r');
+  if(axis==='y') c=c.filter(v=>v[0]==='t'||v[0]==='b');
+  c.sort((a,b)=>a[1]-b[1]); if(c[0]&&c[0][1]<10){ drag={kind:c[0][0]}; e.preventDefault(); }
+});
+window.addEventListener('mousemove',e=>{
+  if(!drag) return; const p=evPos(e), z=+$('zoom').value, [x,y,w,h]=cur.rect;
+  if(drag.kind.startsWith('o')&&ovs[drag.i]){
+    const o=ovs[drag.i], R=o.rect;
+    if(drag.kind==='oMove'){ R[0]=Math.round((p.x-drag.dx-1)/z)+x; R[1]=Math.round((p.y-drag.dy-1)/z)+y; }
+    else {
+      const X=(R[0]-x)*z+1, Y=(R[1]-y)*z+1, W=R[2]*z, H=R[3]*z;
+      if(drag.kind==='oL'){ const nx=Math.round((p.x-1)/z)+x; R[2]+=R[0]-nx; R[0]=nx; }
+      if(drag.kind==='oR'){ R[2]=Math.max(1,Math.round((p.x-1)/z)+x-R[0]); }
+      if(drag.kind==='oT'){ const ny=Math.round((p.y-1)/z)+y; R[3]+=R[1]-ny; R[1]=ny; }
+      if(drag.kind==='oB'){ R[3]=Math.max(1,Math.round((p.y-1)/z)+y-R[1]); }
+    }
+    update();
+  } else {
+    if(drag.kind==='l') sl[3]=Math.max(0,Math.min(w-sl[1]-1,Math.round((p.x-1)/z)));
+    if(drag.kind==='r') sl[1]=Math.max(0,Math.min(w-sl[3]-1,Math.round((1+w*z-p.x)/z)));
+    if(drag.kind==='t') sl[0]=Math.max(0,Math.min(h-sl[2]-1,Math.round((p.y-1)/z)));
+    if(drag.kind==='b') sl[2]=Math.max(0,Math.min(h-sl[0]-1,Math.round((1+h*z-p.y)/z)));
+    update();
+  }
+});
+window.addEventListener('mouseup',()=>drag=null);
+img.onload=()=>{ const n=Object.keys(DATA); $('pick').innerHTML=n.map(k=>'<option>'+k+'</option>').join(''); pick(n[0]); };
+img.onerror=()=>{ const m=$('msg'); m.style.color='#ff8a8a'; m.textContent='KHONG LOAD DUOC ATLAS: '+ATLAS+' — mo qua dev server (npm run watch:client)'; };
+</script></body></html>
+"""
+
+
+def generate(mf: dict) -> str:
+    src = mf["source"]
+    if src.startswith("client/"):
+        src = src[len("client/"):]
+    atlas = urllib.parse.quote(src)
+    data = {}
+    for n, s in mf["slices"].items():
+        if n.startswith("_") or not s.get("nine", True):
+            continue
+        entry = {"rect": s["rect"], "slice": s.get("slice", 0), "repeat": s.get("repeat", "repeat")}
+        if s.get("overlays"):
+            entry["overlays"] = s["overlays"]
+        if s.get("flatten"):
+            entry["flatten"] = True
+        data[n] = entry
+    return TEMPLATE.replace("__ATLAS__", atlas).replace("__DATA__", json.dumps(data, ensure_ascii=False))
+
+
+def main() -> int:
+    mf = json.loads((ROOT / "tools" / "ui" / "slices.json").read_text(encoding="utf-8"))
+    out = ROOT / "client" / "ui-slice-editor.html"
+    html = generate(mf)
+    out.write_text(html, encoding="utf-8")
+    print(f"wrote {out.relative_to(ROOT)}  ({out.stat().st_size} bytes)")
+    dist = ROOT / "dist" / "client"
+    if dist.is_dir():
+        (dist / "ui-slice-editor.html").write_text(html, encoding="utf-8")
+        print("wrote dist/client/ui-slice-editor.html")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
