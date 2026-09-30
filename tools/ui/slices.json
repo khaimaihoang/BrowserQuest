@@ -137,7 +137,7 @@
     "_comment_buttons": "PUSH BUTTONS 2x2: disabled(=[80,544]) / disabled-pressed / active / active-pressed",
     "button": {
       "rect": [
-        80,
+        208,
         544,
         48,
         48
@@ -146,30 +146,29 @@
       "slice": 7,
       "repeat": "repeat",
       "states": {
+        "pressed": [
+          464,
+          544,
+          48,
+          48
+        ],
+        "disabled": [
+          80,
+          544,
+          48,
+          48
+        ],
         "disabled-pressed": [
           336,
           544,
           48,
           48
-        ],
-        "active": [
-          208,
-          544,
-          48,
-          48
-        ],
-        "active-pressed": [
-          464,
-          544,
-          48,
-          48
         ]
-      },
-      "hoverUses": "active"
+      }
     },
     "button-slim": {
       "rect": [
-        32,
+        160,
         544,
         16,
         48
@@ -178,30 +177,29 @@
       "slice": 7,
       "repeat": "repeat",
       "states": {
+        "pressed": [
+          416,
+          544,
+          16,
+          48
+        ],
+        "disabled": [
+          32,
+          544,
+          16,
+          48
+        ],
         "disabled-pressed": [
           288,
           544,
           16,
           48
-        ],
-        "active": [
-          160,
-          544,
-          16,
-          48
-        ],
-        "active-pressed": [
-          416,
-          544,
-          16,
-          48
         ]
-      },
-      "hoverUses": "active"
+      }
     },
     "button-thin": {
       "rect": [
-        80,
+        208,
         1040,
         48,
         16
@@ -210,30 +208,29 @@
       "slice": 7,
       "repeat": "repeat",
       "states": {
+        "pressed": [
+          464,
+          1040,
+          48,
+          16
+        ],
+        "disabled": [
+          80,
+          1040,
+          48,
+          16
+        ],
         "disabled-pressed": [
           336,
           1040,
           48,
           16
-        ],
-        "active": [
-          208,
-          1040,
-          48,
-          16
-        ],
-        "active-pressed": [
-          464,
-          1040,
-          48,
-          16
         ]
-      },
-      "hoverUses": "active"
+      }
     },
     "button-tiny": {
       "rect": [
-        32,
+        160,
         1040,
         16,
         16
@@ -242,26 +239,25 @@
       "slice": 5,
       "repeat": "repeat",
       "states": {
+        "pressed": [
+          416,
+          1040,
+          16,
+          16
+        ],
+        "disabled": [
+          32,
+          1040,
+          16,
+          16
+        ],
         "disabled-pressed": [
           288,
           1040,
           16,
           16
-        ],
-        "active": [
-          160,
-          1040,
-          16,
-          16
-        ],
-        "active-pressed": [
-          416,
-          1040,
-          16,
-          16
         ]
-      },
-      "hoverUses": "active"
+      }
     },
     "_comment_sliders": "SLIDERS (slice [t,r,b,l] giu 2 mui ten o 2 dau)",
     "slider-track-v": {
@@ -474,6 +470,7 @@
         16
       ],
       "nine": false,
+      "disabledFilter": "brightness(.62) saturate(.75)",
       "states": {
         "pressed": [
           260,
@@ -503,6 +500,7 @@
         8
       ],
       "nine": false,
+      "disabledFilter": "brightness(.62) saturate(.75)",
       "states": {
         "pressed": [
           256,

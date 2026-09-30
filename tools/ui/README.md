@@ -53,45 +53,51 @@ Yêu cầu: Python 3 + `Pillow`. Sau khi chạy, `npm run watch:client` → mở
 
 ## Mô hình STATE — touch-first
 
-Mobile **không có hover**, nên state lấy `pressed`/`active`/`checked`/`disabled`
-làm gốc; `hover` chỉ bật trên thiết bị có hover. Quy ước: **sáng màu = active,
-tối hơn = disabled**.
+Mobile **không có hover** (button/switch không khai báo `hoverUses` ⇒ không sinh rule
+`:hover`); state lấy `pressed`/`active`/`checked`/`disabled` làm gốc. Quy ước:
+**sprite sáng = dùng được (enabled / on), sprite tối = `disabled`**.
 
 | State | Ý nghĩa | Selector sinh ra |
 |---|---|---|
-| `active` | bật / đang chọn (sáng) | `.active`, `[aria-selected='true']`, `[aria-pressed='true']` |
-| `disabled` | vô hiệu (tối, = look mặc định của button) | `:disabled`, `.disabled`, `[aria-disabled='true']` |
-| `disabled-pressed` | tối + đang nhấn | `:active`, `.pressed`, `.disabled.pressed`, `.disabled:active` |
-| `active-pressed` | sáng + đang nhấn | `.active.pressed`, `.active:active` |
+| `pressed` | enabled + đang nhấn (sáng nhấn) | `:active`, `.pressed` |
+| `disabled` | vô hiệu (sprite tối) | `:disabled`, `.disabled`, `[aria-disabled='true']` |
+| `disabled-pressed` | vô hiệu + đang nhấn (tối nhấn) | `.disabled.pressed`, `.disabled:active`, `:disabled.pressed`, `:disabled:active`, `[aria-disabled='true'].pressed`, `[aria-disabled='true']:active` |
+| `active` | bật / đang chọn | `.active`, `[aria-selected='true']`, `[aria-pressed='true']` |
+| `active-pressed` | `active` + đang nhấn | `.active.pressed`, `.active:active` |
 | `checked` | on (checkbox/switch) | `:checked`, `.checked`, `[aria-checked='true']` |
 | `checked-pressed` | on + đang nhấn | `:checked:active`, `.checked.pressed` |
-| `disabled` | vô hiệu | `:disabled`, `.disabled`, `[aria-disabled='true']` |
 | `hover` | chỉ desktop | `:hover`, `.hover` — bọc trong `@media (hover: hover)` |
 
-`hoverUses: "<state>"` → CSS map `:hover` sang sprite của state có sẵn (không sinh
-thêm file), bọc trong `@media (hover: hover)`.
+`hoverUses: "<state>"` (tuỳ chọn) → map `:hover` sang sprite của state có sẵn (không
+sinh thêm file), bọc trong `@media (hover: hover)`.
 
-Button là **ma trận 2×2**: {disabled, active} × {chưa nhấn, đã nhấn} — base chính là
-look `disabled` (tối):
+Button là **ma trận 2×2**: {enabled, disabled} × {chưa nhấn, đã nhấn} — **base = look
+enabled (sáng)**; nhấn nút đang `disabled` → sprite tối-nhấn, thả ra → tối thường:
 
 ```jsonc
 "button": {
-  "rect": [80, 544, 48, 48],              // disabled (tối, chưa nhấn)
+  "rect": [208, 544, 48, 48],             // enabled (sáng, chưa nhấn) = base
   "states": {
-    "disabled-pressed": [336, 544, …],    // tối, đã nhấn
-    "active":           [208, 544, …],    // sáng
-    "active-pressed":   [464, 544, …]     // sáng, đã nhấn
-  },
-  "hoverUses": "active"
+    "pressed":          [464, 544, …],   // sáng, đã nhấn
+    "disabled":         [ 80, 544, …],   // tối
+    "disabled-pressed": [336, 544, …]    // tối, đã nhấn
+  }
+  // KHÔNG khai báo hoverUses ⇒ không có trạng thái hover
 }
 ```
 
 `alias: { "x": "y" }` (tuỳ chọn) → map thêm selector của state `x` sang sprite
-của state `y`, không sinh file. `hoverUses` tương tự nhưng nằm trong
-`@media (hover: hover)`.
+của state `y`, không sinh file.
 
-> Disabled **chưa có sprite riêng** trong atlas; nếu cần, thêm
-> `filter: grayscale(1) brightness(.7)` cho `.ui-*:disabled`.
+> **Toggle/checkbox/radio không có sprite tối trong atlas** (4 sprite = {off,on} ×
+> {chưa nhấn, nhấn}). Thay vì thêm ảnh giả, khai báo filter cho team `disabled`:
+>
+> ```jsonc
+> "toggle-h": { "disabledFilter": "brightness(.62) saturate(.75)", … }
+> ```
+>
+> Packer emit `:disabled/.disabled/[aria-disabled='true'] { filter: … }` ⇒ tắt/bật
+> đều thành **tối khi disabled**, sáng khi dùng được (giống yêu cầu gameplay).
 
 ## Manifest — schema
 
@@ -124,7 +130,7 @@ Tên slice nay bám đúng **nhóm trong `set_use_guidelines.png`** (không đo�
 | Nhóm (guideline) | Slice |
 |---|---|
 | PANELS | `panel`, `panel-slim` *(9-slice 2 chiều)*; `panel-textured` *(9-slice, **chỉ kéo dọc**)*; `panel-header`, `panel-title` *(cố định)* |
-| PUSH BUTTONS | `button`, `button-slim`, `button-thin`, `button-tiny` *(2×2: disabled / disabled-pressed / active / active-pressed)* |
+| PUSH BUTTONS | `button`, `button-slim`, `button-thin`, `button-tiny` *(2×2: base sáng = enabled / `pressed` / `disabled` tối / `disabled-pressed`)* |
 | SLIDERS | `slider-track-v`, `slider-track-h` *(slice 4 cạnh, giữ 2 mũi tên)*, `slider-thumb-v`, `slider-thumb-h` |
 | DIVIDERS | `divider-v`, `divider-h` |
 | SLOTS | `slot` *(+active)*, `slot-sm`, `slot-md` *(+active)*, `slot-wide`, `slot-pill`, `slot-lg` — **ô túi đồ, `nine:false`** |

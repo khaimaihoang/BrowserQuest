@@ -87,17 +87,19 @@ File: [`tools/ui/slices.json`](../tools/ui/slices.json)
 
 ```jsonc
 "button": {
-  "rect": [80, 544, 48, 48],   // [x, y, w, h] theo pixel atlas (theme dark)
+  "rect": [208, 544, 48, 48], // [x, y, w, h] theo pixel atlas (theme dark) — base = look enabled
   "nine": true,                // true = 9-slice; false = sprite rời
-  "slice": 7,                  // bề dày viền: int (4 cạnh bằng nhau) HOẶC [t,r,b,l]
+  "slice": 8,                  // bề dày viền: int (4 cạnh bằng nhau) HOẶC [t,r,b,l]
   "repeat": "repeat",          // CSS border-image-repeat ('repeat' = pixel-perfect)
   "states": {                  // tuỳ chọn — sinh sprite + selector cho từng state
-    "active":         [208, 544, 48, 48],
-    "disabled-pressed": [336, 544, 48, 48],
-    "active-pressed": [464, 544, 48, 48]
+    "pressed":          [464, 544, 48, 48],
+    "disabled":         [ 80, 544, 48, 48],
+    "disabled-pressed": [336, 544, 48, 48]
   },
-  "alias": { "pressed": "active" },   // tuỳ chọn — map thêm selector sang sprite có sẵn
-  "hoverUses": "active",              // tuỳ chọn — desktop hover (bọc @media hover)
+  "alias": { "x": "y" },              // tuỳ chọn — map thêm selector sang sprite có sẵn
+  "hoverUses": "active",              // tuỳ chọn — desktop hover (bọc @media hover); KHÔNG dùng cho button
+  "disabledFilter": "brightness(.62) saturate(.75)",  // tuỳ chọn — filter cho state disabled
+                                                     // (dùng khi atlas không có sprite tối, vd toggle)
   "stretch": "x",                     // tuỳ chọn — 'x' chỉ kéo ngang / 'y' chỉ kéo dọc
   "overlays": [                       // tuỳ chọn — neo hoạ tiết tâm (KHÔNG tile)
     { "rect": [688,864,16,20], "anchor": "center" }
@@ -106,6 +108,10 @@ File: [`tools/ui/slices.json`](../tools/ui/slices.json)
   "themed": false                     // tuỳ chọn — chỉ xuất 1 bản, không theo theme
 }
 ```
+
+- `disabledFilter` = CSS `filter` áp cho `:disabled/.disabled/[aria-disabled='true']`
+  (thêm dòng `filter:` sau state), dùng cho sprite mà atlas **không có bản tối**
+  (`toggle-h`, `toggle-v`; xem §4).
 
 - `overlays` = sprite có **hoạ tiết ở tâm** mà 9-slice không neo được (sprite có boss,
   hoa văn giữa). Packer sẽ:
@@ -144,48 +150,58 @@ File: [`tools/ui/slices.json`](../tools/ui/slices.json)
 
 ## 4. Mô hình STATE — touch-first
 
-Mobile **không có hover**, nên state gốc là `pressed`/`active`/`checked`/`disabled`;
-`hover` chỉ bật trên thiết bị có hover. Quy ước: **sáng màu = active, tối hơn = disabled**.
+Mobile **không có hover** (button/switch **không khai báo `hoverUses`** ⇒ không sinh
+rule `:hover`); state gốc là `pressed`/`active`/`checked`/`disabled`. Quy ước:
+**sprite sáng = dùng được (enabled / on), sprite tối = `disabled`**.
 
 | State | Ý nghĩa | Selector sinh ra |
 |---|---|---|
-| `active` | bật / đang chọn (sáng) | `.active`, `[aria-selected='true']`, `[aria-pressed='true']` |
-| `disabled` | vô hiệu (tối) | `:disabled`, `.disabled`, `[aria-disabled='true']` |
-| `disabled-pressed` | tối + đang nhấn | `:active`, `.pressed`, `.disabled.pressed`, `.disabled:active` |
-| `active-pressed` | sáng + đang nhấn | `.active.pressed`, `.active:active`, `[aria-pressed='true']:active` |
-| `pressed` | đang nhấn (dùng chung) | `:active`, `.pressed` |
+| `pressed` | enabled + đang nhấn (sáng nhấn) | `:active`, `.pressed` |
+| `disabled` | vô hiệu (sprite tối) | `:disabled`, `.disabled`, `[aria-disabled='true']` |
+| `disabled-pressed` | vô hiệu + đang nhấn (tối nhấn) | `.disabled.pressed`, `.disabled:active`, `:disabled.pressed`, `:disabled:active`, `[aria-disabled='true'].pressed`, `[aria-disabled='true']:active` |
+| `active` | bật / đang chọn | `.active`, `[aria-selected='true']`, `[aria-pressed='true']` |
+| `active-pressed` | `active` + đang nhấn | `.active.pressed`, `.active:active`, `[aria-pressed='true']:active` |
 | `checked` | on (checkbox/switch) | `:checked`, `.checked`, `[aria-checked='true']` |
 | `checked-pressed` | on + đang nhấn | `:checked:active`, `.checked.pressed` |
 | `checked-disabled` | on + vô hiệu | `:checked:disabled`, `.checked.disabled` |
 | `hover` | chỉ desktop | `:hover`, `.hover` — **bọc trong `@media (hover: hover)`** |
 
-**Button là ma trận 2×2** `{disabled, active} × {chưa nhấn, đã nhấn}`; **base chính
-là look `disabled`** (tối):
+**Button là ma trận 2×2** `{enabled, disabled} × {chưa nhấn, đã nhấn}`; **base = look
+enabled (sáng)**; nhấn nút disabled → tối-nhấn, thả ra → tối thường:
 
 ```jsonc
 "button": {
-  "rect": [80, 544, 48, 48],              // disabled (tối, chưa nhấn)
+  "rect": [208, 544, 48, 48],             // enabled (sáng, chưa nhấn) = base
   "states": {
-    "disabled-pressed": [336, 544, …],    // tối, đã nhấn
-    "active":           [208, 544, …],    // sáng
-    "active-pressed":   [464, 544, …]     // sáng, đã nhấn
-  },
-  "hoverUses": "active"
+    "pressed":          [464, 544, …],   // sáng, đã nhấn
+    "disabled":         [ 80, 544, …],   // tối
+    "disabled-pressed": [336, 544, …]    // tối, đã nhấn
+  }
+  // KHÔNG hoverUses ⇒ không có trạng thái hover
 }
 ```
 
-CSS sinh ra (thứ tự cascade: base → theme base → state → theme state → hover):
+CSS sinh ra (thứ tự cascade: base → theme base → state → theme state → alias →
+``disabledFilter`` → hover):
 
 ```css
-.ui-button { /* base = disabled */ }
-.ui-button.active, .ui-button[aria-pressed]                 { border-image-source: url('…button--active.png'); }
-.ui-button:active, .ui-button.pressed, .ui-button.disabled.pressed { border-image-source: url('…button--disabled-pressed.png'); }
-.ui-button.active.pressed, .ui-button.active:active         { border-image-source: url('…button--active-pressed.png'); }
-@media (hover: hover) { .ui-button:hover { … button--active.png } }
+.ui-button { /* base = enabled (sáng) */ }
+.ui-button:disabled, .ui-button.disabled, .ui-button[aria-disabled='true']  { border-image-source: url('…--disabled.png'); }
+.ui-button.disabled.pressed, .ui-button[aria-disabled='true'].pressed, …    { border-image-source: url('…--disabled-pressed.png'); }
+.ui-button:active, .ui-button.pressed                                        { border-image-source: url('…--pressed.png'); }
 ```
 
-> Disabled **chưa có sprite riêng**; nếu cần nổi bật hơn, thêm
-> `filter: grayscale(1) brightness(.7)` cho `.ui-*:disabled`.
+> **Toggle/checkbox/radio không có sprite tối trong atlas** (4 sprite = {off,on} ×
+> {chưa nhấn, nhấn}) → dùng khoá `disabledFilter`, packer emit filter cho team
+> `disabled`, nhờ vậy **on & off đều thành tối khi vô hiệu**:
+>
+> ```jsonc
+> "toggle-h": { "disabledFilter": "brightness(.62) saturate(.75)", … }
+> ```
+>
+> ```css
+> .ui-toggle-h:disabled, .ui-toggle-h.disabled, .ui-toggle-h[aria-disabled='true'] { filter: brightness(.62) saturate(.75); }
+> ```
 
 ---
 

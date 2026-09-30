@@ -59,7 +59,7 @@ def _switch(prefix: str, label: str, checked: bool = False, cls: str = "toggle-h
     return (f'<button class="kit-switch{" disabled" if disabled else ""}" data-switch type="button" '
             f'role="switch" aria-checked="{"true" if checked else "false"}"'
             f'{" disabled" if disabled else ""}>'
-            f'<i class="{prefix}-{cls}{c}"></i>{lbl}</button>')
+            f'<i class="{prefix}-{cls}{c}{" disabled" if disabled else ""}"></i>{lbl}</button>')
 
 
 def _check(prefix: str, label: str, cls: str, state: str = "") -> str:
@@ -105,7 +105,8 @@ body.components-only #stage { display:none; }
   color:inherit; font:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; }
 /* chỉ xoá viền của nút KHÔNG dùng border-image (nút .ui-button* giữ border của 9-slice) */
 #kit button:not([class*="ui-"]), #kit .kit-slot { border:0; }
-#kit button:disabled { cursor:not-allowed; opacity:.7; }
+#kit button:disabled { cursor:not-allowed; }
+.kit-dpress { display:inline-flex; align-items:center; justify-content:center; cursor:not-allowed; }
 .card { background:var(--kitcard); border:1px solid var(--kitline); border-radius:6px;
   padding:calc(10 * var(--u)) calc(12 * var(--u)); min-width:0; }
 .card > h3 { margin:0; font:600 calc(11 * var(--u))/1.3 system-ui; color:var(--kitaccent);
@@ -274,32 +275,37 @@ def kit_markup(prefix: str = "ui") -> str:
     p = prefix
 
     buttons = f"""<section id="k-button" class="card"><h3>Button</h3>
-<em>{p}-button · -slim · -thin · -tiny — active / pressed / disabled</em>
+<em>base (sáng) = enabled · <b>.pressed</b> = sáng+nhấn · <b>.disabled</b> = tối ·
+<b>.disabled.pressed</b> = tối+nhấn · KHÔNG có hover</em>
 <div class="row">
   <button class="{p}-button btn" data-count type="button"><span class="ktxt">Play <i class="badge" data-badge>0</i></span></button>
-  <button class="{p}-button btn active" type="button"><span class="ktxt">Active</span></button>
-  <button class="{p}-button btn pressed" type="button"><span class="ktxt">Pressed</span></button>
+  <button class="{p}-button btn" type="button"><span class="ktxt">Giữ để nhấn</span></button>
   <button class="{p}-button btn" type="button" disabled><span class="ktxt">Disabled</span></button>
+  <span class="kit-dpress {p}-button btn" data-dpress role="button" aria-disabled="true" tabindex="-1"><span class="ktxt">Disabled + nhấn</span></span>
 </div>
 <div class="row">
   <button class="{p}-button-slim btn-slim" type="button" aria-label="minus"><span class="ktxt">&ndash;</span></button>
-  <button class="{p}-button-slim btn-slim" type="button" aria-label="plus"><span class="ktxt">+</span></button>
+  <button class="{p}-button-slim btn-slim" type="button" aria-label="plus" disabled><span class="ktxt">+</span></button>
   <button class="{p}-button-thin btn-thin" type="button"><span class="ktxt">Level up</span></button>
-  <button class="{p}-button-tiny btn-tiny" type="button" aria-label="sword"><i class="kit-item" style="background-image:url('img/1/item-sword1.png')"></i></button>
+  <button class="{p}-button-thin btn-thin" type="button" disabled><span class="ktxt">Locked</span></button>
+  <span class="{p}-button-tiny btn-tiny" data-dpress role="button" aria-disabled="true" tabindex="-1"><i class="kit-item" style="background-image:url('img/1/item-sword1.png')"></i></span>
   <button class="{p}-button btn-ico" type="button" aria-label="settings"><i class="{p}-tab-icon-1 kit-ico"></i></button>
 </div>
-<p class="log" data-log>button clicks: 0</p></section>"""
+<p class="log" data-log>button clicks: 0 · giữ chuột để xem .pressed (sáng nhấn), thả ra về base</p></section>"""
 
     switches = f"""<section id="k-switch" class="card"><h3>Switch / Toggle</h3>
-<em>{p}-toggle-h · {p}-toggle-v — role=switch, aria-checked, disabled</em>
+<em>base sáng (off) · <b>.checked</b> sáng (on) · <b>.pressed</b> · <b>.disabled</b> → tối
+(cả on &amp; off, dùng <code>disabledFilter</code>: atlas không có sprite tối cho toggle)</em>
 <div class="row">
   {_switch(p, "Sound", True)}
   {_switch(p, "Music")}
+  {_switch(p, "Effects", True, disabled=True)}
   {_switch(p, "Vibration", disabled=True)}
 </div>
 <div class="row">
   <span class="lbl">Vertical</span>
   <span class="kit-switch" data-switch-v><i class="{p}-toggle-v"></i><span class="lbl">ON/OFF</span></span>
+  <span class="kit-switch"><i class="{p}-toggle-v checked disabled"></i><span class="lbl">disabled + on</span></span>
 </div>
 <p class="log" data-switchlog>switch: Sound=on, Music=off</p></section>"""
 
@@ -521,6 +527,14 @@ KIT_SCRIPT = r"""
     const badge = $('[data-badge]', b); if (badge) badge.textContent = n;
     setLog('[data-log]', 'button clicks: ' + n);
   }));
+  /* nút disabled: div + aria-disabled, giữ chuột -> .pressed (khung tối nhấn), thả -> tối thường */
+  $$('[data-dpress]').forEach(el => {
+    const down = () => el.classList.add('pressed');
+    const up = () => el.classList.remove('pressed');
+    el.addEventListener('pointerdown', e => { down(); try { el.setPointerCapture(e.pointerId); } catch (_) {} });
+    ['pointerup', 'pointercancel', 'lostpointercapture', 'pointerleave'].forEach(t => el.addEventListener(t, up));
+    el.addEventListener('click', e => { e.preventDefault(); toast('nút đang DISABLED'); });
+  });
 
   /* switches */
   const reportSwitch = () => {

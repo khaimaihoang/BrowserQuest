@@ -50,8 +50,11 @@ STATE_SELECTORS = {
     "pressed": ["{c}:active", "{c}.pressed"],
     "active": ["{c}.active", "{c}[aria-selected='true']", "{c}[aria-pressed='true']"],
     "disabled": ["{c}:disabled", "{c}.disabled", "{c}[aria-disabled='true']"],
-    "disabled-pressed": ["{c}:active", "{c}.pressed", "{c}.disabled.pressed",
-                          "{c}.disabled:active", "{c}:disabled:active"],
+    # chỉ các tổ hợp disabled + nhấn (không có :active/.pressed trần — nút enabled nhấn dùng
+    # state `pressed` = sprite sáng-nhấn, xem STATE_ORDER)
+    "disabled-pressed": ["{c}.disabled.pressed", "{c}.disabled:active", "{c}:disabled.pressed",
+                          "{c}:disabled:active", "{c}[aria-disabled='true'].pressed",
+                          "{c}[aria-disabled='true']:active"],
     "active-pressed": ["{c}.active.pressed", "{c}.active:active",
                        "{c}[aria-pressed='true']:active"],
     "checked": ["{c}:checked", "{c}.checked", "{c}[aria-checked='true']"],
@@ -466,6 +469,13 @@ def css_for_scale(mf: dict, assets: dict, scale: int, themes: list[str]) -> str:
                 tsel = ", ".join(f".theme-{theme} {x}"
                                  for x in state_selectors(cls, alias_state))
                 out.append(f"{tsel} {{ {prop}: url('{turl}'); }}")
+
+        # 4d. optional dimming filter for sprites without a disabled variant
+        #     (atlas has no dark sprite for toggles/checkboxes — see docs/ui-slice-pipeline.md §8)
+        dim = spec.get("disabledFilter")
+        if dim:
+            sel = ", ".join(state_selectors(cls, "disabled"))
+            out.append(f"{sel} {{ filter: {dim}; }}")
 
         # 5. optional desktop hover reusing an existing state sprite (no extra file)
         hover_ref = spec.get("hoverUses")
