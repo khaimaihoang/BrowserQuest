@@ -51,16 +51,18 @@
   "pressed=:active+.pressed, checked=:checked+.checked, disabled=:disabled+.disabled.",
   "hover is desktop-only (@media (hover: hover)); hoverUses reuses a state sprite.",
   "sheets: {main: themed atlas} | {icons,grids: themed=false, rect tuyet doi, xuat 1 lan}",
-  "sheet = ten sheet cua slice (mac dinh \"main\")"
+  "sheet = ten sheet cua slice (mac dinh \"main\")",
+  "sets: truc BO (set1/set2/set3) theo y-offset. rect ghi o toa do BO 1 = mac dinh, khong hau to class; set2/set3 = rect + offsets, class .set2/.set3 (nhu .theme-*).",
+  "rect = bao NOI DUNG khit cua sprite o BO 1 (mac dinh). Bo 2/3 day hoa tiet hon nen can setRect/setOverlays rieng."
  ],
  "slices": {
   "_comment_panels": "PANELS",
   "panel": {
    "rect": [
     112,
-    704,
+    164,
     48,
-    48
+    44
    ],
    "nine": true,
    "slice": 8,
@@ -69,9 +71,9 @@
   "panel-slim": {
    "rect": [
     64,
-    704,
+    164,
     16,
-    48
+    44
    ],
    "nine": true,
    "slice": [
@@ -85,9 +87,9 @@
   "panel-textured": {
    "rect": [
     208,
-    700,
+    160,
     48,
-    56
+    48
    ],
    "nine": true,
    "slice": [
@@ -97,43 +99,23 @@
     15
    ],
    "repeat": "repeat",
-   "stretch": "y",
-   "overlays": [
-    {
-     "rect": [
-      223,
-      700,
-      18,
-      6
-     ],
-     "anchor": "tc"
-    },
-    {
-     "rect": [
-      223,
-      750,
-      18,
-      6
-     ],
-     "anchor": "bc"
-    }
-   ]
+   "stretch": "y"
   },
   "panel-header": {
    "rect": [
     208,
-    652,
+    112,
     48,
-    24
+    16
    ],
    "nine": false
   },
   "panel-title": {
    "rect": [
     112,
-    656,
+    116,
     48,
-    16
+    12
    ],
    "nine": false
   },
@@ -191,7 +173,7 @@
   "button-thin": {
    "rect": [
     208,
-    1040,
+    496,
     48,
     16
    ],
@@ -216,7 +198,7 @@
   "button-tiny": {
    "rect": [
     160,
-    1040,
+    496,
     16,
     16
    ],
@@ -241,9 +223,9 @@
   "_comment_sliders": "SLIDERS (slice [t,r,b,l] giu 2 mui ten o 2 dau)",
   "slider-track-v": {
    "rect": [
-    309,
-    723,
-    7,
+    310,
+    179,
+    5,
     42
    ],
    "nine": true,
@@ -259,9 +241,9 @@
   "slider-track-h": {
    "rect": [
     339,
-    740,
+    197,
     42,
-    7
+    5
    ],
    "nine": true,
    "slice": [
@@ -275,19 +257,19 @@
   },
   "slider-thumb-v": {
    "rect": [
-    293,
-    741,
-    7,
-    6
+    294,
+    198,
+    5,
+    4
    ],
    "nine": false
   },
   "slider-thumb-h": {
    "rect": [
-    325,
-    740,
-    6,
-    7
+    326,
+    197,
+    4,
+    5
    ],
    "nine": false
   },
@@ -295,7 +277,7 @@
   "divider-v": {
    "rect": [
     311,
-    659,
+    115,
     3,
     42
    ],
@@ -304,7 +286,7 @@
   "divider-h": {
    "rect": [
     323,
-    678,
+    134,
     42,
     3
    ],
@@ -314,7 +296,7 @@
   "slot": {
    "rect": [
     33,
-    769,
+    225,
     14,
     14
    ],
@@ -331,7 +313,7 @@
   "slot-sm": {
    "rect": [
     82,
-    770,
+    226,
     12,
     12
    ],
@@ -340,7 +322,7 @@
   "slot-md": {
    "rect": [
     109,
-    781,
+    237,
     22,
     22
    ],
@@ -357,7 +339,7 @@
   "slot-wide": {
    "rect": [
     155,
-    829,
+    285,
     26,
     22
    ],
@@ -366,7 +348,7 @@
   "slot-pill": {
    "rect": [
     31,
-    911,
+    367,
     18,
     18
    ],
@@ -375,7 +357,7 @@
   "slot-lg": {
    "rect": [
     125,
-    925,
+    381,
     54,
     54
    ],
@@ -385,7 +367,7 @@
   "radio": {
    "rect": [
     258,
-    818,
+    274,
     12,
     12
    ],
@@ -415,7 +397,7 @@
   "checkbox": {
    "rect": [
     258,
-    850,
+    306,
     12,
     12
    ],
@@ -446,7 +428,7 @@
   "toggle-v": {
    "rect": [
     260,
-    896,
+    352,
     8,
     16
    ],
@@ -476,7 +458,7 @@
   "toggle-h": {
    "rect": [
     256,
-    932,
+    388,
     16,
     8
    ],
@@ -506,10 +488,10 @@
   "_comment_tabs": "TABS - nap tab nho: tab-cap-top/left/right/bottom (16x12 / 12x16; --active = khung nang 16x16) + tab-top/bottom/left/right = CANH khung tab lon (48x12 / 12x48)",
   "tab-cap-top": {
    "rect": [
-    432,
-    660,
-    16,
-    12
+    433,
+    120,
+    14,
+    8
    ],
    "nine": false,
    "states": {
@@ -523,10 +505,10 @@
   },
   "tab-cap-left": {
    "rect": [
-    404,
-    688,
-    12,
-    16
+    405,
+    148,
+    11,
+    11
    ],
    "nine": false,
    "states": {
@@ -541,9 +523,9 @@
   "tab-cap-right": {
    "rect": [
     464,
-    688,
-    12,
-    16
+    148,
+    11,
+    11
    ],
    "nine": false,
    "states": {
@@ -557,10 +539,10 @@
   },
   "tab-cap-bottom": {
    "rect": [
-    432,
-    720,
-    16,
-    12
+    433,
+    180,
+    14,
+    7
    ],
    "nine": false,
    "states": {
@@ -574,10 +556,10 @@
   },
   "tab-top": {
    "rect": [
-    416,
-    756,
-    48,
-    12
+    417,
+    216,
+    46,
+    8
    ],
    "nine": false,
    "states": {
@@ -591,10 +573,10 @@
   },
   "tab-bottom": {
    "rect": [
-    416,
-    848,
-    48,
-    12
+    417,
+    308,
+    46,
+    7
    ],
    "nine": false,
    "states": {
@@ -608,10 +590,10 @@
   },
   "tab-left": {
    "rect": [
-    404,
-    784,
-    12,
-    48
+    405,
+    244,
+    11,
+    43
    ],
    "nine": false,
    "states": {
@@ -626,9 +608,9 @@
   "tab-right": {
    "rect": [
     464,
-    784,
-    12,
-    48
+    244,
+    11,
+    43
    ],
    "nine": false,
    "states": {
@@ -644,9 +626,9 @@
   "bar-h": {
    "rect": [
     672,
-    854,
+    314,
     48,
-    20
+    12
    ],
    "nine": true,
    "slice": [
@@ -656,26 +638,14 @@
     14
    ],
    "repeat": "repeat",
-   "stretch": "x",
-   "overlays": [
-    {
-     "rect": [
-      686,
-      854,
-      20,
-      20
-     ],
-     "anchor": "center"
-    }
-   ],
-   "flatten": true
+   "stretch": "x"
   },
   "bar-h-md": {
    "rect": [
     672,
-    887,
+    347,
     48,
-    17
+    9
    ],
    "nine": true,
    "slice": [
@@ -685,26 +655,14 @@
     14
    ],
    "repeat": "repeat",
-   "stretch": "x",
-   "overlays": [
-    {
-     "rect": [
-      686,
-      887,
-      20,
-      17
-     ],
-     "anchor": "center"
-    }
-   ],
-   "flatten": true
+   "stretch": "x"
   },
   "bar-h-sm": {
    "rect": [
     672,
-    920,
+    380,
     48,
-    16
+    8
    ],
    "nine": true,
    "slice": [
@@ -714,26 +672,14 @@
     14
    ],
    "repeat": "repeat",
-   "stretch": "x",
-   "overlays": [
-    {
-     "rect": [
-      686,
-      920,
-      20,
-      16
-     ],
-     "anchor": "center"
-    }
-   ],
-   "flatten": true
+   "stretch": "x"
   },
   "bar-h-xs": {
    "rect": [
     672,
-    952,
+    412,
     48,
-    15
+    7
    ],
    "nine": true,
    "slice": [
@@ -743,25 +689,13 @@
     14
    ],
    "repeat": "repeat",
-   "stretch": "x",
-   "overlays": [
-    {
-     "rect": [
-      686,
-      952,
-      20,
-      15
-     ],
-     "anchor": "center"
-    }
-   ],
-   "flatten": true
+   "stretch": "x"
   },
   "bar-v": {
    "rect": [
-    646,
-    784,
-    20,
+    650,
+    240,
+    12,
     48
    ],
    "nine": true,
@@ -772,25 +706,13 @@
     0
    ],
    "repeat": "repeat",
-   "stretch": "y",
-   "overlays": [
-    {
-     "rect": [
-      646,
-      798,
-      20,
-      20
-     ],
-     "anchor": "center"
-    }
-   ],
-   "flatten": true
+   "stretch": "y"
   },
   "bar-v-md": {
    "rect": [
-    679,
-    784,
-    17,
+    683,
+    240,
+    9,
     48
    ],
    "nine": true,
@@ -801,25 +723,13 @@
     0
    ],
    "repeat": "repeat",
-   "stretch": "y",
-   "overlays": [
-    {
-     "rect": [
-      679,
-      798,
-      17,
-      20
-     ],
-     "anchor": "center"
-    }
-   ],
-   "flatten": true
+   "stretch": "y"
   },
   "bar-v-sm": {
    "rect": [
-    712,
-    784,
-    16,
+    716,
+    240,
+    8,
     48
    ],
    "nine": true,
@@ -830,25 +740,13 @@
     0
    ],
    "repeat": "repeat",
-   "stretch": "y",
-   "overlays": [
-    {
-     "rect": [
-      712,
-      798,
-      16,
-      20
-     ],
-     "anchor": "center"
-    }
-   ],
-   "flatten": true
+   "stretch": "y"
   },
   "bar-v-xs": {
    "rect": [
-    744,
-    784,
-    15,
+    748,
+    240,
+    7,
     48
    ],
    "nine": true,
@@ -859,43 +757,31 @@
     0
    ],
    "repeat": "repeat",
-   "stretch": "y",
-   "overlays": [
-    {
-     "rect": [
-      744,
-      798,
-      15,
-      20
-     ],
-     "anchor": "center"
-    }
-   ],
-   "flatten": true
+   "stretch": "y"
   },
   "container": {
    "rect": [
-    804,
-    784,
-    40,
+    808,
+    240,
+    32,
     32
    ],
    "nine": false
   },
   "container-md": {
    "rect": [
-    808,
-    828,
-    32,
+    812,
+    284,
+    24,
     24
    ],
    "nine": false
   },
   "container-sm": {
    "rect": [
-    813,
-    864,
-    22,
+    816,
+    320,
+    16,
     16
    ],
    "nine": false
@@ -1437,6 +1323,14 @@
   "grids": {
    "source": "client/Minifantasy/Minifantasy_UI _Overhaul_v1.0/_Minifantasy_UI_Overhaul_Assets/_General_UI_Resources/Grids/grids.png",
    "themed": false
+  }
+ },
+ "sets": {
+  "default": "set1",
+  "offsets": {
+   "set1": 0,
+   "set2": 544,
+   "set3": 1088
   }
  }
 }

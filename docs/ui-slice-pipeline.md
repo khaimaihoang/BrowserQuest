@@ -45,6 +45,37 @@ slices.json ┘                     ├─► client/css/ui-slices.generated.css
 Vì `.aseprite` không có metadata tên, **manifest là nguồn sự thật duy nhất** cho
 việc "vùng nào là gì".
 
+### 2.0 Mỗi theme có **3 BỘ** (set) — không phải 1
+
+Mỗi cột theme (912px) chứa **3 bộ asset xếp dọc**, cùng nhóm nhưng **hoa văn khác**:
+
+| Bộ | Hoạ tiết | Y-offset so với bộ 2 |
+|---|---|---|
+| **set1** *(mặc định)* | **trơn** — khung chữ nhật, không góc, thanh mảnh, không boss | **−540 / −544** |
+| **set2** | **hoa thị (fan)** — nút ở 4 góc, hoa thị trên/dưới panel-textured, boss ở tâm thanh | 0 |
+| **set3** | **gai (spike)** — gai ở góc, hoa văn chữ thập ở giữa | **+540 / +544** |
+
+⇒ **5 theme × 3 bộ = 15 bộ**. Toạ độ nhóm **giống hệt nhau về x**; chỉ khác y.
+
+Offset chính xác **đo từ `use_guideline_layer.png`** (khung nhóm tô màu riêng cho từng bộ
+— đọc bbox theo màu) rồi đo lại trên art thật:
+
+| Nhóm | set2→set1 | set2→set3 |
+|---|---|---|
+| PANELS · TABS | −540 | +540 |
+| DIVIDERS · SLIDERS · RESOURCES | −544 | +544 |
+| CHECK_BOXES | −544 | +542 |
+| TOGGLE_BUTTONS · SLOTS | −544 | +543 |
+| PUSH_BUTTONS | −544 | +540 |
+
+> **Bài học 3:** trước đây manifest chỉ cắt **bộ 2**, mà `button`/`button-slim` lại lấy
+> từ **bộ 1** ⇒ asset bị **lẫn hai bộ hoa văn**. Hiện đã **rebase toàn bộ về bộ 1**
+> (bộ mặc định) và siết `rect` về đúng bao nội dung (42/42 slice khít 0px).
+>
+> Bộ 1 **thiếu hoạ tiết so với bộ 2/3** ⇒ thanh bar thấp/mảnh hơn hẳn (vd `bar-h`
+> 48×12 thay vì 48×20) nên **`overlays` bị bỏ khỏi bộ mặc định** — cơ chế neo hoạ tiết
+> tâm chỉ cần cho bộ 2/3 (`setRect` / `setOverlays` sẽ khai báo khi mở 2 bộ đó).
+
 ### 2.1 Nhóm theo guideline
 
 File `_Use_Guidelines/set_use_guidelines.png` (1:1 với atlas) ghi nhãn nhóm. Toạ độ
