@@ -70,7 +70,9 @@ STATE_SELECTORS = {
     "checked": ["{c}:checked", "{c}.checked", "{c}[aria-checked='true']"],
     "checked-pressed": [f"{{c}}{NOT_DISABLED}:checked:active",
                         f"{{c}}{NOT_DISABLED}.checked.pressed"],
-    "checked-disabled": ["{c}:checked:disabled", "{c}.checked.disabled", "{c}.checked[disabled]"],
+    "checked-disabled": ["{c}:checked:disabled", "{c}.checked.disabled", "{c}.checked[disabled]",
+                         "{c}[aria-checked='true'][disabled]", "{c}.checked[aria-disabled='true']",
+                         "{c}[aria-checked='true'][aria-disabled='true']"],
     "disabled": ["{c}:disabled", "{c}[disabled]", "{c}.disabled", "{c}[aria-disabled='true']"],
 }
 # Media-query scale mapping — mirrors client/css/panel.css.

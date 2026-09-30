@@ -296,18 +296,21 @@ def kit_markup(prefix: str = "ui") -> str:
 <p class="log" data-log>button clicks: 0 · giữ chuột để xem .pressed (sáng+nhấn); nút khoá: ấn không ăn, sprite đứng yên</p></section>"""
 
     switches = f"""<section id="k-switch" class="card"><h3>Switch / Toggle</h3>
-<em>base sáng (off) · <b>.checked</b> sáng (on) · <b>.pressed</b> · <b>.disabled</b> → tối
-(cả on &amp; off, dùng <code>disabledFilter</code>: atlas không có sprite tối cho toggle)</em>
+<em>OFF/ON × enabled/disabled: enabled dùng sprite <b>sáng</b> (off &amp; on), disabled dùng sprite
+<b>tối</b> (off &amp; on) — atlas có sẵn 2 bản cho mỗi vị trí núm, không dùng filter.
+Khoá cứng: `[disabled]`/`:disabled`/`.disabled`/`[aria-disabled]` + `.checked` ⇒ tối (on).</em>
 <div class="row">
   {_switch(p, "Sound", True)}
   {_switch(p, "Music")}
-  {_switch(p, "Effects", True, disabled=True)}
-  {_switch(p, "Vibration", disabled=True)}
+  {_switch(p, "Effects (on + khoá)", True, disabled=True)}
+  {_switch(p, "Vibration (off + khoá)", disabled=True)}
 </div>
 <div class="row">
   <span class="lbl">Vertical</span>
-  <span class="kit-switch" data-switch-v><i class="{p}-toggle-v"></i><span class="lbl">ON/OFF</span></span>
-  <span class="kit-switch"><i class="{p}-toggle-v checked disabled"></i><span class="lbl">disabled + on</span></span>
+  <span class="kit-switch" data-switch-v><i class="{p}-toggle-v checked"></i><span class="lbl">ON</span></span>
+  <span class="kit-switch" data-switch-v><i class="{p}-toggle-v"></i><span class="lbl">OFF</span></span>
+  <span class="kit-switch"><i class="{p}-toggle-v checked disabled"></i><span class="lbl">khoá + ON</span></span>
+  <span class="kit-switch"><i class="{p}-toggle-v disabled"></i><span class="lbl">khoá + OFF</span></span>
 </div>
 <p class="log" data-switchlog>switch: Sound=on, Music=off</p></section>"""
 

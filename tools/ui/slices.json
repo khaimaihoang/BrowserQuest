@@ -440,27 +440,26 @@
     "_comment_toggles": "TOGGLE BUTTONS",
     "toggle-v": {
       "rect": [
-        212,
+        260,
         896,
         8,
         16
       ],
       "nine": false,
-      "disabledFilter": "brightness(.62) saturate(.75)",
       "states": {
-        "pressed": [
-          260,
-          896,
-          8,
-          16
-        ],
         "checked": [
           308,
           896,
           8,
           16
         ],
-        "checked-pressed": [
+        "disabled": [
+          212,
+          896,
+          8,
+          16
+        ],
+        "checked-disabled": [
           356,
           896,
           8,
@@ -470,27 +469,26 @@
     },
     "toggle-h": {
       "rect": [
-        208,
+        256,
         932,
         16,
         8
       ],
       "nine": false,
-      "disabledFilter": "brightness(.62) saturate(.75)",
       "states": {
-        "pressed": [
-          256,
-          932,
-          16,
-          8
-        ],
         "checked": [
           304,
           932,
           16,
           8
         ],
-        "checked-pressed": [
+        "disabled": [
+          208,
+          932,
+          16,
+          8
+        ],
+        "checked-disabled": [
           352,
           932,
           16,

@@ -108,9 +108,9 @@ File: [`tools/ui/slices.json`](../tools/ui/slices.json)
 }
 ```
 
-- `disabledFilter` = CSS `filter` áp cho `:disabled/.disabled/[aria-disabled='true']`
-  (thêm dòng `filter:` sau state), dùng cho sprite mà atlas **không có bản tối**
-  (`toggle-h`, `toggle-v`; xem §4).
+- `disabledFilter` = CSS `filter` áp cho `:disabled/[disabled]/.disabled/[aria-disabled='true']`
+  (kèm `pointer-events:none`), dùng cho sprite mà atlas **không có bản tối** — hiện chưa
+  slice nào cần (toggle đã có sprite tối/ sáng cho cả on & off, xem §4).
 
 - `overlays` = sprite có **hoạ tiết ở tâm** mà 9-slice không neo được (sprite có boss,
   hoa văn giữa). Packer sẽ:
@@ -161,7 +161,7 @@ rule `:hover`); state gốc là `pressed`/`active`/`checked`/`disabled`. Quy ư�
 | `active-pressed` | `active` + đang nhấn | `.active.pressed`, `.active:active`, `[aria-pressed='true']:active` |
 | `checked` | on (checkbox/switch) | `:checked`, `.checked`, `[aria-checked='true']` |
 | `checked-pressed` | on + đang nhấn | `:checked:active`, `.checked.pressed` |
-| `checked-disabled` | on + vô hiệu | `:checked:disabled`, `.checked.disabled` |
+| `checked-disabled` | on + vô hiệu (sprite tối, khoá cứng) | `:checked:disabled`, `.checked.disabled`, `.checked[disabled]`, `[aria-checked='true'][disabled]`, `.checked[aria-disabled='true']`, `[aria-checked='true'][aria-disabled='true']` |
 | `hover` | chỉ desktop | `:hover`, `.hover` — **bọc trong `@media (hover: hover)`** |
 
 **Button = enabled {chưa nhấn, đã nhấn} + disabled (KHOÁ CỨNG)**; **base = look enabled
@@ -194,18 +194,24 @@ CSS sinh ra (thứ tự cascade: base → theme base → state → theme state �
 > để MutationObserver cập nhật sprite; thiếu nó thì nút disabled vẫn hiện look enabled
 > (nhấn xuống nhưng không khoá).
 
-> **Toggle/checkbox/radio không có sprite tối trong atlas** (4 sprite = {off,on} ×
-> {chưa nhấn, nhấn}) → dùng khoá `disabledFilter`, packer emit filter cho team
-> `disabled`, nhờ vậy **on & off đều thành tối khi vô hiệu**:
+> **Toggle/checkbox có 2 bản sprite cho mỗi vị trí (sáng/tối)** — vd `toggle-h`:
+> `base` = off-tối, `pressed` = off-**sáng**, `checked` = on-**sáng**, `checked-pressed` = on-tối.
+> Dùng thẳng sprite (không filter) để 2 cặp on/off đồng bộ: enabled lấy bản sáng cho cả
+> off & on, disabled lấy bản tối cho cả off & on:
 >
 > ```jsonc
-> "toggle-h": { "disabledFilter": "brightness(.62) saturate(.75)", … }
+> "toggle-h": {
+>   "rect":   [256, 932, 16, 8],                      // ENABLED + OFF (sáng)
+>   "states": {
+>     "checked":          [304, 932, 16, 8],          // ENABLED + ON  (sáng)
+>     "disabled":         [208, 932, 16, 8],          // DISABLED + OFF (tối)
+>     "checked-disabled": [352, 932, 16, 8]           // DISABLED + ON  (tối)
+>   }
+> }
 > ```
 >
-> ```css
-> .ui-toggle-h:disabled, .ui-toggle-h[disabled], .ui-toggle-h.disabled, .ui-toggle-h[aria-disabled='true']
->   { filter: brightness(.62) saturate(.75); pointer-events: none; }
-> ```
+> `disabledFilter` (filter cho team `disabled` + `pointer-events:none`) vẫn có sẵn cho slice
+> nào *không* có bản tối trong atlas.
 >
 > Kết hợp với việc selector `pressed`/`checked-pressed` loại hẳn element disabled ⇒
 > toggle bị khoá **cũng không đổi sprite** dù JS có thêm `.pressed`.

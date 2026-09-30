@@ -88,15 +88,27 @@ Button = **enabled {chưa nhấn, đã nhấn} + disabled (khoá cứng)**; **ba
 `alias: { "x": "y" }` (tuỳ chọn) → map thêm selector của state `x` sang sprite
 của state `y`, không sinh file.
 
-> **Toggle/checkbox/radio không có sprite tối trong atlas** (4 sprite = {off,on} ×
-> {chưa nhấn, nhấn}). Thay vì thêm ảnh giả, khai báo filter cho team `disabled`:
+> **Toggle/checkbox có 2 bản sprite cho mỗi vị trí (sáng/tối)** — vd `toggle-h`:
+> `base` = off-tối, `pressed` = off-**sáng**, `checked` = on-**sáng**, `checked-pressed` = on-tối.
+> Dùng thẳng sprite (không filter) để 2 cặp on/off đồng bộ: enabled lấy bản sáng cho cả
+> off & on, disabled lấy bản tối cho cả off & on:
 >
 > ```jsonc
-> "toggle-h": { "disabledFilter": "brightness(.62) saturate(.75)", … }
+> "toggle-h": {
+>   "rect":   [256, 932, 16, 8],                      // ENABLED + OFF (sáng)
+>   "states": {
+>     "checked":          [304, 932, 16, 8],          // ENABLED + ON  (sáng)
+>     "disabled":         [208, 932, 16, 8],          // DISABLED + OFF (tối)
+>     "checked-disabled": [352, 932, 16, 8]           // DISABLED + ON  (tối)
+>   }
+> }
 > ```
 >
-> Packer emit `:disabled/[disabled]/.disabled/[aria-disabled='true'] { filter: …; pointer-events:none }` ⇒
-> tắt/bật đều thành **tối khi disabled** và không nhấn được, sáng khi dùng được.
+> `disabledFilter` (filter cho team `disabled` + `pointer-events:none`) vẫn có sẵn cho slice
+> nào *không* có bản tối trong atlas.
+>
+> ⚠️ Game dùng **div giả lập + attribute `disabled`** (MutationObserver) — nên `[disabled]`
+> là selector chính, đứng ngang hàng `:disabled`/`.disabled`/`[aria-disabled]`.
 >
 > ⚠️ Game dùng **div giả lập + attribute `disabled`** (MutationObserver) — nên `[disabled]`
 > là selector chính, đứng ngang hàng `:disabled`/`.disabled`/`[aria-disabled]`.
