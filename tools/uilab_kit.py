@@ -35,10 +35,30 @@ def _tab(prefix: str, key: str, label: str, active: bool = False) -> str:
             f'<span class="mid">{label}</span></button>')
 
 
-def _icon_tab(prefix: str, key: str, n: int, active: bool = False) -> str:
+def _icon_tab(prefix: str, key: str, icon: str, active: bool = False,
+              side: str = "top") -> str:
+    """Tab icon vuông = NẮP tab + icon.
+
+    Nắp (`tab-cap-<side>`) là mảnh khung 16x12 / 12x16 quyết định hướng tab gắn vào
+    mép panel; `.active` đổi sang bản nâng 16x16. Icon lấy từ sheet `icons`
+    (`icon-person`, `icon-craft`, `icon-orb`, ...) — sprite 8px nên vẽ ở 2x cho khớp ô 16px.
+    """
     a = " active" if active else ""
-    return (f'<button class="kit-itab" data-tab="{key}" type="button" aria-label="tab {n}">'
-            f'<i class="{prefix}-tab-icon-{n}{a}"></i></button>')
+    label = icon[5:] if icon.startswith("icon-") else icon
+    return (f'<button class="kit-itab{a}" data-tab="{key}" type="button" '
+            f'aria-label="{label}">'
+            f'<i class="{prefix}-tab-cap-{side}{a} cap cap-{side}"></i>'
+            f'<i class="{prefix}-{icon} ico"></i></button>')
+
+
+def _cell(prefix: str, item: str | None = None, count: int | None = None,
+          active: bool = False) -> str:
+    """Ô lưới item = sprite `grid-cell-bracket` (sheet `grids`): 1 ô 32x32 có 4 gạch góc."""
+    cls = f"{prefix}-grid-cell-bracket" + (" active" if active else "")
+    body = (f'<i class="kit-item" style="background-image:url(\'img/1/{item}.png\')"></i>'
+            if item else "")
+    badge = f"<b>{count}</b>" if count is not None else ""
+    return f'<span class="kit-wcell {cls}">{body}{badge}</span>'
 
 
 def _slot(prefix: str, item: str, count: int | None = None, kind: str = "md",
@@ -109,7 +129,8 @@ body.components-only #stage { display:none; }
 /* chỉ xoá viền của nút KHÔNG dùng border-image (nút .ui-button* giữ border của 9-slice) */
 #kit button:not([class*="ui-"]), #kit .kit-slot { border:0; }
 #kit button:disabled { cursor:not-allowed; }
-/* nút bị khoá: sprite tối + pointer-events:none (không nhấn được) — wrapper để vẫn hiện cursor */
+/* nút bị khoá: sprite tối, giữ pointer-events:auto + cursor:default để NUỐT click
+   (đặt pointer-events:none sẽ cho cú click xuyên xuống canvas/cha phía sau) */
 .kit-lockwrap { display:inline-flex; cursor:not-allowed; }
 .card { background:var(--kitcard); border:1px solid var(--kitline); border-radius:6px;
   padding:calc(10 * var(--u)) calc(12 * var(--u)); min-width:0; }
@@ -162,14 +183,47 @@ body.components-only #stage { display:none; }
   background:#171720; color:#9aa3b2; font-family:'GraphicPixel', monospace;
   font-size:calc(10 * var(--u)); letter-spacing:.5px; }
 .kit-tab.active .mid { background:#232334; color:#ffe9b8; }
-.kit-itab { width:calc(16 * var(--u)); height:calc(16 * var(--u)); }
-.kit-itab i { display:block; width:100%; height:100%; }
+/* icon tab = NẮP tab (tab-cap-<side>) + icon từ sheet `icons` */
+.kit-itab { position:relative; display:block; width:calc(16 * var(--u)); height:calc(16 * var(--u)); }
+.kit-itab > i { position:absolute; inset:0; display:block;
+  background-position:center; background-repeat:no-repeat; }
+.kit-itab > i.cap-top, .kit-itab > i.cap-bottom { background-size:100% auto; }
+.kit-itab > i.cap-left, .kit-itab > i.cap-right { background-size:auto 100%; }
+.kit-itab > i.ico { background-size:calc(16 * var(--u)); }
 .kit-square { display:grid; grid-template-columns:repeat(2, calc(28 * var(--u)));
   grid-template-rows:repeat(2, calc(28 * var(--u))); gap:calc(2 * var(--u)); }
 .kit-square .kit-itab { width:calc(28 * var(--u)); height:calc(28 * var(--u)); }
 .tabpanel { border:1px solid var(--kitline); background:#1b1b22; padding:calc(8 * var(--u));
   min-height:calc(26 * var(--u)); color:#c6cfdb; font:calc(10 * var(--u))/1.6 monospace; }
 .tabpanel[hidden] { display:none; }
+
+/* ---- mockup 1: Inventory window · 3 tab (dựng lại panel phải của mock_up_1.png) ---- */
+.kit-window { position:relative; padding-top:calc(18 * var(--u)); width:max-content;
+  margin-top:calc(8 * var(--u)); }
+.kit-wtabs { position:absolute; right:calc(10 * var(--u)); top:0; gap:calc(2 * var(--u)); }
+.kit-wbody { position:relative; padding:calc(12 * var(--u)) calc(14 * var(--u))
+  calc(14 * var(--u)) calc(26 * var(--u)); }
+.kit-wtitle { display:block; margin:0 auto calc(10 * var(--u)); }
+.kit-wdiv { display:block; margin:calc(9 * var(--u)) 0; height:calc(3 * var(--u));
+  background-repeat:repeat-x; background-size:calc(42 * var(--u)) 100%; }
+.kit-wrail { position:absolute; left:calc(9 * var(--u)); top:calc(34 * var(--u));
+  bottom:calc(14 * var(--u)); }
+.kit-wrail i { display:block; width:calc(7 * var(--u)); height:100%;
+  background-repeat:no-repeat; background-size:100% 100%; }
+.kit-equip { display:grid; grid-template-columns:repeat(4, calc(32 * var(--u)));
+  gap:calc(6 * var(--u)); justify-content:center; }
+.kit-wgrid { display:grid; grid-template-columns:repeat(6, calc(32 * var(--u)));
+  gap:calc(2 * var(--u)); }
+.kit-wcell { position:relative; display:block; width:calc(32 * var(--u));
+  height:calc(32 * var(--u)); }
+.kit-wcell.active { filter:drop-shadow(0 0 calc(3 * var(--u)) #ffd479cc); }
+.kit-wcell b { position:absolute; right:calc(1 * var(--u)); bottom:0;
+  font:calc(9 * var(--u))/1 monospace; color:#ffe08a; }
+.kit-wpanel { color:#c6cfdb; font:calc(10 * var(--u))/1.7 monospace; }
+.kit-wrow { display:flex; align-items:center; gap:calc(8 * var(--u));
+  padding:calc(3 * var(--u)) 0; }
+.kit-wrow .grow { flex:1; }
+.kit-wrow .val { color:#ffe08a; }
 
 /* ---- slider ---- */
 .kit-slider { position:relative; height:calc(24 * var(--u)); touch-action:none; cursor:pointer; }
@@ -245,10 +299,12 @@ body.components-only #stage { display:none; }
 .kit-dialog h4 { margin:calc(2 * var(--u)) 0 calc(6 * var(--u)); color:#ffe9b8;
   font:calc(12 * var(--u))/1.3 'GraphicPixel', monospace; text-align:center; }
 .kit-dialog p { margin:0; color:#cfd7e2; font:calc(10 * var(--u))/1.6 monospace; }
+/* nút đóng = sprite `button-tiny` (base sáng / pressed tối hơn) + dấu × bằng chữ.
+   Không dùng ảnh `close.png` nữa: sprite đó không có trong manifest nên packer dọn mất. */
 .kit-close { position:absolute; top:calc(-6 * var(--u)); right:calc(-6 * var(--u));
-  width:calc(12 * var(--u)); height:calc(12 * var(--u));
-  background:url('img/1/ui/close.png') no-repeat center/contain; image-rendering:pixelated; }
-.kit-close:hover, .kit-close:active { background-image:url('img/1/ui/close_pressed.png'); }
+  width:calc(16 * var(--u)); height:calc(16 * var(--u)); padding:0; border:0;
+  display:flex; align-items:center; justify-content:center;
+  color:#e6d1a8; font:calc(10 * var(--u))/1 'GraphicPixel', monospace; cursor:pointer; }
 .kit-toast { position:fixed; left:50%; bottom:calc(20 * var(--u)); transform:translateX(-50%); z-index:60;
   padding:calc(7 * var(--u)) calc(16 * var(--u)); color:#f2ecdc;
   font:calc(10 * var(--u))/1 'GraphicPixel', monospace; opacity:0; transition:opacity .18s;
@@ -281,7 +337,7 @@ def kit_markup(prefix: str = "ui") -> str:
     buttons = f"""<section id="k-button" class="card"><h3>Button</h3>
 <em>base (sáng) = enabled · <b>.pressed</b> = sáng+nhấn · <b>disabled</b> (`[disabled]` /
 `.disabled` / `[aria-disabled]`) = tối, **KHOÁ CỨNG**: nhấn không đổi sprite +
-`pointer-events:none` · KHÔNG hover</em>
+`cursor:default` (vẫn `pointer-events:auto` để nuốt click) · KHÔNG hover</em>
 <div class="row">
   <button class="{p}-button btn" data-count type="button"><span class="ktxt">Play <i class="badge" data-badge>0</i></span></button>
   <button class="{p}-button btn" type="button"><span class="ktxt">Giữ để nhấn</span></button>
@@ -294,7 +350,7 @@ def kit_markup(prefix: str = "ui") -> str:
   <button class="{p}-button-thin btn-thin" type="button"><span class="ktxt">Level up</span></button>
   <button class="{p}-button-thin btn-thin" type="button" disabled><span class="ktxt">Locked</span></button>
   <span class="kit-lockwrap"><span class="{p}-button-tiny btn-tiny" disabled aria-disabled="true" role="button"><i class="kit-item" style="background-image:url('img/1/item-sword1.png')"></i></span></span>
-  <button class="{p}-button btn-ico" type="button" aria-label="settings"><i class="{p}-tab-icon-1 kit-ico"></i></button>
+  <button class="{p}-button btn-ico" type="button" aria-label="settings"><i class="{p}-icon-bolt kit-ico"></i></button>
 </div>
 <p class="log" data-log>button clicks: 0 · giữ chuột để xem .pressed (sáng+nhấn); nút khoá: ấn không ăn, sprite đứng yên</p></section>"""
 
@@ -337,7 +393,9 @@ Khoá cứng: `[disabled]`/`:disabled`/`.disabled`/`[aria-disabled]` (+ `.checke
 <p class="log" data-checklog>checkbox: Fullscreen=on · radio: Low</p></section>"""
 
     tabs = f"""<section id="k-tabs" class="card"><h3>Tabs — ngang / dọc / vuông</h3>
-<em>{p}-tab-top/bottom/left/right ghép khung tab · {p}-tab-icon-1..4 cho tab vuông (icon)</em>
+<em>{p}-tab-top/bottom/left/right = 4 CẠNH khung tab lớn (48x12 / 12x48).
+{p}-tab-cap-top/left/right/bottom = 4 NẮP tab nhỏ (16x12 / 12x16, bản <b>--active</b> là khung
+nâng 16x16) — icon dán lên nắp, lấy từ sheet <code>icons</code></em>
 <div class="kit-tabbar" data-tabbar="h">
   {_tab(p, "h1", "Inventory", True)}{_tab(p, "h2", "Skills")}{_tab(p, "h3", "Quests")}
 </div>
@@ -355,15 +413,19 @@ Khoá cứng: `[disabled]`/`:disabled`/`.disabled`/`[aria-disabled]` (+ `.checke
   <div class="col">
     <span class="lbl">ngang (icon)</span>
     <div class="kit-tabbar" data-tabbar="i">
-      {_icon_tab(p, "i1", 1, True)}{_icon_tab(p, "i2", 2)}{_icon_tab(p, "i3", 3)}{_icon_tab(p, "i4", 4)}
+      {_icon_tab(p, "i1", "icon-person", True)}{_icon_tab(p, "i2", "icon-craft")}
+      {_icon_tab(p, "i3", "icon-orb")}{_icon_tab(p, "i4", "icon-heart")}
     </div>
-    <span class="lbl">dọc (icon)</span>
+    <span class="lbl">dọc (icon, nắp trái)</span>
     <div class="kit-tabbar rail" data-tabbar="j">
-      {_icon_tab(p, "j1", 1, True)}{_icon_tab(p, "j2", 2)}{_icon_tab(p, "j3", 3)}
+      {_icon_tab(p, "j1", "icon-swords", True, "left")}
+      {_icon_tab(p, "j2", "icon-shield", side="left")}
+      {_icon_tab(p, "j3", "icon-bolt", side="left")}
     </div>
     <span class="lbl">vuông 2x2</span>
     <div class="kit-square" data-tabbar="k">
-      {_icon_tab(p, "k1", 1, True)}{_icon_tab(p, "k2", 2)}{_icon_tab(p, "k3", 3)}{_icon_tab(p, "k4", 4)}
+      {_icon_tab(p, "k1", "icon-pickaxe", True)}{_icon_tab(p, "k2", "icon-bottle")}
+      {_icon_tab(p, "k3", "icon-chest")}{_icon_tab(p, "k4", "icon-pan")}
     </div>
   </div>
 </div>
@@ -451,7 +513,8 @@ Khoá cứng: `[disabled]`/`:disabled`/`.disabled`/`[aria-disabled]` (+ `.checke
 <i class="{p}-divider-h kit-div"></i>
 <div class="kit-lrow"><span class="grow">Sound</span>{_switch(p, "Effects", True)}</div>"""
     panel = f"""<section id="k-panel" class="card"><h3>Panel · list row · dialog</h3>
-<em>{p}-panel-textured + {p}-panel-header + {p}-panel-title + {p}-divider-h + close.png</em>
+<em>{p}-panel · {p}-panel-textured · {p}-panel-header · {p}-panel-title · {p}-divider-h +
+{p}-button-tiny làm nút đóng</em>
 <div class="{p}-panel" style="padding:calc(8 * var(--u))">
   <i class="{p}-panel-title" style="display:block;margin:0 auto calc(4 * var(--u))"></i>
   <div class="kit-list">{list_rows}</div>
@@ -486,7 +549,7 @@ Khoá cứng: `[disabled]`/`:disabled`/`.disabled`/`[aria-disabled]` (+ `.checke
 
     dialog = f"""<div class="kit-dialog" data-dlg="d1" hidden>
   <div class="{p}-panel-textured win">
-    <button class="kit-close" type="button" data-dlg-close aria-label="close"></button>
+    <button class="{p}-button-tiny kit-close" type="button" data-dlg-close aria-label="close">&times;</button>
     <i class="{p}-panel-header" style="display:block;margin:0 auto calc(4 * var(--u))"></i>
     <h4>Bán vật phẩm?</h4>
     <p>Golden armor &mdash; nhận 120 gold. Bạn có chắc không?</p>
@@ -507,10 +570,63 @@ dialog, hotbar (phím <b>1..6</b>). Icon vật phẩm lấy từ <code>img/1/ite
   <a href="#k-button">Buttons</a><a href="#k-switch">Switch</a><a href="#k-check">Checkbox/Radio</a>
   <a href="#k-tabs">Tabs</a><a href="#k-slider">Slider</a><a href="#k-input">Input</a>
   <a href="#k-bars">Bars</a><a href="#k-slots">Inventory</a><a href="#k-panel">Panel/Dialog</a>
-  <a href="#k-gauge">Gauge</a><a href="#k-hud">HUD</a>
+  <a href="#k-gauge">Gauge</a><a href="#k-hud">HUD</a><a href="#k-mock"><b>Mockup 1</b></a>
 </div>"""
 
-    body = "\n  ".join([buttons, switches, checks, tabs, slider, inputs, bars,
+    equip = "".join(_cell(p, it, None, i == 2) for i, it in enumerate(
+        ["item-goldenarmor", "item-platearmor", "item-axe", "item-leatherarmor"]))
+    bag = {"0": "item-flask", "1": "item-burger", "3": "item-cake", "8": "item-morningstar",
+           "9": "item-firepotion", "14": "item-redsword", "15": "item-goldensword",
+           "20": "item-clotharmor", "21": "item-sword1"}
+    cells = "".join(_cell(p, bag.get(str(i)), 3 if i == 1 else None) for i in range(36))
+    potions = "".join(_cell(p, it, n) for it, n in [
+        ("item-firepotion", 4), ("item-flask", 12), ("item-cake", 2), ("item-burger", 7),
+        ("item-morningstar", 1), ("item-bluesword", 1)])
+    stats = "".join(
+        f'<div class="kit-wrow"><span class="grow">{k}</span><span class="val">{v}</span></div>'
+        for k, v in [("Attack", "18 &ndash; 24"), ("Defense", "12"), ("Speed", "1.05"),
+                     ("Critical", "6%")])
+    recipes = "".join(
+        f'<div class="kit-wrow">{_cell(p, it, None, i == 0)}'
+        f'<span class="grow">{name}</span><span class="val">{have}</span></div>'
+        for i, (it, name, have) in enumerate([
+            ("item-sword2", "Iron sword", "2/3 iron"),
+            ("item-goldenarmor", "Golden armor", "5/8 gold"),
+            ("item-firepotion", "Fire potion", "1/2 herb")]))
+    mockup = f"""<section id="k-mock" class="card" style="grid-column:1/-1">
+<h3>Mockup 1 &mdash; Inventory window &middot; 3 tab</h3>
+<em>Dựng lại panel phải của <code>mock_up_1.png</code>. Khung: <b>{p}-panel</b> +
+<b>{p}-panel-title</b> + <b>{p}-divider-h</b> (sheet <code>main</code>). Tab: nắp
+<b>{p}-tab-cap-top</b> + icon lấy từ sheet <code>icons</code> (<code>icon-person</code> /
+<code>icon-craft</code> / <code>icon-orb</code>) &mdash; sprite icon 8px nên vẽ ở 2x.
+Ô lưới: <b>{p}-grid-cell-bracket</b> (sheet <code>grids</code>): 1 ô 32x32 có 4 gạch ở 4 góc,
+đúng kiểu ô rỗng trong mockup. Rail cuộn: <b>{p}-slider-track-v</b>.
+<b>Bấm 3 tab để đổi nội dung.</b></em>
+<div class="kit-window">
+  <div class="kit-tabbar kit-wtabs" data-tabbar="mock">
+    {_icon_tab(p, "m1", "icon-person", True)}{_icon_tab(p, "m2", "icon-craft")}{_icon_tab(p, "m3", "icon-orb")}
+  </div>
+  <div class="{p}-panel kit-wbody">
+    <i class="{p}-panel-title kit-wtitle"></i>
+    <div class="kit-wpanel" data-tabpanel="m1">
+      <div class="kit-equip">{equip}</div>
+      <i class="{p}-divider-h kit-wdiv"></i>
+      <div class="kit-wgrid">{cells}</div>
+    </div>
+    <div class="kit-wpanel" data-tabpanel="m2" hidden>
+      <div class="kit-wrow"><span class="grow"><b>Crafting</b></span><span class="val">3 known</span></div>
+      {recipes}
+    </div>
+    <div class="kit-wpanel" data-tabpanel="m3" hidden>
+      <div class="kit-wgrid" style="grid-template-columns:repeat(3, calc(32 * var(--u)))">{potions}</div>
+      <i class="{p}-divider-h kit-wdiv"></i>
+      {stats}
+    </div>
+    <div class="kit-wrail"><i class="{p}-slider-track-v"></i></div>
+  </div>
+</div></section>"""
+
+    body = "\n  ".join([mockup, buttons, switches, checks, tabs, slider, inputs, bars,
                         slots, panel, gauges, hud])
     return f'<div id="kit">\n{head}\n  {body}\n  {dialog}\n</div>'
 
@@ -593,7 +709,10 @@ KIT_SCRIPT = r"""
       o.setAttribute('aria-selected', on ? 'true' : 'false');
     });
     const key = tab.dataset.tab;
-    $$('[data-tabpanel]').forEach(pnl => { pnl.hidden = pnl.dataset.tabpanel !== key; });
+    /* panel được nhốt trong container của tabbar này — nếu không, mỗi tabbar sẽ
+       ẩn hết panel của các tabbar khác (lab có nhiều tabbar cùng trang). */
+    const scope = bar.closest('.card, .kit-window') || document;
+    $$('[data-tabpanel]', scope).forEach(pnl => { pnl.hidden = pnl.dataset.tabpanel !== key; });
     setLog('[data-tablog]', 'tab active: ' + key + ' (' + (bar.dataset.tabbar === 'h' ? 'ngang'
       : bar.dataset.tabbar === 'v' ? 'dọc' : 'icon') + ')');
   }));
@@ -720,6 +839,12 @@ KIT_SCRIPT = r"""
       if (on) document.getElementById('kit').scrollIntoView();
     };
     bar.appendChild(btn);
+    /* deep-link: `?only=1` (hoặc `?only=1#k-mock`) mở thẳng gallery component,
+       dùng cho screenshot tự động. */
+    if (/[?&]only=/.test(location.search)) {
+      document.body.classList.add('components-only');
+      btn.textContent = 'Show slice gallery';
+    }
   }
 })();
 """

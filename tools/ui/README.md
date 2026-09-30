@@ -61,7 +61,7 @@ Mobile **không có hover** (button/switch không khai báo `hoverUses` ⇒ khô
 | State | Ý nghĩa | Selector sinh ra |
 |---|---|---|
 | `pressed` | enabled + đang nhấn (sáng nhấn) | `:active`, `.pressed` — có `:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled])` |
-| `disabled` | vô hiệu = **KHOÁ CỨNG** (sprite tối, nhấn không đổi sprite) | `:disabled`, `[disabled]`, `.disabled`, `[aria-disabled='true']` + `pointer-events:none` |
+| `disabled` | vô hiệu = **KHOÁ CỨNG** (sprite tối, nhấn không đổi sprite) | `:disabled`, `[disabled]`, `.disabled`, `[aria-disabled='true']` + `cursor:default` (vẫn `pointer-events:auto` để **NUỐT** click, không cho xuyên xuống canvas/cha) |
 | `active` | bật / đang chọn | `.active`, `[aria-selected='true']`, `[aria-pressed='true']` |
 | `active-pressed` | `active` + đang nhấn | `.active.pressed`, `.active:active` |
 | `checked` | on (checkbox/switch) | `:checked`, `.checked`, `[aria-checked='true']` |
@@ -73,7 +73,8 @@ sinh thêm file), bọc trong `@media (hover: hover)`.
 
 Button = **enabled {chưa nhấn, đã nhấn} + disabled (khoá cứng)**; **base = look enabled
 (sáng)**; nút disabled giữ nguyên sprite tối dù có nhấn (selector `pressed`/`checked-pressed`
-đã loại hẳn element disabled, cộng thêm `pointer-events:none`):
+đã loại hẳn element disabled, control vẫn giữ `pointer-events:auto` + `cursor:default`
+để **nuốt** cú click):
 
 ```jsonc
 "button": {
@@ -107,8 +108,8 @@ của state `y`, không sinh file.
 > }
 > ```
 >
-> `disabledFilter` (filter cho team `disabled` + `pointer-events:none`) dim thêm bản tối để
-> đủ tương phản ở theme tối.
+> `disabledFilter` (filter cho team `disabled`, kèm `cursor:default` để nuốt click) dim thêm
+> bản tối để đủ tương phản ở theme tối.
 >
 > **Checkbox/radio áp cùng công thức** (atlas cũng có bản sáng/tối cho mỗi on/off):
 >
@@ -149,7 +150,7 @@ của state `y`, không sinh file.
 **bar-fill màu** (đỏ/xanh/vàng/lục/tím) vì màu nằm ở từng cột atlas chứ không
 phải theo theme.
 
-## Bộ component (54 slice + 34 state)
+## Bộ component (85 slice + 30 state)
 
 Tên slice nay bám đúng **nhóm trong `set_use_guidelines.png`** (không đoán theo hình
  dạng nữa). Toạ độ nhóm (block "UI", = block gốc + 544):
@@ -166,13 +167,18 @@ Tên slice nay bám đúng **nhóm trong `set_use_guidelines.png`** (không đo�
 | SLOTS | `slot` *(+active)*, `slot-sm`, `slot-md` *(+active)*, `slot-wide`, `slot-pill`, `slot-lg` — **ô túi đồ, `nine:false`** |
 | CHECK BOXES | `radio`, `checkbox` *(+pressed/checked/checked-pressed)* |
 | TOGGLE BUTTONS | `toggle-v`, `toggle-h` *(+pressed/checked/checked-pressed)* |
-| TABS | `tab-icon-1..4` *(tab icon, +active)*; `tab-top`, `tab-bottom`, `tab-left`, `tab-right` *(cố định, +active)* |
+| TABS | `tab-cap-top/left/right/bottom` *(**NẮP** tab nhỏ 16×12 / 12×16, +active = khung nâng 16×16)*; `tab-top`, `tab-bottom`, `tab-left`, `tab-right` *(**CẠNH** khung tab lớn 48×12 / 12×48, +active)* |
+| ICONS *(sheet `icons`)* | `icon-person`, `icon-craft`, `icon-orb`, `icon-heart`, `icon-bolt`, `icon-shield`, `icon-swords`, `icon-plus`, `icon-drop`, `icon-chest`, `icon-pickaxe`, `icon-bottle`, … *(22 icon 8×8)* |
+| GRIDS *(sheet `grids`)* | `grid-cell`, `grid-cell-sm`, `grid-cell-bracket`, `grid-3x3`, `grid-6x6` (+ `-ornate`) — ô lưới item 32×32 |
 | RESOURCES BARS & CONTAINERS | `bar-h`/`bar-h-md`/`bar-h-sm`/`bar-h-xs` *(4 cỡ ngang)*, `bar-v`/`bar-v-md`/`bar-v-sm`/`bar-v-xs` *(4 cỡ dọc)* — có `overlays` neo hoạ tiết tâm; `container`, `container-md`, `container-sm` |
 | RESOURCE FILLS | `bar-fill-{red,blue,gold,green,purple}`, `bar-fill-v-{…}` *(themed:false)* |
 
 Ghi chú:
 - `panel-header`/`panel-title` = thanh header ngắn gắn trên panel.
-- `tab-icon-*` = 4 tab-icon (normal/active = cặp trái/phải trong nhóm TABS);
+- `tab-cap-*` = **nắp tab** (không phải icon!). Icon của tab nằm ở sheet `icons`
+  (`icon-person` / `icon-craft` / `icon-orb` …) và được dán **đè lên nắp**;
+- `grid-cell-bracket` = 1 ô 32×32 với 4 gạch ở 4 góc, lặp lại thành lưới item — đúng
+  kiểu ô rỗng trong `mock_up_1.png`;
   khung tab ghép từ `tab-top`+`tab-bottom`+`tab-left`+`tab-right` (mỗi cái có active).
 - `slice` có thể là int (4 cạnh bằng nhau) hoặc `[t,r,b,l]` — dùng cho slider track
   để **giữ 2 mũi tên** ở hai đầu, chỉ tile phần giữa.

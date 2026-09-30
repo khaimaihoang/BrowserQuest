@@ -58,13 +58,50 @@ nhóm ở block "UI" (= block gốc + 544):
 | CHECK BOXES | 205–370 | 807–866 |
 | TOGGLE BUTTONS | 205–370 | 884–943 |
 | SLOTS | 29–184 | 765–985 |
-| TABS | 154–618 | 631–1019 |
+| TABS | 154–618 | 631–1019 |  
+| _(cùng nhóm TABS)_ NẮP tab nhỏ | 404–480 | 660–732 |
 | RESOURCE'S BARS & CONTAINERS | 635–856 | 756–988 |
 | PUSH BUTTONS | 4 cỡ (16×16 / 48×16 / 16×48 / 48×48) | y≈1040 / 1088 |
 
 > **Bài học:** tên slice phải bám **nhóm trong guideline**, không đoán theo hình
 > dạng. (Đã từng đặt sai: `divider-fancy-*` thực ra thuộc SLIDERS; các thanh
 > `x416–592` thực ra thuộc TABS chứ không phải resource bars.)
+
+### 2.2 NẮP tab ≠ icon (sửa tên sai `tab-icon-*`)
+
+Nhóm TABS chứa **hai** loại mảnh, cả hai đều có bản `--active`:
+
+| Vai trò | Rect (theme dark) | Kích thước | Tên đúng |
+|---|---|---|---|
+| CẠNH khung tab lớn | `[416,756]` / `[416,848]` / `[404,784]` / `[464,784]` | 48×12 / 12×48 | `tab-top` `tab-bottom` `tab-left` `tab-right` |
+| **NẮP** tab nhỏ (gắn vào mép panel) | `[432,660]` / `[404,688]` / `[464,688]` / `[432,720]` | 16×12 / 12×16 | `tab-cap-top` `tab-cap-left` `tab-cap-right` `tab-cap-bottom` |
+
+Bản `--active` của nắp là **khung nâng 16×16** (tab đang chọn cao hơn 4px) — đúng
+kiểu tab trong `mock_up_1.png`.
+
+> **Bài học 2:** tên cũ `tab-icon-1..4` là **SAI** — chúng là *nắp khung*, không phải
+> icon. **Icon** trong mockup đến từ **sheet khác** (mục 2.3), không nằm trong
+> `_grim_ui.png`. Đã đổi tên thành `tab-cap-<side>`.
+
+### 2.3 Hai sheet phụ mà mockup dùng
+
+`_grim_ui.png` **không** chứa icon lẫn ô lưới item. Mockup lấy chúng từ
+`_General_UI_Resources/`:
+
+| Sheet | Kích thước | Nội dung | Slice |
+|---|---|---|---|
+| `Icons/_icons.png` | **576×432** | lưới icon **16px, sprite 8×8**. Block phổ thông ở `x≈376–560`: hàng `y=24` (chest, barrel, pickaxe, bottle, hammer…) và hàng `y=40` (**person**, swords, shield, **craft** = búa+đe, **orb**, heart, plus, bolt, boot, pan, drop) + block icon social | `icon-*` (22) |
+| `Grids/grids.png` | **1360×496** | ô lưới item: **5 style** × 5 tông màu (block stride **272px**). Mỗi style: 1 ô đơn, 1 khối **4 gạch góc**, mảnh chữ T, ô nhỏ, lưới 3×3, lưới 6×6 | `grid-*` (9) |
+
+Toạ độ đã **đo bằng connected-component** (scipy), không đoán:
+
+```
+grid-cell           [26,  26, 28, 28]   ô đơn (solid)
+grid-cell-bracket   [16,  64, 32, 32]   4 gạch góc trong 1 ô 32×32  ← mockup dùng cái này
+grid-3x3            [138, 42, 48, 48]
+grid-6x6            [196, 36, 56, 56]
+grid-cell-ornate    [26, 410, 28, 28]   bản hoa văn (style 5)
+```
 
 ---
 
@@ -76,7 +113,8 @@ File: [`tools/ui/slices.json`](../tools/ui/slices.json)
 
 | Khoá | Ý nghĩa |
 |---|---|
-| `source` | đường dẫn atlas (tương đối repo root) |
+| `source` | đường dẫn atlas **chính** (tương đối repo root) — tương đương `sheets.main.source` |
+| `sheets` | map `{tên: {source, themed}}`. `themed:true` = ảnh lặp ngang theo từng theme (nhận `offsets`); `themed:false` = rect tuyệt đối, xuất **1 lần** |
 | `grid` | kích thước ô lưới (16) |
 | `themes.default` / `themes.offsets` | theme mặc định + offset x từng cột |
 | `scales` | `[1,2,3]` — các hệ số upscale NEAREST |
@@ -86,6 +124,12 @@ File: [`tools/ui/slices.json`](../tools/ui/slices.json)
 ### 3.2 Mỗi slice
 
 ```jsonc
+"icon-person": {
+  "sheet": "icons",            // tuỳ chọn — sheet chứa slice (mặc định "main")
+  "themed": false,             // sheet tĩnh ⇒ không cộng offsets theo theme
+  "rect": [376, 40, 8, 8],
+  "nine": false
+},
 "button": {
   "rect": [208, 544, 48, 48], // [x, y, w, h] theo pixel atlas (theme dark) — base = look enabled
   "nine": true,                // true = 9-slice; false = sprite rời
@@ -143,6 +187,9 @@ File: [`tools/ui/slices.json`](../tools/ui/slices.json)
   để lộ đường tile/góc. Không ép mọi 9-slice về cùng một ô demo.
 - `alias`/`hoverUses` **không sinh file** — chúng trỏ selector khác về sprite có sẵn.
 - `themed:false` dùng cho các **bar-fill màu** (màu nằm ở từng cột) → chỉ xuất 1 bản.
+- `sheet: "<tên>"` chọn sheet chứa `rect` đó (mặc định `"main"`). Packer cộng
+  `themes.offsets[theme]` vào `x` **chỉ khi cả sheet lẫn slice đều `themed`** — nên
+  slice trên sheet tĩnh luôn khớp toạ độ tuyệt đối.
 - Khoá `_comment_*` trong `slices` được packer bỏ qua (dùng để chia nhóm cho dễ đọc).
 
 ---
@@ -175,7 +222,7 @@ rule `:hover`); state gốc là `pressed`/`active`/`checked`/`disabled`. Quy ư�
 
 **Button = enabled {chưa nhấn, đã nhấn} + disabled (KHOÁ CỨNG)**; **base = look enabled
 (sáng)**; nút disabled **giữ nguyên sprite tối dù có nhấn** (selector nhấn đã loại hẳn
-element disabled + thêm `pointer-events:none`):
+element disabled, và control vẫn giữ `cursor:default` + `pointer-events:auto` để **nuốt** cú click):
 
 ```jsonc
 "button": {
@@ -221,8 +268,8 @@ CSS sinh ra (thứ tự cascade: base → theme base → state → theme state �
 > }
 > ```
 >
-> `disabledFilter` (filter cho team `disabled` + `pointer-events:none`) dim thêm bản tối để đủ
-> tương phản ở theme tối.
+> `disabledFilter` (filter cho team `disabled`, kèm `cursor:default` + `pointer-events:auto`)
+> dim thêm bản tối để đủ tương phản ở theme tối.
 >
 > **Checkbox/radio áp cùng công thức** (atlas cũng có bản sáng/tối cho mỗi on/off):
 >
@@ -242,7 +289,7 @@ CSS sinh ra (thứ tự cascade: base → theme base → state → theme state �
 
 ---
 
-## 5. Bộ component hiện có (54 slice + 34 state)
+## 5. Bộ component hiện có (85 slice + 30 state → 1518 ảnh)
 
 | Nhóm (guideline) | Slice |
 |---|---|
@@ -253,14 +300,20 @@ CSS sinh ra (thứ tự cascade: base → theme base → state → theme state �
 | SLOTS | `slot` *(+active)*, `slot-sm`, `slot-md` *(+active)*, `slot-wide`, `slot-pill`, `slot-lg` — **tất cả `nine:false`** (ô túi đồ cố định) |
 | CHECK BOXES | `radio`, `checkbox` *(+pressed/checked/checked-pressed)* |
 | TOGGLE BUTTONS | `toggle-v`, `toggle-h` *(+pressed/checked/checked-pressed)* |
-| TABS | `tab-icon-1..4` *(tab icon, +active)*; `tab-top`, `tab-bottom`, `tab-left`, `tab-right` *(sprite cố định, +active)* |
+| TABS | `tab-cap-top/left/right/bottom` *(**NẮP** tab nhỏ 16×12 / 12×16, +active = khung nâng 16×16)*; `tab-top`, `tab-bottom`, `tab-left`, `tab-right` *(**CẠNH** khung tab lớn 48×12 / 12×48, +active)* |
+| ICONS *(sheet `icons`)* | `icon-person`, `icon-craft` (búa+đe), `icon-orb`, `icon-heart`, `icon-bolt`, `icon-shield`, `icon-shield-2`, `icon-swords`, `icon-plus`, `icon-drop`, `icon-boot`, `icon-pan`, `icon-chest`, `icon-chest-gem`, `icon-bricks`, `icon-barrel`, `icon-pickaxe`, `icon-bottle`, `icon-bottle-blue`, `icon-hammer`, `icon-water`, `icon-face` — sprite 8×8, `themed:false` |
+| GRIDS *(sheet `grids`)* | `grid-cell`, `grid-cell-sm`, `grid-cell-bracket`, `grid-3x3`, `grid-6x6` (+ bản `-ornate`) — ô lưới item, `themed:false` |
 | RESOURCES BARS & CONTAINERS | `bar-h`/`bar-h-md`/`bar-h-sm`/`bar-h-xs` *(4 cỡ ngang)*, `bar-v`/`bar-v-md`/`bar-v-sm`/`bar-v-xs` *(4 cỡ dọc)* — có `overlays` neo hoạ tiết tâm; `container`, `container-md`, `container-sm` |
 | RESOURCE FILLS | `bar-fill-{red,blue,gold,green,purple}`, `bar-fill-v-{…}` *(themed:false)* |
 
 Ghi chú ngữ nghĩa:
 - `panel-header`/`panel-title` = thanh header ngắn gắn trên panel.
-- **TABS = sprite cố định** (`nine:false`) — thanh mảnh 1-đường-kẻ; dùng ở kích
-  thước gốc, không kéo giãn. `tab-icon-*` = tab nhỏ cho icon (normal/active).
+- **TABS = sprite cố định** (`nine:false`) — dùng ở kích thước gốc, không kéo giãn.
+  `tab-cap-<side>` = **nắp** tab (chọn `side` theo mép panel mà tab gắn vào); icon của
+  tab dán **đè lên nắp** bằng một sprite từ sheet `icons` (xem mục 2.2 / 2.3).
+- **ICONS** = sprite 8×8 native ⇒ muốn khớp ô 16px thì vẽ ở **2×** (vẫn là bội số nguyên).
+- **GRIDS** = `grid-cell-bracket` (1 ô 32×32, 4 gạch ở 4 góc) lặp lại thành lưới item;
+  đúng kiểu ô rỗng trong `mock_up_1.png`. 5 style × 5 tông màu, manifest dùng block 0.
 - `panel-header`, `panel-title` = header cố định (`nine:false`) — hoạ tiết ở giữa sprite
   nên **không kéo dài** (nếu kéo sẽ lặp hoạ tiết).
 - **SLOTS = ô túi đồ (item cell)** — sprite cố định, **KHÔNG 9-slice** (`nine:false`);
@@ -306,7 +359,11 @@ Yêu cầu: Python 3 + `Pillow` (`pip install Pillow`). Preview: `npm run watch:
 | `client/ui-lab.html` | trang preview dev — gallery slice **+ UI kit component tương tác** (sinh từ `tools/uilab_kit.py`) |
 | `client/ui-slice-editor.html` | **editor kéo slice bằng tay** (sinh bởi `tools/make-slice-editor.py`), có chọn theme + dải so sánh 5 theme |
 | `tools/ui/out/preview.png` | ảnh self-test 9-slice/state |
-| `tools/ui/out/generated.json` | index file đã sinh (để **tự dọn file cũ**) |
+| `tools/ui/out/generated.json` | index file đã sinh (dùng để **tự dọn file cũ**) |
+
+Xem riêng gallery component (bỏ qua gallery slice) để chụp/soi nhanh:
+`http://localhost:8008/ui-lab.html?only=1` — thêm `#k-mock` để nhảy thẳng tới mockup.
+Trên trang có nút **Components only** đổi qua lại.
 
 `client/css/main.css` đã `@import 'ui-slices.generated.css';` → class dùng được
 ngay trong game. `client/img/` và `client/css/` được `copy-webpack-plugin` copy
@@ -351,6 +408,12 @@ sang `dist/` nên không cần đổi build.
 > Chạy riêng: `python tools/make-slice-editor.py`.
 
 Packer tự dọn file của lần chạy trước không còn trong manifest → **không để lại rác**.
+
+Cơ chế: index `tools/ui/out/generated.json` **nằm trong thư mục đã gitignore**, nên sau khi
+clone về nó rỗng ⇒ file rác của manifest cũ sẽ sống mãi (đã xảy ra: 5 tên
+`bar_body` `bar_left` `bar_right` `close` `close_pressed` — 135 file, đã tracked trong git).
+Nay packer **quét luôn** `client/img/{1,2,3}/ui/*.png` — thư mục đó chỉ chứa sprite do
+packer sinh — và xoá mọi file không nằm trong manifest hiện tại.
 
 ---
 
