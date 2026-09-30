@@ -66,7 +66,11 @@
    ],
    "nine": true,
    "slice": 8,
-   "repeat": "repeat"
+   "repeat": "repeat",
+   "setDelta": {
+    "set2": -4,
+    "set3": -8
+   }
   },
   "panel-slim": {
    "rect": [
@@ -82,7 +86,11 @@
     8,
     7
    ],
-   "repeat": "repeat"
+   "repeat": "repeat",
+   "setDelta": {
+    "set2": -4,
+    "set3": -8
+   }
   },
   "panel-textured": {
    "rect": [
@@ -99,7 +107,11 @@
     15
    ],
    "repeat": "repeat",
-   "stretch": "y"
+   "stretch": "y",
+   "setDelta": {
+    "set2": -4,
+    "set3": -8
+   }
   },
   "panel-header": {
    "rect": [
@@ -108,7 +120,11 @@
     48,
     16
    ],
-   "nine": false
+   "nine": false,
+   "setDelta": {
+    "set2": -4,
+    "set3": -8
+   }
   },
   "panel-title": {
    "rect": [
@@ -117,7 +133,11 @@
     48,
     12
    ],
-   "nine": false
+   "nine": false,
+   "setDelta": {
+    "set2": -4,
+    "set3": -8
+   }
   },
   "_comment_buttons": "PUSH BUTTONS: base=[208,544] sáng (enabled) / pressed=[464,544] / disabled=[80,544] tối (khoá cứng)",
   "button": {
@@ -501,6 +521,10 @@
      16,
      16
     ]
+   },
+   "setDelta": {
+    "set2": -4,
+    "set3": -8
    }
   },
   "tab-cap-left": {
@@ -518,6 +542,10 @@
      16,
      16
     ]
+   },
+   "setDelta": {
+    "set2": -4,
+    "set3": -8
    }
   },
   "tab-cap-right": {
@@ -535,6 +563,10 @@
      16,
      16
     ]
+   },
+   "setDelta": {
+    "set2": -4,
+    "set3": -8
    }
   },
   "tab-cap-bottom": {
@@ -552,6 +584,10 @@
      16,
      16
     ]
+   },
+   "setDelta": {
+    "set2": -4,
+    "set3": -8
    }
   },
   "tab-top": {
@@ -1309,6 +1345,160 @@
    ],
    "nine": false,
    "themed": false
+  },
+  "_comment_decoration": "DECORATION - moc/hoa van vien panel (bo 1). side-1/2 rong 10px, side-3/4 hep 6px",
+  "decoration-top-arch": {
+   "rect": [
+    80,
+    8,
+    16,
+    10
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "decoration-top-bar": {
+   "rect": [
+    160,
+    12,
+    16,
+    6
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "decoration-side-1": {
+   "rect": [
+    56,
+    32,
+    10,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "decoration-side-2": {
+   "rect": [
+    110,
+    32,
+    10,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "decoration-side-3": {
+   "rect": [
+    140,
+    32,
+    6,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "decoration-side-4": {
+   "rect": [
+    190,
+    32,
+    6,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "decoration-bottom-arch": {
+   "rect": [
+    80,
+    62,
+    16,
+    10
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "decoration-bottom-bar": {
+   "rect": [
+    160,
+    62,
+    16,
+    6
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "_comment_window": "WINDOW BUTTONS - 3 nut cua so (thu tu trai->phai: minimize, maximize, close), 6x6, state hover/pressed",
+  "window-btn-min": {
+   "rect": [
+    213,
+    21,
+    6,
+    6
+   ],
+   "nine": false,
+   "sets": false,
+   "states": {
+    "hover": [
+     213,
+     37,
+     6,
+     6
+    ],
+    "pressed": [
+     213,
+     53,
+     6,
+     6
+    ]
+   }
+  },
+  "window-btn-max": {
+   "rect": [
+    221,
+    21,
+    6,
+    6
+   ],
+   "nine": false,
+   "sets": false,
+   "states": {
+    "hover": [
+     221,
+     37,
+     6,
+     6
+    ],
+    "pressed": [
+     221,
+     53,
+     6,
+     6
+    ]
+   }
+  },
+  "window-btn-close": {
+   "rect": [
+    229,
+    21,
+    6,
+    6
+   ],
+   "nine": false,
+   "sets": false,
+   "states": {
+    "hover": [
+     229,
+     37,
+     6,
+     6
+    ],
+    "pressed": [
+     229,
+     53,
+     6,
+     6
+    ]
+   }
   }
  },
  "sheets": {
@@ -1331,6 +1521,11 @@
    "set1": 0,
    "set2": 544,
    "set3": 1088
-  }
+  },
+  "export": [
+   "set1"
+  ],
+  "_note": "offset la mac dinh (nhieu nhat); nhom lech vai px thi khai setDelta, sprite khac ca kich thuoc thi khai setRect. Chi xuat bo nao co du toa do chuan.",
+  "_why": "Moi xuat set1: set2/set3 can setRect (nhieu sprite KHAC ca kich thuoc: bar-h 48x12<->48x20, divider 3<->7) va setOverlays (hoa tiet tam chi co o set2/3) — dong offset thuan se CAT CUT sprite. Co che da san sang: them ten bo vao export la chay."
  }
 }

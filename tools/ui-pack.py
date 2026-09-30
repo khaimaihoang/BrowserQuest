@@ -125,6 +125,14 @@ def flatten_middle(crop: Image.Image, sl, axis: str) -> Image.Image:
                 px[i, j] = src
     return out
 
+def overlay_for(ov: dict, spec: dict, mf: dict, set_name: str) -> dict:
+    """Rect hoạ tiết tâm của slice, dời theo bộ (giống rect)."""
+    out = dict(ov)
+    out["rect"] = rect_for({"rect": ov["rect"],
+                            "setRect": ov.get("setRect")}, mf, set_name, ov["rect"])
+    return out
+
+
 def overlay_list(spec: dict) -> list:
     return list(spec.get("overlays") or [])
 
@@ -239,6 +247,11 @@ def load_manifest(path: Path) -> dict:
         if isinstance(meta, str):
             sheets[name] = {"source": meta, "themed": name == "main"}
     sheets.setdefault("main", {"source": data["source"], "themed": True})
+    # Trục BỘ (set) — giống trục theme nhưng theo trục y: mỗi theme có nhiều bộ asset
+    # cùng nhóm, khác hoạ tiết. `rect` luôn ghi ở bộ mặc định; bộ khác = rect + offset
+    # (+ setDelta riêng nếu nhóm lệch vài px), hoặc setRect khi khác cả kích thước.
+    data.setdefault("sets", {"default": "set1", "offsets": {"set1": 0}})
+    data["sets"].setdefault("default", list(data["sets"]["offsets"])[0])
     return data
 
 
@@ -256,6 +269,42 @@ def sheet_themed(mf: dict, name: str) -> bool:
     return bool(mf["sheets"][name].get("themed", name == "main"))
 
 
+def set_names(mf: dict) -> list[str]:
+    """Các bộ ĐƯỢC XUẤT. `sets.export` giới hạn (vd mới có toạ độ cho set1);
+    bỏ trống = xuất hết. Các bộ vẫn phải khai trong `offsets`."""
+    every = list(mf["sets"]["offsets"])
+    exp = mf["sets"].get("export")
+    return [s for s in every if exp is None or s in exp]
+
+
+def default_set(mf: dict) -> str:
+    return mf["sets"]["default"]
+
+
+def slice_sets(mf: dict, spec: dict) -> list[str]:
+    """Các bộ mà slice này CÓ mặt.
+
+    Chỉ sprite trên sheet theo-theme (atlas chính) và có `themed` mới lặp theo bộ —
+    sheet tĩnh (`icons`, `grids`) và slice `themed:false` (resource fills) chỉ có 1 bản.
+    """
+    if spec.get("sets", True) is False:
+        return [default_set(mf)]
+    if not sheet_themed(mf, sheet_name(spec)) or not spec.get("themed", True):
+        return [default_set(mf)]
+    return set_names(mf)
+
+
+def rect_for(spec: dict, mf: dict | None, set_name: str, rect: list) -> list:
+    """Rect của slice ở một bộ. Không truyền `mf` ⇒ trả nguyên rect."""
+    if mf is None or set_name == default_set(mf):
+        return rect
+    override = (spec.get("setRect") or {}).get(set_name)
+    if override:
+        return override
+    dy = mf["sets"]["offsets"][set_name] + (spec.get("setDelta") or {}).get(set_name, 0)
+    return [rect[0], rect[1] + dy, rect[2], rect[3]]
+
+
 def load_sheets(mf: dict, root: Path) -> dict:
     """Open every declared sheet once: {name: RGBA image}."""
     out = {}
@@ -267,10 +316,13 @@ def load_sheets(mf: dict, root: Path) -> dict:
     return out
 
 
-def asset_filename(name: str, state: str, theme: str, default_theme: str) -> str:
+def asset_filename(name: str, state: str, theme: str, default_theme: str,
+                   set_name: str = "", default_s: str = "") -> str:
     parts = [name]
     if state:
         parts.append(state)
+    if set_name and set_name != default_s:
+        parts.append(set_name)
     if theme != default_theme:
         parts.append(theme)
     return "--".join(parts) + ".png"
@@ -288,11 +340,13 @@ def ordered_states(spec: dict) -> list[str]:
     return known + extra
 
 
-def variants(spec: dict, default_theme: bool = True):
-    """Yield (state, rect); state '' is the base variant."""
-    yield "", spec["rect"]
+def variants(spec: dict, default_theme: bool = True,
+             mf: dict | None = None, set_name: str = ""):
+    """Yield (state, rect); state '' is the base variant.
+    Truyền `mf` + `set_name` để rect được dời theo bộ (setRect/setDelta/offsets)."""
+    yield "", rect_for(spec, mf, set_name, spec["rect"])
     for state in ordered_states(spec):
-        yield state, spec["states"][state]
+        yield state, rect_for(spec, mf, set_name, spec["states"][state])
 
 
 def state_selectors(cls: str, state: str) -> list[str]:
@@ -315,22 +369,24 @@ def validate(mf: dict, sheet_sizes: dict) -> list[str]:
             continue
         sw, sh = sheet_sizes[sheet]
         themed = sheet_themed(mf, sheet) and spec.get("themed", True)
-        for state, rect in variants(spec):
-            if len(rect) != 4:
-                problems.append(f"{name}[{state or 'base'}]: rect must be [x,y,w,h]")
-                continue
-            x, y, w, h = rect
-            dt = mf["themes"]["default"]
-            check = offsets.items() if themed else [(dt, offsets[dt])]
-            for theme, off in check:
-                if x + off < 0 or x + off + w > sw or y < 0 or y + h > sh:
-                    problems.append(f"{name}[{state or 'base'}][{theme}]: rect out of bounds")
-            if nine and state == "":
-                if max(t, r, b, l) <= 0:
-                    problems.append(f"{name}: nine-slice needs a slice > 0")
-                elif t + b >= h or l + r >= w:
-                    problems.append(
-                        f"{name}: slice ({t},{r},{b},{l}) too large for {w}x{h}")
+        for set_name in slice_sets(mf, spec):
+            for state, rect in variants(spec, mf=mf, set_name=set_name):
+                where = f"{name}[{state or 'base'}][{set_name}]"
+                if len(rect) != 4:
+                    problems.append(f"{where}: rect must be [x,y,w,h]")
+                    continue
+                x, y, w, h = rect
+                dt = mf["themes"]["default"]
+                check = offsets.items() if themed else [(dt, offsets[dt])]
+                for theme, off in check:
+                    if x + off < 0 or x + off + w > sw or y < 0 or y + h > sh:
+                        problems.append(f"{where}[{theme}]: rect out of bounds")
+                if nine and state == "" and set_name == default_set(mf):
+                    if max(t, r, b, l) <= 0:
+                        problems.append(f"{name}: nine-slice needs a slice > 0")
+                    elif t + b >= h or l + r >= w:
+                        problems.append(
+                            f"{name}: slice ({t},{r},{b},{l}) too large for {w}x{h}")
     return problems
 
 
@@ -343,80 +399,87 @@ def url_for(rel: str) -> str:
 
 
 def write_images(mf: dict, ims: dict, themes: list[str], write: bool) -> dict:
-    """Slice + upscale + export. Returns assets[theme][name][state][scale] = rel."""
+    """Slice + upscale + export → assets[set][theme][name][key][scale] = rel."""
     offsets = mf["themes"]["offsets"]
     default_theme = mf["themes"]["default"]
+    dset = default_set(mf)
     scales = mf["scales"]
     out_tpl = mf["output"]["image"]
     result: dict = {}
 
-    for theme in themes:
-        result[theme] = {}
-        for name, spec in iter_slices(mf):
-            sheet = sheet_name(spec)
-            s_themed = sheet_themed(mf, sheet)
-            allowed = slice_themes(spec, themes, default_theme) if s_themed else [default_theme]
-            if theme not in allowed:
-                continue
-            # the theme x-offset only applies to a themed slice on a themed sheet
-            off = offsets[theme] if (s_themed and spec.get("themed", True)) else 0
-            im = ims[sheet]
-            result[theme][name] = {}
-            for state, rect in variants(spec):
-                x, y, w, h = rect
-                crop = im.crop((x + off, y, x + off + w, y + h))
-                fname = asset_filename(name, state, theme, default_theme)
-                result[theme][name][state] = {}
-                for scale in scales:
-                    rel = out_tpl.format(scale=scale) + "/" + fname
-                    result[theme][name][state][scale] = rel
-                    if write:
-                        dest = ROOT / rel
-                        dest.parent.mkdir(parents=True, exist_ok=True)
-                        nearest_scale(crop, scale).save(dest)
-            # 9-slice with an anchored centre ornament: export a cleaned base
-            # (ornament removed) + the ornament itself as `--ovN` sprites.
-            ovs = overlay_list(spec)
-            if ovs:
-                rect = spec["rect"]
-                x, y, w, h = rect
-                src_base = im.crop((x + off, y, x + off + w, y + h))
-                cleaned = clean_overlays(src_base, rect, ovs)
-                if spec.get("flatten", False):
-                    cleaned = flatten_middle(cleaned, parse_slice(spec), spec.get("stretch", "x"))
-                result[theme][name]["@base"] = {}
-                for scale in scales:
-                    rel = out_tpl.format(scale=scale) + "/" + asset_filename(
-                        name + "--base", "", theme, default_theme)
-                    result[theme][name]["@base"][scale] = rel
-                    if write:
-                        dest = ROOT / rel
-                        dest.parent.mkdir(parents=True, exist_ok=True)
-                        nearest_scale(cleaned, scale).save(dest)
-                for i, ov in enumerate(ovs, 1):
-                    ox, oy, ow, oh = ov["rect"]
-                    ocrop = im.crop((ox + off, oy, ox + off + ow, oy + oh))
-                    key = f"@ov{i}"
-                    result[theme][name][key] = {}
+    def emit(crop, stem: str, theme: str, set_name: str, bucket: dict) -> None:
+        """Ghi 1 sprite ở mọi scale; đổ rel vào bucket[scale]."""
+        fname = asset_filename(stem, "", theme, default_theme, set_name, dset)
+        for scale in scales:
+            rel = out_tpl.format(scale=scale) + "/" + fname
+            bucket[scale] = rel
+            if write:
+                dest = ROOT / rel
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                nearest_scale(crop, scale).save(dest)
+
+    for set_name in set_names(mf):
+        result[set_name] = {}
+        for theme in themes:
+            result[set_name][theme] = {}
+            for name, spec in iter_slices(mf):
+                if set_name not in slice_sets(mf, spec):
+                    continue
+                sheet = sheet_name(spec)
+                s_themed = sheet_themed(mf, sheet)
+                allowed = (slice_themes(spec, themes, default_theme) if s_themed
+                           else [default_theme])
+                if theme not in allowed:
+                    continue
+                # the theme x-offset only applies to a themed slice on a themed sheet
+                off = offsets[theme] if (s_themed and spec.get("themed", True)) else 0
+                im = ims[sheet]
+                rec: dict = {}
+                result[set_name][theme][name] = rec
+                for state, rect in variants(spec, mf=mf, set_name=set_name):
+                    x, y, w, h = rect
+                    crop = im.crop((x + off, y, x + off + w, y + h))
+                    key = state
+                    rec[key] = {}
+                    fname = asset_filename(name, state, theme, default_theme, set_name, dset)
                     for scale in scales:
-                        rel = out_tpl.format(scale=scale) + "/" + asset_filename(
-                            f"{name}--ov{i}", "", theme, default_theme)
-                        result[theme][name][key][scale] = rel
+                        rel = out_tpl.format(scale=scale) + "/" + fname
+                        rec[key][scale] = rel
                         if write:
                             dest = ROOT / rel
                             dest.parent.mkdir(parents=True, exist_ok=True)
-                            nearest_scale(ocrop, scale).save(dest)
+                            nearest_scale(crop, scale).save(dest)
+                # 9-slice with an anchored centre ornament: export a cleaned base
+                # (ornament removed) + the ornament itself as `--ovN` sprites.
+                ovs = overlay_list(spec)
+                if ovs:
+                    x, y, w, h = rect_for(spec, mf, set_name, spec["rect"])
+                    src_base = im.crop((x + off, y, x + off + w, y + h))
+                    cleaned = clean_overlays(src_base, [x, y, w, h],
+                                             [overlay_for(o, spec, mf, set_name) for o in ovs])
+                    if spec.get("flatten", False):
+                        cleaned = flatten_middle(cleaned, parse_slice(spec),
+                                                 spec.get("stretch", "x"))
+                    rec["@base"] = {}
+                    emit(cleaned, name + "--base", theme, set_name, rec["@base"])
+                    for i, ov in enumerate(ovs, 1):
+                        ovr = overlay_for(ov, spec, mf, set_name)
+                        ox, oy, ow, oh = ovr["rect"]
+                        ocrop = im.crop((ox + off, oy, ox + off + ow, oy + oh))
+                        rec[f"@ov{i}"] = {}
+                        emit(ocrop, f"{name}--ov{i}", theme, set_name, rec[f"@ov{i}"])
     return result
 
 
 def collect_rels(assets: dict) -> set[str]:
-    """Every output path referenced by the current manifest."""
+    """Every output path referenced by the current manifest (assets[set][theme]...)."""
     return {
-        assets[t][n][s][sc]
-        for t in assets
-        for n in assets[t]
-        for s in assets[t][n]
-        for sc in assets[t][n][s]
+        assets[st][t][n][s][sc]
+        for st in assets
+        for t in assets[st]
+        for n in assets[st][t]
+        for s in assets[st][t][n]
+        for sc in assets[st][t][n][s]
     }
 
 
@@ -459,13 +522,38 @@ def pixelated_decls(indent: str = "  ") -> str:
     )
 
 
-def css_for_scale(mf: dict, assets: dict, scale: int, themes: list[str]) -> str:
+def css_for_scale(mf: dict, view: dict, scale: int, themes: list[str],
+                  set_name: str = "") -> str:
+    """CSS cho MỘT bộ. `view` = view[set_name] (view[theme][name][key][scale]).
+
+    Bộ mặc định xuất rule đầy đủ (border-width + hình + state + theme...).
+    Bộ khác CHỈ xuất override đường dẫn ảnh — border-width/repeat/stretch y hệt
+    nên không cần lặp lại, CSS không phình 3 lần.
+    """
     prefix = mf["css"]["prefix"]
     default_theme = mf["themes"]["default"]
+    sc = f".{set_name}" if set_name and set_name != default_set(mf) else ""
+    full = not sc                      # bộ mặc định ⇒ rule đầy đủ
     out: list[str] = []
     hover: list[str] = []
 
+    def scoped(sel: str) -> str:
+        """Thêm tiền tố bộ vào từng selector trong chuỗi đã nối bằng dấu phẩy."""
+        if not sc:
+            return sel
+        return ", ".join(f"{sc} {part.strip()}" for part in sel.split(","))
+
+    def themed(sel: str, theme: str) -> str:
+        """Selector cho theme, gộp luôn tiền tố bộ (cả 2 class trên <body>)."""
+        base = ".theme-" + theme
+        if not sc:
+            return ", ".join(f"{base} {part.strip()}" for part in sel.split(","))
+        return ", ".join(f"{sc}{base} {part.strip()}" for part in sel.split(","))
+
     for name, spec in iter_slices(mf):
+        # bộ này không có slice đó (sheet tĩnh, themed:false, sets:false) → bỏ qua
+        if name not in view.get(default_theme, {}):
+            continue
         cls = f".{prefix}-{name}"
         nine = spec.get("nine", True)
         t, r, b, l = (v * scale for v in parse_slice(spec))
@@ -473,19 +561,22 @@ def css_for_scale(mf: dict, assets: dict, scale: int, themes: list[str]) -> str:
 
         ovs = overlay_list(spec)
         # 1. base rule (cleaned image when an anchored ornament is present)
-        base_key = "@base" if (ovs and "@base" in assets[default_theme][name]) else ""
-        base_rel = url_for(assets[default_theme][name][base_key][scale])
-        out.append(f"{cls} {{")
-        if ovs:
+        base_key = "@base" if (ovs and "@base" in view[default_theme][name]) else ""
+        base_rel = url_for(view[default_theme][name][base_key][scale])
+        if not full:
+            out.append(f"{cls} {{ {prop}: url('{base_rel}'); }}")
+        else:
+            out.append(f"{cls} {{")
+        if full and ovs:
             out.append("  position: relative;")
-        if nine:
+        if full and nine:
             out.append("  box-sizing: border-box;")
             out.append(f"  border-width: {t}px {r}px {b}px {l}px;")
             out.append("  border-style: solid;")
             out.append("  border-color: transparent;")
             out.append(f"  border-image: url('{base_rel}') {t} {r} {b} {l} fill "
                        f"{spec.get('repeat', 'repeat')};")
-        else:
+        elif full:
             rep = spec.get("repeat", "no-repeat")
             out.append("  display: inline-block;")
             out.append(f"  background-image: url('{base_rel}');")
@@ -499,22 +590,23 @@ def css_for_scale(mf: dict, assets: dict, scale: int, themes: list[str]) -> str:
             else:
                 out.append("  background-position: center;")
                 out.append("  background-size: contain;")
-        out.append(pixelated_decls())
-        out.append("}")
+        if full:
+            out.append(pixelated_decls())
+            out.append("}")
 
         # 2. theme base overrides
         for theme in slice_themes(spec, themes, default_theme):
             if theme == default_theme:
                 continue
-            tkey = "@base" if (ovs and "@base" in assets[theme][name]) else ""
-            turl = url_for(assets[theme][name][tkey][scale])
-            out.append(f".theme-{theme} {cls} {{ {prop}: url('{turl}'); }}")
+            tkey = "@base" if (ovs and "@base" in view[theme][name]) else ""
+            turl = url_for(view[theme][name][tkey][scale])
+            out.append(f"{themed(cls, theme)} {{ {prop}: url('{turl}'); }}")
 
         # 3+4. state + theme-state overrides (hover is deferred to a media block)
         for state in ordered_states(spec):
             target = hover if state == "hover" else out
-            srel = url_for(assets[default_theme][name][state][scale])
-            sel = ", ".join(state_selectors(cls, state))
+            srel = url_for(view[default_theme][name][state][scale])
+            sel = scoped(", ".join(state_selectors(cls, state)))
             # disabled = khoá cứng NHƯNG vẫn nuốt click: giữ pointer-events:auto để
             # control hứng cú click (không xuyên xuống canvas/cha phía sau) + cursor:default.
             # Không có phản hồi nhấn vì selector pressed/active-pressed đã loại disabled.
@@ -523,23 +615,22 @@ def css_for_scale(mf: dict, assets: dict, scale: int, themes: list[str]) -> str:
             for theme in slice_themes(spec, themes, default_theme):
                 if theme == default_theme:
                     continue
-                turl = url_for(assets[theme][name][state][scale])
-                tsel = ", ".join(f".theme-{theme} {x}" for x in state_selectors(cls, state))
+                turl = url_for(view[theme][name][state][scale])
+                tsel = themed(", ".join(state_selectors(cls, state)), theme)
                 target.append(f"{tsel} {{ {prop}: url('{turl}'); }}")
 
         # 4b. aliases: expose an existing state sprite under extra selectors
         for alias_state, target in (spec.get("alias") or {}).items():
             if target not in (spec.get("states") or {}):
                 continue
-            arel = url_for(assets[default_theme][name][target][scale])
-            sel = ", ".join(state_selectors(cls, alias_state))
+            arel = url_for(view[default_theme][name][target][scale])
+            sel = scoped(", ".join(state_selectors(cls, alias_state)))
             out.append(f"{sel} {{ {prop}: url('{arel}'); }}")
             for theme in slice_themes(spec, themes, default_theme):
                 if theme == default_theme:
                     continue
-                turl = url_for(assets[theme][name][target][scale])
-                tsel = ", ".join(f".theme-{theme} {x}"
-                                 for x in state_selectors(cls, alias_state))
+                turl = url_for(view[theme][name][target][scale])
+                tsel = themed(", ".join(state_selectors(cls, alias_state)), theme)
                 out.append(f"{tsel} {{ {prop}: url('{turl}'); }}")
 
         # 4d. optional dimming filter for sprites without a disabled variant
@@ -552,13 +643,13 @@ def css_for_scale(mf: dict, assets: dict, scale: int, themes: list[str]) -> str:
         # 5. optional desktop hover reusing an existing state sprite (no extra file)
         hover_ref = spec.get("hoverUses")
         if hover_ref and hover_ref in (spec.get("states") or {}):
-            hrel = url_for(assets[default_theme][name][hover_ref][scale])
-            hover.append(f"{cls}:hover, {cls}.hover {{ {prop}: url('{hrel}'); }}")
+            hrel = url_for(view[default_theme][name][hover_ref][scale])
+            hover.append(f"{scoped(cls + ':hover, ' + cls + '.hover')} {{ {prop}: url('{hrel}'); }}")
             for theme in slice_themes(spec, themes, default_theme):
                 if theme == default_theme:
                     continue
-                turl = url_for(assets[theme][name][hover_ref][scale])
-                hover.append(f".theme-{theme} {cls}:hover, .theme-{theme} {cls}.hover "
+                turl = url_for(view[theme][name][hover_ref][scale])
+                hover.append(f"{themed(cls + ':hover, ' + cls + '.hover', theme)} "
                              f"{{ {prop}: url('{turl}'); }}")
 
         # 4c. anchored centre ornaments as pseudo-elements (never tiled)
@@ -566,17 +657,17 @@ def css_for_scale(mf: dict, assets: dict, scale: int, themes: list[str]) -> str:
             pseudo = "::before" if i == 0 else "::after"
             ow, oh = ov["rect"][2], ov["rect"][3]
             pos = overlay_pos(ov.get("anchor", "center"), ow, oh, scale, parse_slice(spec))
-            rel = url_for(assets[default_theme][name][f"@ov{i + 1}"][scale])
+            rel = url_for(view[default_theme][name][f"@ov{i + 1}"][scale])
             out.append(
-                f"{cls}{pseudo} {{ content:''; position:absolute; {pos} "
+                f"{scoped(cls + pseudo)} {{ content:''; position:absolute; {pos} "
                 f"width:{ow * scale}px; height:{oh * scale}px; "
                 f"background:url('{rel}') no-repeat; image-rendering:pixelated; "
                 f"pointer-events:none; }}")
             for theme in slice_themes(spec, themes, default_theme):
                 if theme == default_theme:
                     continue
-                turl = url_for(assets[theme][name][f"@ov{i + 1}"][scale])
-                out.append(f".theme-{theme} {cls}{pseudo} {{ background-image: url('{turl}'); }}")
+                turl = url_for(view[theme][name][f"@ov{i + 1}"][scale])
+                out.append(f"{themed(cls + pseudo, theme)} {{ background-image: url('{turl}'); }}")
 
     if hover:
         out.append("@media (hover: hover) {")
@@ -591,16 +682,22 @@ def generate_css(mf: dict, assets: dict, themes: list[str]) -> str:
         "   Manifest: tools/ui/slices.json\n"
         "   Regenerate: npm run ui:pack */\n\n"
     )
-    parts = [header, css_for_scale(mf, assets, 1, themes)]
+    def every_set(scale: int) -> str:
+        """Nối CSS của mọi bộ được xuất: bộ mặc định (rule đầy đủ) trước, rồi
+        các bộ khác chỉ override đường dẫn ảnh → CSS không phình theo số bộ."""
+        return "\n".join(css_for_scale(mf, assets[st], scale, themes, st)
+                          for st in set_names(mf))
+
+    parts = [header, every_set(1)]
     for scale in (2, 3):
         for (media,) in SCALE_MEDIA[scale]:
             parts.append(f"@media {media} {{\n")
-            for line in css_for_scale(mf, assets, scale, themes).splitlines():
+            for line in every_set(scale).splitlines():
                 parts.append(("  " + line) if line else line)
             parts.append("}\n")
     for (media,) in SCALE_MEDIA[1]:
         parts.append(f"@media {media} {{\n")
-        for line in css_for_scale(mf, assets, 1, themes).splitlines():
+        for line in every_set(1).splitlines():
             parts.append(("  " + line) if line else line)
         parts.append("}\n")
     return "\n".join(parts)
@@ -810,6 +907,8 @@ def main() -> int:
               f"{Path(meta['source']).name}  ({n} slices)")
     print(f"themes: {themes}  scales: {mf['scales']}  "
           f"slices: {len(iter_slices(mf))} (+{n_states} states)")
+    print(f"sets: {set_names(mf)}  default: '{default_set(mf)}' "
+          f"(default = no class suffix, others = .<set> like .theme-*)")
     if problems:
         print("VALIDATION FAILED:")
         for p in problems:
@@ -858,7 +957,8 @@ def main() -> int:
             spec.loader.exec_module(mod)
             mk = ROOT / mf["output"].get("mockup", "client/ui-mockup.html")
             mk.write_text(
-                mod.generate(mf, assets, ROOT, css_for_scale(mf, assets, 1, themes)),
+                mod.generate(mf, assets, ROOT,
+                             css_for_scale(mf, assets[default_set(mf)], 1, themes)),
                 encoding="utf-8")
             print(f"wrote {mk.relative_to(ROOT)}")
             dist = ROOT / "dist" / "client"
@@ -882,7 +982,7 @@ def main() -> int:
             print(f"removed {len(removed)} stale file(s)")
         index_path.write_text(json.dumps(sorted(new_rels), indent=0), encoding="utf-8")
 
-        generated = ROOT / assets[mf["themes"]["default"]]["panel"][""][1]
+        generated = ROOT / assets[default_set(mf)][mf["themes"]["default"]]["panel"][""][1]
         legacy = ROOT / "client/img/1/ui/panel.png"
         if generated.exists() and legacy.exists():
             same = generated.read_bytes() == legacy.read_bytes()

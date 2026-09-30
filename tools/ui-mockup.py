@@ -630,6 +630,7 @@ buildPalette(); syncTop(); wire(); $('#demo').click();  /* mở trang là có s�
 
 
 def generate(mf: dict, assets: dict, root: Path, css_1x: str) -> str:
+    """`css_1x` là khối 1x của BỘ MẶC ĐỊNH (trang chỉ dựng ở bộ đó)."""
     sprites, items = sprite_index(mf, assets, root)
     prefix = mf["css"]["prefix"]
     # CSS sinh ra dùng url('../img/...') vì nằm ở client/css/. Nhúng inline vào

@@ -74,7 +74,21 @@ Offset chính xác **đo từ `use_guideline_layer.png`** (khung nhóm tô màu 
 >
 > Bộ 1 **thiếu hoạ tiết so với bộ 2/3** ⇒ thanh bar thấp/mảnh hơn hẳn (vd `bar-h`
 > 48×12 thay vì 48×20) nên **`overlays` bị bỏ khỏi bộ mặc định** — cơ chế neo hoạ tiết
-> tâm chỉ cần cho bộ 2/3 (`setRect` / `setOverlays` sẽ khai báo khi mở 2 bộ đó).
+> tâm chỉ cần cho bộ 2/3.
+
+**Cơ chế đã sẵn sàng** (trục `sets` trong manifest + `.set2`/`.set3` trong CSS), nhưng
+`sets.export` hiện chỉ bật `set1`. Lý do **đo được**, không phải bỏ dở:
+
+- Nhiều sprite **khác cả kích thước** giữa các bộ (không chỉ dịch y): `bar-h` 48×12 ↔ 48×20,
+  `divider-h` 3px ↔ 7px, `panel` 44 ↔ 48. Dời thuần offset ⇒ **cắt cụt** sprite
+  (đã thử bật `set2`: `bar-h--set2.png` ra 48×12 thay vì 48×20 ⇒ sai).
+- Hoạ tiết tâm (boss/fan) **chỉ có ở bộ 2/3** ⇒ phải khai `overlays` riêng cho từng bộ,
+  nếu không boss bị kéo giãn thành vệt khi 9-slice stretch.
+- Offset **lệch theo từng nhóm** (set1↔set2 = 540 hoặc 544; set1↔set3 = 1080/1084/1086/1087/1088)
+  ⇒ phải khai `setDelta` cho mỗi nhóm.
+
+⇒ Mở bộ 2/3 = khai `setRect` + `setDelta` + overlay-theo-bộ cho ~40 sprite, rồi thêm tên bộ
+vào `sets.export`. Nên làm bằng **slice editor** (kéo tay, mắt người soát) rồi dán vào manifest.
 
 ### 2.1 Nhóm theo guideline
 
@@ -146,6 +160,7 @@ File: [`tools/ui/slices.json`](../tools/ui/slices.json)
 |---|---|
 | `source` | đường dẫn atlas **chính** (tương đối repo root) — tương đương `sheets.main.source` |
 | `sheets` | map `{tên: {source, themed}}`. `themed:true` = ảnh lặp ngang theo từng theme (nhận `offsets`); `themed:false` = rect tuyệt đối, xuất **1 lần** |
+| `sets` | trục **BỘ** (hoa văn) theo y: `{default, offsets: {set1:0, set2:544, set3:1088}, export: ["set1"]}`. Bộ mặc định → class `.ui-*` trần; bộ khác → `.set2 .ui-*` / `.set3 .ui-*` (gộp được với theme: `.set2.theme-green`). `export` giới hạn bộ nào được sinh (chỉ bật bộ nào đã có toạ độ chuẩn) |
 | `grid` | kích thước ô lưới (16) |
 | `themes.default` / `themes.offsets` | theme mặc định + offset x từng cột |
 | `scales` | `[1,2,3]` — các hệ số upscale NEAREST |
@@ -155,6 +170,14 @@ File: [`tools/ui/slices.json`](../tools/ui/slices.json)
 ### 3.2 Mỗi slice
 
 ```jsonc
+// Trục BỘ: rect ghi ở BỘ MẶC ĐỊNH (set1). Bộ khác = rect + offsets + setDelta,
+// hoặc setRect khi sprite khác CẢ kích thước; "sets": false = chỉ có 1 bộ.
+"bar-h": {
+  "rect": [672, 314, 48, 12],                 // bộ mặc định: thanh mảnh, không boss
+  "setRect": { "set2": [672, 854, 48, 20] },  // bộ 2: dày hơn (có boss) — khi mở set2
+  "setDelta": { "set2": -4, "set3": -8 }      // lệch vài px so với offsets chung
+},
+"bar-fill-red": { "sets": false, "themed": false },
 "icon-person": {
   "sheet": "icons",            // tuỳ chọn — sheet chứa slice (mặc định "main")
   "themed": false,             // sheet tĩnh ⇒ không cộng offsets theo theme
@@ -320,7 +343,7 @@ CSS sinh ra (thứ tự cascade: base → theme base → state → theme state �
 
 ---
 
-## 5. Bộ component hiện có (85 slice + 30 state → 1518 ảnh)
+## 5. Bộ component hiện có (96 slice + 36 state → 1488 ảnh, bộ `set1`)
 
 | Nhóm (guideline) | Slice |
 |---|---|
@@ -334,6 +357,8 @@ CSS sinh ra (thứ tự cascade: base → theme base → state → theme state �
 | TABS | `tab-cap-top/left/right/bottom` *(**NẮP** tab nhỏ 16×12 / 12×16, +active = khung nâng 16×16)*; `tab-top`, `tab-bottom`, `tab-left`, `tab-right` *(**CẠNH** khung tab lớn 48×12 / 12×48, +active)* |
 | ICONS *(sheet `icons`)* | `icon-person`, `icon-craft` (búa+đe), `icon-orb`, `icon-heart`, `icon-bolt`, `icon-shield`, `icon-shield-2`, `icon-swords`, `icon-plus`, `icon-drop`, `icon-boot`, `icon-pan`, `icon-chest`, `icon-chest-gem`, `icon-bricks`, `icon-barrel`, `icon-pickaxe`, `icon-bottle`, `icon-bottle-blue`, `icon-hammer`, `icon-water`, `icon-face` — sprite 8×8, `themed:false` |
 | GRIDS *(sheet `grids`)* | `grid-cell`, `grid-cell-sm`, `grid-cell-bracket`, `grid-3x3`, `grid-6x6` (+ bản `-ornate`) — ô lưới item, `themed:false` |
+| DECORATION | `decoration-top-arch`, `decoration-top-bar`, `decoration-bottom-arch`, `decoration-bottom-bar`, `decoration-side-1..4` — móc/hoa văn viền panel (`side-1/2` rộng 10px, `side-3/4` hẹp 6px) |
+| WINDOW BUTTONS | `window-btn-min`, `window-btn-max`, `window-btn-close` — 6×6, state `hover` (trong `@media (hover:hover)`) + `pressed` |
 | RESOURCES BARS & CONTAINERS | `bar-h`/`bar-h-md`/`bar-h-sm`/`bar-h-xs` *(4 cỡ ngang)*, `bar-v`/`bar-v-md`/`bar-v-sm`/`bar-v-xs` *(4 cỡ dọc)* — có `overlays` neo hoạ tiết tâm; `container`, `container-md`, `container-sm` |
 | RESOURCE FILLS | `bar-fill-{red,blue,gold,green,purple}`, `bar-fill-v-{…}` *(themed:false)* |
 

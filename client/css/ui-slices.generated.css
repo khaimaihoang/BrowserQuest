@@ -1183,6 +1183,192 @@
   image-rendering: -webkit-optimize-contrast;
   image-rendering: pixelated;
 }
+.ui-decoration-top-arch {
+  display: inline-block;
+  background-image: url('../img/1/ui/decoration-top-arch.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+}
+.theme-green .ui-decoration-top-arch { background-image: url('../img/1/ui/decoration-top-arch--green.png'); }
+.theme-blue .ui-decoration-top-arch { background-image: url('../img/1/ui/decoration-top-arch--blue.png'); }
+.theme-red .ui-decoration-top-arch { background-image: url('../img/1/ui/decoration-top-arch--red.png'); }
+.theme-white .ui-decoration-top-arch { background-image: url('../img/1/ui/decoration-top-arch--white.png'); }
+.ui-decoration-top-bar {
+  display: inline-block;
+  background-image: url('../img/1/ui/decoration-top-bar.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+}
+.theme-green .ui-decoration-top-bar { background-image: url('../img/1/ui/decoration-top-bar--green.png'); }
+.theme-blue .ui-decoration-top-bar { background-image: url('../img/1/ui/decoration-top-bar--blue.png'); }
+.theme-red .ui-decoration-top-bar { background-image: url('../img/1/ui/decoration-top-bar--red.png'); }
+.theme-white .ui-decoration-top-bar { background-image: url('../img/1/ui/decoration-top-bar--white.png'); }
+.ui-decoration-side-1 {
+  display: inline-block;
+  background-image: url('../img/1/ui/decoration-side-1.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+}
+.theme-green .ui-decoration-side-1 { background-image: url('../img/1/ui/decoration-side-1--green.png'); }
+.theme-blue .ui-decoration-side-1 { background-image: url('../img/1/ui/decoration-side-1--blue.png'); }
+.theme-red .ui-decoration-side-1 { background-image: url('../img/1/ui/decoration-side-1--red.png'); }
+.theme-white .ui-decoration-side-1 { background-image: url('../img/1/ui/decoration-side-1--white.png'); }
+.ui-decoration-side-2 {
+  display: inline-block;
+  background-image: url('../img/1/ui/decoration-side-2.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+}
+.theme-green .ui-decoration-side-2 { background-image: url('../img/1/ui/decoration-side-2--green.png'); }
+.theme-blue .ui-decoration-side-2 { background-image: url('../img/1/ui/decoration-side-2--blue.png'); }
+.theme-red .ui-decoration-side-2 { background-image: url('../img/1/ui/decoration-side-2--red.png'); }
+.theme-white .ui-decoration-side-2 { background-image: url('../img/1/ui/decoration-side-2--white.png'); }
+.ui-decoration-side-3 {
+  display: inline-block;
+  background-image: url('../img/1/ui/decoration-side-3.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+}
+.theme-green .ui-decoration-side-3 { background-image: url('../img/1/ui/decoration-side-3--green.png'); }
+.theme-blue .ui-decoration-side-3 { background-image: url('../img/1/ui/decoration-side-3--blue.png'); }
+.theme-red .ui-decoration-side-3 { background-image: url('../img/1/ui/decoration-side-3--red.png'); }
+.theme-white .ui-decoration-side-3 { background-image: url('../img/1/ui/decoration-side-3--white.png'); }
+.ui-decoration-side-4 {
+  display: inline-block;
+  background-image: url('../img/1/ui/decoration-side-4.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+}
+.theme-green .ui-decoration-side-4 { background-image: url('../img/1/ui/decoration-side-4--green.png'); }
+.theme-blue .ui-decoration-side-4 { background-image: url('../img/1/ui/decoration-side-4--blue.png'); }
+.theme-red .ui-decoration-side-4 { background-image: url('../img/1/ui/decoration-side-4--red.png'); }
+.theme-white .ui-decoration-side-4 { background-image: url('../img/1/ui/decoration-side-4--white.png'); }
+.ui-decoration-bottom-arch {
+  display: inline-block;
+  background-image: url('../img/1/ui/decoration-bottom-arch.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+}
+.theme-green .ui-decoration-bottom-arch { background-image: url('../img/1/ui/decoration-bottom-arch--green.png'); }
+.theme-blue .ui-decoration-bottom-arch { background-image: url('../img/1/ui/decoration-bottom-arch--blue.png'); }
+.theme-red .ui-decoration-bottom-arch { background-image: url('../img/1/ui/decoration-bottom-arch--red.png'); }
+.theme-white .ui-decoration-bottom-arch { background-image: url('../img/1/ui/decoration-bottom-arch--white.png'); }
+.ui-decoration-bottom-bar {
+  display: inline-block;
+  background-image: url('../img/1/ui/decoration-bottom-bar.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+}
+.theme-green .ui-decoration-bottom-bar { background-image: url('../img/1/ui/decoration-bottom-bar--green.png'); }
+.theme-blue .ui-decoration-bottom-bar { background-image: url('../img/1/ui/decoration-bottom-bar--blue.png'); }
+.theme-red .ui-decoration-bottom-bar { background-image: url('../img/1/ui/decoration-bottom-bar--red.png'); }
+.theme-white .ui-decoration-bottom-bar { background-image: url('../img/1/ui/decoration-bottom-bar--white.png'); }
+.ui-window-btn-min {
+  display: inline-block;
+  background-image: url('../img/1/ui/window-btn-min.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+}
+.theme-green .ui-window-btn-min { background-image: url('../img/1/ui/window-btn-min--green.png'); }
+.theme-blue .ui-window-btn-min { background-image: url('../img/1/ui/window-btn-min--blue.png'); }
+.theme-red .ui-window-btn-min { background-image: url('../img/1/ui/window-btn-min--red.png'); }
+.theme-white .ui-window-btn-min { background-image: url('../img/1/ui/window-btn-min--white.png'); }
+.ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-min--pressed.png'); }
+.theme-green .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-min--pressed--green.png'); }
+.theme-blue .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-min--pressed--blue.png'); }
+.theme-red .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-min--pressed--red.png'); }
+.theme-white .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-min--pressed--white.png'); }
+.ui-window-btn-max {
+  display: inline-block;
+  background-image: url('../img/1/ui/window-btn-max.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+}
+.theme-green .ui-window-btn-max { background-image: url('../img/1/ui/window-btn-max--green.png'); }
+.theme-blue .ui-window-btn-max { background-image: url('../img/1/ui/window-btn-max--blue.png'); }
+.theme-red .ui-window-btn-max { background-image: url('../img/1/ui/window-btn-max--red.png'); }
+.theme-white .ui-window-btn-max { background-image: url('../img/1/ui/window-btn-max--white.png'); }
+.ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-max--pressed.png'); }
+.theme-green .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-max--pressed--green.png'); }
+.theme-blue .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-max--pressed--blue.png'); }
+.theme-red .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-max--pressed--red.png'); }
+.theme-white .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-max--pressed--white.png'); }
+.ui-window-btn-close {
+  display: inline-block;
+  background-image: url('../img/1/ui/window-btn-close.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+}
+.theme-green .ui-window-btn-close { background-image: url('../img/1/ui/window-btn-close--green.png'); }
+.theme-blue .ui-window-btn-close { background-image: url('../img/1/ui/window-btn-close--blue.png'); }
+.theme-red .ui-window-btn-close { background-image: url('../img/1/ui/window-btn-close--red.png'); }
+.theme-white .ui-window-btn-close { background-image: url('../img/1/ui/window-btn-close--white.png'); }
+.ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-close--pressed.png'); }
+.theme-green .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-close--pressed--green.png'); }
+.theme-blue .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-close--pressed--blue.png'); }
+.theme-red .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-close--pressed--red.png'); }
+.theme-white .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-close--pressed--white.png'); }
+@media (hover: hover) {
+  .ui-window-btn-min:hover, .ui-window-btn-min.hover { background-image: url('../img/1/ui/window-btn-min--hover.png'); }
+  .theme-green .ui-window-btn-min:hover, .theme-green .ui-window-btn-min.hover { background-image: url('../img/1/ui/window-btn-min--hover--green.png'); }
+  .theme-blue .ui-window-btn-min:hover, .theme-blue .ui-window-btn-min.hover { background-image: url('../img/1/ui/window-btn-min--hover--blue.png'); }
+  .theme-red .ui-window-btn-min:hover, .theme-red .ui-window-btn-min.hover { background-image: url('../img/1/ui/window-btn-min--hover--red.png'); }
+  .theme-white .ui-window-btn-min:hover, .theme-white .ui-window-btn-min.hover { background-image: url('../img/1/ui/window-btn-min--hover--white.png'); }
+  .ui-window-btn-max:hover, .ui-window-btn-max.hover { background-image: url('../img/1/ui/window-btn-max--hover.png'); }
+  .theme-green .ui-window-btn-max:hover, .theme-green .ui-window-btn-max.hover { background-image: url('../img/1/ui/window-btn-max--hover--green.png'); }
+  .theme-blue .ui-window-btn-max:hover, .theme-blue .ui-window-btn-max.hover { background-image: url('../img/1/ui/window-btn-max--hover--blue.png'); }
+  .theme-red .ui-window-btn-max:hover, .theme-red .ui-window-btn-max.hover { background-image: url('../img/1/ui/window-btn-max--hover--red.png'); }
+  .theme-white .ui-window-btn-max:hover, .theme-white .ui-window-btn-max.hover { background-image: url('../img/1/ui/window-btn-max--hover--white.png'); }
+  .ui-window-btn-close:hover, .ui-window-btn-close.hover { background-image: url('../img/1/ui/window-btn-close--hover.png'); }
+  .theme-green .ui-window-btn-close:hover, .theme-green .ui-window-btn-close.hover { background-image: url('../img/1/ui/window-btn-close--hover--green.png'); }
+  .theme-blue .ui-window-btn-close:hover, .theme-blue .ui-window-btn-close.hover { background-image: url('../img/1/ui/window-btn-close--hover--blue.png'); }
+  .theme-red .ui-window-btn-close:hover, .theme-red .ui-window-btn-close.hover { background-image: url('../img/1/ui/window-btn-close--hover--red.png'); }
+  .theme-white .ui-window-btn-close:hover, .theme-white .ui-window-btn-close.hover { background-image: url('../img/1/ui/window-btn-close--hover--white.png'); }
+}
 
 @media screen and (max-width: 1500px) {
 
@@ -2365,6 +2551,192 @@
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
+  }
+  .ui-decoration-top-arch {
+    display: inline-block;
+    background-image: url('../img/2/ui/decoration-top-arch.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-top-arch { background-image: url('../img/2/ui/decoration-top-arch--green.png'); }
+  .theme-blue .ui-decoration-top-arch { background-image: url('../img/2/ui/decoration-top-arch--blue.png'); }
+  .theme-red .ui-decoration-top-arch { background-image: url('../img/2/ui/decoration-top-arch--red.png'); }
+  .theme-white .ui-decoration-top-arch { background-image: url('../img/2/ui/decoration-top-arch--white.png'); }
+  .ui-decoration-top-bar {
+    display: inline-block;
+    background-image: url('../img/2/ui/decoration-top-bar.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-top-bar { background-image: url('../img/2/ui/decoration-top-bar--green.png'); }
+  .theme-blue .ui-decoration-top-bar { background-image: url('../img/2/ui/decoration-top-bar--blue.png'); }
+  .theme-red .ui-decoration-top-bar { background-image: url('../img/2/ui/decoration-top-bar--red.png'); }
+  .theme-white .ui-decoration-top-bar { background-image: url('../img/2/ui/decoration-top-bar--white.png'); }
+  .ui-decoration-side-1 {
+    display: inline-block;
+    background-image: url('../img/2/ui/decoration-side-1.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-1 { background-image: url('../img/2/ui/decoration-side-1--green.png'); }
+  .theme-blue .ui-decoration-side-1 { background-image: url('../img/2/ui/decoration-side-1--blue.png'); }
+  .theme-red .ui-decoration-side-1 { background-image: url('../img/2/ui/decoration-side-1--red.png'); }
+  .theme-white .ui-decoration-side-1 { background-image: url('../img/2/ui/decoration-side-1--white.png'); }
+  .ui-decoration-side-2 {
+    display: inline-block;
+    background-image: url('../img/2/ui/decoration-side-2.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-2 { background-image: url('../img/2/ui/decoration-side-2--green.png'); }
+  .theme-blue .ui-decoration-side-2 { background-image: url('../img/2/ui/decoration-side-2--blue.png'); }
+  .theme-red .ui-decoration-side-2 { background-image: url('../img/2/ui/decoration-side-2--red.png'); }
+  .theme-white .ui-decoration-side-2 { background-image: url('../img/2/ui/decoration-side-2--white.png'); }
+  .ui-decoration-side-3 {
+    display: inline-block;
+    background-image: url('../img/2/ui/decoration-side-3.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-3 { background-image: url('../img/2/ui/decoration-side-3--green.png'); }
+  .theme-blue .ui-decoration-side-3 { background-image: url('../img/2/ui/decoration-side-3--blue.png'); }
+  .theme-red .ui-decoration-side-3 { background-image: url('../img/2/ui/decoration-side-3--red.png'); }
+  .theme-white .ui-decoration-side-3 { background-image: url('../img/2/ui/decoration-side-3--white.png'); }
+  .ui-decoration-side-4 {
+    display: inline-block;
+    background-image: url('../img/2/ui/decoration-side-4.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-4 { background-image: url('../img/2/ui/decoration-side-4--green.png'); }
+  .theme-blue .ui-decoration-side-4 { background-image: url('../img/2/ui/decoration-side-4--blue.png'); }
+  .theme-red .ui-decoration-side-4 { background-image: url('../img/2/ui/decoration-side-4--red.png'); }
+  .theme-white .ui-decoration-side-4 { background-image: url('../img/2/ui/decoration-side-4--white.png'); }
+  .ui-decoration-bottom-arch {
+    display: inline-block;
+    background-image: url('../img/2/ui/decoration-bottom-arch.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-bottom-arch { background-image: url('../img/2/ui/decoration-bottom-arch--green.png'); }
+  .theme-blue .ui-decoration-bottom-arch { background-image: url('../img/2/ui/decoration-bottom-arch--blue.png'); }
+  .theme-red .ui-decoration-bottom-arch { background-image: url('../img/2/ui/decoration-bottom-arch--red.png'); }
+  .theme-white .ui-decoration-bottom-arch { background-image: url('../img/2/ui/decoration-bottom-arch--white.png'); }
+  .ui-decoration-bottom-bar {
+    display: inline-block;
+    background-image: url('../img/2/ui/decoration-bottom-bar.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-bottom-bar { background-image: url('../img/2/ui/decoration-bottom-bar--green.png'); }
+  .theme-blue .ui-decoration-bottom-bar { background-image: url('../img/2/ui/decoration-bottom-bar--blue.png'); }
+  .theme-red .ui-decoration-bottom-bar { background-image: url('../img/2/ui/decoration-bottom-bar--red.png'); }
+  .theme-white .ui-decoration-bottom-bar { background-image: url('../img/2/ui/decoration-bottom-bar--white.png'); }
+  .ui-window-btn-min {
+    display: inline-block;
+    background-image: url('../img/2/ui/window-btn-min.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-window-btn-min { background-image: url('../img/2/ui/window-btn-min--green.png'); }
+  .theme-blue .ui-window-btn-min { background-image: url('../img/2/ui/window-btn-min--blue.png'); }
+  .theme-red .ui-window-btn-min { background-image: url('../img/2/ui/window-btn-min--red.png'); }
+  .theme-white .ui-window-btn-min { background-image: url('../img/2/ui/window-btn-min--white.png'); }
+  .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-min--pressed.png'); }
+  .theme-green .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-min--pressed--green.png'); }
+  .theme-blue .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-min--pressed--blue.png'); }
+  .theme-red .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-min--pressed--red.png'); }
+  .theme-white .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-min--pressed--white.png'); }
+  .ui-window-btn-max {
+    display: inline-block;
+    background-image: url('../img/2/ui/window-btn-max.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-window-btn-max { background-image: url('../img/2/ui/window-btn-max--green.png'); }
+  .theme-blue .ui-window-btn-max { background-image: url('../img/2/ui/window-btn-max--blue.png'); }
+  .theme-red .ui-window-btn-max { background-image: url('../img/2/ui/window-btn-max--red.png'); }
+  .theme-white .ui-window-btn-max { background-image: url('../img/2/ui/window-btn-max--white.png'); }
+  .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-max--pressed.png'); }
+  .theme-green .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-max--pressed--green.png'); }
+  .theme-blue .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-max--pressed--blue.png'); }
+  .theme-red .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-max--pressed--red.png'); }
+  .theme-white .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-max--pressed--white.png'); }
+  .ui-window-btn-close {
+    display: inline-block;
+    background-image: url('../img/2/ui/window-btn-close.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-window-btn-close { background-image: url('../img/2/ui/window-btn-close--green.png'); }
+  .theme-blue .ui-window-btn-close { background-image: url('../img/2/ui/window-btn-close--blue.png'); }
+  .theme-red .ui-window-btn-close { background-image: url('../img/2/ui/window-btn-close--red.png'); }
+  .theme-white .ui-window-btn-close { background-image: url('../img/2/ui/window-btn-close--white.png'); }
+  .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-close--pressed.png'); }
+  .theme-green .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-close--pressed--green.png'); }
+  .theme-blue .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-close--pressed--blue.png'); }
+  .theme-red .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-close--pressed--red.png'); }
+  .theme-white .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-close--pressed--white.png'); }
+  @media (hover: hover) {
+    .ui-window-btn-min:hover, .ui-window-btn-min.hover { background-image: url('../img/2/ui/window-btn-min--hover.png'); }
+    .theme-green .ui-window-btn-min:hover, .theme-green .ui-window-btn-min.hover { background-image: url('../img/2/ui/window-btn-min--hover--green.png'); }
+    .theme-blue .ui-window-btn-min:hover, .theme-blue .ui-window-btn-min.hover { background-image: url('../img/2/ui/window-btn-min--hover--blue.png'); }
+    .theme-red .ui-window-btn-min:hover, .theme-red .ui-window-btn-min.hover { background-image: url('../img/2/ui/window-btn-min--hover--red.png'); }
+    .theme-white .ui-window-btn-min:hover, .theme-white .ui-window-btn-min.hover { background-image: url('../img/2/ui/window-btn-min--hover--white.png'); }
+    .ui-window-btn-max:hover, .ui-window-btn-max.hover { background-image: url('../img/2/ui/window-btn-max--hover.png'); }
+    .theme-green .ui-window-btn-max:hover, .theme-green .ui-window-btn-max.hover { background-image: url('../img/2/ui/window-btn-max--hover--green.png'); }
+    .theme-blue .ui-window-btn-max:hover, .theme-blue .ui-window-btn-max.hover { background-image: url('../img/2/ui/window-btn-max--hover--blue.png'); }
+    .theme-red .ui-window-btn-max:hover, .theme-red .ui-window-btn-max.hover { background-image: url('../img/2/ui/window-btn-max--hover--red.png'); }
+    .theme-white .ui-window-btn-max:hover, .theme-white .ui-window-btn-max.hover { background-image: url('../img/2/ui/window-btn-max--hover--white.png'); }
+    .ui-window-btn-close:hover, .ui-window-btn-close.hover { background-image: url('../img/2/ui/window-btn-close--hover.png'); }
+    .theme-green .ui-window-btn-close:hover, .theme-green .ui-window-btn-close.hover { background-image: url('../img/2/ui/window-btn-close--hover--green.png'); }
+    .theme-blue .ui-window-btn-close:hover, .theme-blue .ui-window-btn-close.hover { background-image: url('../img/2/ui/window-btn-close--hover--blue.png'); }
+    .theme-red .ui-window-btn-close:hover, .theme-red .ui-window-btn-close.hover { background-image: url('../img/2/ui/window-btn-close--hover--red.png'); }
+    .theme-white .ui-window-btn-close:hover, .theme-white .ui-window-btn-close.hover { background-image: url('../img/2/ui/window-btn-close--hover--white.png'); }
   }
 }
 
@@ -3550,6 +3922,192 @@
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
   }
+  .ui-decoration-top-arch {
+    display: inline-block;
+    background-image: url('../img/2/ui/decoration-top-arch.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-top-arch { background-image: url('../img/2/ui/decoration-top-arch--green.png'); }
+  .theme-blue .ui-decoration-top-arch { background-image: url('../img/2/ui/decoration-top-arch--blue.png'); }
+  .theme-red .ui-decoration-top-arch { background-image: url('../img/2/ui/decoration-top-arch--red.png'); }
+  .theme-white .ui-decoration-top-arch { background-image: url('../img/2/ui/decoration-top-arch--white.png'); }
+  .ui-decoration-top-bar {
+    display: inline-block;
+    background-image: url('../img/2/ui/decoration-top-bar.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-top-bar { background-image: url('../img/2/ui/decoration-top-bar--green.png'); }
+  .theme-blue .ui-decoration-top-bar { background-image: url('../img/2/ui/decoration-top-bar--blue.png'); }
+  .theme-red .ui-decoration-top-bar { background-image: url('../img/2/ui/decoration-top-bar--red.png'); }
+  .theme-white .ui-decoration-top-bar { background-image: url('../img/2/ui/decoration-top-bar--white.png'); }
+  .ui-decoration-side-1 {
+    display: inline-block;
+    background-image: url('../img/2/ui/decoration-side-1.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-1 { background-image: url('../img/2/ui/decoration-side-1--green.png'); }
+  .theme-blue .ui-decoration-side-1 { background-image: url('../img/2/ui/decoration-side-1--blue.png'); }
+  .theme-red .ui-decoration-side-1 { background-image: url('../img/2/ui/decoration-side-1--red.png'); }
+  .theme-white .ui-decoration-side-1 { background-image: url('../img/2/ui/decoration-side-1--white.png'); }
+  .ui-decoration-side-2 {
+    display: inline-block;
+    background-image: url('../img/2/ui/decoration-side-2.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-2 { background-image: url('../img/2/ui/decoration-side-2--green.png'); }
+  .theme-blue .ui-decoration-side-2 { background-image: url('../img/2/ui/decoration-side-2--blue.png'); }
+  .theme-red .ui-decoration-side-2 { background-image: url('../img/2/ui/decoration-side-2--red.png'); }
+  .theme-white .ui-decoration-side-2 { background-image: url('../img/2/ui/decoration-side-2--white.png'); }
+  .ui-decoration-side-3 {
+    display: inline-block;
+    background-image: url('../img/2/ui/decoration-side-3.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-3 { background-image: url('../img/2/ui/decoration-side-3--green.png'); }
+  .theme-blue .ui-decoration-side-3 { background-image: url('../img/2/ui/decoration-side-3--blue.png'); }
+  .theme-red .ui-decoration-side-3 { background-image: url('../img/2/ui/decoration-side-3--red.png'); }
+  .theme-white .ui-decoration-side-3 { background-image: url('../img/2/ui/decoration-side-3--white.png'); }
+  .ui-decoration-side-4 {
+    display: inline-block;
+    background-image: url('../img/2/ui/decoration-side-4.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-4 { background-image: url('../img/2/ui/decoration-side-4--green.png'); }
+  .theme-blue .ui-decoration-side-4 { background-image: url('../img/2/ui/decoration-side-4--blue.png'); }
+  .theme-red .ui-decoration-side-4 { background-image: url('../img/2/ui/decoration-side-4--red.png'); }
+  .theme-white .ui-decoration-side-4 { background-image: url('../img/2/ui/decoration-side-4--white.png'); }
+  .ui-decoration-bottom-arch {
+    display: inline-block;
+    background-image: url('../img/2/ui/decoration-bottom-arch.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-bottom-arch { background-image: url('../img/2/ui/decoration-bottom-arch--green.png'); }
+  .theme-blue .ui-decoration-bottom-arch { background-image: url('../img/2/ui/decoration-bottom-arch--blue.png'); }
+  .theme-red .ui-decoration-bottom-arch { background-image: url('../img/2/ui/decoration-bottom-arch--red.png'); }
+  .theme-white .ui-decoration-bottom-arch { background-image: url('../img/2/ui/decoration-bottom-arch--white.png'); }
+  .ui-decoration-bottom-bar {
+    display: inline-block;
+    background-image: url('../img/2/ui/decoration-bottom-bar.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-bottom-bar { background-image: url('../img/2/ui/decoration-bottom-bar--green.png'); }
+  .theme-blue .ui-decoration-bottom-bar { background-image: url('../img/2/ui/decoration-bottom-bar--blue.png'); }
+  .theme-red .ui-decoration-bottom-bar { background-image: url('../img/2/ui/decoration-bottom-bar--red.png'); }
+  .theme-white .ui-decoration-bottom-bar { background-image: url('../img/2/ui/decoration-bottom-bar--white.png'); }
+  .ui-window-btn-min {
+    display: inline-block;
+    background-image: url('../img/2/ui/window-btn-min.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-window-btn-min { background-image: url('../img/2/ui/window-btn-min--green.png'); }
+  .theme-blue .ui-window-btn-min { background-image: url('../img/2/ui/window-btn-min--blue.png'); }
+  .theme-red .ui-window-btn-min { background-image: url('../img/2/ui/window-btn-min--red.png'); }
+  .theme-white .ui-window-btn-min { background-image: url('../img/2/ui/window-btn-min--white.png'); }
+  .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-min--pressed.png'); }
+  .theme-green .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-min--pressed--green.png'); }
+  .theme-blue .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-min--pressed--blue.png'); }
+  .theme-red .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-min--pressed--red.png'); }
+  .theme-white .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-min--pressed--white.png'); }
+  .ui-window-btn-max {
+    display: inline-block;
+    background-image: url('../img/2/ui/window-btn-max.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-window-btn-max { background-image: url('../img/2/ui/window-btn-max--green.png'); }
+  .theme-blue .ui-window-btn-max { background-image: url('../img/2/ui/window-btn-max--blue.png'); }
+  .theme-red .ui-window-btn-max { background-image: url('../img/2/ui/window-btn-max--red.png'); }
+  .theme-white .ui-window-btn-max { background-image: url('../img/2/ui/window-btn-max--white.png'); }
+  .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-max--pressed.png'); }
+  .theme-green .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-max--pressed--green.png'); }
+  .theme-blue .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-max--pressed--blue.png'); }
+  .theme-red .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-max--pressed--red.png'); }
+  .theme-white .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-max--pressed--white.png'); }
+  .ui-window-btn-close {
+    display: inline-block;
+    background-image: url('../img/2/ui/window-btn-close.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-window-btn-close { background-image: url('../img/2/ui/window-btn-close--green.png'); }
+  .theme-blue .ui-window-btn-close { background-image: url('../img/2/ui/window-btn-close--blue.png'); }
+  .theme-red .ui-window-btn-close { background-image: url('../img/2/ui/window-btn-close--red.png'); }
+  .theme-white .ui-window-btn-close { background-image: url('../img/2/ui/window-btn-close--white.png'); }
+  .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-close--pressed.png'); }
+  .theme-green .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-close--pressed--green.png'); }
+  .theme-blue .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-close--pressed--blue.png'); }
+  .theme-red .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-close--pressed--red.png'); }
+  .theme-white .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/2/ui/window-btn-close--pressed--white.png'); }
+  @media (hover: hover) {
+    .ui-window-btn-min:hover, .ui-window-btn-min.hover { background-image: url('../img/2/ui/window-btn-min--hover.png'); }
+    .theme-green .ui-window-btn-min:hover, .theme-green .ui-window-btn-min.hover { background-image: url('../img/2/ui/window-btn-min--hover--green.png'); }
+    .theme-blue .ui-window-btn-min:hover, .theme-blue .ui-window-btn-min.hover { background-image: url('../img/2/ui/window-btn-min--hover--blue.png'); }
+    .theme-red .ui-window-btn-min:hover, .theme-red .ui-window-btn-min.hover { background-image: url('../img/2/ui/window-btn-min--hover--red.png'); }
+    .theme-white .ui-window-btn-min:hover, .theme-white .ui-window-btn-min.hover { background-image: url('../img/2/ui/window-btn-min--hover--white.png'); }
+    .ui-window-btn-max:hover, .ui-window-btn-max.hover { background-image: url('../img/2/ui/window-btn-max--hover.png'); }
+    .theme-green .ui-window-btn-max:hover, .theme-green .ui-window-btn-max.hover { background-image: url('../img/2/ui/window-btn-max--hover--green.png'); }
+    .theme-blue .ui-window-btn-max:hover, .theme-blue .ui-window-btn-max.hover { background-image: url('../img/2/ui/window-btn-max--hover--blue.png'); }
+    .theme-red .ui-window-btn-max:hover, .theme-red .ui-window-btn-max.hover { background-image: url('../img/2/ui/window-btn-max--hover--red.png'); }
+    .theme-white .ui-window-btn-max:hover, .theme-white .ui-window-btn-max.hover { background-image: url('../img/2/ui/window-btn-max--hover--white.png'); }
+    .ui-window-btn-close:hover, .ui-window-btn-close.hover { background-image: url('../img/2/ui/window-btn-close--hover.png'); }
+    .theme-green .ui-window-btn-close:hover, .theme-green .ui-window-btn-close.hover { background-image: url('../img/2/ui/window-btn-close--hover--green.png'); }
+    .theme-blue .ui-window-btn-close:hover, .theme-blue .ui-window-btn-close.hover { background-image: url('../img/2/ui/window-btn-close--hover--blue.png'); }
+    .theme-red .ui-window-btn-close:hover, .theme-red .ui-window-btn-close.hover { background-image: url('../img/2/ui/window-btn-close--hover--red.png'); }
+    .theme-white .ui-window-btn-close:hover, .theme-white .ui-window-btn-close.hover { background-image: url('../img/2/ui/window-btn-close--hover--white.png'); }
+  }
 }
 
 @media screen and (min-width: 1501px) {
@@ -4733,6 +5291,192 @@
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
+  }
+  .ui-decoration-top-arch {
+    display: inline-block;
+    background-image: url('../img/3/ui/decoration-top-arch.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-top-arch { background-image: url('../img/3/ui/decoration-top-arch--green.png'); }
+  .theme-blue .ui-decoration-top-arch { background-image: url('../img/3/ui/decoration-top-arch--blue.png'); }
+  .theme-red .ui-decoration-top-arch { background-image: url('../img/3/ui/decoration-top-arch--red.png'); }
+  .theme-white .ui-decoration-top-arch { background-image: url('../img/3/ui/decoration-top-arch--white.png'); }
+  .ui-decoration-top-bar {
+    display: inline-block;
+    background-image: url('../img/3/ui/decoration-top-bar.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-top-bar { background-image: url('../img/3/ui/decoration-top-bar--green.png'); }
+  .theme-blue .ui-decoration-top-bar { background-image: url('../img/3/ui/decoration-top-bar--blue.png'); }
+  .theme-red .ui-decoration-top-bar { background-image: url('../img/3/ui/decoration-top-bar--red.png'); }
+  .theme-white .ui-decoration-top-bar { background-image: url('../img/3/ui/decoration-top-bar--white.png'); }
+  .ui-decoration-side-1 {
+    display: inline-block;
+    background-image: url('../img/3/ui/decoration-side-1.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-1 { background-image: url('../img/3/ui/decoration-side-1--green.png'); }
+  .theme-blue .ui-decoration-side-1 { background-image: url('../img/3/ui/decoration-side-1--blue.png'); }
+  .theme-red .ui-decoration-side-1 { background-image: url('../img/3/ui/decoration-side-1--red.png'); }
+  .theme-white .ui-decoration-side-1 { background-image: url('../img/3/ui/decoration-side-1--white.png'); }
+  .ui-decoration-side-2 {
+    display: inline-block;
+    background-image: url('../img/3/ui/decoration-side-2.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-2 { background-image: url('../img/3/ui/decoration-side-2--green.png'); }
+  .theme-blue .ui-decoration-side-2 { background-image: url('../img/3/ui/decoration-side-2--blue.png'); }
+  .theme-red .ui-decoration-side-2 { background-image: url('../img/3/ui/decoration-side-2--red.png'); }
+  .theme-white .ui-decoration-side-2 { background-image: url('../img/3/ui/decoration-side-2--white.png'); }
+  .ui-decoration-side-3 {
+    display: inline-block;
+    background-image: url('../img/3/ui/decoration-side-3.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-3 { background-image: url('../img/3/ui/decoration-side-3--green.png'); }
+  .theme-blue .ui-decoration-side-3 { background-image: url('../img/3/ui/decoration-side-3--blue.png'); }
+  .theme-red .ui-decoration-side-3 { background-image: url('../img/3/ui/decoration-side-3--red.png'); }
+  .theme-white .ui-decoration-side-3 { background-image: url('../img/3/ui/decoration-side-3--white.png'); }
+  .ui-decoration-side-4 {
+    display: inline-block;
+    background-image: url('../img/3/ui/decoration-side-4.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-4 { background-image: url('../img/3/ui/decoration-side-4--green.png'); }
+  .theme-blue .ui-decoration-side-4 { background-image: url('../img/3/ui/decoration-side-4--blue.png'); }
+  .theme-red .ui-decoration-side-4 { background-image: url('../img/3/ui/decoration-side-4--red.png'); }
+  .theme-white .ui-decoration-side-4 { background-image: url('../img/3/ui/decoration-side-4--white.png'); }
+  .ui-decoration-bottom-arch {
+    display: inline-block;
+    background-image: url('../img/3/ui/decoration-bottom-arch.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-bottom-arch { background-image: url('../img/3/ui/decoration-bottom-arch--green.png'); }
+  .theme-blue .ui-decoration-bottom-arch { background-image: url('../img/3/ui/decoration-bottom-arch--blue.png'); }
+  .theme-red .ui-decoration-bottom-arch { background-image: url('../img/3/ui/decoration-bottom-arch--red.png'); }
+  .theme-white .ui-decoration-bottom-arch { background-image: url('../img/3/ui/decoration-bottom-arch--white.png'); }
+  .ui-decoration-bottom-bar {
+    display: inline-block;
+    background-image: url('../img/3/ui/decoration-bottom-bar.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-bottom-bar { background-image: url('../img/3/ui/decoration-bottom-bar--green.png'); }
+  .theme-blue .ui-decoration-bottom-bar { background-image: url('../img/3/ui/decoration-bottom-bar--blue.png'); }
+  .theme-red .ui-decoration-bottom-bar { background-image: url('../img/3/ui/decoration-bottom-bar--red.png'); }
+  .theme-white .ui-decoration-bottom-bar { background-image: url('../img/3/ui/decoration-bottom-bar--white.png'); }
+  .ui-window-btn-min {
+    display: inline-block;
+    background-image: url('../img/3/ui/window-btn-min.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-window-btn-min { background-image: url('../img/3/ui/window-btn-min--green.png'); }
+  .theme-blue .ui-window-btn-min { background-image: url('../img/3/ui/window-btn-min--blue.png'); }
+  .theme-red .ui-window-btn-min { background-image: url('../img/3/ui/window-btn-min--red.png'); }
+  .theme-white .ui-window-btn-min { background-image: url('../img/3/ui/window-btn-min--white.png'); }
+  .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/3/ui/window-btn-min--pressed.png'); }
+  .theme-green .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/3/ui/window-btn-min--pressed--green.png'); }
+  .theme-blue .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/3/ui/window-btn-min--pressed--blue.png'); }
+  .theme-red .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/3/ui/window-btn-min--pressed--red.png'); }
+  .theme-white .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/3/ui/window-btn-min--pressed--white.png'); }
+  .ui-window-btn-max {
+    display: inline-block;
+    background-image: url('../img/3/ui/window-btn-max.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-window-btn-max { background-image: url('../img/3/ui/window-btn-max--green.png'); }
+  .theme-blue .ui-window-btn-max { background-image: url('../img/3/ui/window-btn-max--blue.png'); }
+  .theme-red .ui-window-btn-max { background-image: url('../img/3/ui/window-btn-max--red.png'); }
+  .theme-white .ui-window-btn-max { background-image: url('../img/3/ui/window-btn-max--white.png'); }
+  .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/3/ui/window-btn-max--pressed.png'); }
+  .theme-green .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/3/ui/window-btn-max--pressed--green.png'); }
+  .theme-blue .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/3/ui/window-btn-max--pressed--blue.png'); }
+  .theme-red .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/3/ui/window-btn-max--pressed--red.png'); }
+  .theme-white .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/3/ui/window-btn-max--pressed--white.png'); }
+  .ui-window-btn-close {
+    display: inline-block;
+    background-image: url('../img/3/ui/window-btn-close.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-window-btn-close { background-image: url('../img/3/ui/window-btn-close--green.png'); }
+  .theme-blue .ui-window-btn-close { background-image: url('../img/3/ui/window-btn-close--blue.png'); }
+  .theme-red .ui-window-btn-close { background-image: url('../img/3/ui/window-btn-close--red.png'); }
+  .theme-white .ui-window-btn-close { background-image: url('../img/3/ui/window-btn-close--white.png'); }
+  .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/3/ui/window-btn-close--pressed.png'); }
+  .theme-green .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/3/ui/window-btn-close--pressed--green.png'); }
+  .theme-blue .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/3/ui/window-btn-close--pressed--blue.png'); }
+  .theme-red .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/3/ui/window-btn-close--pressed--red.png'); }
+  .theme-white .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/3/ui/window-btn-close--pressed--white.png'); }
+  @media (hover: hover) {
+    .ui-window-btn-min:hover, .ui-window-btn-min.hover { background-image: url('../img/3/ui/window-btn-min--hover.png'); }
+    .theme-green .ui-window-btn-min:hover, .theme-green .ui-window-btn-min.hover { background-image: url('../img/3/ui/window-btn-min--hover--green.png'); }
+    .theme-blue .ui-window-btn-min:hover, .theme-blue .ui-window-btn-min.hover { background-image: url('../img/3/ui/window-btn-min--hover--blue.png'); }
+    .theme-red .ui-window-btn-min:hover, .theme-red .ui-window-btn-min.hover { background-image: url('../img/3/ui/window-btn-min--hover--red.png'); }
+    .theme-white .ui-window-btn-min:hover, .theme-white .ui-window-btn-min.hover { background-image: url('../img/3/ui/window-btn-min--hover--white.png'); }
+    .ui-window-btn-max:hover, .ui-window-btn-max.hover { background-image: url('../img/3/ui/window-btn-max--hover.png'); }
+    .theme-green .ui-window-btn-max:hover, .theme-green .ui-window-btn-max.hover { background-image: url('../img/3/ui/window-btn-max--hover--green.png'); }
+    .theme-blue .ui-window-btn-max:hover, .theme-blue .ui-window-btn-max.hover { background-image: url('../img/3/ui/window-btn-max--hover--blue.png'); }
+    .theme-red .ui-window-btn-max:hover, .theme-red .ui-window-btn-max.hover { background-image: url('../img/3/ui/window-btn-max--hover--red.png'); }
+    .theme-white .ui-window-btn-max:hover, .theme-white .ui-window-btn-max.hover { background-image: url('../img/3/ui/window-btn-max--hover--white.png'); }
+    .ui-window-btn-close:hover, .ui-window-btn-close.hover { background-image: url('../img/3/ui/window-btn-close--hover.png'); }
+    .theme-green .ui-window-btn-close:hover, .theme-green .ui-window-btn-close.hover { background-image: url('../img/3/ui/window-btn-close--hover--green.png'); }
+    .theme-blue .ui-window-btn-close:hover, .theme-blue .ui-window-btn-close.hover { background-image: url('../img/3/ui/window-btn-close--hover--blue.png'); }
+    .theme-red .ui-window-btn-close:hover, .theme-red .ui-window-btn-close.hover { background-image: url('../img/3/ui/window-btn-close--hover--red.png'); }
+    .theme-white .ui-window-btn-close:hover, .theme-white .ui-window-btn-close.hover { background-image: url('../img/3/ui/window-btn-close--hover--white.png'); }
   }
 }
 
@@ -5918,6 +6662,192 @@
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
   }
+  .ui-decoration-top-arch {
+    display: inline-block;
+    background-image: url('../img/1/ui/decoration-top-arch.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-top-arch { background-image: url('../img/1/ui/decoration-top-arch--green.png'); }
+  .theme-blue .ui-decoration-top-arch { background-image: url('../img/1/ui/decoration-top-arch--blue.png'); }
+  .theme-red .ui-decoration-top-arch { background-image: url('../img/1/ui/decoration-top-arch--red.png'); }
+  .theme-white .ui-decoration-top-arch { background-image: url('../img/1/ui/decoration-top-arch--white.png'); }
+  .ui-decoration-top-bar {
+    display: inline-block;
+    background-image: url('../img/1/ui/decoration-top-bar.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-top-bar { background-image: url('../img/1/ui/decoration-top-bar--green.png'); }
+  .theme-blue .ui-decoration-top-bar { background-image: url('../img/1/ui/decoration-top-bar--blue.png'); }
+  .theme-red .ui-decoration-top-bar { background-image: url('../img/1/ui/decoration-top-bar--red.png'); }
+  .theme-white .ui-decoration-top-bar { background-image: url('../img/1/ui/decoration-top-bar--white.png'); }
+  .ui-decoration-side-1 {
+    display: inline-block;
+    background-image: url('../img/1/ui/decoration-side-1.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-1 { background-image: url('../img/1/ui/decoration-side-1--green.png'); }
+  .theme-blue .ui-decoration-side-1 { background-image: url('../img/1/ui/decoration-side-1--blue.png'); }
+  .theme-red .ui-decoration-side-1 { background-image: url('../img/1/ui/decoration-side-1--red.png'); }
+  .theme-white .ui-decoration-side-1 { background-image: url('../img/1/ui/decoration-side-1--white.png'); }
+  .ui-decoration-side-2 {
+    display: inline-block;
+    background-image: url('../img/1/ui/decoration-side-2.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-2 { background-image: url('../img/1/ui/decoration-side-2--green.png'); }
+  .theme-blue .ui-decoration-side-2 { background-image: url('../img/1/ui/decoration-side-2--blue.png'); }
+  .theme-red .ui-decoration-side-2 { background-image: url('../img/1/ui/decoration-side-2--red.png'); }
+  .theme-white .ui-decoration-side-2 { background-image: url('../img/1/ui/decoration-side-2--white.png'); }
+  .ui-decoration-side-3 {
+    display: inline-block;
+    background-image: url('../img/1/ui/decoration-side-3.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-3 { background-image: url('../img/1/ui/decoration-side-3--green.png'); }
+  .theme-blue .ui-decoration-side-3 { background-image: url('../img/1/ui/decoration-side-3--blue.png'); }
+  .theme-red .ui-decoration-side-3 { background-image: url('../img/1/ui/decoration-side-3--red.png'); }
+  .theme-white .ui-decoration-side-3 { background-image: url('../img/1/ui/decoration-side-3--white.png'); }
+  .ui-decoration-side-4 {
+    display: inline-block;
+    background-image: url('../img/1/ui/decoration-side-4.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-4 { background-image: url('../img/1/ui/decoration-side-4--green.png'); }
+  .theme-blue .ui-decoration-side-4 { background-image: url('../img/1/ui/decoration-side-4--blue.png'); }
+  .theme-red .ui-decoration-side-4 { background-image: url('../img/1/ui/decoration-side-4--red.png'); }
+  .theme-white .ui-decoration-side-4 { background-image: url('../img/1/ui/decoration-side-4--white.png'); }
+  .ui-decoration-bottom-arch {
+    display: inline-block;
+    background-image: url('../img/1/ui/decoration-bottom-arch.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-bottom-arch { background-image: url('../img/1/ui/decoration-bottom-arch--green.png'); }
+  .theme-blue .ui-decoration-bottom-arch { background-image: url('../img/1/ui/decoration-bottom-arch--blue.png'); }
+  .theme-red .ui-decoration-bottom-arch { background-image: url('../img/1/ui/decoration-bottom-arch--red.png'); }
+  .theme-white .ui-decoration-bottom-arch { background-image: url('../img/1/ui/decoration-bottom-arch--white.png'); }
+  .ui-decoration-bottom-bar {
+    display: inline-block;
+    background-image: url('../img/1/ui/decoration-bottom-bar.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-bottom-bar { background-image: url('../img/1/ui/decoration-bottom-bar--green.png'); }
+  .theme-blue .ui-decoration-bottom-bar { background-image: url('../img/1/ui/decoration-bottom-bar--blue.png'); }
+  .theme-red .ui-decoration-bottom-bar { background-image: url('../img/1/ui/decoration-bottom-bar--red.png'); }
+  .theme-white .ui-decoration-bottom-bar { background-image: url('../img/1/ui/decoration-bottom-bar--white.png'); }
+  .ui-window-btn-min {
+    display: inline-block;
+    background-image: url('../img/1/ui/window-btn-min.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-window-btn-min { background-image: url('../img/1/ui/window-btn-min--green.png'); }
+  .theme-blue .ui-window-btn-min { background-image: url('../img/1/ui/window-btn-min--blue.png'); }
+  .theme-red .ui-window-btn-min { background-image: url('../img/1/ui/window-btn-min--red.png'); }
+  .theme-white .ui-window-btn-min { background-image: url('../img/1/ui/window-btn-min--white.png'); }
+  .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-min--pressed.png'); }
+  .theme-green .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-min--pressed--green.png'); }
+  .theme-blue .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-min--pressed--blue.png'); }
+  .theme-red .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-min--pressed--red.png'); }
+  .theme-white .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-min--pressed--white.png'); }
+  .ui-window-btn-max {
+    display: inline-block;
+    background-image: url('../img/1/ui/window-btn-max.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-window-btn-max { background-image: url('../img/1/ui/window-btn-max--green.png'); }
+  .theme-blue .ui-window-btn-max { background-image: url('../img/1/ui/window-btn-max--blue.png'); }
+  .theme-red .ui-window-btn-max { background-image: url('../img/1/ui/window-btn-max--red.png'); }
+  .theme-white .ui-window-btn-max { background-image: url('../img/1/ui/window-btn-max--white.png'); }
+  .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-max--pressed.png'); }
+  .theme-green .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-max--pressed--green.png'); }
+  .theme-blue .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-max--pressed--blue.png'); }
+  .theme-red .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-max--pressed--red.png'); }
+  .theme-white .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-max--pressed--white.png'); }
+  .ui-window-btn-close {
+    display: inline-block;
+    background-image: url('../img/1/ui/window-btn-close.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-window-btn-close { background-image: url('../img/1/ui/window-btn-close--green.png'); }
+  .theme-blue .ui-window-btn-close { background-image: url('../img/1/ui/window-btn-close--blue.png'); }
+  .theme-red .ui-window-btn-close { background-image: url('../img/1/ui/window-btn-close--red.png'); }
+  .theme-white .ui-window-btn-close { background-image: url('../img/1/ui/window-btn-close--white.png'); }
+  .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-close--pressed.png'); }
+  .theme-green .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-close--pressed--green.png'); }
+  .theme-blue .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-close--pressed--blue.png'); }
+  .theme-red .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-close--pressed--red.png'); }
+  .theme-white .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-close--pressed--white.png'); }
+  @media (hover: hover) {
+    .ui-window-btn-min:hover, .ui-window-btn-min.hover { background-image: url('../img/1/ui/window-btn-min--hover.png'); }
+    .theme-green .ui-window-btn-min:hover, .theme-green .ui-window-btn-min.hover { background-image: url('../img/1/ui/window-btn-min--hover--green.png'); }
+    .theme-blue .ui-window-btn-min:hover, .theme-blue .ui-window-btn-min.hover { background-image: url('../img/1/ui/window-btn-min--hover--blue.png'); }
+    .theme-red .ui-window-btn-min:hover, .theme-red .ui-window-btn-min.hover { background-image: url('../img/1/ui/window-btn-min--hover--red.png'); }
+    .theme-white .ui-window-btn-min:hover, .theme-white .ui-window-btn-min.hover { background-image: url('../img/1/ui/window-btn-min--hover--white.png'); }
+    .ui-window-btn-max:hover, .ui-window-btn-max.hover { background-image: url('../img/1/ui/window-btn-max--hover.png'); }
+    .theme-green .ui-window-btn-max:hover, .theme-green .ui-window-btn-max.hover { background-image: url('../img/1/ui/window-btn-max--hover--green.png'); }
+    .theme-blue .ui-window-btn-max:hover, .theme-blue .ui-window-btn-max.hover { background-image: url('../img/1/ui/window-btn-max--hover--blue.png'); }
+    .theme-red .ui-window-btn-max:hover, .theme-red .ui-window-btn-max.hover { background-image: url('../img/1/ui/window-btn-max--hover--red.png'); }
+    .theme-white .ui-window-btn-max:hover, .theme-white .ui-window-btn-max.hover { background-image: url('../img/1/ui/window-btn-max--hover--white.png'); }
+    .ui-window-btn-close:hover, .ui-window-btn-close.hover { background-image: url('../img/1/ui/window-btn-close--hover.png'); }
+    .theme-green .ui-window-btn-close:hover, .theme-green .ui-window-btn-close.hover { background-image: url('../img/1/ui/window-btn-close--hover--green.png'); }
+    .theme-blue .ui-window-btn-close:hover, .theme-blue .ui-window-btn-close.hover { background-image: url('../img/1/ui/window-btn-close--hover--blue.png'); }
+    .theme-red .ui-window-btn-close:hover, .theme-red .ui-window-btn-close.hover { background-image: url('../img/1/ui/window-btn-close--hover--red.png'); }
+    .theme-white .ui-window-btn-close:hover, .theme-white .ui-window-btn-close.hover { background-image: url('../img/1/ui/window-btn-close--hover--white.png'); }
+  }
 }
 
 @media screen and (max-width: 800px) {
@@ -7101,5 +8031,191 @@
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
+  }
+  .ui-decoration-top-arch {
+    display: inline-block;
+    background-image: url('../img/1/ui/decoration-top-arch.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-top-arch { background-image: url('../img/1/ui/decoration-top-arch--green.png'); }
+  .theme-blue .ui-decoration-top-arch { background-image: url('../img/1/ui/decoration-top-arch--blue.png'); }
+  .theme-red .ui-decoration-top-arch { background-image: url('../img/1/ui/decoration-top-arch--red.png'); }
+  .theme-white .ui-decoration-top-arch { background-image: url('../img/1/ui/decoration-top-arch--white.png'); }
+  .ui-decoration-top-bar {
+    display: inline-block;
+    background-image: url('../img/1/ui/decoration-top-bar.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-top-bar { background-image: url('../img/1/ui/decoration-top-bar--green.png'); }
+  .theme-blue .ui-decoration-top-bar { background-image: url('../img/1/ui/decoration-top-bar--blue.png'); }
+  .theme-red .ui-decoration-top-bar { background-image: url('../img/1/ui/decoration-top-bar--red.png'); }
+  .theme-white .ui-decoration-top-bar { background-image: url('../img/1/ui/decoration-top-bar--white.png'); }
+  .ui-decoration-side-1 {
+    display: inline-block;
+    background-image: url('../img/1/ui/decoration-side-1.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-1 { background-image: url('../img/1/ui/decoration-side-1--green.png'); }
+  .theme-blue .ui-decoration-side-1 { background-image: url('../img/1/ui/decoration-side-1--blue.png'); }
+  .theme-red .ui-decoration-side-1 { background-image: url('../img/1/ui/decoration-side-1--red.png'); }
+  .theme-white .ui-decoration-side-1 { background-image: url('../img/1/ui/decoration-side-1--white.png'); }
+  .ui-decoration-side-2 {
+    display: inline-block;
+    background-image: url('../img/1/ui/decoration-side-2.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-2 { background-image: url('../img/1/ui/decoration-side-2--green.png'); }
+  .theme-blue .ui-decoration-side-2 { background-image: url('../img/1/ui/decoration-side-2--blue.png'); }
+  .theme-red .ui-decoration-side-2 { background-image: url('../img/1/ui/decoration-side-2--red.png'); }
+  .theme-white .ui-decoration-side-2 { background-image: url('../img/1/ui/decoration-side-2--white.png'); }
+  .ui-decoration-side-3 {
+    display: inline-block;
+    background-image: url('../img/1/ui/decoration-side-3.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-3 { background-image: url('../img/1/ui/decoration-side-3--green.png'); }
+  .theme-blue .ui-decoration-side-3 { background-image: url('../img/1/ui/decoration-side-3--blue.png'); }
+  .theme-red .ui-decoration-side-3 { background-image: url('../img/1/ui/decoration-side-3--red.png'); }
+  .theme-white .ui-decoration-side-3 { background-image: url('../img/1/ui/decoration-side-3--white.png'); }
+  .ui-decoration-side-4 {
+    display: inline-block;
+    background-image: url('../img/1/ui/decoration-side-4.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-side-4 { background-image: url('../img/1/ui/decoration-side-4--green.png'); }
+  .theme-blue .ui-decoration-side-4 { background-image: url('../img/1/ui/decoration-side-4--blue.png'); }
+  .theme-red .ui-decoration-side-4 { background-image: url('../img/1/ui/decoration-side-4--red.png'); }
+  .theme-white .ui-decoration-side-4 { background-image: url('../img/1/ui/decoration-side-4--white.png'); }
+  .ui-decoration-bottom-arch {
+    display: inline-block;
+    background-image: url('../img/1/ui/decoration-bottom-arch.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-bottom-arch { background-image: url('../img/1/ui/decoration-bottom-arch--green.png'); }
+  .theme-blue .ui-decoration-bottom-arch { background-image: url('../img/1/ui/decoration-bottom-arch--blue.png'); }
+  .theme-red .ui-decoration-bottom-arch { background-image: url('../img/1/ui/decoration-bottom-arch--red.png'); }
+  .theme-white .ui-decoration-bottom-arch { background-image: url('../img/1/ui/decoration-bottom-arch--white.png'); }
+  .ui-decoration-bottom-bar {
+    display: inline-block;
+    background-image: url('../img/1/ui/decoration-bottom-bar.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-decoration-bottom-bar { background-image: url('../img/1/ui/decoration-bottom-bar--green.png'); }
+  .theme-blue .ui-decoration-bottom-bar { background-image: url('../img/1/ui/decoration-bottom-bar--blue.png'); }
+  .theme-red .ui-decoration-bottom-bar { background-image: url('../img/1/ui/decoration-bottom-bar--red.png'); }
+  .theme-white .ui-decoration-bottom-bar { background-image: url('../img/1/ui/decoration-bottom-bar--white.png'); }
+  .ui-window-btn-min {
+    display: inline-block;
+    background-image: url('../img/1/ui/window-btn-min.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-window-btn-min { background-image: url('../img/1/ui/window-btn-min--green.png'); }
+  .theme-blue .ui-window-btn-min { background-image: url('../img/1/ui/window-btn-min--blue.png'); }
+  .theme-red .ui-window-btn-min { background-image: url('../img/1/ui/window-btn-min--red.png'); }
+  .theme-white .ui-window-btn-min { background-image: url('../img/1/ui/window-btn-min--white.png'); }
+  .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-min--pressed.png'); }
+  .theme-green .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-min--pressed--green.png'); }
+  .theme-blue .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-min--pressed--blue.png'); }
+  .theme-red .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-min--pressed--red.png'); }
+  .theme-white .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-min:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-min--pressed--white.png'); }
+  .ui-window-btn-max {
+    display: inline-block;
+    background-image: url('../img/1/ui/window-btn-max.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-window-btn-max { background-image: url('../img/1/ui/window-btn-max--green.png'); }
+  .theme-blue .ui-window-btn-max { background-image: url('../img/1/ui/window-btn-max--blue.png'); }
+  .theme-red .ui-window-btn-max { background-image: url('../img/1/ui/window-btn-max--red.png'); }
+  .theme-white .ui-window-btn-max { background-image: url('../img/1/ui/window-btn-max--white.png'); }
+  .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-max--pressed.png'); }
+  .theme-green .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-max--pressed--green.png'); }
+  .theme-blue .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-max--pressed--blue.png'); }
+  .theme-red .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-max--pressed--red.png'); }
+  .theme-white .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-max:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-max--pressed--white.png'); }
+  .ui-window-btn-close {
+    display: inline-block;
+    background-image: url('../img/1/ui/window-btn-close.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+  }
+  .theme-green .ui-window-btn-close { background-image: url('../img/1/ui/window-btn-close--green.png'); }
+  .theme-blue .ui-window-btn-close { background-image: url('../img/1/ui/window-btn-close--blue.png'); }
+  .theme-red .ui-window-btn-close { background-image: url('../img/1/ui/window-btn-close--red.png'); }
+  .theme-white .ui-window-btn-close { background-image: url('../img/1/ui/window-btn-close--white.png'); }
+  .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-close--pressed.png'); }
+  .theme-green .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-green .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-close--pressed--green.png'); }
+  .theme-blue .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-blue .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-close--pressed--blue.png'); }
+  .theme-red .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-red .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-close--pressed--red.png'); }
+  .theme-white .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active, .theme-white .ui-window-btn-close:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']).pressed { background-image: url('../img/1/ui/window-btn-close--pressed--white.png'); }
+  @media (hover: hover) {
+    .ui-window-btn-min:hover, .ui-window-btn-min.hover { background-image: url('../img/1/ui/window-btn-min--hover.png'); }
+    .theme-green .ui-window-btn-min:hover, .theme-green .ui-window-btn-min.hover { background-image: url('../img/1/ui/window-btn-min--hover--green.png'); }
+    .theme-blue .ui-window-btn-min:hover, .theme-blue .ui-window-btn-min.hover { background-image: url('../img/1/ui/window-btn-min--hover--blue.png'); }
+    .theme-red .ui-window-btn-min:hover, .theme-red .ui-window-btn-min.hover { background-image: url('../img/1/ui/window-btn-min--hover--red.png'); }
+    .theme-white .ui-window-btn-min:hover, .theme-white .ui-window-btn-min.hover { background-image: url('../img/1/ui/window-btn-min--hover--white.png'); }
+    .ui-window-btn-max:hover, .ui-window-btn-max.hover { background-image: url('../img/1/ui/window-btn-max--hover.png'); }
+    .theme-green .ui-window-btn-max:hover, .theme-green .ui-window-btn-max.hover { background-image: url('../img/1/ui/window-btn-max--hover--green.png'); }
+    .theme-blue .ui-window-btn-max:hover, .theme-blue .ui-window-btn-max.hover { background-image: url('../img/1/ui/window-btn-max--hover--blue.png'); }
+    .theme-red .ui-window-btn-max:hover, .theme-red .ui-window-btn-max.hover { background-image: url('../img/1/ui/window-btn-max--hover--red.png'); }
+    .theme-white .ui-window-btn-max:hover, .theme-white .ui-window-btn-max.hover { background-image: url('../img/1/ui/window-btn-max--hover--white.png'); }
+    .ui-window-btn-close:hover, .ui-window-btn-close.hover { background-image: url('../img/1/ui/window-btn-close--hover.png'); }
+    .theme-green .ui-window-btn-close:hover, .theme-green .ui-window-btn-close.hover { background-image: url('../img/1/ui/window-btn-close--hover--green.png'); }
+    .theme-blue .ui-window-btn-close:hover, .theme-blue .ui-window-btn-close.hover { background-image: url('../img/1/ui/window-btn-close--hover--blue.png'); }
+    .theme-red .ui-window-btn-close:hover, .theme-red .ui-window-btn-close.hover { background-image: url('../img/1/ui/window-btn-close--hover--red.png'); }
+    .theme-white .ui-window-btn-close:hover, .theme-white .ui-window-btn-close.hover { background-image: url('../img/1/ui/window-btn-close--hover--white.png'); }
   }
 }

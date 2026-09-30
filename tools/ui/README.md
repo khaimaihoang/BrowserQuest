@@ -11,6 +11,11 @@ Biến atlas UI (một tấm PNG lớn, không có tên từng phần) thành **
   panel + list row + dialog + toast, gauge tròn, HUD mock. Nút **Components only** ở toolbar
   để ẩn gallery slice. Dev-only: CSS/JS nằm inline trong lab, không nằm trong CSS ship game.
 - Manifest: [`tools/ui/slices.json`](./slices.json)
+- **Trục BỘ (`sets`)**: mỗi theme có **3 bộ** hoa văn (`set1` trơn = mặc định, `set2` hoa thị,
+  `set3` gai). `rect` ghi ở bộ mặc định; bộ khác = `offsets` + `setDelta` (hoặc `setRect`
+  khi khác cả kích thước). CSS: `.set2 .ui-*` / `.set3 .ui-*` (gộp được: `.set2.theme-green`).
+  Hiện `sets.export = ["set1"]` — mở bộ 2/3 cần `setRect` + overlay-theo-bộ cho ~40 sprite
+  (chi tiết: [`docs/ui-slice-pipeline.md` §2.0](../../docs/ui-slice-pipeline.md))
 - Packer: [`tools/ui-pack.py`](../ui-pack.py)
 - Preview dev: [`client/ui-lab.html`](../../client/ui-lab.html)
 - **Trang mockup cho artist: [`client/ui-mockup.html`](../../client/ui-mockup.html)** (`python tools/ui-mockup.py`)
@@ -155,7 +160,7 @@ của state `y`, không sinh file.
 **bar-fill màu** (đỏ/xanh/vàng/lục/tím) vì màu nằm ở từng cột atlas chứ không
 phải theo theme.
 
-## Bộ component (85 slice + 30 state)
+## Bộ component (96 slice + 36 state, bộ `set1`)
 
 Tên slice nay bám đúng **nhóm trong `set_use_guidelines.png`** (không đoán theo hình
  dạng nữa). Toạ độ nhóm (block "UI", = block gốc + 544):
@@ -174,6 +179,8 @@ Tên slice nay bám đúng **nhóm trong `set_use_guidelines.png`** (không đo�
 | TOGGLE BUTTONS | `toggle-v`, `toggle-h` *(+pressed/checked/checked-pressed)* |
 | TABS | `tab-cap-top/left/right/bottom` *(**NẮP** tab nhỏ 16×12 / 12×16, +active = khung nâng 16×16)*; `tab-top`, `tab-bottom`, `tab-left`, `tab-right` *(**CẠNH** khung tab lớn 48×12 / 12×48, +active)* |
 | ICONS *(sheet `icons`)* | `icon-person`, `icon-craft`, `icon-orb`, `icon-heart`, `icon-bolt`, `icon-shield`, `icon-swords`, `icon-plus`, `icon-drop`, `icon-chest`, `icon-pickaxe`, `icon-bottle`, … *(22 icon 8×8)* |
+| DECORATION | `decoration-top-arch` · `decoration-top-bar` · `decoration-bottom-arch` · `decoration-bottom-bar` · `decoration-side-1..4` (móc/hoa văn viền panel) |
+| WINDOW BUTTONS | `window-btn-min` · `window-btn-max` · `window-btn-close` — 6×6, state `hover` + `pressed` |
 | GRIDS *(sheet `grids`)* | `grid-cell`, `grid-cell-sm`, `grid-cell-bracket`, `grid-3x3`, `grid-6x6` (+ `-ornate`) — ô lưới item 32×32 |
 | RESOURCES BARS & CONTAINERS | `bar-h`/`bar-h-md`/`bar-h-sm`/`bar-h-xs` *(4 cỡ ngang)*, `bar-v`/`bar-v-md`/`bar-v-sm`/`bar-v-xs` *(4 cỡ dọc)* — có `overlays` neo hoạ tiết tâm; `container`, `container-md`, `container-sm` |
 | RESOURCE FILLS | `bar-fill-{red,blue,gold,green,purple}`, `bar-fill-v-{…}` *(themed:false)* |
