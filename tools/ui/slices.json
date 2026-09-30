@@ -134,7 +134,7 @@
       ],
       "nine": false
     },
-    "_comment_buttons": "PUSH BUTTONS 2x2: disabled(=[80,544]) / disabled-pressed / active / active-pressed",
+    "_comment_buttons": "PUSH BUTTONS: base=[208,544] sáng (enabled) / pressed=[464,544] / disabled=[80,544] tối (khoá cứng)",
     "button": {
       "rect": [
         208,
@@ -154,12 +154,6 @@
         ],
         "disabled": [
           80,
-          544,
-          48,
-          48
-        ],
-        "disabled-pressed": [
-          336,
           544,
           48,
           48
@@ -188,12 +182,6 @@
           544,
           16,
           48
-        ],
-        "disabled-pressed": [
-          288,
-          544,
-          16,
-          48
         ]
       }
     },
@@ -219,12 +207,6 @@
           1040,
           48,
           16
-        ],
-        "disabled-pressed": [
-          336,
-          1040,
-          48,
-          16
         ]
       }
     },
@@ -247,12 +229,6 @@
         ],
         "disabled": [
           32,
-          1040,
-          16,
-          16
-        ],
-        "disabled-pressed": [
-          288,
           1040,
           16,
           16

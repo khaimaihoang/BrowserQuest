@@ -37,31 +37,39 @@ from uilab_kit import kit_markup, kit_script, kit_style  # noqa: E402  (dev-only
 
 ROOT = Path(__file__).resolve().parents[1]
 
-# Touch-first state model: `active`/`checked` = selected/on (LIGHTER sprite),
-# `pressed` = finger/mouse down, `disabled` = darker/dimmed. `hover` is desktop-only
-# and emitted inside @media (hover: hover). Order controls CSS fallbacks.
+# Touch-first state model: `pressed` = finger/mouse down, `disabled` = LOCKED (dark sprite,
+# sprite không đổi dù có nhấn — "khoá cứng", xem `pointer-events:none` bên dưới),
+# `active`/`checked` = selected/on (LIGHTER sprite). `hover` is desktop-only.
+# Thứ tự emit = thứ tự cascade: state sau ghi đè state trước khi specificity bằng nhau
+# ⇒ `disabled`/`checked-disabled` để CUỐI để mọi tổ hợp nhấn đều giữ sprite tối.
 STATE_ORDER = [
-    "active", "disabled", "disabled-pressed", "active-pressed", "pressed",
-    "checked", "checked-pressed", "checked-disabled", "hover",
+    "active", "active-pressed", "pressed",
+    "checked", "checked-pressed",
+    "disabled", "checked-disabled",
+    "hover",
 ]
+
+# Element đang disabled là "khoá cứng": loại hẳn khỏi mọi selector nhấn
+# (kể cả khi JS tự thêm .pressed) — nhờ vậy sprite không bao giờ đổi khi bị khoá.
+NOT_DISABLED = (":not(:disabled):not([disabled])"
+                ":not(.disabled):not([aria-disabled='true'])")
 
 STATE_SELECTORS = {
     "hover": ["{c}:hover", "{c}.hover"],
-    "pressed": ["{c}:active", "{c}.pressed"],
+    "pressed": [f"{{c}}{NOT_DISABLED}:active", f"{{c}}{NOT_DISABLED}.pressed"],
     "active": ["{c}.active", "{c}[aria-selected='true']", "{c}[aria-pressed='true']"],
     "disabled": ["{c}:disabled", "{c}.disabled", "{c}[aria-disabled='true']"],
     # chỉ các tổ hợp disabled + nhấn (không có :active/.pressed trần — nút enabled nhấn dùng
     # state `pressed` = sprite sáng-nhấn, xem STATE_ORDER)
     # `[disabled]` = DOM attribute trên div giả lập (game dùng attribute + MutationObserver,
-    # xem .agents/skills/game_state_testing) — phải khớp cùng :disabled/.disabled/[aria-disabled]
-    "disabled-pressed": ["{c}.disabled.pressed", "{c}.disabled:active", "{c}[disabled].pressed",
-                          "{c}[disabled]:active", "{c}:disabled.pressed",
-                          "{c}:disabled:active", "{c}[aria-disabled='true'].pressed",
-                          "{c}[aria-disabled='true']:active"],
-    "active-pressed": ["{c}.active.pressed", "{c}.active:active",
-                       "{c}[aria-pressed='true']:active"],
+    # xem .agents/skills/game_state_testing) — phải khớp cùng :disabled/.disabled/[aria-disabled].
+    # KHÔNG còn state `disabled-pressed`: nút disabled là khoá cứng (sprite không đổi khi nhấn).
+    "active-pressed": [f"{{c}}{NOT_DISABLED}.active.pressed",
+                       f"{{c}}{NOT_DISABLED}.active:active",
+                       f"{{c}}{NOT_DISABLED}[aria-pressed='true']:active"],
     "checked": ["{c}:checked", "{c}.checked", "{c}[aria-checked='true']"],
-    "checked-pressed": ["{c}:checked:active", "{c}.checked.pressed"],
+    "checked-pressed": [f"{{c}}{NOT_DISABLED}:checked:active",
+                        f"{{c}}{NOT_DISABLED}.checked.pressed"],
     "checked-disabled": ["{c}:checked:disabled", "{c}.checked.disabled", "{c}.checked[disabled]"],
     "disabled": ["{c}:disabled", "{c}[disabled]", "{c}.disabled", "{c}[aria-disabled='true']"],
 }
@@ -450,7 +458,9 @@ def css_for_scale(mf: dict, assets: dict, scale: int, themes: list[str]) -> str:
             target = hover if state == "hover" else out
             srel = url_for(assets[default_theme][name][state][scale])
             sel = ", ".join(state_selectors(cls, state))
-            target.append(f"{sel} {{ {prop}: url('{srel}'); }}")
+            # disabled = khoá cứng: chặn pointer để không bao giờ vào :active/.pressed
+            extra = "; pointer-events: none" if state == "disabled" else ""
+            target.append(f"{sel} {{ {prop}: url('{srel}'){extra}; }}")
             for theme in slice_themes(spec, themes, default_theme):
                 if theme == default_theme:
                     continue
@@ -478,7 +488,7 @@ def css_for_scale(mf: dict, assets: dict, scale: int, themes: list[str]) -> str:
         dim = spec.get("disabledFilter")
         if dim:
             sel = ", ".join(state_selectors(cls, "disabled"))
-            out.append(f"{sel} {{ filter: {dim}; }}")
+            out.append(f"{sel} {{ filter: {dim}; pointer-events: none; }}")
 
         # 5. optional desktop hover reusing an existing state sprite (no extra file)
         hover_ref = spec.get("hoverUses")

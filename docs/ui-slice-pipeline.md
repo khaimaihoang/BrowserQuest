@@ -92,9 +92,8 @@ File: [`tools/ui/slices.json`](../tools/ui/slices.json)
   "slice": 8,                  // bề dày viền: int (4 cạnh bằng nhau) HOẶC [t,r,b,l]
   "repeat": "repeat",          // CSS border-image-repeat ('repeat' = pixel-perfect)
   "states": {                  // tuỳ chọn — sinh sprite + selector cho từng state
-    "pressed":          [464, 544, 48, 48],
-    "disabled":         [ 80, 544, 48, 48],
-    "disabled-pressed": [336, 544, 48, 48]
+    "pressed":  [464, 544, 48, 48],     // enabled + đang nhấn (sáng nhấn)
+    "disabled": [ 80, 544, 48, 48]      // vô hiệu = khoá cứng (tối, không đổi sprite khi nhấn)
   },
   "alias": { "x": "y" },              // tuỳ chọn — map thêm selector sang sprite có sẵn
   "hoverUses": "active",              // tuỳ chọn — desktop hover (bọc @media hover); KHÔNG dùng cho button
@@ -156,9 +155,8 @@ rule `:hover`); state gốc là `pressed`/`active`/`checked`/`disabled`. Quy ư�
 
 | State | Ý nghĩa | Selector sinh ra |
 |---|---|---|
-| `pressed` | enabled + đang nhấn (sáng nhấn) | `:active`, `.pressed` |
-| `disabled` | vô hiệu (sprite tối) | `:disabled`, `[disabled]`, `.disabled`, `[aria-disabled='true']` |
-| `disabled-pressed` | vô hiệu + đang nhấn (tối nhấn) | `.disabled.pressed`, `.disabled:active`, `[disabled].pressed`, `[disabled]:active`, `:disabled.pressed`, `:disabled:active`, `[aria-disabled='true'].pressed`, `[aria-disabled='true']:active` |
+| `pressed` | enabled + đang nhấn (sáng nhấn) | `:active`, `.pressed` — kèm `:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled])` |
+| `disabled` | vô hiệu = **KHOÁ CỨNG** (sprite tối, nhấn không đổi sprite) | `:disabled`, `[disabled]`, `.disabled`, `[aria-disabled='true']` + `pointer-events:none` |
 | `active` | bật / đang chọn | `.active`, `[aria-selected='true']`, `[aria-pressed='true']` |
 | `active-pressed` | `active` + đang nhấn | `.active.pressed`, `.active:active`, `[aria-pressed='true']:active` |
 | `checked` | on (checkbox/switch) | `:checked`, `.checked`, `[aria-checked='true']` |
@@ -166,29 +164,30 @@ rule `:hover`); state gốc là `pressed`/`active`/`checked`/`disabled`. Quy ư�
 | `checked-disabled` | on + vô hiệu | `:checked:disabled`, `.checked.disabled` |
 | `hover` | chỉ desktop | `:hover`, `.hover` — **bọc trong `@media (hover: hover)`** |
 
-**Button là ma trận 2×2** `{enabled, disabled} × {chưa nhấn, đã nhấn}`; **base = look
-enabled (sáng)**; nhấn nút disabled → tối-nhấn, thả ra → tối thường:
+**Button = enabled {chưa nhấn, đã nhấn} + disabled (KHOÁ CỨNG)**; **base = look enabled
+(sáng)**; nút disabled **giữ nguyên sprite tối dù có nhấn** (selector nhấn đã loại hẳn
+element disabled + thêm `pointer-events:none`):
 
 ```jsonc
 "button": {
-  "rect": [208, 544, 48, 48],             // enabled (sáng, chưa nhấn) = base
+  "rect": [208, 544, 48, 48],          // enabled (sáng, chưa nhấn) = base
   "states": {
-    "pressed":          [464, 544, …],   // sáng, đã nhấn
-    "disabled":         [ 80, 544, …],   // tối
-    "disabled-pressed": [336, 544, …]    // tối, đã nhấn
+    "pressed":  [464, 544, …],         // sáng, đã nhấn
+    "disabled": [ 80, 544, …]          // tối — khoá cứng, không có state *-pressed
   }
   // KHÔNG hoverUses ⇒ không có trạng thái hover
 }
 ```
 
 CSS sinh ra (thứ tự cascade: base → theme base → state → theme state → alias →
-``disabledFilter`` → hover):
+``disabledFilter`` → hover; `disabled` để **cuối** để luôn thắng khi specificity bằng nhau):
 
 ```css
 .ui-button { /* base = enabled (sáng) */ }
-.ui-button:disabled, .ui-button[disabled], .ui-button.disabled, .ui-button[aria-disabled='true']  { border-image-source: url('…--disabled.png'); }
-.ui-button[disabled].pressed, .ui-button[aria-disabled='true'].pressed, …                        { border-image-source: url('…--disabled-pressed.png'); }
-.ui-button:active, .ui-button.pressed                                                            { border-image-source: url('…--pressed.png'); }
+.ui-button:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled='true']):active,
+.ui-button:not(…):not(…).pressed   { border-image-source: url('…--pressed.png'); }
+.ui-button:disabled, .ui-button[disabled], .ui-button.disabled, .ui-button[aria-disabled='true']
+  { border-image-source: url('…--disabled.png'); pointer-events: none; }
 ```
 
 > `[disabled]` (attribute trên div giả lập) **bắt buộc có** — game set/remove attribute này
@@ -204,8 +203,12 @@ CSS sinh ra (thứ tự cascade: base → theme base → state → theme state �
 > ```
 >
 > ```css
-> .ui-toggle-h:disabled, .ui-toggle-h.disabled, .ui-toggle-h[aria-disabled='true'] { filter: brightness(.62) saturate(.75); }
+> .ui-toggle-h:disabled, .ui-toggle-h[disabled], .ui-toggle-h.disabled, .ui-toggle-h[aria-disabled='true']
+>   { filter: brightness(.62) saturate(.75); pointer-events: none; }
 > ```
+>
+> Kết hợp với việc selector `pressed`/`checked-pressed` loại hẳn element disabled ⇒
+> toggle bị khoá **cũng không đổi sprite** dù JS có thêm `.pressed`.
 
 ---
 
@@ -214,7 +217,7 @@ CSS sinh ra (thứ tự cascade: base → theme base → state → theme state �
 | Nhóm (guideline) | Slice |
 |---|---|
 | PANELS | `panel`, `panel-slim` *(9-slice 2 chiều)*; `panel-textured` *(9-slice, **chỉ kéo dọc**)*; `panel-header`, `panel-title` *(cố định)* |
-| PUSH BUTTONS | `button`, `button-slim`, `button-thin`, `button-tiny` *(2×2 state)* |
+| PUSH BUTTONS | `button`, `button-slim`, `button-thin`, `button-tiny` *(base sáng = enabled / `pressed` / `disabled` tối — khoá cứng)* |
 | SLIDERS | `slider-track-v`, `slider-track-h` *(slice `[t,r,b,l]` giữ 2 mũi tên)*, `slider-thumb-v`, `slider-thumb-h` |
 | DIVIDERS | `divider-v`, `divider-h` |
 | SLOTS | `slot` *(+active)*, `slot-sm`, `slot-md` *(+active)*, `slot-wide`, `slot-pill`, `slot-lg` — **tất cả `nine:false`** (ô túi đồ cố định) |
