@@ -5,7 +5,12 @@ Interactive 9-slice editor:
   * pick a slice, drag the 4 slice guides
   * add / drag a CENTRE-ORNAMENT overlay rect (the piece that must NOT tile)
   * live preview that mirrors the packer (cleaned base + flattened middle)
+  * pick a colour theme (dark/green/blue/red/white) + side-by-side theme compare
   * copy the resulting `slice` / `overlays` JSON back into slices.json
+
+Theme = column offset in the atlas (`slices.json` -> `themes.offsets`), so the
+editor only needs to shift x when sampling pixels; every rect it emits stays in
+base (dark) space, exactly like `slices.json` stores it.
 
     python tools/make-slice-editor.py
 """
@@ -47,10 +52,16 @@ button:hover{background:#3a7cf0}
 button.ghost{background:#3a3a46}
 .hint{color:#8b93a3;font-size:11px}
 .ov{color:#ff8ce0}
+.pv .row.on .lbl{color:#8fd0ff;font-weight:600}
+#cmp{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
+#cmp .cell{display:flex;flex-direction:column;gap:4px;align-items:center}
+#cmp .cap{font:11px monospace;color:#8b93a3}
+#cmp .cell.on .cap{color:#8fd0ff;font-weight:600}
 </style></head><body>
 <h1>Slice Editor — slice guides + hoạ tiết tâm</h1>
 <div class="bar">
   <label>slice</label><select id="pick"></select>
+  <label>theme</label><select id="theme" style="min-width:110px"></select>
   <label>rect</label><input id="rect" class="num" style="width:170px">
   <label>t</label><input id="t" class="num" type="number" value="0">
   <label>r</label><input id="r" class="num" type="number" value="0">
@@ -78,17 +89,25 @@ button.ghost{background:#3a3a46}
   <span id="msg" class="hint"></span>
 </div>
 <div class="bar"><button id="copy">Copy JSON slice</button>
-  <span class="hint">cam/đỏ = slice · hồng = hoạ tiết tâm (kéo cạnh để đổi, kéo trong để di chuyển)</span></div>
+  <span class="hint">cam/đỏ = slice · hồng = hoạ tiết tâm (kéo cạnh để đổi, kéo trong để di chuyển) · phím 1-5 = đổi theme</span>
+  <span id="thnote" class="hint"></span></div>
 <div class="wrap">
+  <div class="box pv" id="cmpbox" style="flex:1 1 100%"><h2>SO SÁNH THEME (cùng cỡ, cùng rect)</h2><div id="cmp"></div></div>
   <div class="box"><h2>SPRITE</h2><canvas id="sprite"></canvas></div>
   <div class="box pv"><h2>PREVIEW (9-slice + overlay)</h2><div id="pvs"></div></div>
-  <div class="box" style="min-width:300px"><h2>JSON</h2><pre id="json"></pre></div>
+  <div class="box" style="min-width:300px"><h2>JSON (rect base = theme dark)</h2><pre id="json"></pre></div>
 </div>
 <script>
-const ATLAS="__ATLAS__", DATA=__DATA__;
+const ATLAS="__ATLAS__", DATA=__DATA__, THEMES=__THEMES__;
 const img=new Image(); img.src=ATLAS;
 let cur=null, sl=[0,0,0,0], ovs=[], drag=null, axis='both';
+let theme=THEMES.default, off=0;
+const THEME_KEYS=Object.keys(THEMES.offsets);
 const $=id=>document.getElementById(id);
+/* A theme is a column offset inside the atlas (slices.json -> themes.offsets).
+   `off` shifts x only while SAMPLING pixels: rect/slice/overlay coords that the
+   editor emits always stay in base (dark) space, same as slices.json. */
+function themeOff(){ return (cur&&cur.themed===false)?0:(THEMES.offsets[theme]||0); }
 
 function parseSl(s){ if(Array.isArray(s)){const v=s.slice(0,4);while(v.length<4)v.push(0);return v.map(Number);} const n=Number(s)||0; return [n,n,n,n]; }
 function clampAxis(){ if(axis==='x'){sl[0]=0;sl[2]=0;} if(axis==='y'){sl[1]=0;sl[3]=0;} }
@@ -98,13 +117,15 @@ function previewSizes(w,h){ const o=[[w,h],[w*2,h*2],[w*3,h*3]];
   else o.push([w*5,h*2],[w*2,h*5]);
   return o; }
 
-/* ---- build a "cleaned" source: overlay regions removed + middle flattened ---- */
-let clean=null;
-function buildClean(){
+/* ---- build a "cleaned" per-theme source: overlays removed + middle flattened ----
+   Returns a w×h canvas; pure (never touches global state) so the theme-compare
+   strip can build one per column. */
+function buildClean(o){
+  o=o||0;
   const [x,y,w,h]=cur.rect, [t,r,b,l]=sl;
   const cv=document.createElement('canvas'); cv.width=w; cv.height=h;
   const c=cv.getContext('2d'); c.imageSmoothingEnabled=false;
-  c.drawImage(img,x,y,w,h,0,0,w,h);
+  c.drawImage(img,x+o,y,w,h,0,0,w,h);
   // remove overlays (fill each row from the pixel just left, or col from above
   // when the overlay spans the full width)
   for(const ov of ovs){
@@ -129,25 +150,29 @@ function buildClean(){
       for(let i=l;i<w-r;i++) c.putImageData(col,i,0);
     }
   }
-  clean=cv;
+  return cv;
 }
 function crop(ctx,im,dx,dy,x,y,w,h){ if(w>0&&h>0) ctx.drawImage(im,x,y,w,h,dx,dy,w,h); }
-function tileX(ctx,im,dx,dy,dw,sx,sy,sw,sh){ for(let x=0;x<dw;x+=sw) crop(ctx,im,dx+x,dy,Math.min(sw,dw-x),sh,sx,sy,Math.min(sw,dw-x),sh); }
-function tileY(ctx,im,dx,dy,dh,sx,sy,sw,sh){ for(let y=0;y<dh;y+=sh) crop(ctx,im,dx,dy+y,sw,Math.min(sh,dh-y),sx,sy,sw,Math.min(sh,dh-y)); }
-function tileXY(ctx,im,dx,dy,dw,dh,sx,sy,sw,sh){ for(let y=0;y<dh;y+=sh) for(let x=0;x<dw;x+=sw) crop(ctx,im,dx+x,dy+y,Math.min(sw,dw-x),Math.min(sh,dh-y),sx+x,sy+y,Math.min(sw,dw-x),Math.min(sh,dh-y)); }
+function scale(ctx,im,dx,dy,dw,dh,x,y,w,h){ if(dw>0&&dh>0&&w>0&&h>0) ctx.drawImage(im,x,y,w,h,dx,dy,dw,dh); }
+/* tile helpers pass DEST top-left + SOURCE rect; dest size is derived from the
+   (possibly clamped) source size so tiles stay native 1:1 and pixel-perfect. */
+function tileX(ctx,im,dx,dy,dw,sx,sy,sw,sh){ for(let x=0;x<dw;x+=sw) crop(ctx,im,dx+x,dy,sx,sy,Math.min(sw,dw-x),sh); }
+function tileY(ctx,im,dx,dy,dh,sx,sy,sw,sh){ for(let y=0;y<dh;y+=sh) crop(ctx,im,dx,dy+y,sx,sy,sw,Math.min(sh,dh-y)); }
+function tileXY(ctx,im,dx,dy,dw,dh,sx,sy,sw,sh){ for(let y=0;y<dh;y+=sh) for(let x=0;x<dw;x+=sw) crop(ctx,im,dx+x,dy+y,sx,sy,Math.min(sw,dw-x),Math.min(sh,dh-y)); }
 
-function compose(cv,ow,oh){
+function compose(cv,ow,oh,src,o){
+  o=o||0;
   const [x,y,w,h]=cur.rect, [t,r,b,l]=sl;
   ow=Math.max(ow,l+r); oh=Math.max(oh,t+b);
   cv.width=ow; cv.height=oh;
   const c=cv.getContext('2d'); c.imageSmoothingEnabled=false; c.clearRect(0,0,ow,oh);
-  const im=(clean&&cur.overlays&&cur.overlays.length)?clean:img;
+  const im=src||img;
   crop(c,im,0,0,0,0,l,t); crop(c,im,ow-r,0,w-r,0,r,t);
   crop(c,im,0,oh-b,0,h-b,l,b); crop(c,im,ow-r,oh-b,w-r,h-b,r,b);
   if(cur.repeat==='stretch'){
-    crop(c,im,l,0,w-l-r,t,l,0,ow-l-r,t); crop(c,im,l,oh-b,w-l-r,h-b,l,ow-b,ow-l-r,b);
-    crop(c,im,0,t,l,h-t-b,0,t,l,oh-t-b); crop(c,im,ow-r,t,r,h-t-b,ow-r,t,r,oh-t-b);
-    crop(c,im,l,t,w-l-r,h-t-b,l,t,ow-l-r,oh-t-b);
+    scale(c,im,l,0,ow-l-r,t,l,0,w-l-r,t); scale(c,im,l,oh-b,ow-l-r,b,l,h-b,w-l-r,b);
+    scale(c,im,0,t,l,oh-t-b,0,t,l,h-t-b); scale(c,im,ow-r,t,r,oh-t-b,w-r,t,r,h-t-b);
+    scale(c,im,l,t,ow-l-r,oh-t-b,l,t,w-l-r,h-t-b);
   } else {
     tileX(c,im,l,0,ow-l-r,l,0,w-l-r,t); tileX(c,im,l,oh-b,ow-l-r,l,h-b,w-l-r,b);
     tileY(c,im,0,t,oh-t-b,0,t,l,h-t-b); tileY(c,im,ow-r,t,oh-t-b,w-r,t,r,h-t-b);
@@ -155,20 +180,20 @@ function compose(cv,ow,oh){
   }
   // draw the centre ornaments at their anchors
   if(cur.overlays) for(const ov of cur.overlays){
-    const [ox,oy,oW,oH]=ov.rect, sx=ox-x, sy=oy-y;
+    const [ox,oy,oW,oH]=ov.rect;
     let dx=Math.round((ow-oW)/2), dy=Math.round((oh-oH)/2);
     if(ov.anchor==='tc'){ dx=Math.round((ow-oW)/2); dy=0; }
     else if(ov.anchor==='bc'){ dx=Math.round((ow-oW)/2); dy=oh-oH; }
     else if(ov.anchor==='lc'){ dx=0; dy=Math.round((oh-oH)/2); }
     else if(ov.anchor==='rc'){ dx=ow-oW; dy=Math.round((oh-oH)/2); }
-    crop(c,img,dx,dy,sx,sy,oW,oH);
+    crop(c,img,dx,dy,ox+o,oy,oW,oH);
   }
 }
 function drawSprite(){
   const [x,y,w,h]=cur.rect, Z=+$('zoom').value;
   const cv=$('sprite'); cv.width=w*Z+2; cv.height=h*Z+2;
   const c=cv.getContext('2d'); c.imageSmoothingEnabled=false; c.clearRect(0,0,cv.width,cv.height);
-  c.drawImage(img,x,y,w,h,1,1,w*Z,h*Z);
+  c.drawImage(img,x+off,y,w,h,1,1,w*Z,h*Z);
   clampAxis();
   const [t,r,b,l]=sl;
   const line=(a,b2,cc,dd,col)=>{ c.strokeStyle=col; c.lineWidth=2; c.beginPath(); c.moveTo(a,b2); c.lineTo(cc,dd); c.stroke(); };
@@ -182,14 +207,28 @@ function drawSprite(){
   });
 }
 function drawPreview(){
-  buildClean();
+  const src=buildClean(off);
   const [x,y,w,h]=cur.rect, host=$('pvs'); host.innerHTML='';
   for(const [ow,oh] of previewSizes(w,h)){
     const row=document.createElement('div'); row.className='row';
     const lbl=document.createElement('span'); lbl.className='lbl'; lbl.textContent=ow+'x'+oh;
     const cv=document.createElement('canvas'); const sc=Math.min(2,Math.max(1,420/ow));
     cv.style.width=(ow*sc)+'px'; cv.style.height=(oh*sc)+'px';
-    compose(cv,ow,oh); row.appendChild(lbl); row.appendChild(cv); host.appendChild(row);
+    compose(cv,ow,oh,src,off); row.appendChild(lbl); row.appendChild(cv); host.appendChild(row);
+  }
+}
+/* every theme column at one canonical size — quick demo + visual regression */
+function drawCompare(){
+  const [x,y,w,h]=cur.rect, host=$('cmp'); host.innerHTML='';
+  const ow=Math.max(w*3,224), oh=Math.max(h*3,80), sc=Math.min(2,260/ow);
+  for(const key of THEME_KEYS){
+    const o=(cur.themed===false)?0:(THEMES.offsets[key]||0);
+    const cell=document.createElement('div'); cell.className='cell'+(key===theme?' on':'');
+    const cv=document.createElement('canvas');
+    cv.style.width=(ow*sc)+'px'; cv.style.height=(oh*sc)+'px';
+    compose(cv,ow,oh,buildClean(o),o);
+    const cap=document.createElement('span'); cap.className='cap'; cap.textContent=key+(o?' +'+o:'');
+    cell.appendChild(cv); cell.appendChild(cap); host.appendChild(cell);
   }
 }
 function syncOvInputs(){
@@ -200,9 +239,15 @@ function syncOvInputs(){
 }
 function update(){
   clampAxis();
+  if(THEME_KEYS.indexOf(theme)<0) theme=THEMES.default;
+  off=themeOff();
   const [t,r,b,l]=sl; $('t').value=t;$('r').value=r;$('b').value=b;$('l').value=l;
   $('axis').value=axis; $('flat').checked=!!cur.flatten; syncOvInputs();
-  drawSprite(); drawPreview();
+  $('theme').value=theme;
+  $('thnote').textContent = (cur.themed===false)
+    ? 'slice này "themed": false → màu do cột atlas quyết định, không đổi theo theme'
+    : 'theme '+theme+': atlas x = rect.x + '+off+' ('+cur.rect[0]+' → '+(cur.rect[0]+off)+')';
+  drawSprite(); drawPreview(); drawCompare();
   let j='"'+cur.name+'": { "rect": ['+cur.rect.join(', ')+'], "nine": true, "slice": ['+sl.join(', ')+'], "repeat": "'+(cur.repeat||'repeat')+'"';
   if(axis==='x') j+=', "stretch": "x"'; else if(axis==='y') j+=', "stretch": "y"';
   if(cur.flatten) j+=', "flatten": true';
@@ -219,6 +264,12 @@ function pick(name){
   update();
 }
 $('pick').addEventListener('change',e=>pick(e.target.value));
+$('theme').addEventListener('change',e=>{ theme=e.target.value; update(); });
+window.addEventListener('keydown',e=>{
+  if(/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) return;
+  const i='12345'.indexOf(e.key);
+  if(i>=0&&THEME_KEYS[i]){ theme=THEME_KEYS[i]; update(); }
+});
 ['t','r','b','l'].forEach((k,i)=>$(k).addEventListener('input',()=>{ sl[i]=+$(k).value; update(); }));
 $('rep').addEventListener('change',e=>{ cur.repeat=e.target.value; update(); });
 $('axis').addEventListener('change',e=>{ axis=e.target.value; update(); });
@@ -274,7 +325,8 @@ window.addEventListener('mousemove',e=>{
   }
 });
 window.addEventListener('mouseup',()=>drag=null);
-img.onload=()=>{ const n=Object.keys(DATA); $('pick').innerHTML=n.map(k=>'<option>'+k+'</option>').join(''); pick(n[0]); };
+img.onload=()=>{ const n=Object.keys(DATA); $('pick').innerHTML=n.map(k=>'<option>'+k+'</option>').join('');
+  $('theme').innerHTML=THEME_KEYS.map(k=>'<option>'+k+'</option>').join(''); theme=THEMES.default; pick(n[0]); };
 img.onerror=()=>{ const m=$('msg'); m.style.color='#ff8a8a'; m.textContent='KHONG LOAD DUOC ATLAS: '+ATLAS+' — mo qua dev server (npm run watch:client)'; };
 </script></body></html>
 """
@@ -294,8 +346,13 @@ def generate(mf: dict) -> str:
             entry["overlays"] = s["overlays"]
         if s.get("flatten"):
             entry["flatten"] = True
+        if not s.get("themed", True):
+            entry["themed"] = False
         data[n] = entry
-    return TEMPLATE.replace("__ATLAS__", atlas).replace("__DATA__", json.dumps(data, ensure_ascii=False))
+    themes = {"default": mf["themes"]["default"], "offsets": mf["themes"]["offsets"]}
+    return (TEMPLATE.replace("__ATLAS__", atlas)
+            .replace("__DATA__", json.dumps(data, ensure_ascii=False))
+            .replace("__THEMES__", json.dumps(themes, ensure_ascii=False)))
 
 
 def main() -> int:
