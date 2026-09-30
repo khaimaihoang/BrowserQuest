@@ -316,17 +316,20 @@ Khoá cứng: `[disabled]`/`:disabled`/`.disabled`/`[aria-disabled]` (+ `.checke
 <p class="log" data-switchlog>switch: Sound=on, Music=off</p></section>"""
 
     checks = f"""<section id="k-check" class="card"><h3>Checkbox &amp; Radio</h3>
-<em>{p}-checkbox · {p}-radio — checked / pressed / checked-pressed</em>
+<em>enabled dùng sprite <b>sáng</b> (checked &amp; unchecked), disabled dùng sprite <b>tối</b>
+(cả checked &amp; unchecked) + dim nhẹ — khoá cứng, không nhấn được</em>
 <div class="row">
   {_check(p, "Fullscreen", "checkbox", "checked")}
   {_check(p, "Vibration", "checkbox")}
-  {_check(p, "Auto-save", "checkbox", "pressed")}
+  {_check(p, "Auto-save (khoá)", "checkbox", "disabled")}
+  {_check(p, "Cloud save (khoá + on)", "checkbox", "checked disabled")}
 </div>
 <div class="row" data-radio-group="quality">
   <span class="lbl">Quality</span>
   {_check(p, "Low", "radio", "checked")}
   {_check(p, "Medium", "radio")}
   {_check(p, "High", "radio")}
+  {_check(p, "Ultra (khoá)", "radio", "disabled")}
 </div>
 <p class="log" data-checklog>checkbox: Fullscreen=on · radio: Low</p></section>"""
 

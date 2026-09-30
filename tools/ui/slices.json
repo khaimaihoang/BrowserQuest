@@ -378,30 +378,31 @@
       ],
       "nine": false
     },
-    "_comment_check": "CHECK BOXES",
+    "_comment_check": "CHECK BOXES: base=off-tối / pressed=off-sáng / checked=on-tối / checked-pressed=on-sáng",
     "radio": {
       "rect": [
-        210,
+        258,
         818,
         12,
         12
       ],
       "nine": false,
+      "disabledFilter": "brightness(.72) saturate(.8)",
       "states": {
-        "pressed": [
-          258,
-          818,
-          12,
-          12
-        ],
         "checked": [
-          306,
+          354,
           818,
           12,
           12
         ],
-        "checked-pressed": [
-          354,
+        "disabled": [
+          210,
+          818,
+          12,
+          12
+        ],
+        "checked-disabled": [
+          306,
           818,
           12,
           12
@@ -410,27 +411,28 @@
     },
     "checkbox": {
       "rect": [
-        210,
+        258,
         850,
         12,
         12
       ],
       "nine": false,
+      "disabledFilter": "brightness(.72) saturate(.8)",
       "states": {
-        "pressed": [
-          258,
-          850,
-          12,
-          12
-        ],
         "checked": [
-          306,
+          354,
           850,
           12,
           12
         ],
-        "checked-pressed": [
-          354,
+        "disabled": [
+          210,
+          850,
+          12,
+          12
+        ],
+        "checked-disabled": [
+          306,
           850,
           12,
           12

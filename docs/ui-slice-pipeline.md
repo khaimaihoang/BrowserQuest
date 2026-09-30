@@ -212,8 +212,21 @@ CSS sinh ra (thứ tự cascade: base → theme base → state → theme state �
 > }
 > ```
 >
-> `disabledFilter` (filter cho team `disabled` + `pointer-events:none`) vẫn có sẵn cho slice
-> nào *không* có bản tối trong atlas.
+> `disabledFilter` (filter cho team `disabled` + `pointer-events:none`) dim thêm bản tối để đủ
+> tương phản ở theme tối.
+>
+> **Checkbox/radio áp cùng công thức** (atlas cũng có bản sáng/tối cho mỗi on/off):
+>
+> ```jsonc
+> "checkbox": {
+>   "rect":   [258, 850, 12, 12],                 // ENABLED + unchecked (sáng)
+>   "states": {
+>     "checked":          [354, 850, 12, 12],     // ENABLED + checked   (sáng, có dấu)
+>     "disabled":         [210, 850, 12, 12],     // DISABLED + unchecked (tối)
+>     "checked-disabled": [306, 850, 12, 12]      // DISABLED + checked   (tối, có dấu)
+>   }
+> }
+> ```
 >
 > Kết hợp với việc selector `pressed`/`checked-pressed` loại hẳn element disabled ⇒
 > toggle bị khoá **cũng không đổi sprite** dù JS có thêm `.pressed`.

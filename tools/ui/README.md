@@ -106,8 +106,21 @@ của state `y`, không sinh file.
 > }
 > ```
 >
-> `disabledFilter` (filter cho team `disabled` + `pointer-events:none`) vẫn có sẵn cho slice
-> nào *không* có bản tối trong atlas.
+> `disabledFilter` (filter cho team `disabled` + `pointer-events:none`) dim thêm bản tối để
+> đủ tương phản ở theme tối.
+>
+> **Checkbox/radio áp cùng công thức** (atlas cũng có bản sáng/tối cho mỗi on/off):
+>
+> ```jsonc
+> "checkbox": {
+>   "rect":   [258, 850, 12, 12],                 // ENABLED + unchecked (sáng)
+>   "states": {
+>     "checked":          [354, 850, 12, 12],     // ENABLED + checked   (sáng, có dấu)
+>     "disabled":         [210, 850, 12, 12],     // DISABLED + unchecked (tối)
+>     "checked-disabled": [306, 850, 12, 12]      // DISABLED + checked   (tối, có dấu)
+>   }
+> }
+> ```
 >
 > ⚠️ Game dùng **div giả lập + attribute `disabled`** (MutationObserver) — nên `[disabled]`
 > là selector chính, đứng ngang hàng `:disabled`/`.disabled`/`[aria-disabled]`.
