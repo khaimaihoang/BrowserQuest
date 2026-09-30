@@ -60,7 +60,7 @@
         48
       ],
       "nine": true,
-      "slice": 7,
+      "slice": 8,
       "repeat": "repeat"
     },
     "panel-slim": {
@@ -71,7 +71,12 @@
         48
       ],
       "nine": true,
-      "slice": 7,
+      "slice": [
+        8,
+        7,
+        8,
+        7
+      ],
       "repeat": "repeat"
     },
     "panel-textured": {
@@ -83,9 +88,9 @@
       ],
       "nine": true,
       "slice": [
-        6,
+        8,
         15,
-        6,
+        8,
         15
       ],
       "repeat": "repeat",

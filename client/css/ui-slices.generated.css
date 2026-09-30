@@ -5,10 +5,10 @@
 
 .ui-panel {
   box-sizing: border-box;
-  border-width: 7px 7px 7px 7px;
+  border-width: 8px 8px 8px 8px;
   border-style: solid;
   border-color: transparent;
-  border-image: url('../img/1/ui/panel.png') 7 7 7 7 fill repeat;
+  border-image: url('../img/1/ui/panel.png') 8 8 8 8 fill repeat;
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: pixelated;
@@ -19,10 +19,10 @@
 .theme-white .ui-panel { border-image-source: url('../img/1/ui/panel--white.png'); }
 .ui-panel-slim {
   box-sizing: border-box;
-  border-width: 7px 7px 7px 7px;
+  border-width: 8px 7px 8px 7px;
   border-style: solid;
   border-color: transparent;
-  border-image: url('../img/1/ui/panel-slim.png') 7 7 7 7 fill repeat;
+  border-image: url('../img/1/ui/panel-slim.png') 8 7 8 7 fill repeat;
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: pixelated;
@@ -34,10 +34,10 @@
 .ui-panel-textured {
   position: relative;
   box-sizing: border-box;
-  border-width: 6px 15px 6px 15px;
+  border-width: 8px 15px 8px 15px;
   border-style: solid;
   border-color: transparent;
-  border-image: url('../img/1/ui/panel-textured--base.png') 6 15 6 15 fill repeat;
+  border-image: url('../img/1/ui/panel-textured--base.png') 8 15 8 15 fill repeat;
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: pixelated;
@@ -46,12 +46,12 @@
 .theme-blue .ui-panel-textured { border-image-source: url('../img/1/ui/panel-textured--base--blue.png'); }
 .theme-red .ui-panel-textured { border-image-source: url('../img/1/ui/panel-textured--base--red.png'); }
 .theme-white .ui-panel-textured { border-image-source: url('../img/1/ui/panel-textured--base--white.png'); }
-.ui-panel-textured::before { content:''; position:absolute; left:50%;top:-6px;margin-left:-9px; width:18px; height:6px; background:url('../img/1/ui/panel-textured--ov1.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
+.ui-panel-textured::before { content:''; position:absolute; left:50%;top:-8px;margin-left:-9px; width:18px; height:6px; background:url('../img/1/ui/panel-textured--ov1.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
 .theme-green .ui-panel-textured::before { background-image: url('../img/1/ui/panel-textured--ov1--green.png'); }
 .theme-blue .ui-panel-textured::before { background-image: url('../img/1/ui/panel-textured--ov1--blue.png'); }
 .theme-red .ui-panel-textured::before { background-image: url('../img/1/ui/panel-textured--ov1--red.png'); }
 .theme-white .ui-panel-textured::before { background-image: url('../img/1/ui/panel-textured--ov1--white.png'); }
-.ui-panel-textured::after { content:''; position:absolute; left:50%;bottom:-6px;margin-left:-9px; width:18px; height:6px; background:url('../img/1/ui/panel-textured--ov2.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
+.ui-panel-textured::after { content:''; position:absolute; left:50%;bottom:-8px;margin-left:-9px; width:18px; height:6px; background:url('../img/1/ui/panel-textured--ov2.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
 .theme-green .ui-panel-textured::after { background-image: url('../img/1/ui/panel-textured--ov2--green.png'); }
 .theme-blue .ui-panel-textured::after { background-image: url('../img/1/ui/panel-textured--ov2--blue.png'); }
 .theme-red .ui-panel-textured::after { background-image: url('../img/1/ui/panel-textured--ov2--red.png'); }
@@ -975,10 +975,10 @@
 
   .ui-panel {
     box-sizing: border-box;
-    border-width: 14px 14px 14px 14px;
+    border-width: 16px 16px 16px 16px;
     border-style: solid;
     border-color: transparent;
-    border-image: url('../img/2/ui/panel.png') 14 14 14 14 fill repeat;
+    border-image: url('../img/2/ui/panel.png') 16 16 16 16 fill repeat;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
@@ -989,10 +989,10 @@
   .theme-white .ui-panel { border-image-source: url('../img/2/ui/panel--white.png'); }
   .ui-panel-slim {
     box-sizing: border-box;
-    border-width: 14px 14px 14px 14px;
+    border-width: 16px 14px 16px 14px;
     border-style: solid;
     border-color: transparent;
-    border-image: url('../img/2/ui/panel-slim.png') 14 14 14 14 fill repeat;
+    border-image: url('../img/2/ui/panel-slim.png') 16 14 16 14 fill repeat;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
@@ -1004,10 +1004,10 @@
   .ui-panel-textured {
     position: relative;
     box-sizing: border-box;
-    border-width: 12px 30px 12px 30px;
+    border-width: 16px 30px 16px 30px;
     border-style: solid;
     border-color: transparent;
-    border-image: url('../img/2/ui/panel-textured--base.png') 12 30 12 30 fill repeat;
+    border-image: url('../img/2/ui/panel-textured--base.png') 16 30 16 30 fill repeat;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
@@ -1016,12 +1016,12 @@
   .theme-blue .ui-panel-textured { border-image-source: url('../img/2/ui/panel-textured--base--blue.png'); }
   .theme-red .ui-panel-textured { border-image-source: url('../img/2/ui/panel-textured--base--red.png'); }
   .theme-white .ui-panel-textured { border-image-source: url('../img/2/ui/panel-textured--base--white.png'); }
-  .ui-panel-textured::before { content:''; position:absolute; left:50%;top:-12px;margin-left:-18px; width:36px; height:12px; background:url('../img/2/ui/panel-textured--ov1.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
+  .ui-panel-textured::before { content:''; position:absolute; left:50%;top:-16px;margin-left:-18px; width:36px; height:12px; background:url('../img/2/ui/panel-textured--ov1.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
   .theme-green .ui-panel-textured::before { background-image: url('../img/2/ui/panel-textured--ov1--green.png'); }
   .theme-blue .ui-panel-textured::before { background-image: url('../img/2/ui/panel-textured--ov1--blue.png'); }
   .theme-red .ui-panel-textured::before { background-image: url('../img/2/ui/panel-textured--ov1--red.png'); }
   .theme-white .ui-panel-textured::before { background-image: url('../img/2/ui/panel-textured--ov1--white.png'); }
-  .ui-panel-textured::after { content:''; position:absolute; left:50%;bottom:-12px;margin-left:-18px; width:36px; height:12px; background:url('../img/2/ui/panel-textured--ov2.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
+  .ui-panel-textured::after { content:''; position:absolute; left:50%;bottom:-16px;margin-left:-18px; width:36px; height:12px; background:url('../img/2/ui/panel-textured--ov2.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
   .theme-green .ui-panel-textured::after { background-image: url('../img/2/ui/panel-textured--ov2--green.png'); }
   .theme-blue .ui-panel-textured::after { background-image: url('../img/2/ui/panel-textured--ov2--blue.png'); }
   .theme-red .ui-panel-textured::after { background-image: url('../img/2/ui/panel-textured--ov2--red.png'); }
@@ -1946,10 +1946,10 @@
 
   .ui-panel {
     box-sizing: border-box;
-    border-width: 14px 14px 14px 14px;
+    border-width: 16px 16px 16px 16px;
     border-style: solid;
     border-color: transparent;
-    border-image: url('../img/2/ui/panel.png') 14 14 14 14 fill repeat;
+    border-image: url('../img/2/ui/panel.png') 16 16 16 16 fill repeat;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
@@ -1960,10 +1960,10 @@
   .theme-white .ui-panel { border-image-source: url('../img/2/ui/panel--white.png'); }
   .ui-panel-slim {
     box-sizing: border-box;
-    border-width: 14px 14px 14px 14px;
+    border-width: 16px 14px 16px 14px;
     border-style: solid;
     border-color: transparent;
-    border-image: url('../img/2/ui/panel-slim.png') 14 14 14 14 fill repeat;
+    border-image: url('../img/2/ui/panel-slim.png') 16 14 16 14 fill repeat;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
@@ -1975,10 +1975,10 @@
   .ui-panel-textured {
     position: relative;
     box-sizing: border-box;
-    border-width: 12px 30px 12px 30px;
+    border-width: 16px 30px 16px 30px;
     border-style: solid;
     border-color: transparent;
-    border-image: url('../img/2/ui/panel-textured--base.png') 12 30 12 30 fill repeat;
+    border-image: url('../img/2/ui/panel-textured--base.png') 16 30 16 30 fill repeat;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
@@ -1987,12 +1987,12 @@
   .theme-blue .ui-panel-textured { border-image-source: url('../img/2/ui/panel-textured--base--blue.png'); }
   .theme-red .ui-panel-textured { border-image-source: url('../img/2/ui/panel-textured--base--red.png'); }
   .theme-white .ui-panel-textured { border-image-source: url('../img/2/ui/panel-textured--base--white.png'); }
-  .ui-panel-textured::before { content:''; position:absolute; left:50%;top:-12px;margin-left:-18px; width:36px; height:12px; background:url('../img/2/ui/panel-textured--ov1.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
+  .ui-panel-textured::before { content:''; position:absolute; left:50%;top:-16px;margin-left:-18px; width:36px; height:12px; background:url('../img/2/ui/panel-textured--ov1.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
   .theme-green .ui-panel-textured::before { background-image: url('../img/2/ui/panel-textured--ov1--green.png'); }
   .theme-blue .ui-panel-textured::before { background-image: url('../img/2/ui/panel-textured--ov1--blue.png'); }
   .theme-red .ui-panel-textured::before { background-image: url('../img/2/ui/panel-textured--ov1--red.png'); }
   .theme-white .ui-panel-textured::before { background-image: url('../img/2/ui/panel-textured--ov1--white.png'); }
-  .ui-panel-textured::after { content:''; position:absolute; left:50%;bottom:-12px;margin-left:-18px; width:36px; height:12px; background:url('../img/2/ui/panel-textured--ov2.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
+  .ui-panel-textured::after { content:''; position:absolute; left:50%;bottom:-16px;margin-left:-18px; width:36px; height:12px; background:url('../img/2/ui/panel-textured--ov2.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
   .theme-green .ui-panel-textured::after { background-image: url('../img/2/ui/panel-textured--ov2--green.png'); }
   .theme-blue .ui-panel-textured::after { background-image: url('../img/2/ui/panel-textured--ov2--blue.png'); }
   .theme-red .ui-panel-textured::after { background-image: url('../img/2/ui/panel-textured--ov2--red.png'); }
@@ -2917,10 +2917,10 @@
 
   .ui-panel {
     box-sizing: border-box;
-    border-width: 21px 21px 21px 21px;
+    border-width: 24px 24px 24px 24px;
     border-style: solid;
     border-color: transparent;
-    border-image: url('../img/3/ui/panel.png') 21 21 21 21 fill repeat;
+    border-image: url('../img/3/ui/panel.png') 24 24 24 24 fill repeat;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
@@ -2931,10 +2931,10 @@
   .theme-white .ui-panel { border-image-source: url('../img/3/ui/panel--white.png'); }
   .ui-panel-slim {
     box-sizing: border-box;
-    border-width: 21px 21px 21px 21px;
+    border-width: 24px 21px 24px 21px;
     border-style: solid;
     border-color: transparent;
-    border-image: url('../img/3/ui/panel-slim.png') 21 21 21 21 fill repeat;
+    border-image: url('../img/3/ui/panel-slim.png') 24 21 24 21 fill repeat;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
@@ -2946,10 +2946,10 @@
   .ui-panel-textured {
     position: relative;
     box-sizing: border-box;
-    border-width: 18px 45px 18px 45px;
+    border-width: 24px 45px 24px 45px;
     border-style: solid;
     border-color: transparent;
-    border-image: url('../img/3/ui/panel-textured--base.png') 18 45 18 45 fill repeat;
+    border-image: url('../img/3/ui/panel-textured--base.png') 24 45 24 45 fill repeat;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
@@ -2958,12 +2958,12 @@
   .theme-blue .ui-panel-textured { border-image-source: url('../img/3/ui/panel-textured--base--blue.png'); }
   .theme-red .ui-panel-textured { border-image-source: url('../img/3/ui/panel-textured--base--red.png'); }
   .theme-white .ui-panel-textured { border-image-source: url('../img/3/ui/panel-textured--base--white.png'); }
-  .ui-panel-textured::before { content:''; position:absolute; left:50%;top:-18px;margin-left:-27px; width:54px; height:18px; background:url('../img/3/ui/panel-textured--ov1.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
+  .ui-panel-textured::before { content:''; position:absolute; left:50%;top:-24px;margin-left:-27px; width:54px; height:18px; background:url('../img/3/ui/panel-textured--ov1.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
   .theme-green .ui-panel-textured::before { background-image: url('../img/3/ui/panel-textured--ov1--green.png'); }
   .theme-blue .ui-panel-textured::before { background-image: url('../img/3/ui/panel-textured--ov1--blue.png'); }
   .theme-red .ui-panel-textured::before { background-image: url('../img/3/ui/panel-textured--ov1--red.png'); }
   .theme-white .ui-panel-textured::before { background-image: url('../img/3/ui/panel-textured--ov1--white.png'); }
-  .ui-panel-textured::after { content:''; position:absolute; left:50%;bottom:-18px;margin-left:-27px; width:54px; height:18px; background:url('../img/3/ui/panel-textured--ov2.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
+  .ui-panel-textured::after { content:''; position:absolute; left:50%;bottom:-24px;margin-left:-27px; width:54px; height:18px; background:url('../img/3/ui/panel-textured--ov2.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
   .theme-green .ui-panel-textured::after { background-image: url('../img/3/ui/panel-textured--ov2--green.png'); }
   .theme-blue .ui-panel-textured::after { background-image: url('../img/3/ui/panel-textured--ov2--blue.png'); }
   .theme-red .ui-panel-textured::after { background-image: url('../img/3/ui/panel-textured--ov2--red.png'); }
@@ -3888,10 +3888,10 @@
 
   .ui-panel {
     box-sizing: border-box;
-    border-width: 7px 7px 7px 7px;
+    border-width: 8px 8px 8px 8px;
     border-style: solid;
     border-color: transparent;
-    border-image: url('../img/1/ui/panel.png') 7 7 7 7 fill repeat;
+    border-image: url('../img/1/ui/panel.png') 8 8 8 8 fill repeat;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
@@ -3902,10 +3902,10 @@
   .theme-white .ui-panel { border-image-source: url('../img/1/ui/panel--white.png'); }
   .ui-panel-slim {
     box-sizing: border-box;
-    border-width: 7px 7px 7px 7px;
+    border-width: 8px 7px 8px 7px;
     border-style: solid;
     border-color: transparent;
-    border-image: url('../img/1/ui/panel-slim.png') 7 7 7 7 fill repeat;
+    border-image: url('../img/1/ui/panel-slim.png') 8 7 8 7 fill repeat;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
@@ -3917,10 +3917,10 @@
   .ui-panel-textured {
     position: relative;
     box-sizing: border-box;
-    border-width: 6px 15px 6px 15px;
+    border-width: 8px 15px 8px 15px;
     border-style: solid;
     border-color: transparent;
-    border-image: url('../img/1/ui/panel-textured--base.png') 6 15 6 15 fill repeat;
+    border-image: url('../img/1/ui/panel-textured--base.png') 8 15 8 15 fill repeat;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
@@ -3929,12 +3929,12 @@
   .theme-blue .ui-panel-textured { border-image-source: url('../img/1/ui/panel-textured--base--blue.png'); }
   .theme-red .ui-panel-textured { border-image-source: url('../img/1/ui/panel-textured--base--red.png'); }
   .theme-white .ui-panel-textured { border-image-source: url('../img/1/ui/panel-textured--base--white.png'); }
-  .ui-panel-textured::before { content:''; position:absolute; left:50%;top:-6px;margin-left:-9px; width:18px; height:6px; background:url('../img/1/ui/panel-textured--ov1.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
+  .ui-panel-textured::before { content:''; position:absolute; left:50%;top:-8px;margin-left:-9px; width:18px; height:6px; background:url('../img/1/ui/panel-textured--ov1.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
   .theme-green .ui-panel-textured::before { background-image: url('../img/1/ui/panel-textured--ov1--green.png'); }
   .theme-blue .ui-panel-textured::before { background-image: url('../img/1/ui/panel-textured--ov1--blue.png'); }
   .theme-red .ui-panel-textured::before { background-image: url('../img/1/ui/panel-textured--ov1--red.png'); }
   .theme-white .ui-panel-textured::before { background-image: url('../img/1/ui/panel-textured--ov1--white.png'); }
-  .ui-panel-textured::after { content:''; position:absolute; left:50%;bottom:-6px;margin-left:-9px; width:18px; height:6px; background:url('../img/1/ui/panel-textured--ov2.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
+  .ui-panel-textured::after { content:''; position:absolute; left:50%;bottom:-8px;margin-left:-9px; width:18px; height:6px; background:url('../img/1/ui/panel-textured--ov2.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
   .theme-green .ui-panel-textured::after { background-image: url('../img/1/ui/panel-textured--ov2--green.png'); }
   .theme-blue .ui-panel-textured::after { background-image: url('../img/1/ui/panel-textured--ov2--blue.png'); }
   .theme-red .ui-panel-textured::after { background-image: url('../img/1/ui/panel-textured--ov2--red.png'); }
@@ -4859,10 +4859,10 @@
 
   .ui-panel {
     box-sizing: border-box;
-    border-width: 7px 7px 7px 7px;
+    border-width: 8px 8px 8px 8px;
     border-style: solid;
     border-color: transparent;
-    border-image: url('../img/1/ui/panel.png') 7 7 7 7 fill repeat;
+    border-image: url('../img/1/ui/panel.png') 8 8 8 8 fill repeat;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
@@ -4873,10 +4873,10 @@
   .theme-white .ui-panel { border-image-source: url('../img/1/ui/panel--white.png'); }
   .ui-panel-slim {
     box-sizing: border-box;
-    border-width: 7px 7px 7px 7px;
+    border-width: 8px 7px 8px 7px;
     border-style: solid;
     border-color: transparent;
-    border-image: url('../img/1/ui/panel-slim.png') 7 7 7 7 fill repeat;
+    border-image: url('../img/1/ui/panel-slim.png') 8 7 8 7 fill repeat;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
@@ -4888,10 +4888,10 @@
   .ui-panel-textured {
     position: relative;
     box-sizing: border-box;
-    border-width: 6px 15px 6px 15px;
+    border-width: 8px 15px 8px 15px;
     border-style: solid;
     border-color: transparent;
-    border-image: url('../img/1/ui/panel-textured--base.png') 6 15 6 15 fill repeat;
+    border-image: url('../img/1/ui/panel-textured--base.png') 8 15 8 15 fill repeat;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
@@ -4900,12 +4900,12 @@
   .theme-blue .ui-panel-textured { border-image-source: url('../img/1/ui/panel-textured--base--blue.png'); }
   .theme-red .ui-panel-textured { border-image-source: url('../img/1/ui/panel-textured--base--red.png'); }
   .theme-white .ui-panel-textured { border-image-source: url('../img/1/ui/panel-textured--base--white.png'); }
-  .ui-panel-textured::before { content:''; position:absolute; left:50%;top:-6px;margin-left:-9px; width:18px; height:6px; background:url('../img/1/ui/panel-textured--ov1.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
+  .ui-panel-textured::before { content:''; position:absolute; left:50%;top:-8px;margin-left:-9px; width:18px; height:6px; background:url('../img/1/ui/panel-textured--ov1.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
   .theme-green .ui-panel-textured::before { background-image: url('../img/1/ui/panel-textured--ov1--green.png'); }
   .theme-blue .ui-panel-textured::before { background-image: url('../img/1/ui/panel-textured--ov1--blue.png'); }
   .theme-red .ui-panel-textured::before { background-image: url('../img/1/ui/panel-textured--ov1--red.png'); }
   .theme-white .ui-panel-textured::before { background-image: url('../img/1/ui/panel-textured--ov1--white.png'); }
-  .ui-panel-textured::after { content:''; position:absolute; left:50%;bottom:-6px;margin-left:-9px; width:18px; height:6px; background:url('../img/1/ui/panel-textured--ov2.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
+  .ui-panel-textured::after { content:''; position:absolute; left:50%;bottom:-8px;margin-left:-9px; width:18px; height:6px; background:url('../img/1/ui/panel-textured--ov2.png') no-repeat; image-rendering:pixelated; pointer-events:none; }
   .theme-green .ui-panel-textured::after { background-image: url('../img/1/ui/panel-textured--ov2--green.png'); }
   .theme-blue .ui-panel-textured::after { background-image: url('../img/1/ui/panel-textured--ov2--blue.png'); }
   .theme-red .ui-panel-textured::after { background-image: url('../img/1/ui/panel-textured--ov2--red.png'); }
