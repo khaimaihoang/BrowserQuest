@@ -446,6 +446,7 @@
         16
       ],
       "nine": false,
+      "disabledFilter": "brightness(.72) saturate(.8)",
       "states": {
         "checked": [
           308,
@@ -475,6 +476,7 @@
         8
       ],
       "nine": false,
+      "disabledFilter": "brightness(.72) saturate(.8)",
       "states": {
         "checked": [
           304,

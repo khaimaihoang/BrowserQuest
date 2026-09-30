@@ -296,9 +296,10 @@ def kit_markup(prefix: str = "ui") -> str:
 <p class="log" data-log>button clicks: 0 · giữ chuột để xem .pressed (sáng+nhấn); nút khoá: ấn không ăn, sprite đứng yên</p></section>"""
 
     switches = f"""<section id="k-switch" class="card"><h3>Switch / Toggle</h3>
-<em>OFF/ON × enabled/disabled: enabled dùng sprite <b>sáng</b> (off &amp; on), disabled dùng sprite
-<b>tối</b> (off &amp; on) — atlas có sẵn 2 bản cho mỗi vị trí núm, không dùng filter.
-Khoá cứng: `[disabled]`/`:disabled`/`.disabled`/`[aria-disabled]` + `.checked` ⇒ tối (on).</em>
+<em>OFF/ON × enabled/disabled: enabled luôn dùng sprite <b>sáng</b>, disabled luôn dùng sprite
+<b>tối</b> (atlas có 2 bản cho mỗi vị trí núm) + dim nhẹ <code>brightness(.72)</code> để 2 mức
+phân biệt rõ ngay ở theme tối (~8 luma là quá ít nếu chỉ đổi sprite).
+Khoá cứng: `[disabled]`/`:disabled`/`.disabled`/`[aria-disabled]` (+ `.checked` = tối on).</em>
 <div class="row">
   {_switch(p, "Sound", True)}
   {_switch(p, "Music")}

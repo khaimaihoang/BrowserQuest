@@ -109,8 +109,8 @@ File: [`tools/ui/slices.json`](../tools/ui/slices.json)
 ```
 
 - `disabledFilter` = CSS `filter` áp cho `:disabled/[disabled]/.disabled/[aria-disabled='true']`
-  (kèm `pointer-events:none`), dùng cho sprite mà atlas **không có bản tối** — hiện chưa
-  slice nào cần (toggle đã có sprite tối/ sáng cho cả on & off, xem §4).
+  (kèm `pointer-events:none`), dùng để **đủ tương phản disabled** — vd toggle dùng bản tối
+  trong atlas rồi dim thêm `brightness(.72) saturate(.8)` (2 bản sáng/tối chỉ lệch ~8 luma).
 
 - `overlays` = sprite có **hoạ tiết ở tâm** mà 9-slice không neo được (sprite có boss,
   hoa văn giữa). Packer sẽ:
@@ -196,8 +196,10 @@ CSS sinh ra (thứ tự cascade: base → theme base → state → theme state �
 
 > **Toggle/checkbox có 2 bản sprite cho mỗi vị trí (sáng/tối)** — vd `toggle-h`:
 > `base` = off-tối, `pressed` = off-**sáng**, `checked` = on-**sáng**, `checked-pressed` = on-tối.
-> Dùng thẳng sprite (không filter) để 2 cặp on/off đồng bộ: enabled lấy bản sáng cho cả
-> off & on, disabled lấy bản tối cho cả off & on:
+> Sprite cho 2 cặp on/off luôn đồng bộ: enabled lấy bản sáng cho cả
+> off & on, disabled lấy bản tối cho cả off & on — **cộng thêm `disabledFilter:
+> "brightness(.72) saturate(.8)"`** vì 2 bản chỉ lệch ~8 luma (ở theme tối là quá ít để
+> phân biệt “disabled”; filter chỉ làm tối thêm, không đổi màu / không đổi vị trí núm):
 >
 > ```jsonc
 > "toggle-h": {

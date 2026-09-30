@@ -445,6 +445,7 @@
 .theme-blue .ui-toggle-v:checked:disabled, .theme-blue .ui-toggle-v.checked.disabled, .theme-blue .ui-toggle-v.checked[disabled], .theme-blue .ui-toggle-v[aria-checked='true'][disabled], .theme-blue .ui-toggle-v.checked[aria-disabled='true'], .theme-blue .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-v--checked-disabled--blue.png'); }
 .theme-red .ui-toggle-v:checked:disabled, .theme-red .ui-toggle-v.checked.disabled, .theme-red .ui-toggle-v.checked[disabled], .theme-red .ui-toggle-v[aria-checked='true'][disabled], .theme-red .ui-toggle-v.checked[aria-disabled='true'], .theme-red .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-v--checked-disabled--red.png'); }
 .theme-white .ui-toggle-v:checked:disabled, .theme-white .ui-toggle-v.checked.disabled, .theme-white .ui-toggle-v.checked[disabled], .theme-white .ui-toggle-v[aria-checked='true'][disabled], .theme-white .ui-toggle-v.checked[aria-disabled='true'], .theme-white .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-v--checked-disabled--white.png'); }
+.ui-toggle-v:disabled, .ui-toggle-v[disabled], .ui-toggle-v.disabled, .ui-toggle-v[aria-disabled='true'] { filter: brightness(.72) saturate(.8); pointer-events: none; }
 .ui-toggle-h {
   display: inline-block;
   background-image: url('../img/1/ui/toggle-h.png');
@@ -474,6 +475,7 @@
 .theme-blue .ui-toggle-h:checked:disabled, .theme-blue .ui-toggle-h.checked.disabled, .theme-blue .ui-toggle-h.checked[disabled], .theme-blue .ui-toggle-h[aria-checked='true'][disabled], .theme-blue .ui-toggle-h.checked[aria-disabled='true'], .theme-blue .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-h--checked-disabled--blue.png'); }
 .theme-red .ui-toggle-h:checked:disabled, .theme-red .ui-toggle-h.checked.disabled, .theme-red .ui-toggle-h.checked[disabled], .theme-red .ui-toggle-h[aria-checked='true'][disabled], .theme-red .ui-toggle-h.checked[aria-disabled='true'], .theme-red .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-h--checked-disabled--red.png'); }
 .theme-white .ui-toggle-h:checked:disabled, .theme-white .ui-toggle-h.checked.disabled, .theme-white .ui-toggle-h.checked[disabled], .theme-white .ui-toggle-h[aria-checked='true'][disabled], .theme-white .ui-toggle-h.checked[aria-disabled='true'], .theme-white .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-h--checked-disabled--white.png'); }
+.ui-toggle-h:disabled, .ui-toggle-h[disabled], .ui-toggle-h.disabled, .ui-toggle-h[aria-disabled='true'] { filter: brightness(.72) saturate(.8); pointer-events: none; }
 .ui-tab-icon-1 {
   display: inline-block;
   background-image: url('../img/1/ui/tab-icon-1.png');
@@ -1373,6 +1375,7 @@
   .theme-blue .ui-toggle-v:checked:disabled, .theme-blue .ui-toggle-v.checked.disabled, .theme-blue .ui-toggle-v.checked[disabled], .theme-blue .ui-toggle-v[aria-checked='true'][disabled], .theme-blue .ui-toggle-v.checked[aria-disabled='true'], .theme-blue .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/2/ui/toggle-v--checked-disabled--blue.png'); }
   .theme-red .ui-toggle-v:checked:disabled, .theme-red .ui-toggle-v.checked.disabled, .theme-red .ui-toggle-v.checked[disabled], .theme-red .ui-toggle-v[aria-checked='true'][disabled], .theme-red .ui-toggle-v.checked[aria-disabled='true'], .theme-red .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/2/ui/toggle-v--checked-disabled--red.png'); }
   .theme-white .ui-toggle-v:checked:disabled, .theme-white .ui-toggle-v.checked.disabled, .theme-white .ui-toggle-v.checked[disabled], .theme-white .ui-toggle-v[aria-checked='true'][disabled], .theme-white .ui-toggle-v.checked[aria-disabled='true'], .theme-white .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/2/ui/toggle-v--checked-disabled--white.png'); }
+  .ui-toggle-v:disabled, .ui-toggle-v[disabled], .ui-toggle-v.disabled, .ui-toggle-v[aria-disabled='true'] { filter: brightness(.72) saturate(.8); pointer-events: none; }
   .ui-toggle-h {
     display: inline-block;
     background-image: url('../img/2/ui/toggle-h.png');
@@ -1402,6 +1405,7 @@
   .theme-blue .ui-toggle-h:checked:disabled, .theme-blue .ui-toggle-h.checked.disabled, .theme-blue .ui-toggle-h.checked[disabled], .theme-blue .ui-toggle-h[aria-checked='true'][disabled], .theme-blue .ui-toggle-h.checked[aria-disabled='true'], .theme-blue .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/2/ui/toggle-h--checked-disabled--blue.png'); }
   .theme-red .ui-toggle-h:checked:disabled, .theme-red .ui-toggle-h.checked.disabled, .theme-red .ui-toggle-h.checked[disabled], .theme-red .ui-toggle-h[aria-checked='true'][disabled], .theme-red .ui-toggle-h.checked[aria-disabled='true'], .theme-red .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/2/ui/toggle-h--checked-disabled--red.png'); }
   .theme-white .ui-toggle-h:checked:disabled, .theme-white .ui-toggle-h.checked.disabled, .theme-white .ui-toggle-h.checked[disabled], .theme-white .ui-toggle-h[aria-checked='true'][disabled], .theme-white .ui-toggle-h.checked[aria-disabled='true'], .theme-white .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/2/ui/toggle-h--checked-disabled--white.png'); }
+  .ui-toggle-h:disabled, .ui-toggle-h[disabled], .ui-toggle-h.disabled, .ui-toggle-h[aria-disabled='true'] { filter: brightness(.72) saturate(.8); pointer-events: none; }
   .ui-tab-icon-1 {
     display: inline-block;
     background-image: url('../img/2/ui/tab-icon-1.png');
@@ -2302,6 +2306,7 @@
   .theme-blue .ui-toggle-v:checked:disabled, .theme-blue .ui-toggle-v.checked.disabled, .theme-blue .ui-toggle-v.checked[disabled], .theme-blue .ui-toggle-v[aria-checked='true'][disabled], .theme-blue .ui-toggle-v.checked[aria-disabled='true'], .theme-blue .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/2/ui/toggle-v--checked-disabled--blue.png'); }
   .theme-red .ui-toggle-v:checked:disabled, .theme-red .ui-toggle-v.checked.disabled, .theme-red .ui-toggle-v.checked[disabled], .theme-red .ui-toggle-v[aria-checked='true'][disabled], .theme-red .ui-toggle-v.checked[aria-disabled='true'], .theme-red .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/2/ui/toggle-v--checked-disabled--red.png'); }
   .theme-white .ui-toggle-v:checked:disabled, .theme-white .ui-toggle-v.checked.disabled, .theme-white .ui-toggle-v.checked[disabled], .theme-white .ui-toggle-v[aria-checked='true'][disabled], .theme-white .ui-toggle-v.checked[aria-disabled='true'], .theme-white .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/2/ui/toggle-v--checked-disabled--white.png'); }
+  .ui-toggle-v:disabled, .ui-toggle-v[disabled], .ui-toggle-v.disabled, .ui-toggle-v[aria-disabled='true'] { filter: brightness(.72) saturate(.8); pointer-events: none; }
   .ui-toggle-h {
     display: inline-block;
     background-image: url('../img/2/ui/toggle-h.png');
@@ -2331,6 +2336,7 @@
   .theme-blue .ui-toggle-h:checked:disabled, .theme-blue .ui-toggle-h.checked.disabled, .theme-blue .ui-toggle-h.checked[disabled], .theme-blue .ui-toggle-h[aria-checked='true'][disabled], .theme-blue .ui-toggle-h.checked[aria-disabled='true'], .theme-blue .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/2/ui/toggle-h--checked-disabled--blue.png'); }
   .theme-red .ui-toggle-h:checked:disabled, .theme-red .ui-toggle-h.checked.disabled, .theme-red .ui-toggle-h.checked[disabled], .theme-red .ui-toggle-h[aria-checked='true'][disabled], .theme-red .ui-toggle-h.checked[aria-disabled='true'], .theme-red .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/2/ui/toggle-h--checked-disabled--red.png'); }
   .theme-white .ui-toggle-h:checked:disabled, .theme-white .ui-toggle-h.checked.disabled, .theme-white .ui-toggle-h.checked[disabled], .theme-white .ui-toggle-h[aria-checked='true'][disabled], .theme-white .ui-toggle-h.checked[aria-disabled='true'], .theme-white .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/2/ui/toggle-h--checked-disabled--white.png'); }
+  .ui-toggle-h:disabled, .ui-toggle-h[disabled], .ui-toggle-h.disabled, .ui-toggle-h[aria-disabled='true'] { filter: brightness(.72) saturate(.8); pointer-events: none; }
   .ui-tab-icon-1 {
     display: inline-block;
     background-image: url('../img/2/ui/tab-icon-1.png');
@@ -3231,6 +3237,7 @@
   .theme-blue .ui-toggle-v:checked:disabled, .theme-blue .ui-toggle-v.checked.disabled, .theme-blue .ui-toggle-v.checked[disabled], .theme-blue .ui-toggle-v[aria-checked='true'][disabled], .theme-blue .ui-toggle-v.checked[aria-disabled='true'], .theme-blue .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/3/ui/toggle-v--checked-disabled--blue.png'); }
   .theme-red .ui-toggle-v:checked:disabled, .theme-red .ui-toggle-v.checked.disabled, .theme-red .ui-toggle-v.checked[disabled], .theme-red .ui-toggle-v[aria-checked='true'][disabled], .theme-red .ui-toggle-v.checked[aria-disabled='true'], .theme-red .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/3/ui/toggle-v--checked-disabled--red.png'); }
   .theme-white .ui-toggle-v:checked:disabled, .theme-white .ui-toggle-v.checked.disabled, .theme-white .ui-toggle-v.checked[disabled], .theme-white .ui-toggle-v[aria-checked='true'][disabled], .theme-white .ui-toggle-v.checked[aria-disabled='true'], .theme-white .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/3/ui/toggle-v--checked-disabled--white.png'); }
+  .ui-toggle-v:disabled, .ui-toggle-v[disabled], .ui-toggle-v.disabled, .ui-toggle-v[aria-disabled='true'] { filter: brightness(.72) saturate(.8); pointer-events: none; }
   .ui-toggle-h {
     display: inline-block;
     background-image: url('../img/3/ui/toggle-h.png');
@@ -3260,6 +3267,7 @@
   .theme-blue .ui-toggle-h:checked:disabled, .theme-blue .ui-toggle-h.checked.disabled, .theme-blue .ui-toggle-h.checked[disabled], .theme-blue .ui-toggle-h[aria-checked='true'][disabled], .theme-blue .ui-toggle-h.checked[aria-disabled='true'], .theme-blue .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/3/ui/toggle-h--checked-disabled--blue.png'); }
   .theme-red .ui-toggle-h:checked:disabled, .theme-red .ui-toggle-h.checked.disabled, .theme-red .ui-toggle-h.checked[disabled], .theme-red .ui-toggle-h[aria-checked='true'][disabled], .theme-red .ui-toggle-h.checked[aria-disabled='true'], .theme-red .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/3/ui/toggle-h--checked-disabled--red.png'); }
   .theme-white .ui-toggle-h:checked:disabled, .theme-white .ui-toggle-h.checked.disabled, .theme-white .ui-toggle-h.checked[disabled], .theme-white .ui-toggle-h[aria-checked='true'][disabled], .theme-white .ui-toggle-h.checked[aria-disabled='true'], .theme-white .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/3/ui/toggle-h--checked-disabled--white.png'); }
+  .ui-toggle-h:disabled, .ui-toggle-h[disabled], .ui-toggle-h.disabled, .ui-toggle-h[aria-disabled='true'] { filter: brightness(.72) saturate(.8); pointer-events: none; }
   .ui-tab-icon-1 {
     display: inline-block;
     background-image: url('../img/3/ui/tab-icon-1.png');
@@ -4160,6 +4168,7 @@
   .theme-blue .ui-toggle-v:checked:disabled, .theme-blue .ui-toggle-v.checked.disabled, .theme-blue .ui-toggle-v.checked[disabled], .theme-blue .ui-toggle-v[aria-checked='true'][disabled], .theme-blue .ui-toggle-v.checked[aria-disabled='true'], .theme-blue .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-v--checked-disabled--blue.png'); }
   .theme-red .ui-toggle-v:checked:disabled, .theme-red .ui-toggle-v.checked.disabled, .theme-red .ui-toggle-v.checked[disabled], .theme-red .ui-toggle-v[aria-checked='true'][disabled], .theme-red .ui-toggle-v.checked[aria-disabled='true'], .theme-red .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-v--checked-disabled--red.png'); }
   .theme-white .ui-toggle-v:checked:disabled, .theme-white .ui-toggle-v.checked.disabled, .theme-white .ui-toggle-v.checked[disabled], .theme-white .ui-toggle-v[aria-checked='true'][disabled], .theme-white .ui-toggle-v.checked[aria-disabled='true'], .theme-white .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-v--checked-disabled--white.png'); }
+  .ui-toggle-v:disabled, .ui-toggle-v[disabled], .ui-toggle-v.disabled, .ui-toggle-v[aria-disabled='true'] { filter: brightness(.72) saturate(.8); pointer-events: none; }
   .ui-toggle-h {
     display: inline-block;
     background-image: url('../img/1/ui/toggle-h.png');
@@ -4189,6 +4198,7 @@
   .theme-blue .ui-toggle-h:checked:disabled, .theme-blue .ui-toggle-h.checked.disabled, .theme-blue .ui-toggle-h.checked[disabled], .theme-blue .ui-toggle-h[aria-checked='true'][disabled], .theme-blue .ui-toggle-h.checked[aria-disabled='true'], .theme-blue .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-h--checked-disabled--blue.png'); }
   .theme-red .ui-toggle-h:checked:disabled, .theme-red .ui-toggle-h.checked.disabled, .theme-red .ui-toggle-h.checked[disabled], .theme-red .ui-toggle-h[aria-checked='true'][disabled], .theme-red .ui-toggle-h.checked[aria-disabled='true'], .theme-red .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-h--checked-disabled--red.png'); }
   .theme-white .ui-toggle-h:checked:disabled, .theme-white .ui-toggle-h.checked.disabled, .theme-white .ui-toggle-h.checked[disabled], .theme-white .ui-toggle-h[aria-checked='true'][disabled], .theme-white .ui-toggle-h.checked[aria-disabled='true'], .theme-white .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-h--checked-disabled--white.png'); }
+  .ui-toggle-h:disabled, .ui-toggle-h[disabled], .ui-toggle-h.disabled, .ui-toggle-h[aria-disabled='true'] { filter: brightness(.72) saturate(.8); pointer-events: none; }
   .ui-tab-icon-1 {
     display: inline-block;
     background-image: url('../img/1/ui/tab-icon-1.png');
@@ -5089,6 +5099,7 @@
   .theme-blue .ui-toggle-v:checked:disabled, .theme-blue .ui-toggle-v.checked.disabled, .theme-blue .ui-toggle-v.checked[disabled], .theme-blue .ui-toggle-v[aria-checked='true'][disabled], .theme-blue .ui-toggle-v.checked[aria-disabled='true'], .theme-blue .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-v--checked-disabled--blue.png'); }
   .theme-red .ui-toggle-v:checked:disabled, .theme-red .ui-toggle-v.checked.disabled, .theme-red .ui-toggle-v.checked[disabled], .theme-red .ui-toggle-v[aria-checked='true'][disabled], .theme-red .ui-toggle-v.checked[aria-disabled='true'], .theme-red .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-v--checked-disabled--red.png'); }
   .theme-white .ui-toggle-v:checked:disabled, .theme-white .ui-toggle-v.checked.disabled, .theme-white .ui-toggle-v.checked[disabled], .theme-white .ui-toggle-v[aria-checked='true'][disabled], .theme-white .ui-toggle-v.checked[aria-disabled='true'], .theme-white .ui-toggle-v[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-v--checked-disabled--white.png'); }
+  .ui-toggle-v:disabled, .ui-toggle-v[disabled], .ui-toggle-v.disabled, .ui-toggle-v[aria-disabled='true'] { filter: brightness(.72) saturate(.8); pointer-events: none; }
   .ui-toggle-h {
     display: inline-block;
     background-image: url('../img/1/ui/toggle-h.png');
@@ -5118,6 +5129,7 @@
   .theme-blue .ui-toggle-h:checked:disabled, .theme-blue .ui-toggle-h.checked.disabled, .theme-blue .ui-toggle-h.checked[disabled], .theme-blue .ui-toggle-h[aria-checked='true'][disabled], .theme-blue .ui-toggle-h.checked[aria-disabled='true'], .theme-blue .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-h--checked-disabled--blue.png'); }
   .theme-red .ui-toggle-h:checked:disabled, .theme-red .ui-toggle-h.checked.disabled, .theme-red .ui-toggle-h.checked[disabled], .theme-red .ui-toggle-h[aria-checked='true'][disabled], .theme-red .ui-toggle-h.checked[aria-disabled='true'], .theme-red .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-h--checked-disabled--red.png'); }
   .theme-white .ui-toggle-h:checked:disabled, .theme-white .ui-toggle-h.checked.disabled, .theme-white .ui-toggle-h.checked[disabled], .theme-white .ui-toggle-h[aria-checked='true'][disabled], .theme-white .ui-toggle-h.checked[aria-disabled='true'], .theme-white .ui-toggle-h[aria-checked='true'][aria-disabled='true'] { background-image: url('../img/1/ui/toggle-h--checked-disabled--white.png'); }
+  .ui-toggle-h:disabled, .ui-toggle-h[disabled], .ui-toggle-h.disabled, .ui-toggle-h[aria-disabled='true'] { filter: brightness(.72) saturate(.8); pointer-events: none; }
   .ui-tab-icon-1 {
     display: inline-block;
     background-image: url('../img/1/ui/tab-icon-1.png');
