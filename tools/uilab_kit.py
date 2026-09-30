@@ -107,6 +107,8 @@ body.components-only #stage { display:none; }
 #kit button:not([class*="ui-"]), #kit .kit-slot { border:0; }
 #kit button:disabled { cursor:not-allowed; }
 .kit-dpress { display:inline-flex; align-items:center; justify-content:center; cursor:not-allowed; }
+/* khoá cứng kiểu B: không nhận pointer ⇒ ấn không đổi sprite chút nào */
+.kit-dpress.lock { pointer-events:none; opacity:1; }
 .card { background:var(--kitcard); border:1px solid var(--kitline); border-radius:6px;
   padding:calc(10 * var(--u)) calc(12 * var(--u)); min-width:0; }
 .card > h3 { margin:0; font:600 calc(11 * var(--u))/1.3 system-ui; color:var(--kitaccent);
@@ -282,6 +284,7 @@ def kit_markup(prefix: str = "ui") -> str:
   <button class="{p}-button btn" type="button"><span class="ktxt">Giữ để nhấn</span></button>
   <button class="{p}-button btn" type="button" disabled><span class="ktxt">Locked (native)</span></button>
   <span class="kit-dpress {p}-button btn" data-dpress disabled aria-disabled="true" role="button"><span class="ktxt">disabled + nhấn</span></span>
+  <span class="kit-dpress lock {p}-button btn" disabled aria-disabled="true" role="button"><span class="ktxt">disabled (khoá cứng)</span></span>
 </div>
 <div class="row">
   <button class="{p}-button-slim btn-slim" type="button" aria-label="minus"><span class="ktxt">&ndash;</span></button>
