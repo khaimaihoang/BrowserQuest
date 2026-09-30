@@ -460,8 +460,10 @@ def css_for_scale(mf: dict, assets: dict, scale: int, themes: list[str]) -> str:
             target = hover if state == "hover" else out
             srel = url_for(assets[default_theme][name][state][scale])
             sel = ", ".join(state_selectors(cls, state))
-            # disabled = khoá cứng: chặn pointer để không bao giờ vào :active/.pressed
-            extra = "; pointer-events: none" if state == "disabled" else ""
+            # disabled = khoá cứng NHƯNG vẫn nuốt click: giữ pointer-events:auto để
+            # control hứng cú click (không xuyên xuống canvas/cha phía sau) + cursor:default.
+            # Không có phản hồi nhấn vì selector pressed/active-pressed đã loại disabled.
+            extra = "; cursor: default" if state == "disabled" else ""
             target.append(f"{sel} {{ {prop}: url('{srel}'){extra}; }}")
             for theme in slice_themes(spec, themes, default_theme):
                 if theme == default_theme:
@@ -490,7 +492,7 @@ def css_for_scale(mf: dict, assets: dict, scale: int, themes: list[str]) -> str:
         dim = spec.get("disabledFilter")
         if dim:
             sel = ", ".join(state_selectors(cls, "disabled"))
-            out.append(f"{sel} {{ filter: {dim}; pointer-events: none; }}")
+            out.append(f"{sel} {{ filter: {dim}; cursor: default; }}")
 
         # 5. optional desktop hover reusing an existing state sprite (no extra file)
         hover_ref = spec.get("hoverUses")

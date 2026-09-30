@@ -14,6 +14,7 @@ Biến atlas UI (một tấm PNG lớn, không có tên từng phần) thành **
 - Packer: [`tools/ui-pack.py`](../ui-pack.py)
 - Preview dev: [`client/ui-lab.html`](../../client/ui-lab.html)
 - **Editor kéo slice: [`client/ui-slice-editor.html`](../../client/ui-slice-editor.html)** (`python tools/make-slice-editor.py`)
+- **Regression probe disabled: [`tools/ui/probe-disabled.html`](./probe-disabled.html)** — mở bằng Chrome, xem `<pre>`: dòng `disabled` phải là `pe=auto … hitTest=<chính nó>` (KHÔNG phải phần tử cha)
   — kéo 4 đường slice, thêm hoạ tiết tâm, **chọn theme màu** (`dark/green/blue/red/white`,
   phím `1`-`5`) và **so sánh 5 theme cạnh nhau** cùng một `rect`; JSON copy ra ở toạ độ
   base (dark) đúng như `slices.json`

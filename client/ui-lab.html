@@ -291,15 +291,15 @@ Khoá cứng: `[disabled]`/`:disabled`/`.disabled`/`[aria-disabled]` (+ `.checke
 <div class="row">
   <button class="kit-check" type="button" data-check aria-checked="true"><i class="ui-checkbox checked"></i><span class="lbl">Fullscreen</span></button>
   <button class="kit-check" type="button" data-check aria-checked="false"><i class="ui-checkbox"></i><span class="lbl">Vibration</span></button>
-  <button class="kit-check" type="button" data-check aria-checked="false"><i class="ui-checkbox disabled"></i><span class="lbl">Auto-save (khoá)</span></button>
-  <button class="kit-check" type="button" data-check aria-checked="true"><i class="ui-checkbox checked disabled"></i><span class="lbl">Cloud save (khoá + on)</span></button>
+  <button class="kit-check" type="button" data-check aria-checked="false" disabled aria-disabled="true"><i class="ui-checkbox disabled"></i><span class="lbl">Auto-save (khoá)</span></button>
+  <button class="kit-check" type="button" data-check aria-checked="true" disabled aria-disabled="true"><i class="ui-checkbox checked disabled"></i><span class="lbl">Cloud save (khoá + on)</span></button>
 </div>
 <div class="row" data-radio-group="quality">
   <span class="lbl">Quality</span>
   <button class="kit-check" type="button" data-radio aria-checked="true"><i class="ui-radio checked"></i><span class="lbl">Low</span></button>
   <button class="kit-check" type="button" data-radio aria-checked="false"><i class="ui-radio"></i><span class="lbl">Medium</span></button>
   <button class="kit-check" type="button" data-radio aria-checked="false"><i class="ui-radio"></i><span class="lbl">High</span></button>
-  <button class="kit-check" type="button" data-radio aria-checked="false"><i class="ui-radio disabled"></i><span class="lbl">Ultra (khoá)</span></button>
+  <button class="kit-check" type="button" data-radio aria-checked="false" disabled aria-disabled="true"><i class="ui-radio disabled"></i><span class="lbl">Ultra (khoá)</span></button>
 </div>
 <p class="log" data-checklog>checkbox: Fullscreen=on · radio: Low</p></section>
   <section id="k-tabs" class="card"><h3>Tabs — ngang / dọc / vuông</h3>
@@ -464,6 +464,10 @@ Khoá cứng: `[disabled]`/`:disabled`/`.disabled`/`[aria-disabled]` (+ `.checke
   const $ = (s, r = document) => (r || document).querySelector(s);
   const scale = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--s')) || 1;
   const setLog = (sel, txt) => { const el = $(sel); if (el) el.textContent = txt; };
+  /* khoá cứng — dùng cho MỌI handler (xem docs/ui-slice-pipeline.md §4) */
+  const locked = el => el.hasAttribute('disabled') || el.classList.contains('disabled')
+    || el.getAttribute('aria-disabled') === 'true'
+    || !!(el.querySelector && el.querySelector('i.disabled, i[disabled], i[aria-disabled="true"]'));
 
   /* toast */
   const toast = txt => {
@@ -473,13 +477,16 @@ Khoá cứng: `[disabled]`/`:disabled`/`.disabled`/`[aria-disabled]` (+ `.checke
     box._t = setTimeout(() => box.classList.remove('on'), 1600);
   };
 
+  /* khoá cứng: control disabled vẫn NUỐT click (pipeline set pointer-events:auto +
+     cursor:default) nên handler PHẢI tự bỏ qua — CSS không chặn được bubbling. */
+
   /* buttons */
   $$('[data-count]').forEach(b => b.addEventListener('click', () => {
+    if (locked(b)) { setLog('[data-log]', 'button bị khoá (disabled) — bỏ qua'); return; }
     const n = parseInt(b.dataset.count || '0', 10) + 1; b.dataset.count = n;
     const badge = $('[data-badge]', b); if (badge) badge.textContent = n;
     setLog('[data-log]', 'button clicks: ' + n);
   }));
-  /* nút bị khoá: pipeline đã set pointer-events:none ⇒ không cần JS chặn ở đây */
 
   /* switches */
   const reportSwitch = () => {
@@ -490,7 +497,7 @@ Khoá cứng: `[disabled]`/`:disabled`/`.disabled`/`[aria-disabled]` (+ `.checke
     if (parts.length) setLog('[data-switchlog]', 'switch: ' + parts.join(', '));
   };
   $$('[data-switch], [data-switch-v]').forEach(sw => sw.addEventListener('click', () => {
-    if (sw.hasAttribute('disabled')) return;
+    if (locked(sw)) { setLog('[data-switchlog]', 'switch bị khoá (disabled) — bỏ qua'); return; }
     const knob = $('i', sw); if (!knob) return;
     knob.classList.toggle('checked');
     sw.setAttribute('aria-checked', knob.classList.contains('checked') ? 'true' : 'false');
@@ -503,11 +510,13 @@ Khoá cứng: `[disabled]`/`:disabled`/`.disabled`/`[aria-disabled]` (+ `.checke
     'checkbox: ' + $$('[data-check]').map(c => $('.lbl', c).textContent + '=' +
       ($('i', c).classList.contains('checked') ? 'on' : 'off')).join(' · '));
   $$('[data-check]').forEach(c => c.addEventListener('click', () => {
+    if (locked(c)) { setLog('[data-checklog]', ($('.lbl', c).textContent) + ' bị khoá (disabled) — bỏ qua'); return; }
     const i = $('i', c); i.classList.toggle('checked');
     c.setAttribute('aria-checked', i.classList.contains('checked') ? 'true' : 'false');
     reportChecks();
   }));
   $$('[data-radio-group]').forEach(g => $$('[data-radio]', g).forEach(r => r.addEventListener('click', () => {
+    if (locked(r)) { setLog('[data-checklog]', 'radio ' + $('.lbl', r).textContent + ' bị khoá (disabled) — bỏ qua'); return; }
     $$('[data-radio]', g).forEach(o => { $('i', o).classList.remove('checked'); o.setAttribute('aria-checked', 'false'); });
     $('i', r).classList.add('checked'); r.setAttribute('aria-checked', 'true');
     setLog('[data-checklog]', 'radio ' + g.dataset.radioGroup + ': ' + $('.lbl', r).textContent);

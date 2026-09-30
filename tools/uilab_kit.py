@@ -63,11 +63,14 @@ def _switch(prefix: str, label: str, checked: bool = False, cls: str = "toggle-h
 
 
 def _check(prefix: str, label: str, cls: str, state: str = "") -> str:
-    """state: '' | checked | pressed | checked-pressed"""
+    """state: '' | checked | disabled | checked disabled"""
     s = f" {state}" if state else ""
     on = "checked" in state
+    dis = "disabled" in state
     extra = " data-radio" if cls.endswith("radio") else " data-check"
-    return (f'<button class="kit-check" type="button"{extra} aria-checked="{"true" if on else "false"}">'
+    disattr = ' disabled aria-disabled="true"' if dis else ""
+    return (f'<button class="kit-check" type="button"{extra} '
+            f'aria-checked="{"true" if on else "false"}"{disattr}>'
             f'<i class="{prefix}-{cls}{s}"></i><span class="lbl">{label}</span></button>')
 
 
@@ -521,6 +524,10 @@ KIT_SCRIPT = r"""
   const $ = (s, r = document) => (r || document).querySelector(s);
   const scale = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--s')) || 1;
   const setLog = (sel, txt) => { const el = $(sel); if (el) el.textContent = txt; };
+  /* khoá cứng — dùng cho MỌI handler (xem docs/ui-slice-pipeline.md §4) */
+  const locked = el => el.hasAttribute('disabled') || el.classList.contains('disabled')
+    || el.getAttribute('aria-disabled') === 'true'
+    || !!(el.querySelector && el.querySelector('i.disabled, i[disabled], i[aria-disabled="true"]'));
 
   /* toast */
   const toast = txt => {
@@ -530,13 +537,16 @@ KIT_SCRIPT = r"""
     box._t = setTimeout(() => box.classList.remove('on'), 1600);
   };
 
+  /* khoá cứng: control disabled vẫn NUỐT click (pipeline set pointer-events:auto +
+     cursor:default) nên handler PHẢI tự bỏ qua — CSS không chặn được bubbling. */
+
   /* buttons */
   $$('[data-count]').forEach(b => b.addEventListener('click', () => {
+    if (locked(b)) { setLog('[data-log]', 'button bị khoá (disabled) — bỏ qua'); return; }
     const n = parseInt(b.dataset.count || '0', 10) + 1; b.dataset.count = n;
     const badge = $('[data-badge]', b); if (badge) badge.textContent = n;
     setLog('[data-log]', 'button clicks: ' + n);
   }));
-  /* nút bị khoá: pipeline đã set pointer-events:none ⇒ không cần JS chặn ở đây */
 
   /* switches */
   const reportSwitch = () => {
@@ -547,7 +557,7 @@ KIT_SCRIPT = r"""
     if (parts.length) setLog('[data-switchlog]', 'switch: ' + parts.join(', '));
   };
   $$('[data-switch], [data-switch-v]').forEach(sw => sw.addEventListener('click', () => {
-    if (sw.hasAttribute('disabled')) return;
+    if (locked(sw)) { setLog('[data-switchlog]', 'switch bị khoá (disabled) — bỏ qua'); return; }
     const knob = $('i', sw); if (!knob) return;
     knob.classList.toggle('checked');
     sw.setAttribute('aria-checked', knob.classList.contains('checked') ? 'true' : 'false');
@@ -560,11 +570,13 @@ KIT_SCRIPT = r"""
     'checkbox: ' + $$('[data-check]').map(c => $('.lbl', c).textContent + '=' +
       ($('i', c).classList.contains('checked') ? 'on' : 'off')).join(' · '));
   $$('[data-check]').forEach(c => c.addEventListener('click', () => {
+    if (locked(c)) { setLog('[data-checklog]', ($('.lbl', c).textContent) + ' bị khoá (disabled) — bỏ qua'); return; }
     const i = $('i', c); i.classList.toggle('checked');
     c.setAttribute('aria-checked', i.classList.contains('checked') ? 'true' : 'false');
     reportChecks();
   }));
   $$('[data-radio-group]').forEach(g => $$('[data-radio]', g).forEach(r => r.addEventListener('click', () => {
+    if (locked(r)) { setLog('[data-checklog]', 'radio ' + $('.lbl', r).textContent + ' bị khoá (disabled) — bỏ qua'); return; }
     $$('[data-radio]', g).forEach(o => { $('i', o).classList.remove('checked'); o.setAttribute('aria-checked', 'false'); });
     $('i', r).classList.add('checked'); r.setAttribute('aria-checked', 'true');
     setLog('[data-checklog]', 'radio ' + g.dataset.radioGroup + ': ' + $('.lbl', r).textContent);

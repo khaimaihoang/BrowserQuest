@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>probe — disabled không xuyên click + handler bỏ qua</title>
+<link rel="stylesheet" href="../../client/css/ui-slices.generated.css">
+<style>
+  body{margin:0;padding:10px;background:#222;color:#eee;font:12px monospace}
+  #box{position:relative;width:240px;height:70px;background:#333;padding:10px}
+  i{display:block;width:24px;height:24px;margin:4px}
+  button{background:none;border:0;padding:0;cursor:pointer;display:inline-flex;align-items:center;gap:6px;color:inherit;font:inherit}
+</style></head><body>
+<div id="box">
+  <button id="en"><i id="eni" class="ui-checkbox"></i>enabled</button>
+  <button id="dis" disabled aria-disabled="true"><i id="disi" class="ui-checkbox disabled"></i>disabled</button>
+</div>
+<pre id="out"></pre>
+<script>
+  /* guard CHUẨN — copy y hệt tools/uilab_kit.py */
+  const locked = el => el.hasAttribute('disabled') || el.classList.contains('disabled')
+    || el.getAttribute('aria-disabled') === 'true'
+    || !!(el.querySelector && el.querySelector('i.disabled, i[disabled], i[aria-disabled="true"]'));
+
+  const st = el => { const c = getComputedStyle(el); return 'pe=' + c.pointerEvents + ' filter=' + c.filter; };
+  const hitAt = el => { const r = el.getBoundingClientRect();
+    const h = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+    return h ? (h.id || h.tagName + '.' + h.className) : 'null'; };
+
+  /* handler y hệt lab: bỏ qua khi locked */
+  const wire = (btnId, icon) => {
+    document.getElementById(btnId).addEventListener('click', function () {
+      if (locked(this)) return;
+      document.getElementById(icon).classList.toggle('checked');
+    });
+  };
+  wire('en', 'eni'); wire('dis', 'disi');
+
+  /* mô phỏng click (cả 2) */
+  document.getElementById('en').click();
+  document.getElementById('dis').click();
+
+  const ok = (c, m) => (c ? 'PASS ' : 'FAIL ') + m;
+  const enChecked = document.getElementById('eni').classList.contains('checked');
+  const disChecked = document.getElementById('disi').classList.contains('checked');
+  const lines = [
+    'enabled : ' + st(en) + '  hitTest=' + hitAt(en),
+    'disabled: ' + st(disi) + '  hitTest=' + hitAt(dis),
+    'boxHit  : ' + hitAt(box),
+    ok(enChecked, 'click enabled  -> đổi sprite (checked=' + enChecked + ')'),
+    ok(!disChecked, 'click disabled -> KHÔNG đổi sprite (checked=' + disChecked + ')'),
+    ok(hitAt(dis) === 'dis', 'disabled NUỐT click (hitTest=' + hitAt(dis) + ', không phải box)'),
+  ];
+  document.getElementById('out').textContent = lines.join('\n');
+</script></body></html>

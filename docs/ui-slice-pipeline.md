@@ -109,7 +109,7 @@ File: [`tools/ui/slices.json`](../tools/ui/slices.json)
 ```
 
 - `disabledFilter` = CSS `filter` áp cho `:disabled/[disabled]/.disabled/[aria-disabled='true']`
-  (kèm `pointer-events:none`), dùng để **đủ tương phản disabled** — vd toggle dùng bản tối
+  (kèm `cursor:default`), dùng để **đủ tương phản disabled** — vd toggle dùng bản tối
   trong atlas rồi dim thêm `brightness(.72) saturate(.8)` (2 bản sáng/tối chỉ lệch ~8 luma).
 
 - `overlays` = sprite có **hoạ tiết ở tâm** mà 9-slice không neo được (sprite có boss,
@@ -156,13 +156,22 @@ rule `:hover`); state gốc là `pressed`/`active`/`checked`/`disabled`. Quy ư�
 | State | Ý nghĩa | Selector sinh ra |
 |---|---|---|
 | `pressed` | enabled + đang nhấn (sáng nhấn) | `:active`, `.pressed` — kèm `:not(:disabled):not([disabled]):not(.disabled):not([aria-disabled])` |
-| `disabled` | vô hiệu = **KHOÁ CỨNG** (sprite tối, nhấn không đổi sprite) | `:disabled`, `[disabled]`, `.disabled`, `[aria-disabled='true']` + `pointer-events:none` |
+| `disabled` | vô hiệu = **KHOÁ CỨNG** (sprite tối, nhấn không đổi sprite) | `:disabled`, `[disabled]`, `.disabled`, `[aria-disabled='true']` + `cursor:default` (NUỐT click) |
 | `active` | bật / đang chọn | `.active`, `[aria-selected='true']`, `[aria-pressed='true']` |
 | `active-pressed` | `active` + đang nhấn | `.active.pressed`, `.active:active`, `[aria-pressed='true']:active` |
 | `checked` | on (checkbox/switch) | `:checked`, `.checked`, `[aria-checked='true']` |
 | `checked-pressed` | on + đang nhấn | `:checked:active`, `.checked.pressed` |
 | `checked-disabled` | on + vô hiệu (sprite tối, khoá cứng) | `:checked:disabled`, `.checked.disabled`, `.checked[disabled]`, `[aria-checked='true'][disabled]`, `.checked[aria-disabled='true']`, `[aria-checked='true'][aria-disabled='true']` |
 | `hover` | chỉ desktop | `:hover`, `.hover` — **bọc trong `@media (hover: hover)`** |
+
+> **Disabled nuốt click, KHÔNG xuyên qua** (bug đã gặp): dùng `cursor:default` +
+> giữ `pointer-events:auto` để control hứng cú click, không cho nó rơi xuống canvas/cha
+> phía sau (nếu dùng `pointer-events:none` thì `elementFromPoint` trả về phần tử CHA ⇒
+> click vào nhân vật/canvas vẫn kích hoạt). Không có phản hồi nhấn vì selector
+> `pressed`/`active-pressed` đã loại disabled.
+> **Hệ quả cho JS**: handler gắn trực tiếp lên control PHẢI tự bỏ qua khi
+> `el.hasAttribute('disabled')` hoặc `el.classList.contains('disabled')` — CSS
+> không chặn được bubbling lên cha.
 
 **Button = enabled {chưa nhấn, đã nhấn} + disabled (KHOÁ CỨNG)**; **base = look enabled
 (sáng)**; nút disabled **giữ nguyên sprite tối dù có nhấn** (selector nhấn đã loại hẳn
