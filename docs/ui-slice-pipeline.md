@@ -157,8 +157,8 @@ rule `:hover`); state gốc là `pressed`/`active`/`checked`/`disabled`. Quy ư�
 | State | Ý nghĩa | Selector sinh ra |
 |---|---|---|
 | `pressed` | enabled + đang nhấn (sáng nhấn) | `:active`, `.pressed` |
-| `disabled` | vô hiệu (sprite tối) | `:disabled`, `.disabled`, `[aria-disabled='true']` |
-| `disabled-pressed` | vô hiệu + đang nhấn (tối nhấn) | `.disabled.pressed`, `.disabled:active`, `:disabled.pressed`, `:disabled:active`, `[aria-disabled='true'].pressed`, `[aria-disabled='true']:active` |
+| `disabled` | vô hiệu (sprite tối) | `:disabled`, `[disabled]`, `.disabled`, `[aria-disabled='true']` |
+| `disabled-pressed` | vô hiệu + đang nhấn (tối nhấn) | `.disabled.pressed`, `.disabled:active`, `[disabled].pressed`, `[disabled]:active`, `:disabled.pressed`, `:disabled:active`, `[aria-disabled='true'].pressed`, `[aria-disabled='true']:active` |
 | `active` | bật / đang chọn | `.active`, `[aria-selected='true']`, `[aria-pressed='true']` |
 | `active-pressed` | `active` + đang nhấn | `.active.pressed`, `.active:active`, `[aria-pressed='true']:active` |
 | `checked` | on (checkbox/switch) | `:checked`, `.checked`, `[aria-checked='true']` |
@@ -186,10 +186,14 @@ CSS sinh ra (thứ tự cascade: base → theme base → state → theme state �
 
 ```css
 .ui-button { /* base = enabled (sáng) */ }
-.ui-button:disabled, .ui-button.disabled, .ui-button[aria-disabled='true']  { border-image-source: url('…--disabled.png'); }
-.ui-button.disabled.pressed, .ui-button[aria-disabled='true'].pressed, …    { border-image-source: url('…--disabled-pressed.png'); }
-.ui-button:active, .ui-button.pressed                                        { border-image-source: url('…--pressed.png'); }
+.ui-button:disabled, .ui-button[disabled], .ui-button.disabled, .ui-button[aria-disabled='true']  { border-image-source: url('…--disabled.png'); }
+.ui-button[disabled].pressed, .ui-button[aria-disabled='true'].pressed, …                        { border-image-source: url('…--disabled-pressed.png'); }
+.ui-button:active, .ui-button.pressed                                                            { border-image-source: url('…--pressed.png'); }
 ```
+
+> `[disabled]` (attribute trên div giả lập) **bắt buộc có** — game set/remove attribute này
+> để MutationObserver cập nhật sprite; thiếu nó thì nút disabled vẫn hiện look enabled
+> (nhấn xuống nhưng không khoá).
 
 > **Toggle/checkbox/radio không có sprite tối trong atlas** (4 sprite = {off,on} ×
 > {chưa nhấn, nhấn}) → dùng khoá `disabledFilter`, packer emit filter cho team

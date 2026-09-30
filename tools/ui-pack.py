@@ -52,15 +52,18 @@ STATE_SELECTORS = {
     "disabled": ["{c}:disabled", "{c}.disabled", "{c}[aria-disabled='true']"],
     # chỉ các tổ hợp disabled + nhấn (không có :active/.pressed trần — nút enabled nhấn dùng
     # state `pressed` = sprite sáng-nhấn, xem STATE_ORDER)
-    "disabled-pressed": ["{c}.disabled.pressed", "{c}.disabled:active", "{c}:disabled.pressed",
+    # `[disabled]` = DOM attribute trên div giả lập (game dùng attribute + MutationObserver,
+    # xem .agents/skills/game_state_testing) — phải khớp cùng :disabled/.disabled/[aria-disabled]
+    "disabled-pressed": ["{c}.disabled.pressed", "{c}.disabled:active", "{c}[disabled].pressed",
+                          "{c}[disabled]:active", "{c}:disabled.pressed",
                           "{c}:disabled:active", "{c}[aria-disabled='true'].pressed",
                           "{c}[aria-disabled='true']:active"],
     "active-pressed": ["{c}.active.pressed", "{c}.active:active",
                        "{c}[aria-pressed='true']:active"],
     "checked": ["{c}:checked", "{c}.checked", "{c}[aria-checked='true']"],
     "checked-pressed": ["{c}:checked:active", "{c}.checked.pressed"],
-    "checked-disabled": ["{c}:checked:disabled", "{c}.checked.disabled"],
-    "disabled": ["{c}:disabled", "{c}.disabled", "{c}[aria-disabled='true']"],
+    "checked-disabled": ["{c}:checked:disabled", "{c}.checked.disabled", "{c}.checked[disabled]"],
+    "disabled": ["{c}:disabled", "{c}[disabled]", "{c}.disabled", "{c}[aria-disabled='true']"],
 }
 # Media-query scale mapping — mirrors client/css/panel.css.
 SCALE_MEDIA = {

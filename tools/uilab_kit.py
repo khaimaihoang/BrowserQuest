@@ -275,23 +275,23 @@ def kit_markup(prefix: str = "ui") -> str:
     p = prefix
 
     buttons = f"""<section id="k-button" class="card"><h3>Button</h3>
-<em>base (sáng) = enabled · <b>.pressed</b> = sáng+nhấn · <b>.disabled</b> = tối ·
-<b>.disabled.pressed</b> = tối+nhấn · KHÔNG có hover</em>
+<em>base (sáng) = enabled · <b>.pressed</b> = sáng+nhấn · <b>disabled</b> (`[disabled]` /
+`.disabled` / `[aria-disabled]`) = tối · <b>disabled + nhấn</b> = tối+nhấn · KHÔNG hover</em>
 <div class="row">
   <button class="{p}-button btn" data-count type="button"><span class="ktxt">Play <i class="badge" data-badge>0</i></span></button>
   <button class="{p}-button btn" type="button"><span class="ktxt">Giữ để nhấn</span></button>
-  <button class="{p}-button btn" type="button" disabled><span class="ktxt">Disabled</span></button>
-  <span class="kit-dpress {p}-button btn" data-dpress role="button" aria-disabled="true" tabindex="-1"><span class="ktxt">Disabled + nhấn</span></span>
+  <button class="{p}-button btn" type="button" disabled><span class="ktxt">Locked (native)</span></button>
+  <span class="kit-dpress {p}-button btn" data-dpress disabled aria-disabled="true" role="button"><span class="ktxt">disabled + nhấn</span></span>
 </div>
 <div class="row">
   <button class="{p}-button-slim btn-slim" type="button" aria-label="minus"><span class="ktxt">&ndash;</span></button>
   <button class="{p}-button-slim btn-slim" type="button" aria-label="plus" disabled><span class="ktxt">+</span></button>
   <button class="{p}-button-thin btn-thin" type="button"><span class="ktxt">Level up</span></button>
   <button class="{p}-button-thin btn-thin" type="button" disabled><span class="ktxt">Locked</span></button>
-  <span class="{p}-button-tiny btn-tiny" data-dpress role="button" aria-disabled="true" tabindex="-1"><i class="kit-item" style="background-image:url('img/1/item-sword1.png')"></i></span>
+  <span class="{p}-button-tiny btn-tiny" data-dpress disabled aria-disabled="true" role="button"><i class="kit-item" style="background-image:url('img/1/item-sword1.png')"></i></span>
   <button class="{p}-button btn-ico" type="button" aria-label="settings"><i class="{p}-tab-icon-1 kit-ico"></i></button>
 </div>
-<p class="log" data-log>button clicks: 0 · giữ chuột để xem .pressed (sáng nhấn), thả ra về base</p></section>"""
+<p class="log" data-log>button clicks: 0 · giữ chuột để xem .pressed; thử cả <b>div[disabled]</b> (game dùng attribute này) và <b>&lt;button disabled&gt;</b> (khoá hoàn toàn, không nhấn xuống)</p></section>"""
 
     switches = f"""<section id="k-switch" class="card"><h3>Switch / Toggle</h3>
 <em>base sáng (off) · <b>.checked</b> sáng (on) · <b>.pressed</b> · <b>.disabled</b> → tối
@@ -527,13 +527,15 @@ KIT_SCRIPT = r"""
     const badge = $('[data-badge]', b); if (badge) badge.textContent = n;
     setLog('[data-log]', 'button clicks: ' + n);
   }));
-  /* nút disabled: div + aria-disabled, giữ chuột -> .pressed (khung tối nhấn), thả -> tối thường */
+  /* nút disabled (game: div + attribute `disabled`): giữ chuột -> .pressed (khung tối nhấn),
+     thả -> tối thường; KHÔNG chạy hành động nào (khoá) */
   $$('[data-dpress]').forEach(el => {
     const down = () => el.classList.add('pressed');
     const up = () => el.classList.remove('pressed');
     el.addEventListener('pointerdown', e => { down(); try { el.setPointerCapture(e.pointerId); } catch (_) {} });
     ['pointerup', 'pointercancel', 'lostpointercapture', 'pointerleave'].forEach(t => el.addEventListener(t, up));
-    el.addEventListener('click', e => { e.preventDefault(); toast('nút đang DISABLED'); });
+    el.addEventListener('click', e => { e.preventDefault(); e.stopPropagation();
+      setLog('[data-log]', 'nút disabled: đã khoá — không chạy hành động (sprite chỉ đổi khi đang nhấn)'); });
   });
 
   /* switches */

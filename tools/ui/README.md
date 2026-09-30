@@ -60,8 +60,8 @@ Mobile **không có hover** (button/switch không khai báo `hoverUses` ⇒ khô
 | State | Ý nghĩa | Selector sinh ra |
 |---|---|---|
 | `pressed` | enabled + đang nhấn (sáng nhấn) | `:active`, `.pressed` |
-| `disabled` | vô hiệu (sprite tối) | `:disabled`, `.disabled`, `[aria-disabled='true']` |
-| `disabled-pressed` | vô hiệu + đang nhấn (tối nhấn) | `.disabled.pressed`, `.disabled:active`, `:disabled.pressed`, `:disabled:active`, `[aria-disabled='true'].pressed`, `[aria-disabled='true']:active` |
+| `disabled` | vô hiệu (sprite tối) | `:disabled`, `[disabled]`, `.disabled`, `[aria-disabled='true']` |
+| `disabled-pressed` | vô hiệu + đang nhấn (tối nhấn) | `.disabled.pressed`, `.disabled:active`, `[disabled].pressed`, `[disabled]:active`, `:disabled.pressed`, `:disabled:active`, `[aria-disabled='true'].pressed`, `[aria-disabled='true']:active` |
 | `active` | bật / đang chọn | `.active`, `[aria-selected='true']`, `[aria-pressed='true']` |
 | `active-pressed` | `active` + đang nhấn | `.active.pressed`, `.active:active` |
 | `checked` | on (checkbox/switch) | `:checked`, `.checked`, `[aria-checked='true']` |
@@ -96,8 +96,11 @@ của state `y`, không sinh file.
 > "toggle-h": { "disabledFilter": "brightness(.62) saturate(.75)", … }
 > ```
 >
-> Packer emit `:disabled/.disabled/[aria-disabled='true'] { filter: … }` ⇒ tắt/bật
-> đều thành **tối khi disabled**, sáng khi dùng được (giống yêu cầu gameplay).
+> Packer emit `:disabled/[disabled]/.disabled/[aria-disabled='true'] { filter: … }` ⇒
+> tắt/bật đều thành **tối khi disabled**, sáng khi dùng được (giống yêu cầu gameplay).
+>
+> ⚠️ Game dùng **div giả lập + attribute `disabled`** (MutationObserver) — nên `[disabled]`
+> là selector chính, đứng ngang hàng `:disabled`/`.disabled`/`[aria-disabled]`.
 
 ## Manifest — schema
 
