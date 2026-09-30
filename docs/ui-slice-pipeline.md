@@ -250,7 +250,7 @@ Yêu cầu: Python 3 + `Pillow` (`pip install Pillow`). Preview: `npm run watch:
 | `client/img/{1,2,3}/ui/<name>.png` | sprite theme mặc định (dark) |
 | `client/img/{1,2,3}/ui/<name>--<state>--<theme>.png` | state / theme khác |
 | `client/css/ui-slices.generated.css` | class `.ui-*` + state + theme + 3 scale |
-| `client/ui-lab.html` | trang preview dev |
+| `client/ui-lab.html` | trang preview dev — gallery slice **+ UI kit component tương tác** (sinh từ `tools/uilab_kit.py`) |
 | `client/ui-slice-editor.html` | **editor kéo slice bằng tay** (sinh bởi `tools/make-slice-editor.py`), có chọn theme + dải so sánh 5 theme |
 | `tools/ui/out/preview.png` | ảnh self-test 9-slice/state |
 | `tools/ui/out/generated.json` | index file đã sinh (để **tự dọn file cũ**) |
@@ -286,6 +286,12 @@ sang `dist/` nên không cần đổi build.
    không thể đặt `8` cho cả 2 chiều (`l+r ≥ w` bị packer chặn) ⇒ dùng slice **theo từng cạnh**:
    `panel-slim`/`button-slim` = `[8, 7, 8, 7]`, `button-thin` = `[7, 8, 7, 8]`.
 5. Kiểm tra `tools/ui/out/preview.png` (ghép 9-slice không méo) và `ui-lab.html`.
+
+   `ui-lab.html` có 2 phần: **gallery slice** (mọi slice × size × state, resize cửa sổ để thử
+   1x/2x/3x) và **UI kit** (component ghép sẵn, tương tác được: button, switch, checkbox/radio,
+   tab ngang/dọc/vuông, slider, input field, thanh HP/MP, inventory + hotbar, panel/dialog,
+   gauge, HUD mock). Kit do [`tools/uilab_kit.py`](../tools/uilab_kit.py) sinh và được packer
+   nhúng inline vào lab ⇒ **dev-only**, không ảnh hưởng CSS/asset của game.
 6. Dùng class `.ui-<tên>` trong markup.
 
 > Editor sinh tự động bởi packer (nhúng manifest hiện tại) nên luôn đồng bộ.

@@ -32,6 +32,9 @@ try:
 except ImportError:  # pragma: no cover
     sys.exit("Pillow is required: pip install Pillow")
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from uilab_kit import kit_markup, kit_script, kit_style  # noqa: E402  (dev-only UI kit demo)
+
 ROOT = Path(__file__).resolve().parents[1]
 
 # Touch-first state model: `active`/`checked` = selected/on (LIGHTER sprite),
@@ -618,6 +621,7 @@ def generate_lab(mf: dict, themes: list[str]) -> str:
   .demo-panel {{ width: 240px; height: 120px; }}
   .demo-icon {{ width: 20px; height: 20px; }}
 </style>
+{kit_style()}
 </head>
 <body class="theme-{default_theme}">
 <h1>BrowserQuest UI Lab</h1>
@@ -633,12 +637,14 @@ def generate_lab(mf: dict, themes: list[str]) -> str:
 <div id="stage">
 {"".join(rows)}
 </div>
+{kit_markup(prefix)}
 <script>
   const stage = document.getElementById('stage');
   document.getElementById('checkerBtn').onclick = () => stage.classList.toggle('checker');
   document.querySelectorAll('[data-theme]').forEach(b => b.onclick = () => {{
     document.body.className = b.dataset.theme === '{default_theme}' ? '' : 'theme-' + b.dataset.theme;
   }});
+{kit_script()}
 </script>
 </body>
 </html>

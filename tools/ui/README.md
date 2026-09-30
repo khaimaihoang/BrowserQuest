@@ -4,6 +4,12 @@ Biến atlas UI (một tấm PNG lớn, không có tên từng phần) thành **
 được ngay** trong game, theo một manifest có tên gọi rõ ràng.
 
 - 📖 **Tài liệu đầy đủ: [`docs/ui-slice-pipeline.md`](../../docs/ui-slice-pipeline.md)**
+- **Kit component tương tác: [`client/ui-lab.html`](../../client/ui-lab.html)** (§ *UI kit*)
+  — sinh từ [`tools/uilab_kit.py`](../uilab_kit.py): button, switch/toggle, checkbox & radio,
+  tab (ngang / dọc / vuông-icon), slider (kéo được, ngang + dọc), input field (focus ring +
+  stepper + chat bar), thanh HP/MP/XP/Stamina (ngang + dọc), inventory 5×2 + hotbar (phím `1-6`),
+  panel + list row + dialog + toast, gauge tròn, HUD mock. Nút **Components only** ở toolbar
+  để ẩn gallery slice. Dev-only: CSS/JS nằm inline trong lab, không nằm trong CSS ship game.
 - Manifest: [`tools/ui/slices.json`](./slices.json)
 - Packer: [`tools/ui-pack.py`](../ui-pack.py)
 - Preview dev: [`client/ui-lab.html`](../../client/ui-lab.html)
@@ -25,8 +31,10 @@ tài liệu ở `docs/`.
 atlas PNG ──┐
             ├─► tools/ui-pack.py ──┬─► client/img/{1,2,3}/ui/<name>.png   (NEAREST, ×1/×2/×3)
 slices.json ┘                     ├─► client/css/ui-slices.generated.css  (border-image + states)
-                                  ├─► client/ui-lab.html                  (preview dev)
+                                  ├─► client/ui-lab.html                  (preview dev + UI kit)
                                   └─► tools/ui/out/preview.png            (self-test 9-slice/state)
+
+tools/uilab_kit.py  ──► nhúng kit component tương tác vào client/ui-lab.html
 ```
 
 ## Lệnh

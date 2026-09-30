@@ -37,6 +37,187 @@
   .demo-panel { width: 240px; height: 120px; }
   .demo-icon { width: 20px; height: 20px; }
 </style>
+<style>
+/* ============ UI KIT (dev demo — inlined on purpose, không nằm trong CSS ship) ============ */
+@font-face { font-family:'GraphicPixel'; src:url('fonts/graphicpixel-webfont.woff') format('woff'); font-display:swap; }
+:root { --u: calc(1px * var(--s)); --kitink:#dfe3ea; --kitdim:#8b93a3; --kitaccent:#8fd0ff;
+        --kitcard:#22222a; --kitline:#2e2e38; }
+body.components-only #stage { display:none; }
+#kit { display:grid; gap:calc(12 * var(--u));
+  grid-template-columns:repeat(auto-fill, minmax(calc(300 * var(--u)), 1fr));
+  margin-top:calc(6 * var(--u)); padding-bottom:calc(40 * var(--u)); }
+#kit *, #kit *::before, #kit *::after { box-sizing:border-box; }
+#kit h2 { grid-column:1/-1; margin:calc(10 * var(--u)) 0 0; font-size:calc(15 * var(--u)); }
+.kit-intro { grid-column:1/-1; color:var(--kitdim); font-size:calc(11 * var(--u)); line-height:1.6; }
+.kit-intro code { color:#cfe6ff; }
+.kit-nav { grid-column:1/-1; display:flex; gap:calc(6 * var(--u)); flex-wrap:wrap; }
+.kit-nav a { color:#9fd7ff; text-decoration:none; border:1px solid #2f3b4a; border-radius:3px;
+  padding:calc(2 * var(--u)) calc(8 * var(--u)); font:calc(11 * var(--u))/1 monospace; }
+.kit-nav a:hover { background:#26303c; }
+#kit button { appearance:none; -webkit-appearance:none; background:none; margin:0; padding:0;
+  color:inherit; font:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+/* chỉ xoá viền của nút KHÔNG dùng border-image (nút .ui-button* giữ border của 9-slice) */
+#kit button:not([class*="ui-"]), #kit .kit-slot { border:0; }
+#kit button:disabled { cursor:not-allowed; opacity:.7; }
+.card { background:var(--kitcard); border:1px solid var(--kitline); border-radius:6px;
+  padding:calc(10 * var(--u)) calc(12 * var(--u)); min-width:0; }
+.card > h3 { margin:0; font:600 calc(11 * var(--u))/1.3 system-ui; color:var(--kitaccent);
+  letter-spacing:.4px; text-transform:uppercase; }
+.card > em { display:block; font-style:normal; color:var(--kitdim); font:calc(10 * var(--u))/1.6 monospace;
+  margin:calc(3 * var(--u)) 0 calc(10 * var(--u)); }
+.row { display:flex; align-items:center; gap:calc(10 * var(--u)); flex-wrap:wrap; margin-bottom:calc(10 * var(--u)); }
+.row:last-child { margin-bottom:0; }
+.col { display:flex; flex-direction:column; gap:calc(8 * var(--u)); align-items:flex-start; }
+.lbl { color:#cdd6e2; font:calc(11 * var(--u))/1.2 'GraphicPixel', monospace; letter-spacing:.5px; }
+.log { margin:calc(8 * var(--u)) 0 0; color:#9fd7ff; font:calc(10 * var(--u))/1.6 monospace; }
+
+/* ---- buttons ---- */
+.ktxt { display:flex; align-items:center; justify-content:center; width:100%; height:100%;
+  font-family:'GraphicPixel', monospace; font-size:calc(9 * var(--u)); letter-spacing:.5px;
+  color:#f1e7cd; text-shadow:0 calc(1 * var(--u)) 0 rgba(0,0,0,.8); text-transform:uppercase; white-space:nowrap; }
+.btn { min-width:calc(78 * var(--u)); height:calc(38 * var(--u)); padding:0 calc(6 * var(--u)); }
+.btn-slim { width:calc(36 * var(--u)); height:calc(38 * var(--u)); }
+.btn-thin { width:calc(112 * var(--u)); height:calc(20 * var(--u)); }
+.btn-tiny { width:calc(26 * var(--u)); height:calc(26 * var(--u)); }
+.btn-ico { width:calc(32 * var(--u)); height:calc(32 * var(--u)); display:inline-flex;
+  align-items:center; justify-content:center; }
+.kit-ico { display:block; width:calc(16 * var(--u)); height:calc(16 * var(--u));
+  background-repeat:no-repeat; background-size:contain; background-position:center; image-rendering:pixelated; }
+.badge { display:inline-block; margin-left:calc(4 * var(--u)); padding:0 calc(3 * var(--u));
+  background:#000a; border-radius:calc(2 * var(--u)); color:#ffe08a; font-size:calc(9 * var(--u)); font-style:normal; }
+
+/* ---- switch / checkbox / radio ---- */
+.kit-switch { display:inline-flex; align-items:center; gap:calc(6 * var(--u)); padding:calc(3 * var(--u)); }
+.kit-switch i { display:block; width:calc(16 * var(--u)); height:calc(8 * var(--u)); }
+.kit-switch i.ui-toggle-v { width:calc(8 * var(--u)); height:calc(16 * var(--u)); }
+.kit-check { display:inline-flex; align-items:center; gap:calc(6 * var(--u)); padding:calc(4 * var(--u)); }
+.kit-check i { display:block; width:calc(12 * var(--u)); height:calc(12 * var(--u)); }
+
+/* ---- tabs ---- */
+.kit-tabbar { display:flex; align-items:flex-end; gap:calc(4 * var(--u)); flex-wrap:wrap; }
+.kit-tabbar.rail { flex-direction:column; align-items:flex-start; }
+/* tab dùng đúng bề dày sprite theo state (12px inactive / 16px active) để 4 mảnh khớp 1:1,
+   không bị hở góc; tab active sẽ to ra 4px mỗi chiều (giống tab được nâng lên) */
+.kit-tab { display:grid;
+  grid-template-columns:calc(12 * var(--u)) calc(48 * var(--u)) calc(12 * var(--u));
+  grid-template-rows:calc(12 * var(--u)) calc(48 * var(--u)) calc(12 * var(--u)); }
+.kit-tab.active { grid-template-columns:calc(16 * var(--u)) calc(48 * var(--u)) calc(16 * var(--u));
+  grid-template-rows:calc(16 * var(--u)) calc(48 * var(--u)) calc(16 * var(--u)); }
+.kit-tab .e { display:block; background-size:contain; }
+.kit-tab .top { grid-area:1/2/2/3; } .kit-tab .bottom { grid-area:3/2/4/3; }
+.kit-tab .left { grid-area:2/1/3/2; } .kit-tab .right { grid-area:2/3/3/4; }
+.kit-tab .mid { grid-area:2/2/3/3; display:flex; align-items:center; justify-content:center;
+  background:#171720; color:#9aa3b2; font-family:'GraphicPixel', monospace;
+  font-size:calc(10 * var(--u)); letter-spacing:.5px; }
+.kit-tab.active .mid { background:#232334; color:#ffe9b8; }
+.kit-itab { width:calc(16 * var(--u)); height:calc(16 * var(--u)); }
+.kit-itab i { display:block; width:100%; height:100%; }
+.kit-square { display:grid; grid-template-columns:repeat(2, calc(28 * var(--u)));
+  grid-template-rows:repeat(2, calc(28 * var(--u))); gap:calc(2 * var(--u)); }
+.kit-square .kit-itab { width:calc(28 * var(--u)); height:calc(28 * var(--u)); }
+.tabpanel { border:1px solid var(--kitline); background:#1b1b22; padding:calc(8 * var(--u));
+  min-height:calc(26 * var(--u)); color:#c6cfdb; font:calc(10 * var(--u))/1.6 monospace; }
+.tabpanel[hidden] { display:none; }
+
+/* ---- slider ---- */
+.kit-slider { position:relative; height:calc(24 * var(--u)); touch-action:none; cursor:pointer; }
+.kit-slider.v { width:calc(24 * var(--u)); height:calc(120 * var(--u)); }
+.kit-slider .track { position:absolute; inset:0; pointer-events:none; }
+.kit-slider .fill { position:absolute; pointer-events:none; }
+.kit-slider.h .fill { left:calc(8 * var(--u)); top:50%; height:calc(6 * var(--u)); transform:translateY(-50%); }
+.kit-slider.v .fill { bottom:calc(8 * var(--u)); left:50%; width:calc(6 * var(--u)); transform:translateX(-50%); }
+.kit-slider .thumb { position:absolute; pointer-events:none; }
+.kit-slider.h .thumb { width:calc(6 * var(--u)); height:calc(7 * var(--u)); }
+.kit-slider.v .thumb { width:calc(7 * var(--u)); height:calc(6 * var(--u)); }
+.out { min-width:calc(42 * var(--u)); color:#ffe08a; font:calc(11 * var(--u))/1 monospace; }
+
+/* ---- input field ---- */
+.kit-input { display:flex; align-items:center; width:calc(190 * var(--u)); height:calc(38 * var(--u));
+  padding:0 calc(9 * var(--u)); }
+.kit-input input { flex:1; min-width:0; background:none; border:0; outline:0; color:#f2ecdc;
+  font:calc(11 * var(--u))/1 'GraphicPixel', monospace; letter-spacing:.5px; }
+.kit-input input::placeholder { color:#7d8797; }
+.kit-input:focus-within { filter:brightness(1.2) drop-shadow(0 0 calc(3 * var(--u)) #8fd0ffaa); }
+.kit-stepper { display:inline-flex; align-items:center; gap:calc(5 * var(--u)); }
+.kit-stepper .out { min-width:calc(36 * var(--u)); text-align:center; }
+.kit-chat { display:flex; align-items:center; gap:calc(6 * var(--u)); width:100%; padding:calc(5 * var(--u)); }
+.kit-chat input { flex:1; min-width:0; background:none; border:0; outline:0; color:#eee;
+  font:calc(11 * var(--u))/1 'GraphicPixel', monospace; }
+.kit-msgs { margin:calc(8 * var(--u)) 0 0; padding:0; list-style:none; color:#c6cfdb;
+  font:calc(10 * var(--u))/1.7 monospace; }
+.kit-msgs li { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* ---- progress bars ---- */
+.kit-bar { position:relative; display:flex; flex-direction:column; gap:calc(2 * var(--u));
+  width:calc(180 * var(--u)); }
+.kit-bar .frame { position:relative; z-index:0; height:calc(24 * var(--u)); width:100%; }
+.kit-bar.v { width:auto; align-items:flex-start; }
+.kit-bar.v .frame { width:calc(24 * var(--u)); height:calc(130 * var(--u)); }
+/* khung tạo stacking context: nền (border-image) < fill < hoạ tiết tâm (::before) */
+.kit-bar .frame::before { z-index:2; }
+.kit-bar .fill { position:absolute; z-index:1; }
+.kit-bar.h .fill { left:calc(15 * var(--u)); top:50%; height:calc(6 * var(--u)); transform:translateY(-50%); }
+.kit-bar.v .fill { bottom:calc(15 * var(--u)); left:50%; width:calc(6 * var(--u)); transform:translateX(-50%); }
+.kit-bar .cap { color:#e8ddc6; font:calc(9 * var(--u))/1 'GraphicPixel', monospace;
+  text-shadow:0 calc(1 * var(--u)) 0 #000; white-space:nowrap; }
+.kit-legend { color:var(--kitdim); font:calc(10 * var(--u))/1.6 monospace; }
+
+/* ---- slots / inventory ---- */
+.kit-slots { display:grid; grid-template-columns:repeat(5, auto); gap:calc(6 * var(--u)); justify-content:start; }
+.kit-hotbar { display:flex; gap:calc(6 * var(--u)); flex-wrap:wrap; }
+.kit-slot { position:relative; display:block; }
+.kit-slot.ui-slot-md { width:calc(22 * var(--u)); height:calc(22 * var(--u)); }
+.kit-slot.ui-slot-lg { width:calc(54 * var(--u)); height:calc(54 * var(--u)); }
+.kit-item { position:absolute; left:50%; top:50%; width:calc(16 * var(--u)); height:calc(16 * var(--u));
+  margin:calc(-8 * var(--u)) 0 0 calc(-8 * var(--u)); background-repeat:no-repeat;
+  background-size:600% auto; background-position:0 0; image-rendering:pixelated; }
+.kit-slot.ui-slot-lg .kit-item { width:calc(32 * var(--u)); height:calc(32 * var(--u));
+  margin:calc(-16 * var(--u)) 0 0 calc(-16 * var(--u)); }
+.kit-slot b, .kit-slot u { position:absolute; font:calc(9 * var(--u))/1 monospace;
+  text-shadow:0 0 calc(2 * var(--u)) #000; font-style:normal; text-decoration:none; }
+.kit-slot b { right:calc(1 * var(--u)); bottom:calc(1 * var(--u)); color:#ffe08a; }
+.kit-slot u { left:calc(2 * var(--u)); top:calc(1 * var(--u)); color:#9fd7ff; }
+.kit-slot.active { filter:drop-shadow(0 0 calc(3 * var(--u)) #ffd479cc); }
+
+/* ---- panel / list rows / dialog / toast ---- */
+.kit-list { display:flex; flex-direction:column; gap:calc(2 * var(--u)); }
+.kit-lrow { display:flex; align-items:center; gap:calc(8 * var(--u)); padding:calc(4 * var(--u)) calc(6 * var(--u)); }
+.kit-lrow .grow { flex:1; min-width:0; color:#dfe3ea; font:calc(11 * var(--u))/1.4 'GraphicPixel', monospace; }
+.kit-lrow .val { color:#ffe08a; font:calc(10 * var(--u))/1 monospace; }
+.kit-div { width:100%; height:calc(3 * var(--u)); }
+.kit-dialog { position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center;
+  background:#000a; }
+.kit-dialog[hidden] { display:none; }
+.kit-dialog .win { position:relative; width:min(92vw, calc(300 * var(--u)));
+  padding:calc(14 * var(--u)) calc(16 * var(--u)) calc(12 * var(--u)); }
+.kit-dialog h4 { margin:calc(2 * var(--u)) 0 calc(6 * var(--u)); color:#ffe9b8;
+  font:calc(12 * var(--u))/1.3 'GraphicPixel', monospace; text-align:center; }
+.kit-dialog p { margin:0; color:#cfd7e2; font:calc(10 * var(--u))/1.6 monospace; }
+.kit-close { position:absolute; top:calc(-6 * var(--u)); right:calc(-6 * var(--u));
+  width:calc(12 * var(--u)); height:calc(12 * var(--u));
+  background:url('img/1/ui/close.png') no-repeat center/contain; image-rendering:pixelated; }
+.kit-close:hover, .kit-close:active { background-image:url('img/1/ui/close_pressed.png'); }
+.kit-toast { position:fixed; left:50%; bottom:calc(20 * var(--u)); transform:translateX(-50%); z-index:60;
+  padding:calc(7 * var(--u)) calc(16 * var(--u)); color:#f2ecdc;
+  font:calc(10 * var(--u))/1 'GraphicPixel', monospace; opacity:0; transition:opacity .18s;
+  pointer-events:none; }
+.kit-toast.on { opacity:1; }
+
+/* ---- gauge + HUD mock ---- */
+.kit-gauges { display:flex; gap:calc(14 * var(--u)); align-items:center; flex-wrap:wrap; }
+.kit-gauge { position:relative; display:inline-flex; align-items:center; justify-content:center; }
+.kit-gauge i { display:block; width:100%; height:100%; }
+.kit-gauge span { position:absolute; font:calc(9 * var(--u))/1 'GraphicPixel', monospace; color:#ffe9b8; }
+.kit-hud { position:relative; width:100%; height:calc(160 * var(--u)); background:#12121a;
+  border:1px solid var(--kitline); overflow:hidden; }
+.kit-hud .abs { position:absolute; }
+.kit-hud .bars { left:calc(10 * var(--u)); top:calc(10 * var(--u)); display:flex; flex-direction:column; gap:calc(6 * var(--u)); }
+.kit-hud .bars .kit-bar { width:calc(150 * var(--u)); }
+.kit-hud .bars .kit-bar .frame { height:calc(20 * var(--u)); }
+.kit-hud .top { right:calc(10 * var(--u)); top:calc(10 * var(--u)); display:flex; gap:calc(4 * var(--u)); }
+.kit-hud .bottom { left:50%; bottom:calc(10 * var(--u)); transform:translateX(-50%); }
+.kit-hud .side { right:calc(10 * var(--u)); bottom:calc(10 * var(--u)); }
+</style>
 </head>
 <body class="theme-dark">
 <h1>BrowserQuest UI Lab</h1>
@@ -52,12 +233,411 @@
 <div id="stage">
 <section class="row"><header>panel <em>9-slice 8</em></header><div class="demos"><i class="ui-panel base" style="width:calc(48px * var(--s));height:calc(48px * var(--s))"></i><i class="ui-panel" style="width:calc(96px * var(--s));height:calc(96px * var(--s))"></i><i class="ui-panel" style="width:calc(144px * var(--s));height:calc(144px * var(--s))"></i><i class="ui-panel" style="width:calc(240px * var(--s));height:calc(96px * var(--s))"></i><i class="ui-panel" style="width:calc(96px * var(--s));height:calc(240px * var(--s))"></i></div></section><section class="row"><header>panel-slim <em>9-slice 8,7,8,7</em></header><div class="demos"><i class="ui-panel-slim base" style="width:calc(16px * var(--s));height:calc(48px * var(--s))"></i><i class="ui-panel-slim" style="width:calc(16px * var(--s));height:calc(96px * var(--s))"></i><i class="ui-panel-slim" style="width:calc(16px * var(--s));height:calc(144px * var(--s))"></i><i class="ui-panel-slim" style="width:calc(16px * var(--s));height:calc(360px * var(--s))"></i></div></section><section class="row"><header>panel-textured <em>9-slice 8,15,8,15</em></header><div class="demos"><i class="ui-panel-textured base" style="width:calc(48px * var(--s));height:calc(56px * var(--s))"></i><i class="ui-panel-textured" style="width:calc(48px * var(--s));height:calc(112px * var(--s))"></i><i class="ui-panel-textured" style="width:calc(48px * var(--s));height:calc(168px * var(--s))"></i><i class="ui-panel-textured" style="width:calc(48px * var(--s));height:calc(360px * var(--s))"></i></div></section><section class="row"><header>panel-header <em>sprite</em></header><div class="demos"><i class="ui-panel-header base" style="width:calc(48px * var(--s));height:calc(24px * var(--s))"></i><i class="ui-panel-header" style="width:calc(96px * var(--s));height:calc(24px * var(--s))"></i><i class="ui-panel-header" style="width:calc(144px * var(--s));height:calc(24px * var(--s))"></i></div></section><section class="row"><header>panel-title <em>sprite</em></header><div class="demos"><i class="ui-panel-title base" style="width:calc(48px * var(--s));height:calc(16px * var(--s))"></i><i class="ui-panel-title" style="width:calc(96px * var(--s));height:calc(16px * var(--s))"></i><i class="ui-panel-title" style="width:calc(144px * var(--s));height:calc(16px * var(--s))"></i></div></section><section class="row"><header>button <em>9-slice 7 · +active/disabled-pressed/active-pressed</em></header><div class="demos"><i class="ui-button base" style="width:calc(48px * var(--s));height:calc(48px * var(--s))"></i><i class="ui-button" style="width:calc(96px * var(--s));height:calc(96px * var(--s))"></i><i class="ui-button" style="width:calc(144px * var(--s));height:calc(144px * var(--s))"></i><i class="ui-button" style="width:calc(240px * var(--s));height:calc(96px * var(--s))"></i><i class="ui-button" style="width:calc(96px * var(--s));height:calc(240px * var(--s))"></i><i class="ui-button active" style="width:calc(96px * var(--s));height:calc(96px * var(--s))" title="active"></i><i class="ui-button disabled pressed" style="width:calc(96px * var(--s));height:calc(96px * var(--s))" title="disabled-pressed"></i><i class="ui-button active pressed" style="width:calc(96px * var(--s));height:calc(96px * var(--s))" title="active-pressed"></i></div></section><section class="row"><header>button-slim <em>9-slice 7 · +active/disabled-pressed/active-pressed</em></header><div class="demos"><i class="ui-button-slim base" style="width:calc(16px * var(--s));height:calc(48px * var(--s))"></i><i class="ui-button-slim" style="width:calc(16px * var(--s));height:calc(96px * var(--s))"></i><i class="ui-button-slim" style="width:calc(16px * var(--s));height:calc(144px * var(--s))"></i><i class="ui-button-slim" style="width:calc(16px * var(--s));height:calc(360px * var(--s))"></i><i class="ui-button-slim active" style="width:calc(16px * var(--s));height:calc(96px * var(--s))" title="active"></i><i class="ui-button-slim disabled pressed" style="width:calc(16px * var(--s));height:calc(96px * var(--s))" title="disabled-pressed"></i><i class="ui-button-slim active pressed" style="width:calc(16px * var(--s));height:calc(96px * var(--s))" title="active-pressed"></i></div></section><section class="row"><header>button-thin <em>9-slice 7 · +active/disabled-pressed/active-pressed</em></header><div class="demos"><i class="ui-button-thin base" style="width:calc(48px * var(--s));height:calc(16px * var(--s))"></i><i class="ui-button-thin" style="width:calc(96px * var(--s));height:calc(16px * var(--s))"></i><i class="ui-button-thin" style="width:calc(144px * var(--s));height:calc(16px * var(--s))"></i><i class="ui-button-thin" style="width:calc(360px * var(--s));height:calc(16px * var(--s))"></i><i class="ui-button-thin active" style="width:calc(96px * var(--s));height:calc(16px * var(--s))" title="active"></i><i class="ui-button-thin disabled pressed" style="width:calc(96px * var(--s));height:calc(16px * var(--s))" title="disabled-pressed"></i><i class="ui-button-thin active pressed" style="width:calc(96px * var(--s));height:calc(16px * var(--s))" title="active-pressed"></i></div></section><section class="row"><header>button-tiny <em>9-slice 5 · +active/disabled-pressed/active-pressed</em></header><div class="demos"><i class="ui-button-tiny base" style="width:calc(16px * var(--s));height:calc(16px * var(--s))"></i><i class="ui-button-tiny" style="width:calc(32px * var(--s));height:calc(32px * var(--s))"></i><i class="ui-button-tiny" style="width:calc(48px * var(--s));height:calc(48px * var(--s))"></i><i class="ui-button-tiny" style="width:calc(80px * var(--s));height:calc(32px * var(--s))"></i><i class="ui-button-tiny" style="width:calc(32px * var(--s));height:calc(80px * var(--s))"></i><i class="ui-button-tiny active" style="width:calc(32px * var(--s));height:calc(32px * var(--s))" title="active"></i><i class="ui-button-tiny disabled pressed" style="width:calc(32px * var(--s));height:calc(32px * var(--s))" title="disabled-pressed"></i><i class="ui-button-tiny active pressed" style="width:calc(32px * var(--s));height:calc(32px * var(--s))" title="active-pressed"></i></div></section><section class="row"><header>slider-track-v <em>9-slice 8,0,8,0</em></header><div class="demos"><i class="ui-slider-track-v base" style="width:calc(7px * var(--s));height:calc(42px * var(--s))"></i><i class="ui-slider-track-v" style="width:calc(7px * var(--s));height:calc(84px * var(--s))"></i><i class="ui-slider-track-v" style="width:calc(7px * var(--s));height:calc(126px * var(--s))"></i><i class="ui-slider-track-v" style="width:calc(7px * var(--s));height:calc(360px * var(--s))"></i></div></section><section class="row"><header>slider-track-h <em>9-slice 0,8,0,8</em></header><div class="demos"><i class="ui-slider-track-h base" style="width:calc(42px * var(--s));height:calc(7px * var(--s))"></i><i class="ui-slider-track-h" style="width:calc(84px * var(--s));height:calc(7px * var(--s))"></i><i class="ui-slider-track-h" style="width:calc(126px * var(--s));height:calc(7px * var(--s))"></i><i class="ui-slider-track-h" style="width:calc(360px * var(--s));height:calc(7px * var(--s))"></i></div></section><section class="row"><header>slider-thumb-v <em>sprite</em></header><div class="demos"><i class="ui-slider-thumb-v base" style="width:calc(7px * var(--s));height:calc(6px * var(--s))"></i><i class="ui-slider-thumb-v" style="width:calc(14px * var(--s));height:calc(12px * var(--s))"></i><i class="ui-slider-thumb-v" style="width:calc(21px * var(--s));height:calc(18px * var(--s))"></i></div></section><section class="row"><header>slider-thumb-h <em>sprite</em></header><div class="demos"><i class="ui-slider-thumb-h base" style="width:calc(6px * var(--s));height:calc(7px * var(--s))"></i><i class="ui-slider-thumb-h" style="width:calc(12px * var(--s));height:calc(14px * var(--s))"></i><i class="ui-slider-thumb-h" style="width:calc(18px * var(--s));height:calc(21px * var(--s))"></i></div></section><section class="row"><header>divider-v <em>sprite</em></header><div class="demos"><i class="ui-divider-v base" style="width:calc(3px * var(--s));height:calc(42px * var(--s))"></i><i class="ui-divider-v" style="width:calc(3px * var(--s));height:calc(84px * var(--s))"></i><i class="ui-divider-v" style="width:calc(3px * var(--s));height:calc(126px * var(--s))"></i></div></section><section class="row"><header>divider-h <em>sprite</em></header><div class="demos"><i class="ui-divider-h base" style="width:calc(42px * var(--s));height:calc(3px * var(--s))"></i><i class="ui-divider-h" style="width:calc(84px * var(--s));height:calc(3px * var(--s))"></i><i class="ui-divider-h" style="width:calc(126px * var(--s));height:calc(3px * var(--s))"></i></div></section><section class="row"><header>slot <em>sprite · +active</em></header><div class="demos"><i class="ui-slot base" style="width:calc(14px * var(--s));height:calc(14px * var(--s))"></i><i class="ui-slot" style="width:calc(28px * var(--s));height:calc(28px * var(--s))"></i><i class="ui-slot" style="width:calc(42px * var(--s));height:calc(42px * var(--s))"></i><i class="ui-slot active" style="width:calc(28px * var(--s));height:calc(28px * var(--s))" title="active"></i></div></section><section class="row"><header>slot-sm <em>sprite</em></header><div class="demos"><i class="ui-slot-sm base" style="width:calc(12px * var(--s));height:calc(12px * var(--s))"></i><i class="ui-slot-sm" style="width:calc(24px * var(--s));height:calc(24px * var(--s))"></i><i class="ui-slot-sm" style="width:calc(36px * var(--s));height:calc(36px * var(--s))"></i></div></section><section class="row"><header>slot-md <em>sprite · +active</em></header><div class="demos"><i class="ui-slot-md base" style="width:calc(22px * var(--s));height:calc(22px * var(--s))"></i><i class="ui-slot-md" style="width:calc(44px * var(--s));height:calc(44px * var(--s))"></i><i class="ui-slot-md" style="width:calc(66px * var(--s));height:calc(66px * var(--s))"></i><i class="ui-slot-md active" style="width:calc(44px * var(--s));height:calc(44px * var(--s))" title="active"></i></div></section><section class="row"><header>slot-wide <em>sprite</em></header><div class="demos"><i class="ui-slot-wide base" style="width:calc(26px * var(--s));height:calc(22px * var(--s))"></i><i class="ui-slot-wide" style="width:calc(52px * var(--s));height:calc(44px * var(--s))"></i><i class="ui-slot-wide" style="width:calc(78px * var(--s));height:calc(66px * var(--s))"></i></div></section><section class="row"><header>slot-pill <em>sprite</em></header><div class="demos"><i class="ui-slot-pill base" style="width:calc(18px * var(--s));height:calc(18px * var(--s))"></i><i class="ui-slot-pill" style="width:calc(36px * var(--s));height:calc(36px * var(--s))"></i><i class="ui-slot-pill" style="width:calc(54px * var(--s));height:calc(54px * var(--s))"></i></div></section><section class="row"><header>slot-lg <em>sprite</em></header><div class="demos"><i class="ui-slot-lg base" style="width:calc(54px * var(--s));height:calc(54px * var(--s))"></i><i class="ui-slot-lg" style="width:calc(108px * var(--s));height:calc(108px * var(--s))"></i><i class="ui-slot-lg" style="width:calc(162px * var(--s));height:calc(162px * var(--s))"></i></div></section><section class="row"><header>radio <em>sprite · +pressed/checked/checked-pressed</em></header><div class="demos"><i class="ui-radio base" style="width:calc(12px * var(--s));height:calc(12px * var(--s))"></i><i class="ui-radio" style="width:calc(24px * var(--s));height:calc(24px * var(--s))"></i><i class="ui-radio" style="width:calc(36px * var(--s));height:calc(36px * var(--s))"></i><i class="ui-radio pressed" style="width:calc(24px * var(--s));height:calc(24px * var(--s))" title="pressed"></i><i class="ui-radio checked" style="width:calc(24px * var(--s));height:calc(24px * var(--s))" title="checked"></i><i class="ui-radio checked pressed" style="width:calc(24px * var(--s));height:calc(24px * var(--s))" title="checked-pressed"></i></div></section><section class="row"><header>checkbox <em>sprite · +pressed/checked/checked-pressed</em></header><div class="demos"><i class="ui-checkbox base" style="width:calc(12px * var(--s));height:calc(12px * var(--s))"></i><i class="ui-checkbox" style="width:calc(24px * var(--s));height:calc(24px * var(--s))"></i><i class="ui-checkbox" style="width:calc(36px * var(--s));height:calc(36px * var(--s))"></i><i class="ui-checkbox pressed" style="width:calc(24px * var(--s));height:calc(24px * var(--s))" title="pressed"></i><i class="ui-checkbox checked" style="width:calc(24px * var(--s));height:calc(24px * var(--s))" title="checked"></i><i class="ui-checkbox checked pressed" style="width:calc(24px * var(--s));height:calc(24px * var(--s))" title="checked-pressed"></i></div></section><section class="row"><header>toggle-v <em>sprite · +pressed/checked/checked-pressed</em></header><div class="demos"><i class="ui-toggle-v base" style="width:calc(8px * var(--s));height:calc(16px * var(--s))"></i><i class="ui-toggle-v" style="width:calc(8px * var(--s));height:calc(32px * var(--s))"></i><i class="ui-toggle-v" style="width:calc(8px * var(--s));height:calc(48px * var(--s))"></i><i class="ui-toggle-v pressed" style="width:calc(8px * var(--s));height:calc(32px * var(--s))" title="pressed"></i><i class="ui-toggle-v checked" style="width:calc(8px * var(--s));height:calc(32px * var(--s))" title="checked"></i><i class="ui-toggle-v checked pressed" style="width:calc(8px * var(--s));height:calc(32px * var(--s))" title="checked-pressed"></i></div></section><section class="row"><header>toggle-h <em>sprite · +pressed/checked/checked-pressed</em></header><div class="demos"><i class="ui-toggle-h base" style="width:calc(16px * var(--s));height:calc(8px * var(--s))"></i><i class="ui-toggle-h" style="width:calc(32px * var(--s));height:calc(8px * var(--s))"></i><i class="ui-toggle-h" style="width:calc(48px * var(--s));height:calc(8px * var(--s))"></i><i class="ui-toggle-h pressed" style="width:calc(32px * var(--s));height:calc(8px * var(--s))" title="pressed"></i><i class="ui-toggle-h checked" style="width:calc(32px * var(--s));height:calc(8px * var(--s))" title="checked"></i><i class="ui-toggle-h checked pressed" style="width:calc(32px * var(--s));height:calc(8px * var(--s))" title="checked-pressed"></i></div></section><section class="row"><header>tab-icon-1 <em>sprite · +active</em></header><div class="demos"><i class="ui-tab-icon-1 base" style="width:calc(16px * var(--s));height:calc(12px * var(--s))"></i><i class="ui-tab-icon-1" style="width:calc(32px * var(--s));height:calc(24px * var(--s))"></i><i class="ui-tab-icon-1" style="width:calc(48px * var(--s));height:calc(36px * var(--s))"></i><i class="ui-tab-icon-1 active" style="width:calc(32px * var(--s));height:calc(24px * var(--s))" title="active"></i></div></section><section class="row"><header>tab-icon-2 <em>sprite · +active</em></header><div class="demos"><i class="ui-tab-icon-2 base" style="width:calc(12px * var(--s));height:calc(16px * var(--s))"></i><i class="ui-tab-icon-2" style="width:calc(24px * var(--s));height:calc(32px * var(--s))"></i><i class="ui-tab-icon-2" style="width:calc(36px * var(--s));height:calc(48px * var(--s))"></i><i class="ui-tab-icon-2 active" style="width:calc(24px * var(--s));height:calc(32px * var(--s))" title="active"></i></div></section><section class="row"><header>tab-icon-3 <em>sprite · +active</em></header><div class="demos"><i class="ui-tab-icon-3 base" style="width:calc(12px * var(--s));height:calc(16px * var(--s))"></i><i class="ui-tab-icon-3" style="width:calc(24px * var(--s));height:calc(32px * var(--s))"></i><i class="ui-tab-icon-3" style="width:calc(36px * var(--s));height:calc(48px * var(--s))"></i><i class="ui-tab-icon-3 active" style="width:calc(24px * var(--s));height:calc(32px * var(--s))" title="active"></i></div></section><section class="row"><header>tab-icon-4 <em>sprite · +active</em></header><div class="demos"><i class="ui-tab-icon-4 base" style="width:calc(16px * var(--s));height:calc(12px * var(--s))"></i><i class="ui-tab-icon-4" style="width:calc(32px * var(--s));height:calc(24px * var(--s))"></i><i class="ui-tab-icon-4" style="width:calc(48px * var(--s));height:calc(36px * var(--s))"></i><i class="ui-tab-icon-4 active" style="width:calc(32px * var(--s));height:calc(24px * var(--s))" title="active"></i></div></section><section class="row"><header>tab-top <em>sprite · +active</em></header><div class="demos"><i class="ui-tab-top base" style="width:calc(48px * var(--s));height:calc(12px * var(--s))"></i><i class="ui-tab-top" style="width:calc(96px * var(--s));height:calc(12px * var(--s))"></i><i class="ui-tab-top" style="width:calc(144px * var(--s));height:calc(12px * var(--s))"></i><i class="ui-tab-top active" style="width:calc(96px * var(--s));height:calc(12px * var(--s))" title="active"></i></div></section><section class="row"><header>tab-bottom <em>sprite · +active</em></header><div class="demos"><i class="ui-tab-bottom base" style="width:calc(48px * var(--s));height:calc(12px * var(--s))"></i><i class="ui-tab-bottom" style="width:calc(96px * var(--s));height:calc(12px * var(--s))"></i><i class="ui-tab-bottom" style="width:calc(144px * var(--s));height:calc(12px * var(--s))"></i><i class="ui-tab-bottom active" style="width:calc(96px * var(--s));height:calc(12px * var(--s))" title="active"></i></div></section><section class="row"><header>tab-left <em>sprite · +active</em></header><div class="demos"><i class="ui-tab-left base" style="width:calc(12px * var(--s));height:calc(48px * var(--s))"></i><i class="ui-tab-left" style="width:calc(12px * var(--s));height:calc(96px * var(--s))"></i><i class="ui-tab-left" style="width:calc(12px * var(--s));height:calc(144px * var(--s))"></i><i class="ui-tab-left active" style="width:calc(12px * var(--s));height:calc(96px * var(--s))" title="active"></i></div></section><section class="row"><header>tab-right <em>sprite · +active</em></header><div class="demos"><i class="ui-tab-right base" style="width:calc(12px * var(--s));height:calc(48px * var(--s))"></i><i class="ui-tab-right" style="width:calc(12px * var(--s));height:calc(96px * var(--s))"></i><i class="ui-tab-right" style="width:calc(12px * var(--s));height:calc(144px * var(--s))"></i><i class="ui-tab-right active" style="width:calc(12px * var(--s));height:calc(96px * var(--s))" title="active"></i></div></section><section class="row"><header>bar-h <em>9-slice 0,14,0,14</em></header><div class="demos"><i class="ui-bar-h base" style="width:calc(48px * var(--s));height:calc(20px * var(--s))"></i><i class="ui-bar-h" style="width:calc(96px * var(--s));height:calc(20px * var(--s))"></i><i class="ui-bar-h" style="width:calc(144px * var(--s));height:calc(20px * var(--s))"></i><i class="ui-bar-h" style="width:calc(360px * var(--s));height:calc(20px * var(--s))"></i></div></section><section class="row"><header>bar-h-md <em>9-slice 0,14,0,14</em></header><div class="demos"><i class="ui-bar-h-md base" style="width:calc(48px * var(--s));height:calc(17px * var(--s))"></i><i class="ui-bar-h-md" style="width:calc(96px * var(--s));height:calc(17px * var(--s))"></i><i class="ui-bar-h-md" style="width:calc(144px * var(--s));height:calc(17px * var(--s))"></i><i class="ui-bar-h-md" style="width:calc(360px * var(--s));height:calc(17px * var(--s))"></i></div></section><section class="row"><header>bar-h-sm <em>9-slice 0,14,0,14</em></header><div class="demos"><i class="ui-bar-h-sm base" style="width:calc(48px * var(--s));height:calc(16px * var(--s))"></i><i class="ui-bar-h-sm" style="width:calc(96px * var(--s));height:calc(16px * var(--s))"></i><i class="ui-bar-h-sm" style="width:calc(144px * var(--s));height:calc(16px * var(--s))"></i><i class="ui-bar-h-sm" style="width:calc(360px * var(--s));height:calc(16px * var(--s))"></i></div></section><section class="row"><header>bar-h-xs <em>9-slice 0,14,0,14</em></header><div class="demos"><i class="ui-bar-h-xs base" style="width:calc(48px * var(--s));height:calc(15px * var(--s))"></i><i class="ui-bar-h-xs" style="width:calc(96px * var(--s));height:calc(15px * var(--s))"></i><i class="ui-bar-h-xs" style="width:calc(144px * var(--s));height:calc(15px * var(--s))"></i><i class="ui-bar-h-xs" style="width:calc(360px * var(--s));height:calc(15px * var(--s))"></i></div></section><section class="row"><header>bar-v <em>9-slice 14,0,14,0</em></header><div class="demos"><i class="ui-bar-v base" style="width:calc(20px * var(--s));height:calc(48px * var(--s))"></i><i class="ui-bar-v" style="width:calc(20px * var(--s));height:calc(96px * var(--s))"></i><i class="ui-bar-v" style="width:calc(20px * var(--s));height:calc(144px * var(--s))"></i><i class="ui-bar-v" style="width:calc(20px * var(--s));height:calc(360px * var(--s))"></i></div></section><section class="row"><header>bar-v-md <em>9-slice 14,0,14,0</em></header><div class="demos"><i class="ui-bar-v-md base" style="width:calc(17px * var(--s));height:calc(48px * var(--s))"></i><i class="ui-bar-v-md" style="width:calc(17px * var(--s));height:calc(96px * var(--s))"></i><i class="ui-bar-v-md" style="width:calc(17px * var(--s));height:calc(144px * var(--s))"></i><i class="ui-bar-v-md" style="width:calc(17px * var(--s));height:calc(360px * var(--s))"></i></div></section><section class="row"><header>bar-v-sm <em>9-slice 14,0,14,0</em></header><div class="demos"><i class="ui-bar-v-sm base" style="width:calc(16px * var(--s));height:calc(48px * var(--s))"></i><i class="ui-bar-v-sm" style="width:calc(16px * var(--s));height:calc(96px * var(--s))"></i><i class="ui-bar-v-sm" style="width:calc(16px * var(--s));height:calc(144px * var(--s))"></i><i class="ui-bar-v-sm" style="width:calc(16px * var(--s));height:calc(360px * var(--s))"></i></div></section><section class="row"><header>bar-v-xs <em>9-slice 14,0,14,0</em></header><div class="demos"><i class="ui-bar-v-xs base" style="width:calc(15px * var(--s));height:calc(48px * var(--s))"></i><i class="ui-bar-v-xs" style="width:calc(15px * var(--s));height:calc(96px * var(--s))"></i><i class="ui-bar-v-xs" style="width:calc(15px * var(--s));height:calc(144px * var(--s))"></i><i class="ui-bar-v-xs" style="width:calc(15px * var(--s));height:calc(360px * var(--s))"></i></div></section><section class="row"><header>container <em>sprite</em></header><div class="demos"><i class="ui-container base" style="width:calc(40px * var(--s));height:calc(32px * var(--s))"></i><i class="ui-container" style="width:calc(80px * var(--s));height:calc(64px * var(--s))"></i><i class="ui-container" style="width:calc(120px * var(--s));height:calc(96px * var(--s))"></i></div></section><section class="row"><header>container-md <em>sprite</em></header><div class="demos"><i class="ui-container-md base" style="width:calc(32px * var(--s));height:calc(24px * var(--s))"></i><i class="ui-container-md" style="width:calc(64px * var(--s));height:calc(48px * var(--s))"></i><i class="ui-container-md" style="width:calc(96px * var(--s));height:calc(72px * var(--s))"></i></div></section><section class="row"><header>container-sm <em>sprite</em></header><div class="demos"><i class="ui-container-sm base" style="width:calc(22px * var(--s));height:calc(16px * var(--s))"></i><i class="ui-container-sm" style="width:calc(44px * var(--s));height:calc(32px * var(--s))"></i><i class="ui-container-sm" style="width:calc(66px * var(--s));height:calc(48px * var(--s))"></i></div></section><section class="row"><header>bar-fill-red <em>9-slice 0,7,0,7</em></header><div class="demos"><i class="ui-bar-fill-red base" style="width:calc(42px * var(--s));height:calc(6px * var(--s))"></i><i class="ui-bar-fill-red" style="width:calc(84px * var(--s));height:calc(6px * var(--s))"></i><i class="ui-bar-fill-red" style="width:calc(126px * var(--s));height:calc(6px * var(--s))"></i><i class="ui-bar-fill-red" style="width:calc(360px * var(--s));height:calc(6px * var(--s))"></i></div></section><section class="row"><header>bar-fill-blue <em>9-slice 0,7,0,7</em></header><div class="demos"><i class="ui-bar-fill-blue base" style="width:calc(42px * var(--s));height:calc(6px * var(--s))"></i><i class="ui-bar-fill-blue" style="width:calc(84px * var(--s));height:calc(6px * var(--s))"></i><i class="ui-bar-fill-blue" style="width:calc(126px * var(--s));height:calc(6px * var(--s))"></i><i class="ui-bar-fill-blue" style="width:calc(360px * var(--s));height:calc(6px * var(--s))"></i></div></section><section class="row"><header>bar-fill-gold <em>9-slice 0,7,0,7</em></header><div class="demos"><i class="ui-bar-fill-gold base" style="width:calc(42px * var(--s));height:calc(6px * var(--s))"></i><i class="ui-bar-fill-gold" style="width:calc(84px * var(--s));height:calc(6px * var(--s))"></i><i class="ui-bar-fill-gold" style="width:calc(126px * var(--s));height:calc(6px * var(--s))"></i><i class="ui-bar-fill-gold" style="width:calc(360px * var(--s));height:calc(6px * var(--s))"></i></div></section><section class="row"><header>bar-fill-green <em>9-slice 0,7,0,7</em></header><div class="demos"><i class="ui-bar-fill-green base" style="width:calc(42px * var(--s));height:calc(6px * var(--s))"></i><i class="ui-bar-fill-green" style="width:calc(84px * var(--s));height:calc(6px * var(--s))"></i><i class="ui-bar-fill-green" style="width:calc(126px * var(--s));height:calc(6px * var(--s))"></i><i class="ui-bar-fill-green" style="width:calc(360px * var(--s));height:calc(6px * var(--s))"></i></div></section><section class="row"><header>bar-fill-purple <em>9-slice 0,7,0,7</em></header><div class="demos"><i class="ui-bar-fill-purple base" style="width:calc(42px * var(--s));height:calc(6px * var(--s))"></i><i class="ui-bar-fill-purple" style="width:calc(84px * var(--s));height:calc(6px * var(--s))"></i><i class="ui-bar-fill-purple" style="width:calc(126px * var(--s));height:calc(6px * var(--s))"></i><i class="ui-bar-fill-purple" style="width:calc(360px * var(--s));height:calc(6px * var(--s))"></i></div></section><section class="row"><header>bar-fill-v-red <em>9-slice 7,0,7,0</em></header><div class="demos"><i class="ui-bar-fill-v-red base" style="width:calc(6px * var(--s));height:calc(42px * var(--s))"></i><i class="ui-bar-fill-v-red" style="width:calc(6px * var(--s));height:calc(84px * var(--s))"></i><i class="ui-bar-fill-v-red" style="width:calc(6px * var(--s));height:calc(126px * var(--s))"></i><i class="ui-bar-fill-v-red" style="width:calc(6px * var(--s));height:calc(360px * var(--s))"></i></div></section><section class="row"><header>bar-fill-v-blue <em>9-slice 7,0,7,0</em></header><div class="demos"><i class="ui-bar-fill-v-blue base" style="width:calc(6px * var(--s));height:calc(42px * var(--s))"></i><i class="ui-bar-fill-v-blue" style="width:calc(6px * var(--s));height:calc(84px * var(--s))"></i><i class="ui-bar-fill-v-blue" style="width:calc(6px * var(--s));height:calc(126px * var(--s))"></i><i class="ui-bar-fill-v-blue" style="width:calc(6px * var(--s));height:calc(360px * var(--s))"></i></div></section><section class="row"><header>bar-fill-v-gold <em>9-slice 7,0,7,0</em></header><div class="demos"><i class="ui-bar-fill-v-gold base" style="width:calc(6px * var(--s));height:calc(42px * var(--s))"></i><i class="ui-bar-fill-v-gold" style="width:calc(6px * var(--s));height:calc(84px * var(--s))"></i><i class="ui-bar-fill-v-gold" style="width:calc(6px * var(--s));height:calc(126px * var(--s))"></i><i class="ui-bar-fill-v-gold" style="width:calc(6px * var(--s));height:calc(360px * var(--s))"></i></div></section><section class="row"><header>bar-fill-v-green <em>9-slice 7,0,7,0</em></header><div class="demos"><i class="ui-bar-fill-v-green base" style="width:calc(6px * var(--s));height:calc(42px * var(--s))"></i><i class="ui-bar-fill-v-green" style="width:calc(6px * var(--s));height:calc(84px * var(--s))"></i><i class="ui-bar-fill-v-green" style="width:calc(6px * var(--s));height:calc(126px * var(--s))"></i><i class="ui-bar-fill-v-green" style="width:calc(6px * var(--s));height:calc(360px * var(--s))"></i></div></section><section class="row"><header>bar-fill-v-purple <em>9-slice 7,0,7,0</em></header><div class="demos"><i class="ui-bar-fill-v-purple base" style="width:calc(6px * var(--s));height:calc(42px * var(--s))"></i><i class="ui-bar-fill-v-purple" style="width:calc(6px * var(--s));height:calc(84px * var(--s))"></i><i class="ui-bar-fill-v-purple" style="width:calc(6px * var(--s));height:calc(126px * var(--s))"></i><i class="ui-bar-fill-v-purple" style="width:calc(6px * var(--s));height:calc(360px * var(--s))"></i></div></section>
 </div>
+<div id="kit">
+<h2 id="kit-title">UI kit tương tác — component của game mobile</h2>
+<p class="kit-intro">Dev-only: mọi component dùng đúng class <code>.ui-*</code> do
+<code>tools/ui-pack.py</code> sinh ra (border-image + sprite, scale theo <code>--s</code>).
+Thử click / kéo / gõ phím: switch, checkbox, radio, tab (ngang-dọc-vuông), slider, input,
+dialog, hotbar (phím <b>1..6</b>). Icon vật phẩm lấy từ <code>img/1/item-*.png</code>.</p>
+<div class="kit-nav">
+  <a href="#k-button">Buttons</a><a href="#k-switch">Switch</a><a href="#k-check">Checkbox/Radio</a>
+  <a href="#k-tabs">Tabs</a><a href="#k-slider">Slider</a><a href="#k-input">Input</a>
+  <a href="#k-bars">Bars</a><a href="#k-slots">Inventory</a><a href="#k-panel">Panel/Dialog</a>
+  <a href="#k-gauge">Gauge</a><a href="#k-hud">HUD</a>
+</div>
+  <section id="k-button" class="card"><h3>Button</h3>
+<em>ui-button · -slim · -thin · -tiny — active / pressed / disabled</em>
+<div class="row">
+  <button class="ui-button btn" data-count type="button"><span class="ktxt">Play <i class="badge" data-badge>0</i></span></button>
+  <button class="ui-button btn active" type="button"><span class="ktxt">Active</span></button>
+  <button class="ui-button btn pressed" type="button"><span class="ktxt">Pressed</span></button>
+  <button class="ui-button btn" type="button" disabled><span class="ktxt">Disabled</span></button>
+</div>
+<div class="row">
+  <button class="ui-button-slim btn-slim" type="button" aria-label="minus"><span class="ktxt">&ndash;</span></button>
+  <button class="ui-button-slim btn-slim" type="button" aria-label="plus"><span class="ktxt">+</span></button>
+  <button class="ui-button-thin btn-thin" type="button"><span class="ktxt">Level up</span></button>
+  <button class="ui-button-tiny btn-tiny" type="button" aria-label="sword"><i class="kit-item" style="background-image:url('img/1/item-sword1.png')"></i></button>
+  <button class="ui-button btn-ico" type="button" aria-label="settings"><i class="ui-tab-icon-1 kit-ico"></i></button>
+</div>
+<p class="log" data-log>button clicks: 0</p></section>
+  <section id="k-switch" class="card"><h3>Switch / Toggle</h3>
+<em>ui-toggle-h · ui-toggle-v — role=switch, aria-checked, disabled</em>
+<div class="row">
+  <button class="kit-switch" data-switch type="button" role="switch" aria-checked="true"><i class="ui-toggle-h checked"></i><span class="lbl">Sound</span></button>
+  <button class="kit-switch" data-switch type="button" role="switch" aria-checked="false"><i class="ui-toggle-h"></i><span class="lbl">Music</span></button>
+  <button class="kit-switch disabled" data-switch type="button" role="switch" aria-checked="false" disabled><i class="ui-toggle-h"></i><span class="lbl">Vibration</span></button>
+</div>
+<div class="row">
+  <span class="lbl">Vertical</span>
+  <span class="kit-switch" data-switch-v><i class="ui-toggle-v"></i><span class="lbl">ON/OFF</span></span>
+</div>
+<p class="log" data-switchlog>switch: Sound=on, Music=off</p></section>
+  <section id="k-check" class="card"><h3>Checkbox &amp; Radio</h3>
+<em>ui-checkbox · ui-radio — checked / pressed / checked-pressed</em>
+<div class="row">
+  <button class="kit-check" type="button" data-check aria-checked="true"><i class="ui-checkbox checked"></i><span class="lbl">Fullscreen</span></button>
+  <button class="kit-check" type="button" data-check aria-checked="false"><i class="ui-checkbox"></i><span class="lbl">Vibration</span></button>
+  <button class="kit-check" type="button" data-check aria-checked="false"><i class="ui-checkbox pressed"></i><span class="lbl">Auto-save</span></button>
+</div>
+<div class="row" data-radio-group="quality">
+  <span class="lbl">Quality</span>
+  <button class="kit-check" type="button" data-radio aria-checked="true"><i class="ui-radio checked"></i><span class="lbl">Low</span></button>
+  <button class="kit-check" type="button" data-radio aria-checked="false"><i class="ui-radio"></i><span class="lbl">Medium</span></button>
+  <button class="kit-check" type="button" data-radio aria-checked="false"><i class="ui-radio"></i><span class="lbl">High</span></button>
+</div>
+<p class="log" data-checklog>checkbox: Fullscreen=on · radio: Low</p></section>
+  <section id="k-tabs" class="card"><h3>Tabs — ngang / dọc / vuông</h3>
+<em>ui-tab-top/bottom/left/right ghép khung tab · ui-tab-icon-1..4 cho tab vuông (icon)</em>
+<div class="kit-tabbar" data-tabbar="h">
+  <button class="kit-tab active" data-tab="h1" type="button"><i class="ui-tab-top e top active"></i><i class="ui-tab-left e left active"></i><i class="ui-tab-right e right active"></i><i class="ui-tab-bottom e bottom active"></i><span class="mid">Inventory</span></button><button class="kit-tab" data-tab="h2" type="button"><i class="ui-tab-top e top"></i><i class="ui-tab-left e left"></i><i class="ui-tab-right e right"></i><i class="ui-tab-bottom e bottom"></i><span class="mid">Skills</span></button><button class="kit-tab" data-tab="h3" type="button"><i class="ui-tab-top e top"></i><i class="ui-tab-left e left"></i><i class="ui-tab-right e right"></i><i class="ui-tab-bottom e bottom"></i><span class="mid">Quests</span></button>
+</div>
+<div class="tabpanel" data-tabpanel="h1">TAB NGANG · Inventory — 12/20 ô (khung 4 mảnh, tab active sáng)</div>
+<div class="tabpanel" data-tabpanel="h2" hidden>TAB NGANG · Skills — 3 điểm chưa dùng</div>
+<div class="tabpanel" data-tabpanel="h3" hidden>TAB NGANG · Quests — 2 nhiệm vụ đang làm</div>
+<div class="row" style="margin-top:calc(12 * var(--u)); align-items:flex-start">
+  <div class="kit-tabbar rail" data-tabbar="v">
+    <button class="kit-tab active" data-tab="v1" type="button"><i class="ui-tab-top e top active"></i><i class="ui-tab-left e left active"></i><i class="ui-tab-right e right active"></i><i class="ui-tab-bottom e bottom active"></i><span class="mid">Map</span></button><button class="kit-tab" data-tab="v2" type="button"><i class="ui-tab-top e top"></i><i class="ui-tab-left e left"></i><i class="ui-tab-right e right"></i><i class="ui-tab-bottom e bottom"></i><span class="mid">Party</span></button>
+  </div>
+  <div style="flex:1; min-width:calc(140 * var(--u))">
+    <div class="tabpanel" data-tabpanel="v1">TAB DỌC · Map — rail bên trái</div>
+    <div class="tabpanel" data-tabpanel="v2" hidden>TAB DỌC · Party — rail bên trái</div>
+  </div>
+  <div class="col">
+    <span class="lbl">ngang (icon)</span>
+    <div class="kit-tabbar" data-tabbar="i">
+      <button class="kit-itab" data-tab="i1" type="button" aria-label="tab 1"><i class="ui-tab-icon-1 active"></i></button><button class="kit-itab" data-tab="i2" type="button" aria-label="tab 2"><i class="ui-tab-icon-2"></i></button><button class="kit-itab" data-tab="i3" type="button" aria-label="tab 3"><i class="ui-tab-icon-3"></i></button><button class="kit-itab" data-tab="i4" type="button" aria-label="tab 4"><i class="ui-tab-icon-4"></i></button>
+    </div>
+    <span class="lbl">dọc (icon)</span>
+    <div class="kit-tabbar rail" data-tabbar="j">
+      <button class="kit-itab" data-tab="j1" type="button" aria-label="tab 1"><i class="ui-tab-icon-1 active"></i></button><button class="kit-itab" data-tab="j2" type="button" aria-label="tab 2"><i class="ui-tab-icon-2"></i></button><button class="kit-itab" data-tab="j3" type="button" aria-label="tab 3"><i class="ui-tab-icon-3"></i></button>
+    </div>
+    <span class="lbl">vuông 2x2</span>
+    <div class="kit-square" data-tabbar="k">
+      <button class="kit-itab" data-tab="k1" type="button" aria-label="tab 1"><i class="ui-tab-icon-1 active"></i></button><button class="kit-itab" data-tab="k2" type="button" aria-label="tab 2"><i class="ui-tab-icon-2"></i></button><button class="kit-itab" data-tab="k3" type="button" aria-label="tab 3"><i class="ui-tab-icon-3"></i></button><button class="kit-itab" data-tab="k4" type="button" aria-label="tab 4"><i class="ui-tab-icon-4"></i></button>
+    </div>
+  </div>
+</div>
+<p class="log" data-tablog>tab: ngang=h1 · dọc=v1 · vuông=k1</p></section>
+  <section id="k-slider" class="card"><h3>Slider</h3>
+<em>ui-slider-track-h/v + ui-slider-thumb-h/v + ui-bar-fill-* — kéo bằng chuột / chạm</em>
+<div class="row">
+  <div class="kit-slider h" data-slider="h" style="width:calc(220 * var(--u))">
+    <div class="ui-slider-track-h track"></div>
+    <div class="ui-bar-fill-green kit-fill"></div>
+    <div class="ui-slider-thumb-h thumb"></div>
+  </div>
+  <output class="out" data-out="h">40%</output>
+</div>
+<div class="row" style="align-items:flex-end">
+  <div class="kit-slider v" data-slider="v">
+    <div class="ui-slider-track-v track"></div>
+    <div class="ui-bar-fill-v-gold kit-fill"></div>
+    <div class="ui-slider-thumb-v thumb"></div>
+  </div>
+  <output class="out" data-out="v">75%</output>
+  <div class="col">
+    <span class="lbl">Volume (bar-fill-blue)</span>
+    <div class="kit-slider h" data-slider="vol" style="width:calc(140 * var(--u))">
+      <div class="ui-slider-track-h track"></div>
+      <div class="ui-bar-fill-blue kit-fill"></div>
+      <div class="ui-slider-thumb-h thumb"></div>
+    </div>
+  </div>
+</div></section>
+  <section id="k-input" class="card"><h3>Input field</h3>
+<em>input thật + khung ui-panel-slim / ui-panel — focus ring, placeholder, stepper, chat bar</em>
+<div class="row">
+  <label class="ui-panel-slim kit-input"><input type="text" value="Hero" maxlength="16" placeholder="Player name"></label>
+  <label class="ui-panel-slim kit-input" style="width:calc(110 * var(--u))"><input type="number" value="20" min="1" max="99" step="1"></label>
+</div>
+<div class="row">
+  <div class="kit-stepper">
+    <button class="ui-button-tiny btn-tiny" type="button" data-step="-1"><span class="ktxt">&ndash;</span></button>
+    <output class="out" data-step-out>5</output>
+    <button class="ui-button-tiny btn-tiny" type="button" data-step="1"><span class="ktxt">+</span></button>
+    <span class="lbl">skill points</span>
+  </div>
+</div>
+<div class="ui-panel kit-chat">
+  <input type="text" placeholder="Say something…" maxlength="40" data-chat>
+  <button class="ui-button-tiny btn-tiny" type="button" data-send><span class="ktxt">&#9166;</span></button>
+</div>
+<ul class="kit-msgs" data-chatlog><li>system: welcome to UI lab</li></ul></section>
+  <section id="k-bars" class="card"><h3>Progress bars</h3>
+<em>ui-bar-h/-v + ui-bar-fill-{red,blue,gold,green,purple} (hoạ tiết tâm neo giữa)</em>
+<div class="row" style="gap:calc(14 * var(--u))">
+  <div class="kit-bar h" data-bar="hp" data-pct="100"><span class="cap">HP 100/100</span><div class="ui-bar-h frame"><div class="ui-bar-fill-red fill"></div></div></div>
+  <div class="kit-bar h" data-bar="mp" data-pct="75"><span class="cap">MP 60/80</span><div class="ui-bar-h frame"><div class="ui-bar-fill-blue fill"></div></div></div>
+</div>
+<div class="row" style="gap:calc(14 * var(--u)); align-items:flex-end">
+  <div class="kit-bar h" data-bar="xp" data-pct="35"><span class="cap">XP 42/120</span><div class="ui-bar-h frame"><div class="ui-bar-fill-gold fill"></div></div></div>
+  <div class="kit-bar h" data-bar="st" data-pct="55"><span class="cap">STAM</span><div class="ui-bar-h frame"><div class="ui-bar-fill-green fill"></div></div></div>
+  <div class="kit-bar v" data-bar="stv" data-pct="70"><span class="cap">V</span><div class="ui-bar-v frame"><div class="ui-bar-fill-v-purple fill"></div></div></div>
+</div>
+<div class="row">
+  <button class="ui-button-thin btn-thin" type="button" data-hp="-15"><span class="ktxt">-15 HP</span></button>
+  <button class="ui-button-thin btn-thin" type="button" data-hp="15"><span class="ktxt">+15 HP</span></button>
+  <span class="kit-legend">bar dọc = ui-bar-v + ui-bar-fill-v-*</span>
+</div></section>
+  <section id="k-slots" class="card"><h3>Inventory &amp; hotbar</h3>
+<em>ui-slot-md / ui-slot-lg + .active — click chọn ô, hotbar nhận phím 1..6</em>
+<div class="kit-slots"><button class="kit-slot ui-slot" data-slot type="button" title="item-sword1"><i class="kit-item" style="background-image:url('img/1/item-sword1.png')"></i><b>1</b></button><button class="kit-slot ui-slot" data-slot type="button" title="item-redsword"><i class="kit-item" style="background-image:url('img/1/item-redsword.png')"></i><b>2</b></button><button class="kit-slot ui-slot" data-slot type="button" title="item-bluesword"><i class="kit-item" style="background-image:url('img/1/item-bluesword.png')"></i><b>1</b></button><button class="kit-slot ui-slot" data-slot type="button" title="item-axe"><i class="kit-item" style="background-image:url('img/1/item-axe.png')"></i><b>3</b></button><button class="kit-slot ui-slot active" data-slot type="button" title="item-morningstar"><i class="kit-item" style="background-image:url('img/1/item-morningstar.png')"></i><b>12</b></button><button class="kit-slot ui-slot" data-slot type="button" title="item-leatherarmor"><i class="kit-item" style="background-image:url('img/1/item-leatherarmor.png')"></i><b>1</b></button><button class="kit-slot ui-slot" data-slot type="button" title="item-platearmor"><i class="kit-item" style="background-image:url('img/1/item-platearmor.png')"></i><b>1</b></button><button class="kit-slot ui-slot" data-slot type="button" title="item-goldenarmor"><i class="kit-item" style="background-image:url('img/1/item-goldenarmor.png')"></i><b>1</b></button><button class="kit-slot ui-slot" data-slot type="button" title="item-firepotion"><i class="kit-item" style="background-image:url('img/1/item-firepotion.png')"></i><b>5</b></button><button class="kit-slot ui-slot" data-slot type="button" title="item-flask"><i class="kit-item" style="background-image:url('img/1/item-flask.png')"></i><b>8</b></button></div>
+<div class="kit-hotbar" style="margin-top:calc(12 * var(--u))"><button class="kit-slot ui-slot-lg active" data-slot type="button" title="item-sword1"><i class="kit-item" style="background-image:url('img/1/item-sword1.png')"></i><b>3</b><u>1</u></button><button class="kit-slot ui-slot-lg" data-slot type="button" title="item-redsword"><i class="kit-item" style="background-image:url('img/1/item-redsword.png')"></i><b>1</b><u>2</u></button><button class="kit-slot ui-slot-lg" data-slot type="button" title="item-bluesword"><i class="kit-item" style="background-image:url('img/1/item-bluesword.png')"></i><b>12</b><u>3</u></button><button class="kit-slot ui-slot-lg" data-slot type="button" title="item-axe"><i class="kit-item" style="background-image:url('img/1/item-axe.png')"></i><b>1</b><u>4</u></button><button class="kit-slot ui-slot-lg" data-slot type="button" title="item-morningstar"><i class="kit-item" style="background-image:url('img/1/item-morningstar.png')"></i><b>2</b><u>5</u></button><button class="kit-slot ui-slot-lg" data-slot type="button" title="item-leatherarmor"><i class="kit-item" style="background-image:url('img/1/item-leatherarmor.png')"></i><b>1</b><u>6</u></button></div>
+<p class="log" data-slotlog>slot: item-morningstar (phím 5)</p></section>
+  <section id="k-panel" class="card"><h3>Panel · list row · dialog</h3>
+<em>ui-panel-textured + ui-panel-header + ui-panel-title + ui-divider-h + close.png</em>
+<div class="ui-panel" style="padding:calc(8 * var(--u))">
+  <i class="ui-panel-title" style="display:block;margin:0 auto calc(4 * var(--u))"></i>
+  <div class="kit-list"><div class="kit-lrow"><span class="grow">Master volume</span><span class="val">80%</span></div>
+<i class="ui-divider-h kit-div"></i>
+<div class="kit-lrow"><span class="grow">Graphics</span><span class="val">High</span></div>
+<i class="ui-divider-h kit-div"></i>
+<div class="kit-lrow"><span class="grow">Language</span><span class="val">Tiếng Việt</span></div>
+<i class="ui-divider-h kit-div"></i>
+<div class="kit-lrow"><span class="grow">Sound</span><button class="kit-switch" data-switch type="button" role="switch" aria-checked="true"><i class="ui-toggle-h checked"></i><span class="lbl">Effects</span></button></div></div>
+</div>
+<div class="row" style="margin-top:calc(10 * var(--u))">
+  <button class="ui-button btn" type="button" data-dialog="d1"><span class="ktxt">Open dialog</span></button>
+  <button class="ui-button-thin btn-thin" type="button" data-toast><span class="ktxt">Toast</span></button>
+</div></section>
+  <section id="k-gauge" class="card"><h3>Gauge (container)</h3>
+<em>ui-container · -md · -sm — sprite tròn + nhãn %</em>
+<div class="kit-gauges">
+  <span class="kit-gauge" style="width:calc(40 * var(--u));height:calc(32 * var(--u))"><i class="ui-container"></i><span>68%</span></span>
+  <span class="kit-gauge" style="width:calc(32 * var(--u));height:calc(24 * var(--u))"><i class="ui-container-md"></i><span>32%</span></span>
+  <span class="kit-gauge" style="width:calc(22 * var(--u));height:calc(16 * var(--u))"><i class="ui-container-sm"></i><span>7</span></span>
+</div>
+<div class="row" style="margin-top:calc(10 * var(--u))">
+  <button class="ui-button-thin btn-thin" type="button" data-gauge><span class="ktxt">+ charge</span></button>
+  <span class="lbl">cooldown / charge</span>
+</div></section>
+  <section class="card" style="grid-column:1/-1"><h3>HUD mock (ghép nhiều component)</h3>
+<em>thanh máu + slot góc phải + bar dọc + hotbar — kiểm tra tổng thể trên nền tối</em>
+<div class="kit-hud">
+  <div class="abs bars"><div class="kit-bar h" data-bar="hud-hp" data-pct="100"><div class="ui-bar-h frame"><div class="ui-bar-fill-red fill"></div></div></div><div class="kit-bar h" data-bar="hud-mp" data-pct="70"><div class="ui-bar-h frame"><div class="ui-bar-fill-blue fill"></div></div></div></div>
+  <div class="abs top">
+    <button class="kit-slot ui-slot active" data-slot type="button" title="item-platearmor"><i class="kit-item" style="background-image:url('img/1/item-platearmor.png')"></i><b>1</b></button><button class="kit-slot ui-slot" data-slot type="button" title="item-goldenarmor"><i class="kit-item" style="background-image:url('img/1/item-goldenarmor.png')"></i><b>1</b></button><button class="kit-slot ui-slot" data-slot type="button" title="item-firepotion"><i class="kit-item" style="background-image:url('img/1/item-firepotion.png')"></i><b>4</b></button>
+  </div>
+  <div class="abs side"><div class="kit-bar v" data-bar="hud-st" data-pct="60"><div class="ui-bar-v frame"><div class="ui-bar-fill-v-green fill"></div></div></div></div>
+  <div class="abs bottom"><div class="kit-hotbar"><button class="kit-slot ui-slot-lg active" data-slot type="button" title="item-sword1"><i class="kit-item" style="background-image:url('img/1/item-sword1.png')"></i><u>1</u></button><button class="kit-slot ui-slot-lg" data-slot type="button" title="item-redsword"><i class="kit-item" style="background-image:url('img/1/item-redsword.png')"></i><u>2</u></button><button class="kit-slot ui-slot-lg" data-slot type="button" title="item-bluesword"><i class="kit-item" style="background-image:url('img/1/item-bluesword.png')"></i><u>3</u></button><button class="kit-slot ui-slot-lg" data-slot type="button" title="item-axe"><i class="kit-item" style="background-image:url('img/1/item-axe.png')"></i><u>4</u></button></div></div>
+</div></section>
+  <div class="kit-dialog" data-dlg="d1" hidden>
+  <div class="ui-panel-textured win">
+    <button class="kit-close" type="button" data-dlg-close aria-label="close"></button>
+    <i class="ui-panel-header" style="display:block;margin:0 auto calc(4 * var(--u))"></i>
+    <h4>Bán vật phẩm?</h4>
+    <p>Golden armor &mdash; nhận 120 gold. Bạn có chắc không?</p>
+    <div class="row" style="justify-content:center;margin-top:calc(10 * var(--u))">
+      <button class="ui-button btn" type="button" data-dlg-close><span class="ktxt">Cancel</span></button>
+      <button class="ui-button btn active" type="button" data-dlg-ok><span class="ktxt">Sell</span></button>
+    </div>
+  </div>
+</div>
+<div class="ui-panel-slim kit-toast" data-toastbox><span data-toasttext>Saved!</span></div>
+</div>
 <script>
   const stage = document.getElementById('stage');
   document.getElementById('checkerBtn').onclick = () => stage.classList.toggle('checker');
   document.querySelectorAll('[data-theme]').forEach(b => b.onclick = () => {
     document.body.className = b.dataset.theme === 'dark' ? '' : 'theme-' + b.dataset.theme;
   });
+
+/* ---------------- UI KIT demo behaviour (dev only) ---------------- */
+(function () {
+  const $$ = (s, r = document) => Array.from((r || document).querySelectorAll(s));
+  const $ = (s, r = document) => (r || document).querySelector(s);
+  const scale = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--s')) || 1;
+  const setLog = (sel, txt) => { const el = $(sel); if (el) el.textContent = txt; };
+
+  /* toast */
+  const toast = txt => {
+    const box = $('[data-toastbox]'); if (!box) return;
+    const t = $('[data-toasttext]', box); if (t) t.textContent = txt;
+    box.classList.add('on'); clearTimeout(box._t);
+    box._t = setTimeout(() => box.classList.remove('on'), 1600);
+  };
+
+  /* buttons */
+  $$('[data-count]').forEach(b => b.addEventListener('click', () => {
+    const n = parseInt(b.dataset.count || '0', 10) + 1; b.dataset.count = n;
+    const badge = $('[data-badge]', b); if (badge) badge.textContent = n;
+    setLog('[data-log]', 'button clicks: ' + n);
+  }));
+
+  /* switches */
+  const reportSwitch = () => {
+    const parts = $$('[data-switch]').map(s => {
+      const l = $('.lbl', s), i = $('i', s);
+      return (l ? l.textContent : '?') + '=' + (i.classList.contains('checked') ? 'on' : 'off');
+    });
+    if (parts.length) setLog('[data-switchlog]', 'switch: ' + parts.join(', '));
+  };
+  $$('[data-switch], [data-switch-v]').forEach(sw => sw.addEventListener('click', () => {
+    if (sw.hasAttribute('disabled')) return;
+    const knob = $('i', sw); if (!knob) return;
+    knob.classList.toggle('checked');
+    sw.setAttribute('aria-checked', knob.classList.contains('checked') ? 'true' : 'false');
+    if (!sw.hasAttribute('data-switch-v')) reportSwitch();
+    else setLog('[data-switchlog]', 'switch dọc (toggle-v): ' + (knob.classList.contains('checked') ? 'on' : 'off'));
+  }));
+
+  /* checkbox + radio */
+  const reportChecks = () => setLog('[data-checklog]',
+    'checkbox: ' + $$('[data-check]').map(c => $('.lbl', c).textContent + '=' +
+      ($('i', c).classList.contains('checked') ? 'on' : 'off')).join(' · '));
+  $$('[data-check]').forEach(c => c.addEventListener('click', () => {
+    const i = $('i', c); i.classList.toggle('checked');
+    c.setAttribute('aria-checked', i.classList.contains('checked') ? 'true' : 'false');
+    reportChecks();
+  }));
+  $$('[data-radio-group]').forEach(g => $$('[data-radio]', g).forEach(r => r.addEventListener('click', () => {
+    $$('[data-radio]', g).forEach(o => { $('i', o).classList.remove('checked'); o.setAttribute('aria-checked', 'false'); });
+    $('i', r).classList.add('checked'); r.setAttribute('aria-checked', 'true');
+    setLog('[data-checklog]', 'radio ' + g.dataset.radioGroup + ': ' + $('.lbl', r).textContent);
+  })));
+
+  /* tabs (ngang / dọc / icon) */
+  $$('[data-tabbar] [data-tab]').forEach(tab => tab.addEventListener('click', () => {
+    const bar = tab.closest('[data-tabbar]');
+    $$('[data-tab]', bar).forEach(o => {
+      const on = o === tab;
+      o.classList.toggle('active', on);
+      $$('.e', o).forEach(e => e.classList.toggle('active', on));
+      $$('i', o).forEach(i => i.classList.toggle('active', on));
+      o.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    const key = tab.dataset.tab;
+    $$('[data-tabpanel]').forEach(pnl => { pnl.hidden = pnl.dataset.tabpanel !== key; });
+    setLog('[data-tablog]', 'tab active: ' + key + ' (' + (bar.dataset.tabbar === 'h' ? 'ngang'
+      : bar.dataset.tabbar === 'v' ? 'dọc' : 'icon') + ')');
+  }));
+
+  /* sliders (kéo chuột / chạm) */
+  const PAD = 8;                                  /* bề dày mũi tên của sprite track */
+  $$('[data-slider]').forEach(sl => {
+    const vertical = sl.classList.contains('v');
+    const fill = $('.kit-fill', sl), thumb = $('.thumb', sl);
+    const out = document.querySelector('[data-out="' + sl.dataset.slider + '"]');
+    let v = sl.dataset.slider === 'v' ? 0.75 : sl.dataset.slider === 'h' ? 0.4 : 0.6;
+    let dragging = false;
+    const paint = () => {
+      const span = 'calc(100% - ' + (2 * PAD) + ' * var(--u))';
+      const at = 'calc(' + PAD + ' * var(--u) + ' + span + ' * ' + v + ')';
+      if (!vertical) {
+        fill.style.width = 'calc(' + span + ' * ' + v + ')';
+        thumb.style.left = at; thumb.style.top = '50%'; thumb.style.transform = 'translate(-50%,-50%)';
+      } else {
+        fill.style.height = 'calc(' + span + ' * ' + v + ')';
+        thumb.style.top = 'calc(100% - ' + at + ')'; thumb.style.left = '50%';
+        thumb.style.transform = 'translate(-50%,-50%)';
+      }
+      if (out) out.textContent = Math.round(v * 100) + '%';
+    };
+    const fromEvent = e => {
+      const r = sl.getBoundingClientRect(), s = scale();
+      const p = (vertical ? (r.bottom - e.clientY) : (e.clientX - r.left)) - PAD * s;
+      const len = (vertical ? r.height : r.width) - 2 * PAD * s;
+      v = len > 0 ? Math.max(0, Math.min(1, p / len)) : 0;
+      paint();
+    };
+    sl.addEventListener('pointerdown', e => { dragging = true; try { sl.setPointerCapture(e.pointerId); } catch (_) { /* synthetic */ } fromEvent(e); });
+    sl.addEventListener('pointermove', e => { if (dragging) fromEvent(e); });
+    sl.addEventListener('pointerup', () => { dragging = false; setLog('[data-log]', 'slider ' + sl.dataset.slider + ' = ' + Math.round(v * 100) + '%'); });
+    sl.addEventListener('lostpointercapture', () => { dragging = false; });
+    paint();
+  });
+
+  /* stepper */
+  let step = 5;
+  $$('[data-step]').forEach(b => b.addEventListener('click', () => {
+    step = Math.max(0, Math.min(99, step + parseInt(b.dataset.step, 10)));
+    const o = $('[data-step-out]'); if (o) o.textContent = step;
+  }));
+
+  /* chat bar */
+  const chat = $('[data-chat]');
+  const send = () => {
+    if (!chat || !chat.value.trim()) return;
+    const list = $('[data-chatlog]'); if (!list) return;
+    const li = document.createElement('li'); li.textContent = 'you: ' + chat.value.trim();
+    list.appendChild(li); chat.value = '';
+    while (list.children.length > 4) list.removeChild(list.firstChild);
+  };
+  if (chat) chat.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+  const sendBtn = $('[data-send]'); if (sendBtn) sendBtn.addEventListener('click', send);
+
+  /* progress bars */
+  const setBar = (key, pct) => {
+    const bar = document.querySelector('[data-bar="' + key + '"]'); if (!bar) return;
+    pct = Math.max(0, Math.min(100, pct));
+    bar.dataset.pct = pct;
+    const vertical = bar.classList.contains('v');
+    const fill = $('.fill', bar);
+    if (fill) {
+      if (vertical) fill.style.height = 'calc((100% - 30 * var(--u)) * ' + (pct / 100) + ')';
+      else fill.style.width = 'calc((100% - 30 * var(--u)) * ' + (pct / 100) + ')';
+    }
+    const cap = $('.cap', bar);
+    if (cap && bar.dataset.bar === 'hp' && !cap.dataset.base) cap.dataset.base = cap.textContent.replace(/\s*\d+%?\/?\d*$/, '');
+    if (cap && bar.dataset.bar === 'hp') cap.textContent = 'HP ' + pct + '/100';
+  };
+  $$('[data-bar]').forEach(b => setBar(b.dataset.bar, parseInt(b.dataset.pct || '0', 10)));
+  $$('[data-hp]').forEach(b => b.addEventListener('click', () => {
+    const bar = $('[data-bar="hp"]'); if (!bar) return;
+    const next = Math.max(0, Math.min(100, parseInt(bar.dataset.pct || '100', 10) + parseInt(b.dataset.hp, 10)));
+    setBar('hp', next); toast('HP ' + next + '/100');
+  }));
+
+  /* gauge */
+  $$('[data-gauge]').forEach(b => b.addEventListener('click', () => {
+    const g = $('[data-gauge]') && $('.kit-gauge span'); if (!g) return;
+    const cur = Math.max(0, Math.min(100, (parseInt(g.textContent, 10) || 0) + 17));
+    g.textContent = cur + '%'; toast('charge ' + cur + '%');
+  }));
+
+  /* inventory + hotbar */
+  const selectSlot = el => {
+    const group = el.closest('.kit-slots, .kit-hotbar') || el.parentElement;
+    $$('[data-slot]', group).forEach(o => o.classList.toggle('active', o === el));
+    const hot = el.querySelector('u');
+    setLog('[data-slotlog]', 'slot: ' + (el.title || '?') + (hot ? ' (phím ' + hot.textContent + ')' : ''));
+  };
+  $$('[data-slot]').forEach(s => s.addEventListener('click', () => selectSlot(s)));
+  document.addEventListener('keydown', e => {
+    const i = '123456'.indexOf(e.key);
+    if (i < 0) return;
+    const ae = document.activeElement;
+    if (ae && /INPUT|TEXTAREA/.test(ae.tagName)) return;
+    const slots = $$('.kit-hotbar [data-slot]');
+    if (slots[i] && slots[i].offsetParent) { selectSlot(slots[i]); toast('hotbar ' + (i + 1) + ': ' + slots[i].title); }
+  });
+
+  /* dialog */
+  const closeDlg = d => { if (d) d.hidden = true; };
+  $$('[data-dialog]').forEach(b => b.addEventListener('click', () => {
+    const d = document.querySelector('[data-dlg="' + b.dataset.dialog + '"]'); if (d) d.hidden = false;
+  }));
+  $$('[data-dlg-close]').forEach(b => b.addEventListener('click', () => closeDlg(b.closest('[data-dlg]'))));
+  $$('[data-dlg-ok]').forEach(b => b.addEventListener('click', () => {
+    closeDlg(b.closest('[data-dlg]')); toast('sold golden armor +120g');
+  }));
+  $$('[data-toast]').forEach(b => b.addEventListener('click', () => toast('Settings saved')));
+
+  /* toolbar: chỉ hiện components */
+  const bar = document.querySelector('.toolbar');
+  if (bar && !document.getElementById('kitOnly')) {
+    const btn = document.createElement('button');
+    btn.id = 'kitOnly'; btn.textContent = 'Components only';
+    btn.onclick = () => {
+      const on = document.body.classList.toggle('components-only');
+      btn.textContent = on ? 'Show slice gallery' : 'Components only';
+      if (on) document.getElementById('kit').scrollIntoView();
+    };
+    bar.appendChild(btn);
+  }
+})();
+
 </script>
 </body>
 </html>
