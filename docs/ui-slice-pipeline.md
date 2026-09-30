@@ -251,7 +251,7 @@ Yêu cầu: Python 3 + `Pillow` (`pip install Pillow`). Preview: `npm run watch:
 | `client/img/{1,2,3}/ui/<name>--<state>--<theme>.png` | state / theme khác |
 | `client/css/ui-slices.generated.css` | class `.ui-*` + state + theme + 3 scale |
 | `client/ui-lab.html` | trang preview dev |
-| `client/ui-slice-editor.html` | **editor kéo slice bằng tay** (sinh kèm bởi packer) |
+| `client/ui-slice-editor.html` | **editor kéo slice bằng tay** (sinh bởi `tools/make-slice-editor.py`), có chọn theme + dải so sánh 5 theme |
 | `tools/ui/out/preview.png` | ảnh self-test 9-slice/state |
 | `tools/ui/out/generated.json` | index file đã sinh (để **tự dọn file cũ**) |
 
@@ -270,6 +270,21 @@ sang `dist/` nên không cần đổi build.
    `http://localhost:8008/ui-slice-editor.html` → chọn slice, **kéo 4 đường**
    (cam = trái/phải, đỏ = trên/dưới) → xem preview tile realtime → **Copy JSON slice**
    → dán vào `slices.json` → chạy lại packer.
+
+   Editor hỗ trợ **theme**: chọn `dark/green/blue/red/white` ở thanh trên (hoặc bấm
+   phím `1`-`5`) → mọi preview đổi cột atlas theo `themes.offsets`; dải **SO SÁNH THEME**
+   render cùng slice ở cả 5 cột để đối chiếu. `rect`/`slice`/`overlays` luôn ở **toạ độ
+   base (dark)** — đúng như `slices.json` lưu — nên JSON copy ra dán được ngay.
+   Slice có `"themed": false` (bar-fill màu) không đổi theo theme.
+
+   **Chọn `slice` để không bị sọc khi `repeat`** (lỗi đã gặp ở panel/panel-slim/panel-textured):
+   `slice` phải phủ hết bề dày hoạ tiết viền (kể cả hàng dither/shadow nằm sát nền — thiếu 1px
+   là tile nuốt hàng đó ⇒ **sọc đậm lặp lại**, chỉ thấy rõ ở theme sáng vì theme dark che mất);
+   và bước lặp của dải viền (`w-l-r` theo ngang, `h-t-b` theo dọc) phải chia hết chu kỳ hoạ tiết
+   của atlas (art panel/button vẽ theo chu kỳ **32px** ⇒ sprite 48px dùng `slice: 8`; `7` cho
+   34px = lệch pha 2px ⇒ sọc). Sprite hẹp 16px (`panel-slim`, `button-slim`, `button-thin`)
+   không thể đặt `8` cho cả 2 chiều (`l+r ≥ w` bị packer chặn) ⇒ dùng slice **theo từng cạnh**:
+   `panel-slim`/`button-slim` = `[8, 7, 8, 7]`, `button-thin` = `[7, 8, 7, 8]`.
 5. Kiểm tra `tools/ui/out/preview.png` (ghép 9-slice không méo) và `ui-lab.html`.
 6. Dùng class `.ui-<tên>` trong markup.
 
@@ -283,6 +298,8 @@ Packer tự dọn file của lần chạy trước không còn trong manifest �
 ## 9. Checklist trước khi bàn giao
 
 - [ ] `python tools/ui-pack.py --no-write` → `validation: OK`.
+- [ ] Không có sọc lặp ở theme sáng (green/blue/red/white): `slice` ≥ bề dày hoạ tiết viền và
+      bước lặp `w-l-r` / `h-t-b` chia hết chu kỳ hoạ tiết (32px) — xem mục 8.
 - [ ] Mọi `url()` trong CSS sinh ra đều tồn tại (packer tự đảm bảo).
 - [ ] `ui-lab.html` render đủ component ở 1x/2x/3x, state nhìn đúng.
 - [ ] `panel.png` sinh ra **bit-identical** với asset thủ công cũ.
@@ -296,5 +313,6 @@ Packer tự dọn file của lần chạy trước không còn trong manifest �
 
 - **~1485 ảnh** (54 slice + 34 state, 5 theme × 3 scale) — có thể gộp atlas / tint runtime để giảm.
 - **Disabled không có sprite riêng** — dùng CSS filter nếu cần.
-- **Chưa có editor kéo-thả** — hiện sửa `slices.json` bằng tay; packer là điểm giao
-  duy nhất nên editor (nếu có) chỉ cần ghi ra manifest.
+- **Editor (`client/ui-slice-editor.html`)**: sửa `slices.json` bằng tay hoặc copy JSON
+  slice từ editor (editor sinh từ manifest: `python tools/make-slice-editor.py`;
+  nhớ chạy lại sau khi thêm slice mới).

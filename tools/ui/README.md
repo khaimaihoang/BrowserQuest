@@ -8,6 +8,12 @@ Biến atlas UI (một tấm PNG lớn, không có tên từng phần) thành **
 - Packer: [`tools/ui-pack.py`](../ui-pack.py)
 - Preview dev: [`client/ui-lab.html`](../../client/ui-lab.html)
 - **Editor kéo slice: [`client/ui-slice-editor.html`](../../client/ui-slice-editor.html)** (`python tools/make-slice-editor.py`)
+  — kéo 4 đường slice, thêm hoạ tiết tâm, **chọn theme màu** (`dark/green/blue/red/white`,
+  phím `1`-`5`) và **so sánh 5 theme cạnh nhau** cùng một `rect`; JSON copy ra ở toạ độ
+  base (dark) đúng như `slices.json`
+- ⚠️ **Quy tắc `slice` chống sọc:** `slice` phải phủ hết bề dày hoạ tiết viền và bước lặp
+  (`w-l-r` / `h-t-b`) phải chia hết chu kỳ hoạ tiết atlas (32px) — thiếu 1px ⇒ sọc đậm lặp lại,
+  chỉ thấy ở theme sáng. Chi tiết: [`docs/ui-slice-pipeline.md` §8](../../docs/ui-slice-pipeline.md)
 - CSS sinh ra: `client/css/ui-slices.generated.css` (đã `@import` trong `main.css`)
 
 > Trang này là bản tóm tắt thao tác nhanh; chi tiết schema/state/nhóm nằm trong
@@ -142,4 +148,6 @@ Ghi chú:
 ## Hạn chế / bước tiếp theo
 
 - ~840 ảnh (do 5 theme × 3 scale); có thể gộp atlas hoặc tint runtime để giảm.
-- Chưa có editor kéo-thả: sửa `slices.json` bằng tay rồi chạy packer.
+- Editor kéo slice có sẵn: chọn slice/theme rồi copy JSON (`slice`/`overlays`) dán vào
+  `slices.json`, sau đó chạy lại packer. Editor sinh từ manifest nên sau khi thêm slice mới
+  phải chạy `python tools/make-slice-editor.py`.
