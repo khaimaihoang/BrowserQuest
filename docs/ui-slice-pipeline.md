@@ -357,6 +357,7 @@ Yêu cầu: Python 3 + `Pillow` (`pip install Pillow`). Preview: `npm run watch:
 | `client/img/{1,2,3}/ui/<name>--<state>--<theme>.png` | state / theme khác |
 | `client/css/ui-slices.generated.css` | class `.ui-*` + state + theme + 3 scale |
 | `client/ui-lab.html` | trang preview dev — gallery slice **+ UI kit component tương tác** (sinh từ `tools/uilab_kit.py`) |
+| `client/ui-mockup.html` | **trang để artist tự xếp UI** (sinh từ `tools/ui-mockup.py`) — chọn sprite, đặt vào ô lưới, thêm BẢNG, chỉnh cột/hàng, export JSON |
 | `client/ui-slice-editor.html` | **editor kéo slice bằng tay** (sinh bởi `tools/make-slice-editor.py`), có chọn theme + dải so sánh 5 theme |
 | `tools/ui/out/preview.png` | ảnh self-test 9-slice/state |
 | `tools/ui/out/generated.json` | index file đã sinh (dùng để **tự dọn file cũ**) |
@@ -364,6 +365,52 @@ Yêu cầu: Python 3 + `Pillow` (`pip install Pillow`). Preview: `npm run watch:
 Xem riêng gallery component (bỏ qua gallery slice) để chụp/soi nhanh:
 `http://localhost:8008/ui-lab.html?only=1` — thêm `#k-mock` để nhảy thẳng tới mockup.
 Trên trang có nút **Components only** đổi qua lại.
+
+### 7.1 Trang mockup — artist tự xếp UI (`client/ui-mockup.html`)
+
+```bash
+npm run watch:client     # → http://localhost:8008/ui-mockup.html
+```
+
+Mở trang là có sẵn **mẫu giống `ed.png`** (3 nắp tab · thanh ngang · rail dọc · bảng).
+
+| Vùng | Làm gì |
+|---|---|
+| **Trái** | Palette toàn bộ 85 sprite + icon vật phẩm, gom theo nhóm, có ô tìm. Kéo vào canvas hoặc click để thả vào ô trống đầu tiên. |
+| **Giữa** | **Canvas** = lưới `cols × rows`, mỗi ô `cell` px. Bật/tắt lưới toạ độ. Kéo món để đổi ô. `arrows` / `Delete` / `Esc`. |
+| **Phải** | Inspector món đang chọn + danh sách món + **JSON**. |
+
+Hai loại món:
+
+```jsonc
+// 1 sprite đặt vào lưới
+{ "kind":"sprite", "name":"tab-cap-top", "c":2, "r":0, "cs":1, "rs":1,
+  "mode":"fit|stretch|tile", "state":"active", "label":"", "icon":"item-sword1" }
+
+// 1 BẢNG: sprite làm base + lưới ô bên trong (ý tưởng "base rồi tạo col/row")
+{ "kind":"table", "name":"panel", "cell":"grid-cell-bracket",
+  "cellSize":32, "gap":2, "c":1, "r":2, "cs":5, "rs":6 }
+```
+
+Top-level doc:
+
+```jsonc
+{ "name":"inventory-window", "theme":"dark", "scale":2,
+  "cols":6, "rows":8, "cell":32, "bg":true, "items":[ … ] }
+```
+
+Quy trình làm việc:
+
+1. Artist mở trang, xếp UI, bấm **Copy JSON** → gửi JSON (hoặc file) cho agent.
+2. Agent dựng component thật theo JSON: `kind:"table"` → `.ui-panel` + lưới
+   `.ui-grid-cell-bracket`; `kind:"sprite"` → đúng class `.ui-<name>` + state.
+3. `cell`, `gap`, `cellSize` trong JSON là **toạ độ ô lưới**, không phải pixel cuối —
+   khi dựng thật thì nhân với scale (1x/2x/3x) theo quy tắc pixel-perfect (mục 6).
+
+**Lưu ý kỹ thuật:** trang inline CSS nhưng **ép về đúng khối 1x** và `scope_css()`
+thêm tiền tố `.mk-canvas` / `.mk-pal` vào mọi selector (đồng thời bỏ `../` trong
+`url()` vì CSS nằm cùng cấp với `client/img`). Nhờ vậy canvas luôn **1:1 pixel** và
+việc phóng to do `zoom` (bội số nguyên + `image-rendering:pixelated`) ⇒ không nội suy.
 
 `client/css/main.css` đã `@import 'ui-slices.generated.css';` → class dùng được
 ngay trong game. `client/img/` và `client/css/` được `copy-webpack-plugin` copy

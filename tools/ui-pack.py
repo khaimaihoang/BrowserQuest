@@ -849,6 +849,26 @@ def main() -> int:
         except Exception as exc:  # non-fatal
             print(f"slice editor skipped: {exc}")
 
+        # mockup composer (artist xếp sprite thành module rồi export JSON)
+        try:
+            import importlib.util
+            spec = importlib.util.spec_from_file_location(
+                "ui_mockup", ROOT / "tools" / "ui-mockup.py")
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            mk = ROOT / mf["output"].get("mockup", "client/ui-mockup.html")
+            mk.write_text(
+                mod.generate(mf, assets, ROOT, css_for_scale(mf, assets, 1, themes)),
+                encoding="utf-8")
+            print(f"wrote {mk.relative_to(ROOT)}")
+            dist = ROOT / "dist" / "client"
+            if dist.is_dir():
+                (dist / "ui-mockup.html").write_text(mk.read_text(encoding="utf-8"),
+                                                     encoding="utf-8")
+                print("wrote dist/client/ui-mockup.html")
+        except Exception as exc:  # non-fatal
+            print(f"mockup page skipped: {exc}")
+
         preview = generate_preview(mf, ims, mf["themes"]["default"])
         prev_path = ROOT / mf["output"]["preview"]
         prev_path.parent.mkdir(parents=True, exist_ok=True)

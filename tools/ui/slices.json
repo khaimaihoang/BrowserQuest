@@ -21,7 +21,8 @@
   "image": "client/img/{scale}/ui",
   "css": "client/css/ui-slices.generated.css",
   "lab": "client/ui-lab.html",
-  "preview": "tools/ui/out/preview.png"
+  "preview": "tools/ui/out/preview.png",
+  "mockup": "client/ui-mockup.html"
  },
  "css": {
   "prefix": "ui",

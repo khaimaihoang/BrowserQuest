@@ -13,6 +13,11 @@ Biến atlas UI (một tấm PNG lớn, không có tên từng phần) thành **
 - Manifest: [`tools/ui/slices.json`](./slices.json)
 - Packer: [`tools/ui-pack.py`](../ui-pack.py)
 - Preview dev: [`client/ui-lab.html`](../../client/ui-lab.html)
+- **Trang mockup cho artist: [`client/ui-mockup.html`](../../client/ui-mockup.html)** (`python tools/ui-mockup.py`)
+  — palette 85 sprite + icon vật phẩm, canvas lưới `cols × rows`, kéo sprite vào ô, thêm
+  **BẢNG** (1 sprite làm base + lưới ô `cellSize`/`gap` bên trong), chọn theme + scale
+  (1x/2x/3x), `Copy JSON` → agent dựng component thật theo JSON đó. Mở trang là có sẵn mẫu
+  giống `ed.png` (3 nắp tab · thanh ngang · rail dọc · lưới ô)
 - **Editor kéo slice: [`client/ui-slice-editor.html`](../../client/ui-slice-editor.html)** (`python tools/make-slice-editor.py`)
 - **Regression probe disabled: [`tools/ui/probe-disabled.html`](./probe-disabled.html)** — mở bằng Chrome, xem `<pre>`: dòng `disabled` phải là `pe=auto … hitTest=<chính nó>` (KHÔNG phải phần tử cha)
   — kéo 4 đường slice, thêm hoạ tiết tâm, **chọn theme màu** (`dark/green/blue/red/white`,
