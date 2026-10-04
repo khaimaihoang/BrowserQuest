@@ -18,7 +18,7 @@
   3
  ],
  "output": {
-  "image": "client/img/{scale}/ui",
+  "image": "client/img/{scale}/ui-kit",
   "css": "client/css/ui-slices.generated.css",
   "lab": "client/ui-lab.html",
   "preview": "tools/ui/out/preview.png",
@@ -60,24 +60,34 @@
   "panel": {
    "rect": [
     112,
-    164,
+    160,
     48,
-    44
+    48
    ],
    "nine": true,
    "slice": 8,
    "repeat": "repeat",
    "setDelta": {
-    "set2": -4,
-    "set3": -8
+    "set2": 0
+   },
+   "setRect": {
+    "set3": [
+     108,
+     1244,
+     56,
+     56
+    ]
+   },
+   "setSlice": {
+    "set3": 12
    }
   },
   "panel-slim": {
    "rect": [
     64,
-    164,
+    160,
     16,
-    44
+    48
    ],
    "nine": true,
    "slice": [
@@ -88,8 +98,23 @@
    ],
    "repeat": "repeat",
    "setDelta": {
-    "set2": -4,
-    "set3": -8
+    "set2": 0
+   },
+   "setRect": {
+    "set3": [
+     60,
+     1244,
+     24,
+     56
+    ]
+   },
+   "setSlice": {
+    "set3": [
+     12,
+     11,
+     12,
+     11
+    ]
    }
   },
   "panel-textured": {
@@ -108,9 +133,107 @@
    ],
    "repeat": "repeat",
    "stretch": "y",
-   "setDelta": {
-    "set2": -4,
-    "set3": -8
+   "setRect": {
+    "set2": [
+     208,
+     700,
+     48,
+     56
+    ],
+    "set3": [
+     208,
+     1240,
+     48,
+     64
+    ]
+   },
+   "setSlice": {
+    "set2": [
+     12,
+     15,
+     12,
+     15
+    ],
+    "set3": [
+     16,
+     15,
+     16,
+     15
+    ]
+   },
+   "setOverlays": {
+    "set2": [
+     {
+      "rect": [
+       224,
+       700,
+       16,
+       4
+      ],
+      "setRect": {
+       "set2": [
+        224,
+        700,
+        16,
+        4
+       ]
+      },
+      "anchor": "tc"
+     },
+     {
+      "rect": [
+       224,
+       752,
+       16,
+       4
+      ],
+      "setRect": {
+       "set2": [
+        224,
+        752,
+        16,
+        4
+       ]
+      },
+      "anchor": "bc"
+     }
+    ],
+    "set3": [
+     {
+      "rect": [
+       224,
+       1240,
+       16,
+       8
+      ],
+      "setRect": {
+       "set3": [
+        224,
+        1240,
+        16,
+        8
+       ]
+      },
+      "anchor": "tc"
+     },
+     {
+      "rect": [
+       224,
+       1296,
+       16,
+       8
+      ],
+      "setRect": {
+       "set3": [
+        224,
+        1296,
+        16,
+        8
+       ]
+      },
+      "anchor": "bc"
+     }
+    ]
    }
   },
   "panel-header": {
@@ -121,22 +244,39 @@
     16
    ],
    "nine": false,
-   "setDelta": {
-    "set2": -4,
-    "set3": -8
+   "setRect": {
+    "set2": [
+     208,
+     652,
+     48,
+     24
+    ],
+    "set3": [
+     208,
+     1192,
+     48,
+     32
+    ]
    }
   },
   "panel-title": {
    "rect": [
     112,
-    116,
+    112,
     48,
-    12
+    16
    ],
    "nine": false,
    "setDelta": {
-    "set2": -4,
-    "set3": -8
+    "set2": 0
+   },
+   "setRect": {
+    "set3": [
+     108,
+     1196,
+     56,
+     24
+    ]
    }
   },
   "_comment_buttons": "PUSH BUTTONS: base=[208,544] sáng (enabled) / pressed=[464,544] / disabled=[80,544] tối (khoá cứng)",
@@ -163,6 +303,17 @@
      48,
      48
     ]
+   },
+   "setRect": {
+    "set3": [
+     204,
+     1628,
+     56,
+     56
+    ]
+   },
+   "setSlice": {
+    "set3": 11
    }
   },
   "button-slim": {
@@ -188,6 +339,17 @@
      16,
      48
     ]
+   },
+   "setRect": {
+    "set3": [
+     156,
+     1628,
+     24,
+     56
+    ]
+   },
+   "setSlice": {
+    "set3": 11
    }
   },
   "button-thin": {
@@ -203,16 +365,27 @@
    "states": {
     "pressed": [
      464,
-     1040,
+     496,
      48,
      16
     ],
     "disabled": [
      80,
-     1040,
+     496,
      48,
      16
     ]
+   },
+   "setRect": {
+    "set3": [
+     204,
+     1580,
+     56,
+     24
+    ]
+   },
+   "setSlice": {
+    "set3": 11
    }
   },
   "button-tiny": {
@@ -228,16 +401,27 @@
    "states": {
     "pressed": [
      416,
-     1040,
+     496,
      16,
      16
     ],
     "disabled": [
      32,
-     1040,
+     496,
      16,
      16
     ]
+   },
+   "setRect": {
+    "set3": [
+     156,
+     1580,
+     24,
+     24
+    ]
+   },
+   "setSlice": {
+    "set3": 9
    }
   },
   "_comment_sliders": "SLIDERS (slice [t,r,b,l] giu 2 mui ten o 2 dau)",
@@ -256,7 +440,21 @@
     0
    ],
    "repeat": "repeat",
-   "stretch": "y"
+   "stretch": "y",
+   "setRect": {
+    "set2": [
+     309,
+     723,
+     7,
+     42
+    ],
+    "set3": [
+     308,
+     1267,
+     9,
+     42
+    ]
+   }
   },
   "slider-track-h": {
    "rect": [
@@ -273,7 +471,21 @@
     8
    ],
    "repeat": "repeat",
-   "stretch": "x"
+   "stretch": "x",
+   "setRect": {
+    "set2": [
+     339,
+     740,
+     42,
+     7
+    ],
+    "set3": [
+     339,
+     1283,
+     42,
+     9
+    ]
+   }
   },
   "slider-thumb-v": {
    "rect": [
@@ -282,7 +494,21 @@
     5,
     4
    ],
-   "nine": false
+   "nine": false,
+   "setRect": {
+    "set2": [
+     293,
+     741,
+     7,
+     6
+    ],
+    "set3": [
+     293,
+     1285,
+     7,
+     6
+    ]
+   }
   },
   "slider-thumb-h": {
    "rect": [
@@ -291,7 +517,21 @@
     4,
     5
    ],
-   "nine": false
+   "nine": false,
+   "setRect": {
+    "set2": [
+     325,
+     740,
+     6,
+     7
+    ],
+    "set3": [
+     325,
+     1284,
+     6,
+     7
+    ]
+   }
   },
   "_comment_dividers": "DIVIDERS",
   "divider-v": {
@@ -301,7 +541,15 @@
     3,
     42
    ],
-   "nine": false
+   "nine": false,
+   "setRect": {
+    "set3": [
+     309,
+     1203,
+     7,
+     42
+    ]
+   }
   },
   "divider-h": {
    "rect": [
@@ -310,7 +558,15 @@
     42,
     3
    ],
-   "nine": false
+   "nine": false,
+   "setRect": {
+    "set3": [
+     323,
+     1220,
+     42,
+     7
+    ]
+   }
   },
   "_comment_slots": "SLOTS - o tui do (item cell), sprite co dinh, KHONG 9-slice",
   "slot": {
@@ -328,6 +584,24 @@
      14,
      14
     ]
+   },
+   "setRect": {
+    "set3": [
+     32,
+     1312,
+     16,
+     16
+    ]
+   },
+   "stateSetRect": {
+    "active": {
+     "set2": [
+      32,
+      1360,
+      16,
+      16
+     ]
+    }
    }
   },
   "slot-sm": {
@@ -337,7 +611,15 @@
     12,
     12
    ],
-   "nine": false
+   "nine": false,
+   "setRect": {
+    "set3": [
+     81,
+     1313,
+     14,
+     14
+    ]
+   }
   },
   "slot-md": {
    "rect": [
@@ -354,6 +636,24 @@
      22,
      22
     ]
+   },
+   "setRect": {
+    "set3": [
+     107,
+     1323,
+     26,
+     26
+    ]
+   },
+   "stateSetRect": {
+    "active": {
+     "set2": [
+      107,
+      1371,
+      26,
+      26
+     ]
+    }
    }
   },
   "slot-wide": {
@@ -363,7 +663,15 @@
     26,
     22
    ],
-   "nine": false
+   "nine": false,
+   "setRect": {
+    "set3": [
+     155,
+     1371,
+     26,
+     26
+    ]
+   }
   },
   "slot-pill": {
    "rect": [
@@ -381,7 +689,15 @@
     54,
     54
    ],
-   "nine": false
+   "nine": false,
+   "setRect": {
+    "set3": [
+     123,
+     1467,
+     58,
+     58
+    ]
+   }
   },
   "_comment_check": "CHECK BOXES: base=off-tối / pressed=off-sáng / checked=on-tối / checked-pressed=on-sáng",
   "radio": {
@@ -396,21 +712,29 @@
    "states": {
     "checked": [
      354,
-     818,
+     274,
      12,
      12
     ],
     "disabled": [
      210,
-     818,
+     274,
      12,
      12
     ],
     "checked-disabled": [
      306,
-     818,
+     274,
      12,
      12
+    ]
+   },
+   "setRect": {
+    "set3": [
+     258,
+     1360,
+     12,
+     16
     ]
    }
   },
@@ -426,21 +750,29 @@
    "states": {
     "checked": [
      354,
-     850,
+     306,
      12,
      12
     ],
     "disabled": [
      210,
-     850,
+     306,
      12,
      12
     ],
     "checked-disabled": [
      306,
-     850,
+     306,
      12,
      12
+    ]
+   },
+   "setRect": {
+    "set3": [
+     257,
+     1393,
+     14,
+     14
     ]
    }
   },
@@ -457,21 +789,29 @@
    "states": {
     "checked": [
      308,
-     896,
+     352,
      8,
      16
     ],
     "disabled": [
      212,
-     896,
+     352,
      8,
      16
     ],
     "checked-disabled": [
      356,
-     896,
+     352,
      8,
      16
+    ]
+   },
+   "setRect": {
+    "set3": [
+     259,
+     1439,
+     10,
+     18
     ]
    }
   },
@@ -487,21 +827,29 @@
    "states": {
     "checked": [
      304,
-     932,
+     388,
      16,
      8
     ],
     "disabled": [
      208,
-     932,
+     388,
      16,
      8
     ],
     "checked-disabled": [
      352,
-     932,
+     388,
      16,
      8
+    ]
+   },
+   "setRect": {
+    "set3": [
+     255,
+     1475,
+     18,
+     10
     ]
    }
   },
@@ -509,153 +857,377 @@
   "tab-cap-top": {
    "rect": [
     433,
-    120,
+    117,
     14,
-    8
+    11
    ],
    "nine": false,
    "states": {
     "active": [
      560,
+     117,
+     16,
+     15
+    ]
+   },
+   "setRect": {
+    "set2": [
+     432,
      660,
      16,
+     12
+    ],
+    "set3": [
+     431,
+     1200,
+     18,
      16
     ]
    },
-   "setDelta": {
-    "set2": -4,
-    "set3": -8
+   "stateSetRect": {
+    "active": {
+     "set2": [
+      560,
+      660,
+      16,
+      16
+     ],
+     "set3": [
+      559,
+      1200,
+      18,
+      20
+     ]
+    }
    }
   },
   "tab-cap-left": {
    "rect": [
     405,
-    148,
+    145,
     11,
-    11
+    14
    ],
    "nine": false,
    "states": {
     "active": [
-     532,
-     688,
-     16,
+     533,
+     144,
+     15,
      16
     ]
    },
-   "setDelta": {
-    "set2": -4,
-    "set3": -8
+   "setRect": {
+    "set2": [
+     404,
+     688,
+     12,
+     16
+    ],
+    "set3": [
+     400,
+     1231,
+     16,
+     18
+    ]
+   },
+   "stateSetRect": {
+    "active": {
+     "set2": [
+      532,
+      688,
+      16,
+      16
+     ],
+     "set3": [
+      528,
+      1231,
+      20,
+      18
+     ]
+    }
    }
   },
   "tab-cap-right": {
    "rect": [
     464,
-    148,
+    145,
     11,
-    11
+    14
    ],
    "nine": false,
    "states": {
     "active": [
      588,
-     688,
-     16,
+     144,
+     15,
      16
     ]
    },
-   "setDelta": {
-    "set2": -4,
-    "set3": -8
+   "setRect": {
+    "set2": [
+     464,
+     688,
+     12,
+     16
+    ],
+    "set3": [
+     464,
+     1231,
+     16,
+     18
+    ]
+   },
+   "stateSetRect": {
+    "active": {
+     "set2": [
+      588,
+      688,
+      16,
+      16
+     ],
+     "set3": [
+      588,
+      1231,
+      20,
+      18
+     ]
+    }
    }
   },
   "tab-cap-bottom": {
    "rect": [
     433,
-    180,
+    176,
     14,
-    7
+    11
    ],
    "nine": false,
    "states": {
     "active": [
      560,
-     716,
+     172,
      16,
+     15
+    ]
+   },
+   "setRect": {
+    "set2": [
+     432,
+     720,
+     16,
+     12
+    ],
+    "set3": [
+     431,
+     1264,
+     18,
      16
     ]
    },
-   "setDelta": {
-    "set2": -4,
-    "set3": -8
+   "stateSetRect": {
+    "active": {
+     "set2": [
+      560,
+      716,
+      16,
+      16
+     ],
+     "set3": [
+      559,
+      1260,
+      18,
+      20
+     ]
+    }
    }
   },
   "tab-top": {
    "rect": [
     417,
-    216,
+    213,
     46,
-    8
+    11
    ],
    "nine": false,
    "states": {
     "active": [
      544,
+     213,
+     48,
+     15
+    ]
+   },
+   "setRect": {
+    "set2": [
+     416,
      756,
      48,
-     16
+     12
+    ],
+    "set3": [
+     415,
+     1295,
+     50,
+     17
     ]
+   },
+   "stateSetRect": {
+    "active": {
+     "set2": [
+      544,
+      756,
+      48,
+      16
+     ],
+     "set3": [
+      543,
+      1295,
+      50,
+      21
+     ]
+    }
    }
   },
   "tab-bottom": {
    "rect": [
     417,
-    308,
+    304,
     46,
-    7
+    11
    ],
    "nine": false,
    "states": {
     "active": [
      544,
-     844,
+     300,
      48,
-     16
+     15
     ]
+   },
+   "setRect": {
+    "set2": [
+     416,
+     848,
+     48,
+     12
+    ],
+    "set3": [
+     415,
+     1392,
+     50,
+     17
+    ]
+   },
+   "stateSetRect": {
+    "active": {
+     "set2": [
+      544,
+      844,
+      48,
+      16
+     ],
+     "set3": [
+      543,
+      1388,
+      50,
+      21
+     ]
+    }
    }
   },
   "tab-left": {
    "rect": [
     405,
-    244,
+    241,
     11,
-    43
+    46
    ],
    "nine": false,
    "states": {
     "active": [
-     532,
-     784,
-     16,
+     533,
+     240,
+     15,
      48
     ]
+   },
+   "setRect": {
+    "set2": [
+     404,
+     784,
+     12,
+     48
+    ],
+    "set3": [
+     399,
+     1327,
+     17,
+     50
+    ]
+   },
+   "stateSetRect": {
+    "active": {
+     "set2": [
+      532,
+      784,
+      16,
+      48
+     ],
+     "set3": [
+      527,
+      1327,
+      21,
+      50
+     ]
+    }
    }
   },
   "tab-right": {
    "rect": [
     464,
-    244,
+    241,
     11,
-    43
+    46
    ],
    "nine": false,
    "states": {
     "active": [
      588,
-     784,
-     16,
+     240,
+     15,
      48
     ]
+   },
+   "setRect": {
+    "set2": [
+     464,
+     784,
+     12,
+     48
+    ],
+    "set3": [
+     464,
+     1327,
+     17,
+     50
+    ]
+   },
+   "stateSetRect": {
+    "active": {
+     "set2": [
+      588,
+      784,
+      16,
+      48
+     ],
+     "set3": [
+      588,
+      1327,
+      21,
+      50
+     ]
+    }
    }
   },
   "_comment_resources": "RESOURCE'S BARS & CONTAINERS",
@@ -674,7 +1246,21 @@
     14
    ],
    "repeat": "repeat",
-   "stretch": "x"
+   "stretch": "x",
+   "setRect": {
+    "set2": [
+     672,
+     854,
+     48,
+     20
+    ],
+    "set3": [
+     672,
+     1394,
+     48,
+     28
+    ]
+   }
   },
   "bar-h-md": {
    "rect": [
@@ -691,7 +1277,21 @@
     14
    ],
    "repeat": "repeat",
-   "stretch": "x"
+   "stretch": "x",
+   "setRect": {
+    "set2": [
+     672,
+     887,
+     48,
+     17
+    ],
+    "set3": [
+     672,
+     1427,
+     48,
+     25
+    ]
+   }
   },
   "bar-h-sm": {
    "rect": [
@@ -708,7 +1308,21 @@
     14
    ],
    "repeat": "repeat",
-   "stretch": "x"
+   "stretch": "x",
+   "setRect": {
+    "set2": [
+     672,
+     920,
+     48,
+     16
+    ],
+    "set3": [
+     672,
+     1460,
+     48,
+     24
+    ]
+   }
   },
   "bar-h-xs": {
    "rect": [
@@ -725,7 +1339,21 @@
     14
    ],
    "repeat": "repeat",
-   "stretch": "x"
+   "stretch": "x",
+   "setRect": {
+    "set2": [
+     672,
+     952,
+     48,
+     15
+    ],
+    "set3": [
+     672,
+     1492,
+     48,
+     23
+    ]
+   }
   },
   "bar-v": {
    "rect": [
@@ -742,7 +1370,21 @@
     0
    ],
    "repeat": "repeat",
-   "stretch": "y"
+   "stretch": "y",
+   "setRect": {
+    "set2": [
+     646,
+     784,
+     20,
+     48
+    ],
+    "set3": [
+     642,
+     1328,
+     28,
+     48
+    ]
+   }
   },
   "bar-v-md": {
    "rect": [
@@ -759,7 +1401,21 @@
     0
    ],
    "repeat": "repeat",
-   "stretch": "y"
+   "stretch": "y",
+   "setRect": {
+    "set2": [
+     679,
+     784,
+     17,
+     48
+    ],
+    "set3": [
+     675,
+     1328,
+     25,
+     48
+    ]
+   }
   },
   "bar-v-sm": {
    "rect": [
@@ -776,7 +1432,21 @@
     0
    ],
    "repeat": "repeat",
-   "stretch": "y"
+   "stretch": "y",
+   "setRect": {
+    "set2": [
+     712,
+     784,
+     16,
+     48
+    ],
+    "set3": [
+     708,
+     1328,
+     24,
+     48
+    ]
+   }
   },
   "bar-v-xs": {
    "rect": [
@@ -793,7 +1463,21 @@
     0
    ],
    "repeat": "repeat",
-   "stretch": "y"
+   "stretch": "y",
+   "setRect": {
+    "set2": [
+     744,
+     784,
+     15,
+     48
+    ],
+    "set3": [
+     740,
+     1328,
+     23,
+     48
+    ]
+   }
   },
   "container": {
    "rect": [
@@ -802,7 +1486,21 @@
     32,
     32
    ],
-   "nine": false
+   "nine": false,
+   "setRect": {
+    "set2": [
+     804,
+     784,
+     40,
+     32
+    ],
+    "set3": [
+     801,
+     1328,
+     46,
+     32
+    ]
+   }
   },
   "container-md": {
    "rect": [
@@ -811,7 +1509,21 @@
     24,
     24
    ],
-   "nine": false
+   "nine": false,
+   "setRect": {
+    "set2": [
+     808,
+     828,
+     32,
+     24
+    ],
+    "set3": [
+     805,
+     1372,
+     38,
+     24
+    ]
+   }
   },
   "container-sm": {
    "rect": [
@@ -820,7 +1532,21 @@
     16,
     16
    ],
-   "nine": false
+   "nine": false,
+   "setRect": {
+    "set2": [
+     813,
+     864,
+     22,
+     16
+    ],
+    "set3": [
+     811,
+     1408,
+     26,
+     16
+    ]
+   }
   },
   "_comment_fills": "RESOURCE FILLS (colours live in each column -> themed:false). slice=7: 7px dau bi vat, ruot phang moi tile dung",
   "bar-fill-red": {
@@ -1499,6 +2225,1086 @@
      6
     ]
    }
+  },
+  "slot-extra1": {
+   "rect": [
+    33,
+    273,
+    14,
+    14
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-md-extra1": {
+   "rect": [
+    82,
+    274,
+    12,
+    12
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-md-extra2": {
+   "rect": [
+    109,
+    285,
+    22,
+    22
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-pill-extra1": {
+   "rect": [
+    33,
+    303,
+    14,
+    18
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-md-extra3": {
+   "rect": [
+    82,
+    304,
+    12,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-wide-extra1": {
+   "rect": [
+    109,
+    331,
+    22,
+    26
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-wide-extra2": {
+   "rect": [
+    155,
+    331,
+    26,
+    26
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "tab-bottom-extra1": {
+   "rect": [
+    417,
+    333,
+    46,
+    19
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "tab-bottom-extra2": {
+   "rect": [
+    544,
+    333,
+    48,
+    23
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-pill-extra2": {
+   "rect": [
+    31,
+    337,
+    18,
+    14
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-pill-extra3": {
+   "rect": [
+    80,
+    338,
+    16,
+    12
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-pill-extra4": {
+   "rect": [
+    80,
+    368,
+    16,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "tab-bottom-extra3": {
+   "rect": [
+    525,
+    368,
+    23,
+    48
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "tab-bottom-extra4": {
+   "rect": [
+    588,
+    368,
+    23,
+    48
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "toggle-h-extra1": {
+   "rect": [
+    397,
+    369,
+    19,
+    46
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "tab-bottom-extra5": {
+   "rect": [
+    464,
+    369,
+    19,
+    46
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-pill-extra5": {
+   "rect": [
+    33,
+    401,
+    30,
+    30
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-lg-extra1": {
+   "rect": [
+    82,
+    402,
+    28,
+    28
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-thin-extra1": {
+   "rect": [
+    544,
+    428,
+    48,
+    23
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-tiny-extra1": {
+   "rect": [
+    417,
+    432,
+    46,
+    19
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-thin-extra2": {
+   "rect": [
+    288,
+    496,
+    16,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-tiny-extra2": {
+   "rect": [
+    336,
+    496,
+    48,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra1": {
+   "rect": [
+    288,
+    544,
+    16,
+    48
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-slim-extra1": {
+   "rect": [
+    336,
+    544,
+    48,
+    48
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-md-extra4": {
+   "rect": [
+    82,
+    818,
+    12,
+    12
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-extra2": {
+   "rect": [
+    33,
+    847,
+    14,
+    18
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-md-extra5": {
+   "rect": [
+    82,
+    848,
+    12,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-md-extra6": {
+   "rect": [
+    109,
+    875,
+    22,
+    26
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-wide-extra3": {
+   "rect": [
+    155,
+    875,
+    26,
+    26
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "tab-bottom-extra6": {
+   "rect": [
+    416,
+    876,
+    48,
+    20
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "tab-bottom-extra7": {
+   "rect": [
+    544,
+    876,
+    48,
+    24
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-pill-extra6": {
+   "rect": [
+    31,
+    881,
+    18,
+    14
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-md-extra7": {
+   "rect": [
+    80,
+    882,
+    16,
+    12
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-pill-extra7": {
+   "rect": [
+    80,
+    912,
+    16,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "toggle-h-extra2": {
+   "rect": [
+    396,
+    912,
+    20,
+    48
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "tab-bottom-extra8": {
+   "rect": [
+    464,
+    912,
+    20,
+    48
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "tab-bottom-extra9": {
+   "rect": [
+    524,
+    912,
+    24,
+    48
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "tab-bottom-extra10": {
+   "rect": [
+    588,
+    912,
+    24,
+    48
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-pill-extra8": {
+   "rect": [
+    33,
+    945,
+    30,
+    30
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-lg-extra2": {
+   "rect": [
+    82,
+    946,
+    28,
+    28
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-thin-extra3": {
+   "rect": [
+    544,
+    972,
+    48,
+    24
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-tiny-extra3": {
+   "rect": [
+    416,
+    976,
+    48,
+    20
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-thin-extra4": {
+   "rect": [
+    288,
+    1040,
+    16,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-tiny-extra4": {
+   "rect": [
+    336,
+    1040,
+    48,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra2": {
+   "rect": [
+    288,
+    1088,
+    16,
+    48
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-slim-extra2": {
+   "rect": [
+    336,
+    1088,
+    48,
+    48
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-md-extra8": {
+   "rect": [
+    81,
+    1361,
+    14,
+    14
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-extra3": {
+   "rect": [
+    32,
+    1391,
+    16,
+    18
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-md-extra9": {
+   "rect": [
+    81,
+    1392,
+    14,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-md-extra10": {
+   "rect": [
+    107,
+    1419,
+    26,
+    26
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-wide-extra4": {
+   "rect": [
+    155,
+    1419,
+    26,
+    26
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-pill-extra9": {
+   "rect": [
+    31,
+    1424,
+    18,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-md-extra11": {
+   "rect": [
+    80,
+    1425,
+    16,
+    14
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "tab-bottom-extra11": {
+   "rect": [
+    415,
+    1431,
+    50,
+    25
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "tab-bottom-extra12": {
+   "rect": [
+    543,
+    1431,
+    50,
+    29
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-pill-extra10": {
+   "rect": [
+    80,
+    1456,
+    16,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "toggle-h-extra3": {
+   "rect": [
+    391,
+    1471,
+    25,
+    50
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-thin-extra5": {
+   "rect": [
+    464,
+    1471,
+    25,
+    50
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "tab-bottom-extra13": {
+   "rect": [
+    519,
+    1471,
+    29,
+    50
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "bar-h-xs-extra1": {
+   "rect": [
+    588,
+    1471,
+    29,
+    50
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-pill-extra11": {
+   "rect": [
+    32,
+    1488,
+    32,
+    32
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-lg-extra3": {
+   "rect": [
+    81,
+    1489,
+    30,
+    30
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-thin-extra6": {
+   "rect": [
+    543,
+    1532,
+    50,
+    29
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-tiny-extra5": {
+   "rect": [
+    415,
+    1536,
+    50,
+    25
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-thin-extra7": {
+   "rect": [
+    284,
+    1580,
+    24,
+    24
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-tiny-extra6": {
+   "rect": [
+    332,
+    1580,
+    56,
+    24
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra3": {
+   "rect": [
+    284,
+    1628,
+    24,
+    56
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-slim-extra3": {
+   "rect": [
+    332,
+    1628,
+    56,
+    56
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "bar-fill-v-red-extra1": {
+   "rect": [
+    45,
+    1732,
+    6,
+    4
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "bar-fill-v-red-extra2": {
+   "rect": [
+    78,
+    1732,
+    3,
+    4
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra4": {
+   "rect": [
+    203,
+    1747,
+    26,
+    26
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra5": {
+   "rect": [
+    235,
+    1747,
+    26,
+    26
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "bar-fill-v-red-extra3": {
+   "rect": [
+    78,
+    1748,
+    3,
+    40
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "bar-fill-red-extra1": {
+   "rect": [
+    111,
+    1748,
+    2,
+    40
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "bar-fill-red-extra2": {
+   "rect": [
+    143,
+    1748,
+    1,
+    40
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra6": {
+   "rect": [
+    267,
+    1749,
+    26,
+    24
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra7": {
+   "rect": [
+    299,
+    1750,
+    26,
+    23
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-slim-extra4": {
+   "rect": [
+    331,
+    1752,
+    26,
+    21
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-slim-extra5": {
+   "rect": [
+    363,
+    1752,
+    26,
+    21
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-slim-extra6": {
+   "rect": [
+    395,
+    1752,
+    26,
+    21
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-slim-extra7": {
+   "rect": [
+    427,
+    1752,
+    26,
+    21
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra8": {
+   "rect": [
+    460,
+    1752,
+    24,
+    21
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra9": {
+   "rect": [
+    492,
+    1752,
+    24,
+    21
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra10": {
+   "rect": [
+    525,
+    1752,
+    22,
+    21
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra11": {
+   "rect": [
+    559,
+    1752,
+    19,
+    21
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra12": {
+   "rect": [
+    606,
+    1752,
+    4,
+    15
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra13": {
+   "rect": [
+    638,
+    1752,
+    4,
+    15
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra14": {
+   "rect": [
+    594,
+    1769,
+    12,
+    4
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "bar-fill-red-extra3": {
+   "rect": [
+    207,
+    1791,
+    18,
+    18
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra15": {
+   "rect": [
+    239,
+    1791,
+    18,
+    18
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra16": {
+   "rect": [
+    271,
+    1792,
+    18,
+    17
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra17": {
+   "rect": [
+    303,
+    1793,
+    18,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-slim-extra8": {
+   "rect": [
+    335,
+    1793,
+    18,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-slim-extra9": {
+   "rect": [
+    367,
+    1793,
+    18,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-slim-extra10": {
+   "rect": [
+    400,
+    1793,
+    16,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-slim-extra11": {
+   "rect": [
+    433,
+    1793,
+    14,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra18": {
+   "rect": [
+    467,
+    1793,
+    12,
+    16
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra19": {
+   "rect": [
+    507,
+    1793,
+    4,
+    14
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "bar-fill-red-extra4": {
+   "rect": [
+    120,
+    1821,
+    4,
+    6
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "bar-fill-red-extra5": {
+   "rect": [
+    211,
+    1827,
+    10,
+    10
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-md-extra12": {
+   "rect": [
+    243,
+    1827,
+    10,
+    10
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra20": {
+   "rect": [
+    275,
+    1828,
+    10,
+    9
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-extra21": {
+   "rect": [
+    307,
+    1830,
+    10,
+    7
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "button-slim-extra12": {
+   "rect": [
+    340,
+    1830,
+    8,
+    7
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "bar-fill-red-extra6": {
+   "rect": [
+    68,
+    1854,
+    40,
+    3
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "bar-fill-red-extra7": {
+   "rect": [
+    120,
+    1854,
+    4,
+    3
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-md-extra13": {
+   "rect": [
+    68,
+    1887,
+    40,
+    2
+   ],
+   "nine": false,
+   "sets": false
+  },
+  "slot-md-extra14": {
+   "rect": [
+    68,
+    1919,
+    40,
+    1
+   ],
+   "nine": false,
+   "sets": false
   }
  },
  "sheets": {
@@ -1523,7 +3329,9 @@
    "set3": 1088
   },
   "export": [
-   "set1"
+   "set1",
+   "set2",
+   "set3"
   ],
   "_note": "offset la mac dinh (nhieu nhat); nhom lech vai px thi khai setDelta, sprite khac ca kich thuoc thi khai setRect. Chi xuat bo nao co du toa do chuan.",
   "_why": "Moi xuat set1: set2/set3 can setRect (nhieu sprite KHAC ca kich thuoc: bar-h 48x12<->48x20, divider 3<->7) va setOverlays (hoa tiet tam chi co o set2/3) — dong offset thuan se CAT CUT sprite. Co che da san sang: them ten bo vao export la chay."

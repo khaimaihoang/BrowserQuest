@@ -22,7 +22,7 @@ chạy 1 lệnh.
 
 ```
 atlas PNG ──┐
-            ├─► tools/ui-pack.py ──┬─► client/img/{1,2,3}/ui/<name>.png   (NEAREST, ×1/×2/×3)
+            ├─► tools/ui-pack.py ──┬─► client/img/{1,2,3}/ui-kit/<name>.png   (NEAREST, ×1/×2/×3)
 slices.json ┘                     ├─► client/css/ui-slices.generated.css  (border-image + states)
                                   ├─► client/ui-lab.html                  (preview dev)
                                   └─► tools/ui/out/preview.png            (self-test 9-slice/state)
@@ -409,8 +409,8 @@ Yêu cầu: Python 3 + `Pillow` (`pip install Pillow`). Preview: `npm run watch:
 
 | Output | Nội dung |
 |---|---|
-| `client/img/{1,2,3}/ui/<name>.png` | sprite theme mặc định (dark) |
-| `client/img/{1,2,3}/ui/<name>--<state>--<theme>.png` | state / theme khác |
+| `client/img/{1,2,3}/ui-kit/<name>.png` | sprite theme mặc định (dark) |
+| `client/img/{1,2,3}/ui-kit/<name>--<state>--<theme>.png` | state / theme khác |
 | `client/css/ui-slices.generated.css` | class `.ui-*` + state + theme + 3 scale |
 | `client/ui-lab.html` | trang preview dev — gallery slice **+ UI kit component tương tác** (sinh từ `tools/uilab_kit.py`) |
 | `client/ui-mockup.html` | **trang để artist tự xếp UI** (sinh từ `tools/ui-mockup.py`) — chọn sprite, đặt vào ô lưới, thêm BẢNG, chỉnh cột/hàng, export JSON |
@@ -515,7 +515,7 @@ Packer tự dọn file của lần chạy trước không còn trong manifest �
 Cơ chế: index `tools/ui/out/generated.json` **nằm trong thư mục đã gitignore**, nên sau khi
 clone về nó rỗng ⇒ file rác của manifest cũ sẽ sống mãi (đã xảy ra: 5 tên
 `bar_body` `bar_left` `bar_right` `close` `close_pressed` — 135 file, đã tracked trong git).
-Nay packer **quét luôn** `client/img/{1,2,3}/ui/*.png` — thư mục đó chỉ chứa sprite do
+Nay packer **quét luôn** `client/img/{1,2,3}/ui-kit/*.png` — thư mục đó chỉ chứa sprite do
 packer sinh — và xoá mọi file không nằm trong manifest hiện tại.
 
 ---
@@ -528,7 +528,7 @@ packer sinh — và xoá mọi file không nằm trong manifest hiện tại.
 - [ ] Mọi `url()` trong CSS sinh ra đều tồn tại (packer tự đảm bảo).
 - [ ] `ui-lab.html` render đủ component ở 1x/2x/3x, state nhìn đúng.
 - [ ] `panel.png` sinh ra **bit-identical** với asset thủ công cũ.
-- [ ] Không còn file cũ/tên sai trong `client/img/*/ui/`.
+- [ ] Không còn file cũ/tên sai trong `client/img/*/ui-kit/`.
 - [ ] Asset thủ công (`bar_body`, `bar_left`, `bar_right`, `close`, `close_pressed`) còn nguyên.
 - [ ] `game.ts` không đụng DOM; UI module nằm trong `client/ts/ui/`.
 

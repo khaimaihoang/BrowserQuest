@@ -42,7 +42,7 @@ Mỗi cột theme chứa **3 bộ asset xếp dọc**, cùng nhóm nhưng **ho�
 
 | Bộ | Hoạ tiết | Ghi chú |
 |---|---|---|
-| **`set1`** *(mặc định)* | **trơn** — khung chữ nhật, không góc, thanh mảnh, không boss | `bar-h` 48×**12**, `panel` 48×**44**, `divider` 3px |
+| **`set1`** *(mặc định)* | **trơn** — khung chữ nhật, không góc, thanh mảnh, không boss | `bar-h` 48×**12**, `panel` 48×**48**, `divider` 3px |
 | **`set2`** | **hoa thị (fan)** — nút 4 góc, hoa thị trên/dưới, boss ở tâm thanh | `bar-h` 48×**20** |
 | **`set3`** | **gai (spike)** — gai góc, hoa văn chữ thập giữa | `divider` **7px** |
 
@@ -82,7 +82,7 @@ Bản art thật ở **y ≥ 544** trong block gốc (phần trên là bản out
 |---|---|
 | `source` | atlas chính (= `sheets.main.source`) |
 | `sheets` | `{tên: {source, themed}}` — sheet phụ |
-| `sets` | `{default, offsets: {set1:0,set2:544,set3:1088}, export: ["set1"]}` |
+| `sets` | `{default, offsets: {set1:0,set2:544,set3:1088}, export: ["set1","set2","set3"]}` |
 | `themes` | `{default: dark, offsets: {…}}` |
 | `scales` | `[1,2,3]` — upscale NEAREST |
 | `output` | `image` / `css` / `lab` / `mockup` / `preview` |
@@ -96,6 +96,7 @@ Bản art thật ở **y ≥ 544** trong block gốc (phần trên là bản out
   "rect": [208, 108, 48, 48],   // [x,y,w,h] ở BỘ MẶC ĐỊNH (set1), theme mặc định
   "nine": true,                 // true = 9-slice (border-image), false = sprite rời
   "slice": 8,                   // bề dày viền: int, hoặc [t,r,b,l] cho thanh mỏng
+  "setSlice": { "set3": 12 }, // (tuỳ chọn) slice riêng theo bộ khi ornament set2/3 dày hơn
   "repeat": "repeat",           // border-image-repeat
   "stretch": "x",               // 'x' chỉ kéo ngang / 'y' chỉ kéo dọc
   "states": { "pressed": [...], "disabled": [...] },
@@ -118,7 +119,7 @@ Khoá `_comment_*` bị packer bỏ qua (chia nhóm cho dễ đọc + làm nhãn
 ## 4. Sản phẩm hiện có
 
 ```
-96 slice (+36 state) × 5 theme × 3 scale  →  1488 ảnh   (đang xuất bộ set1)
+96 slice (+36 state) × 5 theme × 3 scale × 3 bộ  →  3708 ảnh   (xuất cả set1/set2/set3)
 ```
 
 | Nhóm | Slice tiêu biểu |
@@ -150,6 +151,8 @@ Khoá `_comment_*` bị packer bỏ qua (chia nhóm cho dễ đọc + làm nhãn
 | [`tools/uilab_kit.py`](file:///D:/Develop/Projects/BrowserQuest/tools/uilab_kit.py) | UI kit tương tác nhúng vào lab (button/switch/check/tab/slider/bar/slot/panel/gauge/HUD + section **Mockup 1**) |
 | [`tools/ui-mockup.py`](file:///D:/Develop/Projects/BrowserQuest/tools/ui-mockup.py) | sinh **trang mockup cho artist** |
 | [`tools/make-slice-editor.py`](file:///D:/Develop/Projects/BrowserQuest/tools/make-slice-editor.py) | sinh **editor kéo slice** (theme + overlays) |
+| [`tools/ui/qa.py`](file:///D:/Develop/Projects/BrowserQuest/tools/ui/qa.py) | **QA sheet 1 ảnh**: mọi bộ × native + kéo dài → `tools/ui/out/qa.png` (soi nhanh, 1 screenshot) |
+| [`tools/ui/atlas-check.py`](file:///D:/Develop/Projects/BrowserQuest/tools/ui/atlas-check.py) | **reconstruct atlas 1 theme × 3 bộ** từ sprite đã xuất → so với gốc: full / **CUT** / unused |
 | [`tools/ui/probe-disabled.html`](file:///D:/Develop/Projects/BrowserQuest/tools/ui/probe-disabled.html) | probe hồi quy: control disabled phải **nuốt** click |
 
 ### 5.1 Lệnh
@@ -163,14 +166,14 @@ npm run watch:client                   # http://localhost:8008/
 
 | Trang | URL |
 |---|---|
-| Gallery slice + UI kit | `ui-lab.html` (`?only=1` = chỉ kit, `#k-mock` = mockup 1) |
+| Gallery slice + UI kit (mỗi tên: base + **mọi state** × 3 bộ) | `ui-lab.html` (`?only=1` = chỉ kit, `#k-mock` = mockup 1) |
 | Editor kéo slice | `ui-slice-editor.html` |
 | **Mockup cho artist** | `ui-mockup.html` |
 
 ### 5.2 Output
 
 ```
-client/img/{1,2,3}/ui/*.png          sprite theo scale (NEAREST ×1/×2/×3)
+client/img/{1,2,3}/ui-kit/*.png          sprite theo scale (NEAREST ×1/×2/×3)
 client/css/ui-slices.generated.css   class .ui-* + state + theme + set + 3 scale
 client/ui-lab.html                   gallery + UI kit (dev-only)
 client/ui-slice-editor.html          editor kéo slice
@@ -236,31 +239,81 @@ CSS không chặn được bubbling. Module dùng chung cho repo khác:
 
 - **Disabled xuyên click** — `pointer-events:none` → `cursor:default` + JS guard.
 - **Dọn rác không chạy sau clone** — index dọn rác nằm ở `tools/ui/out/` (**gitignored**) ⇒
-  135 file của manifest cũ sống mãi. Nay packer **quét luôn** `client/img/{1,2,3}/ui/*.png`.
+  135 file của manifest cũ sống mãi. Nay packer **quét luôn** `client/img/{1,2,3}/ui-kit/*.png`.
 - **Lẫn bộ hoa văn** — rebase về `set1` + siết rect.
 - **Mockup page không render** — nút `#shades` không tồn tại làm `wire()` ném lỗi.
 - **Palette vô hình** — CSS scope thiếu; inline CSS phải bỏ `../` trong `url()`.
+- **Cụt border top (11 slice PANELS/TABS)** — `panel` `panel-slim` `panel-title`
+  `tab-cap-*` `tab-*` khai `rect` thiếu **3–4px** ở mép trên (crop bắt đầu dưới đường
+  viền) ⇒ 9-slice mất hẳn cạnh trên. Đã nới `rect.y`/`+h` cho đủ bbox và dịch
+  `setDelta` đúng bằng phần nới để **giữ nguyên** toạ độ set2/set3.
+- **State của control ở SAI BỘ (set2)** — `radio`/`checkbox`/`toggle-v`/`toggle-h`/
+  `button-thin`/`button-tiny` khai `states` ở `base_y + 544` (toạ độ set2) trong khi base
+  ở set1 ⇒ bật/tắt control thì sprite **đổi kiểu** (mảnh ↔ dày). Đã chuyển hết state về set1.
+- **CSS bộ không được scope** — rule override ảnh của `.set2`/`.set3` thiếu tiền tố bộ
+  (`css_for_scale` dòng base) ⇒ bộ cuối đè bộ mặc định. Đã thêm `.set2`/`.set3`.
+- **set2/set3 bị cắt cụt** — do thiếu `setRect`; đã auto-đo 43 slice khác kích thước
+  (xem §9 P0) + audit "art vượt rect" = NONE.
+- **Sprite cũ còn cache (nghi can chính của "sọc/cụt")** — sprite set2/set3 sinh lại
+  nhưng **URL không đổi** ⇒ trình duyệt dùng bản cũ, CSS mới + sprite cũ = 9-slice sai.
+  Đã thêm token `?v=<md5(manifest + source packer)>` vào **mọi** `url()` và `<link>` CSS (`ASSET_VERSION`).
+  (Băm cả `ui-pack.py` để sửa packer cũng bust cache — nếu chỉ băm manifest thì lần sửa
+  code trước vẫn dùng sprite cũ → set3 chỉ hiện base.)
+- **TRÙNG THƯ MỤC với asset HUD gốc (bug gốc rễ của "cụt")** — packer xuất vào
+  `client/img/{1,2,3}/ui/` là **đúng thư mục** game dùng (`main.css` → `ui/bar_body.png`,
+  `panel.css` → `ui/panel.png`). `clean_stale` đã **xoá** `bar_body/left/right`, `close*`
+  và **ghi đè** `panel.png`; dev-server lại serve `dist/client` **trước** `client` nên
+  `.ui-panel` (set1) lấy `dist/.../ui/panel.png` (bản game, khác) còn set2/set3 lấy kit ⇒
+  lệch/cụt. **Fix:** đổi `output.image` → `client/img/{scale}/ui-kit`, khôi phục asset game,
+  thêm guard trong packer chặn ghi vào `img/<n>/ui/`.
+- **Dev-server phục vụ bản CŨ ở `dist/client`** — serve `dist/client` trước `client`, mà
+  packer chỉ ghi CSS/lab vào `client/` ⇒ `dist/client/css/ui-slices.generated.css` cũ
+  shadow. **Fix:** packer **mirror CSS + ui-lab.html sang `dist/client`** + in **build
+  stamp** (`ASSET_VERSION`) trên header lab để biết đang xem bản nào.
+- **Overlay pseudo bị lệch/clipped** — `position: relative` chỉ phát ở rule bộ mặc định
+  (set1); set2/set3 mới có overlay nhưng thiếu `position:relative` ⇒ `::before/::after`
+  neo vào tổ tiên sai ⇒ crown bị cắt. Fix: phát `position: relative` cho mọi bộ có overlay.
+- **State set2/set3 trùng base** — `rect_for` trả thẳng `setRect` của slice cho MỌI rect ⇒
+  state (pressed/checked/…) ở set3 đè lên base set3. Fix: áp **delta** `setRect − rect`
+  lên rect bất kỳ (base hoặc state) ⇒ state giữ đúng vị trí/kích thước riêng.
+- **Atlas 1 theme 3 bộ giờ phủ 100%** — 108 component art còn thiếu được xuất thêm,
+  tên tạm `<slice gần nhất>-extraN` (sets:false, rect tuyệt đối). `atlas-check.py`:
+  full=347 · CUT=0 · unused=0. **Cần artist đổi tên chuẩn** cho 108 slice extra.
+- **State `active` của TAB khai sai bộ (set2)** — `tab-*` khai `states.active` tại toạ độ
+  **set2** (y~660-844) ⇒ set1 lấy art set2, set2/set3 bị cộng delta ⇒ set3 rơi vào vùng
+  **trống** (vd `[558,1743]`). Fix: khai `active` về **set1** + thêm **`stateSetRect`**
+  (rect tuyệt đối theo bộ cho từng state — ornament state khác vị trí/kích thước giữa bộ,
+  không suy ra được bằng delta của base).
 
 ---
 
 ## 9. TODO
 
-### P0 — Mở bộ `set2` / `set3` (đang chặn)
+### P0 — Mở bộ `set2` / `set3` ✅ ĐÃ XONG
 
-> Cơ chế **đã xong**: `sets.export` bật là chạy. Đã bật thử `set2` để kiểm: sinh đúng
-> 370 file + 326 rule `.set2`. **Nhưng phải tắt lại** vì sprite bị **CẮT CỤT**.
+> `sets.export = ["set1","set2","set3"]`. `rect` vẫn ghi ở set1; khác kích thước →
+> `setRect`, chỉ lệch vài px → `setDelta`. Auto-đo bằng packer (mở mép chịu 1px hở) →
+> audit "art vượt rect" = **NONE** ở cả set2/set3.
 
-- [ ] **`setRect` cho ~9 sprite khác kích thước** — `bar-h[-md/-sm/-xs]` (48×12 ↔ 48×20),
-      `bar-v[-md/-sm/-xs]` (12 ↔ 20 rộng), `panel-textured` (48 ↔ 56 cao), `panel`
-      (44 ↔ 48), `divider-h/v` (3 ↔ 7 ở set3).
-- [ ] **`setDelta` đúng cho từng nhóm** — đã gán cho 9 slice, cần soát lại đủ 42 slice main.
-- [ ] **`overlays` theo bộ** — hoạ tiết tâm (boss/fan) **chỉ có ở set2/set3**; cần hỗ trợ
-      `setOverlays` (hoặc `ov.setRect`) trong packer + khai rect boss cho từng bộ, nếu không
-      boss bị **kéo giãn thành vệt** khi 9-slice stretch.
-- [ ] Thêm `"set2"`, `"set3"` vào `sets.export` sau khi 3 việc trên xong + **soát ảnh render**.
+- [x] **`setSlice` theo bộ** — ornament set2/set3 dày hơn nên `slice` cũ bị cắt/lặp góc:
+      `panel` set3=12, `panel-slim` set3=[12,11,12,11], `panel-textured` set2=[12,15,12,15]/set3=[16,15,16,15],
+      `button*` set3 (+4).
+- [x] **`setRect` cho 43 sprite khác kích thước** — `bar-h/-v[-md/-sm/-xs]`, `container*`,
+      `divider-h/v`, `panel-textured`, `panel-header`, `tab-*`, `slot*`, `radio`,
+      `checkbox`, `toggle-*` (set3), `button*`/`panel` (set3)…
+- [x] **`setDelta`** — chỉ còn 3 slice lệch y (đã chuẩn hoá).
+- [x] Bật `set2`/`set3` vào `sets.export` + soát render.
+- [x] **Fix scope CSS**: rule override ảnh của bộ khác trước đây **thiếu tiền tố**
+      `.set2`/`.set3` ⇒ bộ cuối (set3) đè luôn bộ mặc định ở theme dark. Nay là
+      `.set2 .ui-x` / `.set3 .ui-x` (kèm theme: `.set2.theme-green .ui-x`).
+- [x] **ui-lab gọn + 3 bộ**: base + **mọi state** (checked/disabled/…) native, 3 nhóm set1/set2/set3,
+      theme switcher
+      áp theme lên chính phần tử cell (để selector `.set2.theme-*` khớp).
+- [~] **`overlays` theo bộ** — đã thêm hỗ trợ `setOverlays` (dict theo bộ) + `overlay.setRect`;
+      khai crown trên/dưới cho `panel-textured` set2/set3. Native render vẫn **pixel-exact**,
+      kéo dài hết lặp crown. Còn: `panel-header` (nên chuyển `nine:true` + overlay crown),
+      crown/hoa văn tâm của `bar-*`.
 - [ ] Thêm dropdown **bộ 1/2/3** vào trang mockup.
-- [ ] *Cách làm khuyến nghị:* dùng `ui-slice-editor.html` kéo tay cho ~10 sprite khác kích
-      thước; phần chỉ lệch offset thì map tự động rồi soát.
 
 ### P1 — Mở rộng nguồn asset
 

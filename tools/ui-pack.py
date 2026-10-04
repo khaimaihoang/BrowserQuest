@@ -23,6 +23,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -82,6 +83,9 @@ SCALE_MEDIA = {
     1: [("screen and (max-width: 1000px)",), ("screen and (max-width: 800px)",)],
 }
 
+# cache-bust token for generated CSS + sprite urls (set in run() from the manifest hash)
+ASSET_VERSION = "0"
+
 
 # --------------------------------------------------------------------------- #
 # image helpers
@@ -133,7 +137,11 @@ def overlay_for(ov: dict, spec: dict, mf: dict, set_name: str) -> dict:
     return out
 
 
-def overlay_list(spec: dict) -> list:
+def overlay_list(spec: dict, set_name: str = "") -> list:
+    """Overlay của slice theo bộ. `setOverlays` thắng `overlays` khi có khai báo."""
+    so = (spec.get("setOverlays") or {}).get(set_name)
+    if so is not None:
+        return list(so)
     return list(spec.get("overlays") or [])
 
 
@@ -187,9 +195,11 @@ def overlay_pos(anchor: str, w: int, h: int, scale: int, sl) -> str:
         return f"right:{-r * scale}px;top:50%;margin-top:{dy - H // 2}px;"
     return f"left:50%;top:50%;margin:{dy - H // 2}px 0 0 {dx - W // 2}px;"
 
-def parse_slice(spec: dict) -> tuple[int, int, int, int]:
-    """Slice width as (top, right, bottom, left). Accepts an int or a 1-4 list."""
-    s = spec.get("slice", 0)
+def parse_slice(spec: dict, set_name: str = "") -> tuple[int, int, int, int]:
+    """Slice width as (top, right, bottom, left). Accepts an int or a 1-4 list.
+    `setSlice: {set2: N|[t,r,b,l]}` overrides per bộ — ornament set2/set3 dày hơn,
+    slice phải phủ hết hoa văn viền nếu không góc sẽ bị cắt/lặp."""
+    s = (spec.get("setSlice") or {}).get(set_name, spec.get("slice", 0))
     if isinstance(s, (list, tuple)):
         vals = [int(v) for v in s][:4]
         vals += [0] * (4 - len(vals))
@@ -300,7 +310,11 @@ def rect_for(spec: dict, mf: dict | None, set_name: str, rect: list) -> list:
         return rect
     override = (spec.get("setRect") or {}).get(set_name)
     if override:
-        return override
+        # Apply the bộ's delta (dx,dy,dw,dh) to ANY rect — base OR state — so a
+        # state sprite keeps its own position/size instead of collapsing to base.
+        b = spec["rect"]
+        return [rect[0] + override[0] - b[0], rect[1] + override[1] - b[1],
+                rect[2] + override[2] - b[2], rect[3] + override[3] - b[3]]
     dy = mf["sets"]["offsets"][set_name] + (spec.get("setDelta") or {}).get(set_name, 0)
     return [rect[0], rect[1] + dy, rect[2], rect[3]]
 
@@ -346,7 +360,11 @@ def variants(spec: dict, default_theme: bool = True,
     Truyền `mf` + `set_name` để rect được dời theo bộ (setRect/setDelta/offsets)."""
     yield "", rect_for(spec, mf, set_name, spec["rect"])
     for state in ordered_states(spec):
-        yield state, rect_for(spec, mf, set_name, spec["states"][state])
+        # per-state, per-set absolute rect wins (ornament của state KHÁC vị trí/kích thước
+        # giữa các bộ, không suy ra được bằng delta của base)
+        ov = ((spec.get("stateSetRect") or {}).get(state) or {}).get(set_name)
+        yield state, (list(ov) if ov is not None
+                      else rect_for(spec, mf, set_name, spec["states"][state]))
 
 
 def state_selectors(cls: str, state: str) -> list[str]:
@@ -362,7 +380,6 @@ def validate(mf: dict, sheet_sizes: dict) -> list[str]:
     offsets = mf["themes"]["offsets"]
     for name, spec in iter_slices(mf):
         nine = spec.get("nine", True)
-        t, r, b, l = parse_slice(spec)
         sheet = sheet_name(spec)
         if sheet not in sheet_sizes:
             problems.append(f"{name}: unknown sheet '{sheet}'")
@@ -370,6 +387,7 @@ def validate(mf: dict, sheet_sizes: dict) -> list[str]:
         sw, sh = sheet_sizes[sheet]
         themed = sheet_themed(mf, sheet) and spec.get("themed", True)
         for set_name in slice_sets(mf, spec):
+            t, r, b, l = parse_slice(spec, set_name)
             for state, rect in variants(spec, mf=mf, set_name=set_name):
                 where = f"{name}[{state or 'base'}][{set_name}]"
                 if len(rect) != 4:
@@ -381,12 +399,12 @@ def validate(mf: dict, sheet_sizes: dict) -> list[str]:
                 for theme, off in check:
                     if x + off < 0 or x + off + w > sw or y < 0 or y + h > sh:
                         problems.append(f"{where}[{theme}]: rect out of bounds")
-                if nine and state == "" and set_name == default_set(mf):
+                if nine and state == "":
                     if max(t, r, b, l) <= 0:
-                        problems.append(f"{name}: nine-slice needs a slice > 0")
+                        problems.append(f"{name}[{set_name}]: nine-slice needs a slice > 0")
                     elif t + b >= h or l + r >= w:
                         problems.append(
-                            f"{name}: slice ({t},{r},{b},{l}) too large for {w}x{h}")
+                            f"{name}[{set_name}]: slice ({t},{r},{b},{l}) too large for {w}x{h}")
     return problems
 
 
@@ -395,7 +413,7 @@ def source_decl(rel: str, indent: str) -> str:
 
 
 def url_for(rel: str) -> str:
-    return "../" + rel.replace("client/", "", 1)
+    return "../" + rel.replace("client/", "", 1) + f"?v={ASSET_VERSION}"
 
 
 def write_images(mf: dict, ims: dict, themes: list[str], write: bool) -> dict:
@@ -451,14 +469,14 @@ def write_images(mf: dict, ims: dict, themes: list[str], write: bool) -> dict:
                             nearest_scale(crop, scale).save(dest)
                 # 9-slice with an anchored centre ornament: export a cleaned base
                 # (ornament removed) + the ornament itself as `--ovN` sprites.
-                ovs = overlay_list(spec)
+                ovs = overlay_list(spec, set_name)
                 if ovs:
                     x, y, w, h = rect_for(spec, mf, set_name, spec["rect"])
                     src_base = im.crop((x + off, y, x + off + w, y + h))
                     cleaned = clean_overlays(src_base, [x, y, w, h],
                                              [overlay_for(o, spec, mf, set_name) for o in ovs])
                     if spec.get("flatten", False):
-                        cleaned = flatten_middle(cleaned, parse_slice(spec),
+                        cleaned = flatten_middle(cleaned, parse_slice(spec, set_name),
                                                  spec.get("stretch", "x"))
                     rec["@base"] = {}
                     emit(cleaned, name + "--base", theme, set_name, rec["@base"])
@@ -559,12 +577,24 @@ def css_for_scale(mf: dict, view: dict, scale: int, themes: list[str],
         t, r, b, l = (v * scale for v in parse_slice(spec))
         prop = "border-image-source" if nine else "background-image"
 
-        ovs = overlay_list(spec)
+        ovs = overlay_list(spec, set_name)
         # 1. base rule (cleaned image when an anchored ornament is present)
         base_key = "@base" if (ovs and "@base" in view[default_theme][name]) else ""
         base_rel = url_for(view[default_theme][name][base_key][scale])
         if not full:
-            out.append(f"{cls} {{ {prop}: url('{base_rel}'); }}")
+            st, sr, sb, sl = (v * scale for v in parse_slice(spec, set_name))
+            if nine and (st, sr, sb, sl) != (t, r, b, l):
+                out.append(f"{sc} {cls} {{")
+                out.append("  box-sizing: border-box;")
+                out.append(f"  border-width: {st}px {sr}px {sb}px {sl}px;")
+                out.append("  border-style: solid;")
+                out.append("  border-color: transparent;")
+                out.append(f"  border-image: url('{base_rel}') {st} {sr} {sb} {sl} fill "
+                           f"{spec.get('repeat', 'repeat')}; }}")
+            else:
+                out.append(f"{sc} {cls} {{ {prop}: url('{base_rel}'); }}")
+            if ovs:
+                out.append(f"{sc} {cls} {{ position: relative; }}")
         else:
             out.append(f"{cls} {{")
         if full and ovs:
@@ -656,7 +686,7 @@ def css_for_scale(mf: dict, view: dict, scale: int, themes: list[str],
         for i, ov in enumerate(ovs):
             pseudo = "::before" if i == 0 else "::after"
             ow, oh = ov["rect"][2], ov["rect"][3]
-            pos = overlay_pos(ov.get("anchor", "center"), ow, oh, scale, parse_slice(spec))
+            pos = overlay_pos(ov.get("anchor", "center"), ow, oh, scale, parse_slice(spec, set_name))
             rel = url_for(view[default_theme][name][f"@ov{i + 1}"][scale])
             out.append(
                 f"{scoped(cls + pseudo)} {{ content:''; position:absolute; {pos} "
@@ -734,30 +764,31 @@ def generate_lab(mf: dict, themes: list[str]) -> str:
     prefix = mf["css"]["prefix"]
     default_theme = mf["themes"]["default"]
     rows = []
+    default_s = default_set(mf)
     for name, spec in iter_slices(mf):
         nine = spec.get("nine", True)
         cls = f"{prefix}-{name}"
-        sizes_l = demo_sizes(spec)
-        demos = []
-        for i, (dw, dh) in enumerate(sizes_l):
-            flag = "" if i else " base"
-            demos.append(f'<i class="{cls}{flag}" style="width:calc({dw}px * var(--s));'
-                         f'height:calc({dh}px * var(--s))"></i>')
-        size = sizes_l[1]
-        for state in ordered_states(spec):
-            state_classes = state.replace("-", " ")
-            demos.append(
-                f'<i class="{cls} {state_classes}" '
-                f'style="width:calc({size[0]}px * var(--s));height:calc({size[1]}px * var(--s))" '
-                f'title="{state}"></i>'
-            )
+        cells = []
+        for s in slice_sets(mf, spec):
+            sc = "" if s == default_s else " " + s
+            variants = [("", spec["rect"])]
+            variants += list((spec.get("states") or {}).items())
+            for st, r0 in variants:
+                r = rect_for(spec, mf, s, r0)
+                dw, dh = r[2], r[3]          # native sprite size → render 1:1
+                label = st or "base"
+                cells.append(
+                    f'<span class="cell{sc}" data-cell title="{name} · {s} · {label} · {dw}×{dh}">'
+                    f'<i class="{cls} {st.replace("-", " ")}" style="width:calc({dw}px * var(--s));'
+                    f'height:calc({dh}px * var(--s))"></i></span>'
+                )
         sl = spec.get("slice", 0)
         sl = str(sl) if not isinstance(sl, list) else ",".join(map(str, sl))
         rows.append(
             f'<section class="row"><header>{name} '
             f'<em>{"9-slice " + sl if nine else "sprite"}'
             f'{" · +" + "/".join(ordered_states(spec)) if spec.get("states") else ""}</em></header>'
-            f'<div class="demos">{"".join(demos)}</div></section>'
+            f'<div class="demos">{"".join(cells)}</div></section>'
         )
 
     theme_buttons = "".join(f'<button data-theme="{t}">{t}</button>' for t in themes)
@@ -766,8 +797,10 @@ def generate_lab(mf: dict, themes: list[str]) -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="cache-control" content="no-store, must-revalidate">
+<meta http-equiv="pragma" content="no-cache">
 <title>BrowserQuest UI Lab — {mf["name"]}</title>
-<link rel="stylesheet" href="css/ui-slices.generated.css">
+<link rel="stylesheet" href="css/ui-slices.generated.css?v={ASSET_VERSION}">
 <style>
   :root {{ color-scheme: dark; --s: 1; }}
   /* --s mirrors the generated CSS scale so demos are not cropped at 2x/3x */
@@ -783,7 +816,7 @@ def generate_lab(mf: dict, themes: list[str]) -> str:
   .toolbar {{ position: sticky; top: 0; z-index: 5; display: flex; gap: 8px;
              flex-wrap: wrap; padding: 8px 0; background: #1c1c22; }}
   .toolbar button {{ padding: 4px 10px; }}
-  #stage {{ display: flex; flex-direction: column; gap: 10px; }}
+  #stage {{ display: flex; flex-direction: column; gap: 4px; }}
   #stage.checker {{ background-color: #26262e;
       background-image: linear-gradient(45deg, #333 25%, transparent 25%),
         linear-gradient(-45deg, #333 25%, transparent 25%),
@@ -791,23 +824,25 @@ def generate_lab(mf: dict, themes: list[str]) -> str:
         linear-gradient(-45deg, transparent 75%, #333 75%);
       background-size: 16px 16px;
       background-position: 0 0, 0 8px, 8px -8px, -8px 0; }}
-  .row {{ display: flex; align-items: center; gap: 16px; padding: 8px;
+  .row {{ display: flex; align-items: center; gap: 12px; padding: 3px 6px;
          border-bottom: 1px solid #2e2e38; }}
-  .row header {{ width: 220px; flex: none; }}
-  .row em {{ color: #8b93a3; font-style: normal; font-size: 11px; display: block; }}
-  .demos {{ display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }}
+  .row header {{ width: 190px; flex: none; font-size: 11px; }}
+  .row em {{ color: #8b93a3; font-style: normal; font-size: 10px; display: block; }}
+  .demos {{ display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }}
+  .demos .cell {{ display: inline-flex; align-items: center; justify-content: center;
+      min-width: 46px; min-height: 20px; padding: 3px;
+      border: 1px solid #33334a; border-radius: 2px; }}
   .demos i {{ display: block; }}
-  .demo-panel {{ width: 240px; height: 120px; }}
-  .demo-icon {{ width: 20px; height: 20px; }}
 </style>
 {kit_style()}
 </head>
 <body class="theme-{default_theme}">
 <h1>BrowserQuest UI Lab</h1>
 <div class="hint">
-  Auto-generated from <code>tools/ui/slices.json</code>. Resize the window to
-  exercise 1x / 2x / 3x. State samples use <code>.hover/.active/.disabled</code>
-  (and <code>:hover/:active/:disabled</code> in real use). Toggle checkerboard.
+  Auto-generated from <code>tools/ui/slices.json</code> — mỗi tên: base + mọi state, 3 bộ
+  (<code>.set1</code> mặc định · <code>.set2</code> · <code>.set3</code>) xếp cạnh nhau.
+  Resize the window to exercise 1x / 2x / 3x. Toggle checkerboard.
+  <b style="color:#ffe08a">build {ASSET_VERSION}</b>
 </div>
 <div class="toolbar">
   <button id="checkerBtn">Toggle checkerboard</button>
@@ -821,7 +856,13 @@ def generate_lab(mf: dict, themes: list[str]) -> str:
   const stage = document.getElementById('stage');
   document.getElementById('checkerBtn').onclick = () => stage.classList.toggle('checker');
   document.querySelectorAll('[data-theme]').forEach(b => b.onclick = () => {{
-    document.body.className = b.dataset.theme === '{default_theme}' ? '' : 'theme-' + b.dataset.theme;
+    const t = b.dataset.theme, dft = t === '{default_theme}';
+    document.body.className = dft ? '' : 'theme-' + t;
+    // bộ + theme phải cùng một phần tử cha (selector .set2.theme-green .ui-*)
+    document.querySelectorAll('[data-cell]').forEach(c => {{
+      for (const cl of [...c.classList]) if (cl.startsWith('theme-')) c.classList.remove(cl);
+      if (!dft) c.classList.add('theme-' + t);
+    }});
   }});
 {kit_script()}
 </script>
@@ -886,6 +927,11 @@ def main() -> int:
     args = ap.parse_args()
 
     mf = load_manifest(Path(args.manifest))
+    global ASSET_VERSION
+    h = hashlib.md5()
+    h.update(json.dumps(mf["slices"], sort_keys=True, ensure_ascii=False).encode())
+    h.update(Path(__file__).read_bytes())          # packer code cũng đổi output → phải bust
+    ASSET_VERSION = h.hexdigest()[:8]
     try:
         ims = load_sheets(mf, ROOT)
     except FileNotFoundError as exc:
@@ -926,8 +972,17 @@ def main() -> int:
         print(f"wrote {css_path.relative_to(ROOT)}  ({len(css.splitlines())} lines)")
 
         lab_path = ROOT / mf["output"]["lab"]
-        lab_path.write_text(generate_lab(mf, themes), encoding="utf-8")
+        lab_html = generate_lab(mf, themes)
+        lab_path.write_text(lab_html, encoding="utf-8")
         print(f"wrote {lab_path.relative_to(ROOT)}")
+        # mirror CSS + lab into dist/client too (webpack-dev-server serves dist first,
+        # and a stale copy there shadows client/ → user sees old sprites/CSS)
+        dist = ROOT / "dist" / "client"
+        if dist.is_dir():
+            (dist / "css").mkdir(parents=True, exist_ok=True)
+            (dist / "css" / "ui-slices.generated.css").write_text(css, encoding="utf-8")
+            (dist / "ui-lab.html").write_text(lab_html, encoding="utf-8")
+            print("wrote dist/client/css/ui-slices.generated.css + dist/client/ui-lab.html")
 
         # refresh the interactive slice editor (embeds the current manifest)
         try:
@@ -982,11 +1037,11 @@ def main() -> int:
             print(f"removed {len(removed)} stale file(s)")
         index_path.write_text(json.dumps(sorted(new_rels), indent=0), encoding="utf-8")
 
-        generated = ROOT / assets[default_set(mf)][mf["themes"]["default"]]["panel"][""][1]
-        legacy = ROOT / "client/img/1/ui/panel.png"
-        if generated.exists() and legacy.exists():
-            same = generated.read_bytes() == legacy.read_bytes()
-            print(f"panel 1x vs legacy panel.png: {'MATCH' if same else 'DIFFERS'}")
+    # guard: the UI kit must NEVER write into the game's own img/<n>/ui/ dir
+    game_ui = ROOT / "client/img/1/ui"
+    if (ROOT / mf["output"]["image"].format(scale=1)).resolve() == game_ui.resolve():
+        print("ERROR: kit output collides with the game's client/img/1/ui — change output.image")
+        return 1
 
     print(f"done: {len(collect_rels(assets))} images "
           f"({len(iter_slices(mf))} slices + {n_states} states, {len(themes)} themes, "
