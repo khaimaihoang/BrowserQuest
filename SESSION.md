@@ -103,12 +103,14 @@ Bản art thật ở **y ≥ 544** trong block gốc (phần trên là bản out
   "alias": { "hover": "active" },        // map selector sang sprite có sẵn
   "hoverUses": "active",                 // hover desktop, bọc @media (hover:hover)
   "disabledFilter": "brightness(.72) saturate(.8)",
-  "overlays": [{ "rect": [...], "anchor": "center" }],   // hoạ tiết tâm (chỉ bộ 2/3)
+  "overlays": [{ "rect": [...], "anchor": "center" }],   // hoạ tiết tâm (mọi bộ)
+  "setOverlays": { "set2": [ ... ], "set3": [ ... ] },   // overlay riêng từng bộ (kèm ov.setRect)
   "flatten": true,              // làm phẳng dải giữa cho tile sạch
   "themed": false,              // 1 bản, không theo theme (resource fills)
   "sets": false,                // 1 bản, không theo bộ (sheet tĩnh, decoration…)
   "setDelta": { "set2": -4 },   // lệch thêm so với offsets chung
-  "setRect": { "set2": [...] }  // khác CẢ kích thước → khai rect đầy đủ
+  "setRect": { "set2": [...] }, // khác CẢ kích thước → khai rect đầy đủ
+  "stateSetRect": { "active": { "set2": [...] } } // rect tuyệt đối theo bộ cho từng STATE
 }
 ```
 
@@ -119,7 +121,7 @@ Khoá `_comment_*` bị packer bỏ qua (chia nhóm cho dễ đọc + làm nhãn
 ## 4. Sản phẩm hiện có
 
 ```
-96 slice (+36 state) × 5 theme × 3 scale × 3 bộ  →  3708 ảnh   (xuất cả set1/set2/set3)
+204 slice (+36 state) × 5 theme × 3 scale  →  5418 ảnh  (set1/set2/set3; 108 slice `-extraN` là sets:false)
 ```
 
 | Nhóm | Slice tiêu biểu |
@@ -234,6 +236,7 @@ CSS không chặn được bubbling. Module dùng chung cho repo khác:
 | `1f77baef` | **feat**: **trang mockup cho artist** (`ui-mockup.html`) + fix `#shades`/palette scope |
 | `8af4be8c` | **fix**: phát hiện **3 BỘ/theme**, rebase về **bộ 1** (mặc định) → hết lẫn hoa văn; siết rect khít 0px; bỏ overlays sai |
 | `07edfef5` | **feat**: **trục `sets`** trong packer + 2 nhóm còn thiếu (`DECORATION`, `WINDOW BUTTONS`) → 96 slice |
+| `7aa83398` | **feat/fix**: hoàn thiện kit 3 bộ — fix rect thiếu mép trên · state khai sai bộ · `setRect/setSlice/setOverlays/stateSetRect` · tách `ui-kit` + guard + khôi phục asset HUD · cache-bust `?v=` · `qa.py`/`atlas-check.py` · xuất đủ atlas (**CUT=0 unused=0**, 204 slice) |
 
 ### 8.1 Bug đã sửa trong phiên
 
@@ -313,6 +316,8 @@ CSS không chặn được bubbling. Module dùng chung cho repo khác:
       khai crown trên/dưới cho `panel-textured` set2/set3. Native render vẫn **pixel-exact**,
       kéo dài hết lặp crown. Còn: `panel-header` (nên chuyển `nine:true` + overlay crown),
       crown/hoa văn tâm của `bar-*`.
+- [x] **Xuất đủ atlas 1 theme × 3 bộ** — reconstruct (`tools/ui/atlas-check.py`): **full=347 · CUT=0 · unused=0**. Thêm **108 slice `-extraN`** cho phần art chưa xuất (sets:false, rect tuyệt đối).
+- [ ] **Đổi tên 108 slice `-extraN`** sang tên chuẩn (suy ra từ nhóm: cột nút thứ 4 = `button-hover`, hàng slot/tab variant…).
 - [ ] Thêm dropdown **bộ 1/2/3** vào trang mockup.
 
 ### P1 — Mở rộng nguồn asset
