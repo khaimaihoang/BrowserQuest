@@ -289,10 +289,17 @@ CSS không chặn được bubbling. Module dùng chung cho repo khác:
   không suy ra được bằng delta của base).
 
 
+
+- **Aseprite là nguồn gốc thật** — `Grim_UI.aseprite` mở bằng CLI:
+  `Aseprite.exe -b Grim_UI.aseprite --split-layers --save-as L_{layer}.png` → 6 layer:
+  `Bg, Grim_UI (art), Guidelines (khung+nhãn nhóm), Outline, Shadow, UI_Bg`.
+  **Không có `--list-slices`/tags** ⇒ aseprite không có metadata tên từng sprite, phải đo từ art.
+  Vùng gauge thuộc nhóm nhãn **"RESOURCE METERS"**.
 - **Container FILL (gauge tròn) cắt lại** — nhóm RESOURCE FILLS có 3 hàng gauge tròn
   (14/10/6 stage) cho `container`/`container-md`/`container-sm`. Cắt lại thành **ô vuông
   bằng nhau** canh giữa gauge, size = **lòng container** (26/18/10) để chồng 1:1:
-  `container-fill-1..14`, `container-md-fill-1..10`, `container-sm-fill-1..6` (set1, sets:false).
+  `container-fill-1..14`, `container-md-fill-1..10`, `container-sm-fill-1..6` (set1, sets:false). Gauge nằm trên **lưới cách đều 32px** (tâm x=215.5) — KHÔNG lấy tâm điểm đỏ
+  vì gauge cạn dần làm tâm lệch; box = `[216-size/2 + 32*i, ytop, size, size]`.
 - **Slot `active` khai sai bộ** — `slot`/`slot-md` khai `active` tại **set2**
   ([33,817]/[109,829]); nhóm SLOTS xếp `[base][active = base+48]` **mỗi bộ** nên set1
   active đúng là `base+48` ([33,273]/[109,285]) → delta tự ra set2/set3. Đã bỏ `stateSetRect` sai.
