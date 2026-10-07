@@ -168,9 +168,9 @@ body.components-only #stage { display:none; }
 .kit-slider { position:relative; height:calc(24 * var(--u)); touch-action:none; cursor:pointer; }
 .kit-slider.v { width:calc(24 * var(--u)); height:calc(120 * var(--u)); }
 .kit-slider .track { position:absolute; inset:0; pointer-events:none; }
-.kit-slider .fill { position:absolute; pointer-events:none; }
-.kit-slider.h .fill { left:calc(8 * var(--u)); top:50%; height:calc(6 * var(--u)); transform:translateY(-50%); }
-.kit-slider.v .fill { bottom:calc(8 * var(--u)); left:50%; width:calc(6 * var(--u)); transform:translateX(-50%); }
+.kit-slider .kit-fill { position:absolute; pointer-events:none; }
+.kit-slider.h .kit-fill { left:calc(8 * var(--u)); top:50%; height:calc(6 * var(--u)); transform:translateY(-50%); }
+.kit-slider.v .kit-fill { bottom:calc(8 * var(--u)); left:50%; width:calc(6 * var(--u)); transform:translateX(-50%); }
 .kit-slider .thumb { position:absolute; pointer-events:none; }
 .kit-slider.h .thumb { width:calc(6 * var(--u)); height:calc(7 * var(--u)); }
 .kit-slider.v .thumb { width:calc(7 * var(--u)); height:calc(6 * var(--u)); }
@@ -195,9 +195,9 @@ body.components-only #stage { display:none; }
 /* ---- progress bars ---- */
 .kit-bar { position:relative; display:flex; flex-direction:column; gap:calc(2 * var(--u));
   width:calc(180 * var(--u)); }
-.kit-bar .frame { position:relative; z-index:0; height:calc(24 * var(--u)); width:100%; }
+.kit-bar .frame { position:relative; z-index:0; height:calc(12 * var(--u)); width:100%; }
 .kit-bar.v { width:auto; align-items:flex-start; }
-.kit-bar.v .frame { width:calc(24 * var(--u)); height:calc(130 * var(--u)); }
+.kit-bar.v .frame { width:calc(12 * var(--u)); height:calc(130 * var(--u)); }
 /* khung tạo stacking context: nền (border-image) < fill < hoạ tiết tâm (::before) */
 .kit-bar .frame::before { z-index:2; }
 .kit-bar .fill { position:absolute; z-index:1; }

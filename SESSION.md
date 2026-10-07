@@ -296,6 +296,11 @@ CSS không chặn được bubbling. Module dùng chung cho repo khác:
   **Không có `--list-slices`/tags** ⇒ aseprite không có metadata tên từng sprite, phải đo từ art.
   Vùng gauge thuộc nhóm nhãn **"RESOURCE METERS"**.
 
+
+- **Slider + resource bar render sai** — (1) CSS viết `.kit-slider .fill` nhưng markup dùng
+  `kit-fill` ⇒ fill không được định vị/size → render sai; (2) `.kit-bar .frame` cao 24px
+  (sprite native 12) ⇒ giãn dọc. Fix: đổi selector sang `.kit-fill`; frame = native (bar-h 12,
+  bar-v 12) ⇒ bar chỉ giãn theo đúng trục của nó.
 - **Ẩn slice thừa khỏi ui-lab** — cờ `demo:false` trong manifest; `generate_lab` bỏ qua.
   Đã ẩn 78 slice auto-extra (`slot/tab/resource/grid/button/fill-N`) — đã xem xong, vẫn giữ
   trong manifest + CSS (chỉ không hiện ở gallery). `container-fill-*` vẫn hiện.
