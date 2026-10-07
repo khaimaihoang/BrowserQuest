@@ -167,7 +167,9 @@ body.components-only #stage { display:none; }
 /* ---- slider ---- */
 .kit-slider { position:relative; height:calc(24 * var(--u)); touch-action:none; cursor:pointer; }
 .kit-slider.v { width:calc(24 * var(--u)); height:calc(120 * var(--u)); }
-.kit-slider .track { position:absolute; inset:0; pointer-events:none; }
+.kit-slider .track { position:absolute; pointer-events:none; }
+.kit-slider.h .track { left:0; right:0; top:50%; height:calc(5 * var(--u)); transform:translateY(-50%); }
+.kit-slider.v .track { top:0; bottom:0; left:50%; width:calc(5 * var(--u)); transform:translateX(-50%); }
 .kit-slider .kit-fill { position:absolute; pointer-events:none; }
 .kit-slider.h .kit-fill { left:calc(8 * var(--u)); top:50%; height:calc(6 * var(--u)); transform:translateY(-50%); }
 .kit-slider.v .kit-fill { bottom:calc(8 * var(--u)); left:50%; width:calc(6 * var(--u)); transform:translateX(-50%); }

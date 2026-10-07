@@ -297,10 +297,11 @@ CSS không chặn được bubbling. Module dùng chung cho repo khác:
   Vùng gauge thuộc nhóm nhãn **"RESOURCE METERS"**.
 
 
-- **Slider + resource bar render sai** — (1) CSS viết `.kit-slider .fill` nhưng markup dùng
-  `kit-fill` ⇒ fill không được định vị/size → render sai; (2) `.kit-bar .frame` cao 24px
-  (sprite native 12) ⇒ giãn dọc. Fix: đổi selector sang `.kit-fill`; frame = native (bar-h 12,
-  bar-v 12) ⇒ bar chỉ giãn theo đúng trục của nó.
+- **- **Slider + resource bar render sai** — (1) CSS viết `.kit-slider .fill` nhưng markup dùng
+  `kit-fill` ⇒ fill không được định vị/size; (2) `.kit-bar .frame` cao 24px (sprite native 12);
+  (3) **track sprite cao 5px nhưng element `.kit-slider` cao 24** ⇒ viền trái/phải (5px) **tile dọc
+  5 lần → "5 thanh"**. Fix: track chỉ cao = native (`height:5u` khi .h, `width:5u` khi .v), bar
+  frame = native 12; slider fill selector `.kit-fill`.
 - **Ẩn slice thừa khỏi ui-lab** — cờ `demo:false` trong manifest; `generate_lab` bỏ qua.
   Đã ẩn 78 slice auto-extra (`slot/tab/resource/grid/button/fill-N`) — đã xem xong, vẫn giữ
   trong manifest + CSS (chỉ không hiện ở gallery). `container-fill-*` vẫn hiện.
