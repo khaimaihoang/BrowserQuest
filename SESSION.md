@@ -295,6 +295,10 @@ CSS không chặn được bubbling. Module dùng chung cho repo khác:
   `Bg, Grim_UI (art), Guidelines (khung+nhãn nhóm), Outline, Shadow, UI_Bg`.
   **Không có `--list-slices`/tags** ⇒ aseprite không có metadata tên từng sprite, phải đo từ art.
   Vùng gauge thuộc nhóm nhãn **"RESOURCE METERS"**.
+
+- **Ẩn slice thừa khỏi ui-lab** — cờ `demo:false` trong manifest; `generate_lab` bỏ qua.
+  Đã ẩn 78 slice auto-extra (`slot/tab/resource/grid/button/fill-N`) — đã xem xong, vẫn giữ
+  trong manifest + CSS (chỉ không hiện ở gallery). `container-fill-*` vẫn hiện.
 - **Container FILL (gauge tròn) cắt lại** — nhóm **RESOURCE METERS** có 3 hàng gauge tròn
   (14/10/6 stage) cho `container`/`container-md`/`container-sm`. **Fill = CÙNG SIZE container
   (32/24/16)**, gauge 26/18/10 canh giữa (margin 3) ⇒ chồng tại `(0,0)` là khít (container là

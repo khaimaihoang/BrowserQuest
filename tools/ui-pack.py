@@ -766,6 +766,8 @@ def generate_lab(mf: dict, themes: list[str]) -> str:
     rows = []
     default_s = default_set(mf)
     for name, spec in iter_slices(mf):
+        if spec.get("demo") is False:      # slice thua, da xem xong -> an khoi gallery
+            continue
         nine = spec.get("nine", True)
         cls = f"{prefix}-{name}"
         cells = []
