@@ -302,6 +302,10 @@ CSS không chặn được bubbling. Module dùng chung cho repo khác:
 
 
 
+
+- **Pixel-perfect bar-fill** — `bar-fill-*` cắt **tight = art 42×6** (slice 7), nhưng element đặt
+  đúng **lòng đen 44×8** của `bar-h` (top:2, left/right:-12) ⇒ border-image stretch lấp kín, mép
+  chạm đúng pixel lòng (trước đây sprite 44×8 lệch 1px đệm).
 - **Fill phải khít LÒNG ĐEN bar** — `bar-h` 48×12 có viền sáng y=1/10 ⇒ lòng đen = **44×8**
   (x 2..45). Cắt `bar-fill-*` = 44×8 (`bar-fill-v-*` = 8×44), art 42×6 canh giữa, slice 8.
   CSS: fill `top:2u; height:8u` + `left/right:-12u` (chui vào vùng viền để chạm lòng);
