@@ -195,6 +195,12 @@ def overlay_pos(anchor: str, w: int, h: int, scale: int, sl) -> str:
         return f"right:{-r * scale}px;top:50%;margin-top:{dy - H // 2}px;"
     return f"left:50%;top:50%;margin:{dy - H // 2}px 0 0 {dx - W // 2}px;"
 
+def rep_for(spec: dict) -> str:
+    """border-image-repeat: bar/fill/track (`stretch:x|y`) phải `stretch` (nếu `repeat`
+    thì dải giữa LẶP tạo sandwich/nửa sprite); sprite tĩnh thường để `repeat`."""
+    return "stretch" if spec.get("stretch") in ("x", "y") else spec.get("repeat", "repeat")
+
+
 def parse_slice(spec: dict, set_name: str = "") -> tuple[int, int, int, int]:
     """Slice width as (top, right, bottom, left). Accepts an int or a 1-4 list.
     `setSlice: {set2: N|[t,r,b,l]}` overrides per bộ — ornament set2/set3 dày hơn,
@@ -590,7 +596,7 @@ def css_for_scale(mf: dict, view: dict, scale: int, themes: list[str],
                 out.append("  border-style: solid;")
                 out.append("  border-color: transparent;")
                 out.append(f"  border-image: url('{base_rel}') {st} {sr} {sb} {sl} fill "
-                           f"{spec.get('repeat', 'repeat')}; }}")
+                           f"{rep_for(spec)}; }}")
             else:
                 out.append(f"{sc} {cls} {{ {prop}: url('{base_rel}'); }}")
             if ovs:
@@ -605,7 +611,7 @@ def css_for_scale(mf: dict, view: dict, scale: int, themes: list[str],
             out.append("  border-style: solid;")
             out.append("  border-color: transparent;")
             out.append(f"  border-image: url('{base_rel}') {t} {r} {b} {l} fill "
-                       f"{spec.get('repeat', 'repeat')};")
+                       f"{rep_for(spec)};")
         elif full:
             rep = spec.get("repeat", "no-repeat")
             out.append("  display: inline-block;")
