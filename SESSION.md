@@ -297,6 +297,11 @@ CSS không chặn được bubbling. Module dùng chung cho repo khác:
   Vùng gauge thuộc nhóm nhãn **"RESOURCE METERS"**.
 
 
+
+- **Slider dùng nhầm bar-fill** — slider không dùng `ui-bar-fill-*` (đã bỏ khỏi markup/CSS/JS).
+- **Bar-fill không khớp lòng bar** — cắt lại **cùng size bar** (`bar-fill-*` 48×12, `bar-fill-v-*` 12×48;
+  art 42×6 canh giữa), slice 10 ⇒ chồng lên `bar-h`/`bar-v` khớp 1:1 (giống `container-fill`).
+  CSS: `.kit-bar.h/.v .fill` = size bar (12).
 - **- **Slider + resource bar render sai** — (1) CSS viết `.kit-slider .fill` nhưng markup dùng
   `kit-fill` ⇒ fill không được định vị/size; (2) `.kit-bar .frame` cao 24px (sprite native 12);
   (3) **track sprite cao 5px nhưng element `.kit-slider` cao 24** ⇒ viền trái/phải (5px) **tile dọc

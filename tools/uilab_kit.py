@@ -264,8 +264,8 @@ body.components-only #stage { display:none; }
 /* khung tạo stacking context: nền (border-image) < fill < hoạ tiết tâm (::before) */
 .kit-bar .frame::before { z-index:2; }
 .kit-bar .fill { position:absolute; z-index:1; }
-.kit-bar.h .fill { left:calc(15 * var(--u)); top:50%; height:calc(6 * var(--u)); transform:translateY(-50%); }
-.kit-bar.v .fill { bottom:calc(15 * var(--u)); left:50%; width:calc(6 * var(--u)); transform:translateX(-50%); }
+.kit-bar.h .fill { left:calc(14 * var(--u)); top:50%; height:calc(12 * var(--u)); transform:translateY(-50%); }
+.kit-bar.v .fill { bottom:calc(14 * var(--u)); left:50%; width:calc(12 * var(--u)); transform:translateX(-50%); }
 .kit-bar .cap { color:#e8ddc6; font:calc(9 * var(--u))/1 'GraphicPixel', monospace;
   text-shadow:0 calc(1 * var(--u)) 0 #000; white-space:nowrap; }
 .kit-legend { color:var(--kitdim); font:calc(10 * var(--u))/1.6 monospace; }
@@ -434,11 +434,10 @@ nâng 16x16) — icon dán lên nắp, lấy từ sheet <code>icons</code></em>
 <p class="log" data-tablog>tab: ngang=h1 · dọc=v1 · vuông=k1</p></section>"""
 
     slider = f"""<section id="k-slider" class="card"><h3>Slider</h3>
-<em>{p}-slider-track-h/v + {p}-slider-thumb-h/v + {p}-bar-fill-* — kéo bằng chuột / chạm</em>
+<em>{p}-slider-track-h/v + {p}-slider-thumb-h/v — kéo bằng chuột / chạm</em>
 <div class="row">
   <div class="kit-slider h" data-slider="h" style="width:calc(220 * var(--u))">
     <div class="{p}-slider-track-h track"></div>
-    <div class="{p}-bar-fill-green kit-fill"></div>
     <div class="{p}-slider-thumb-h thumb"></div>
   </div>
   <output class="out" data-out="h">40%</output>
@@ -446,7 +445,6 @@ nâng 16x16) — icon dán lên nắp, lấy từ sheet <code>icons</code></em>
 <div class="row" style="align-items:flex-end">
   <div class="kit-slider v" data-slider="v">
     <div class="{p}-slider-track-v track"></div>
-    <div class="{p}-bar-fill-v-gold kit-fill"></div>
     <div class="{p}-slider-thumb-v thumb"></div>
   </div>
   <output class="out" data-out="v">75%</output>
@@ -454,7 +452,6 @@ nâng 16x16) — icon dán lên nắp, lấy từ sheet <code>icons</code></em>
     <span class="lbl">Volume (bar-fill-blue)</span>
     <div class="kit-slider h" data-slider="vol" style="width:calc(140 * var(--u))">
       <div class="{p}-slider-track-h track"></div>
-      <div class="{p}-bar-fill-blue kit-fill"></div>
       <div class="{p}-slider-thumb-h thumb"></div>
     </div>
   </div>
@@ -723,7 +720,7 @@ KIT_SCRIPT = r"""
   const PAD = 8;                                  /* bề dày mũi tên của sprite track */
   $$('[data-slider]').forEach(sl => {
     const vertical = sl.classList.contains('v');
-    const fill = $('.kit-fill', sl), thumb = $('.thumb', sl);
+    const fill = $('.kit-fill', sl), thumb = $('.thumb', sl);   // slider khong dung bar-fill nua
     const out = document.querySelector('[data-out="' + sl.dataset.slider + '"]');
     let v = sl.dataset.slider === 'v' ? 0.75 : sl.dataset.slider === 'h' ? 0.4 : 0.6;
     let dragging = false;
@@ -731,10 +728,10 @@ KIT_SCRIPT = r"""
       const span = 'calc(100% - ' + (2 * PAD) + ' * var(--u))';
       const at = 'calc(' + PAD + ' * var(--u) + ' + span + ' * ' + v + ')';
       if (!vertical) {
-        fill.style.width = 'calc(' + span + ' * ' + v + ')';
+        if (fill) fill.style.width = 'calc(' + span + ' * ' + v + ')';
         thumb.style.left = at; thumb.style.top = '50%'; thumb.style.transform = 'translate(-50%,-50%)';
       } else {
-        fill.style.height = 'calc(' + span + ' * ' + v + ')';
+        if (fill) fill.style.height = 'calc(' + span + ' * ' + v + ')';
         thumb.style.top = 'calc(100% - ' + at + ')'; thumb.style.left = '50%';
         thumb.style.transform = 'translate(-50%,-50%)';
       }
