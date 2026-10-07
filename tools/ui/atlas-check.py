@@ -21,6 +21,7 @@ atlas = Image.open(ROOT / mf["sheets"]["main"]["source"]).convert("RGBA")
 W, H = atlas.size
 mask = Image.new("L", (W, H), 0)
 d = ImageDraw.Draw(mask)
+rects = []
 
 
 def rf(spec, s, rect):
@@ -42,6 +43,7 @@ for name, spec in mf["slices"].items():
             ov = ((spec.get("stateSetRect") or {}).get(st) or {}).get(s) if st else None
             x, y, w, h = list(ov) if ov else rf(spec, s, r0)
             d.rectangle([x, y, x + w - 1, y + h - 1], fill=255)
+            rects.append((x, y, w, h))
 
 pa, pm = atlas.load(), mask.load()
 seen, cut, unused, full = set(), [], [], 0
@@ -77,9 +79,13 @@ for y in range(H):
     for x in range(912):
         if pa[x, y][3] == 0:
             continue
-        if pm[x, y]:
-            r, g, b, a = pv[x, y]; pv[x, y] = (r // 3, g // 3, b // 3, 255)
-        else:
-            pv[x, y] = (255, 0, 255, 255)
-vis.save(ROOT / "tools/ui/out/atlas-check.png")
-print("wrote tools/ui/out/atlas-check.png")
+        if not pm[x, y]:
+            pv[x, y] = (255, 0, 255, 255)           # uncovered art -> magenta
+vdr = ImageDraw.Draw(vis)
+for (x, y, w, h) in rects:                       # exported slice rect outlines
+    x0, x1 = max(x, 0), min(x + w - 1, 911)
+    if x1 < x0:
+        continue
+    vdr.rectangle([x0, y, x1, y + h - 1], outline=(0, 240, 255, 255))
+vis.save(ROOT / "client/_atlas-check.png")
+print("wrote client/_atlas-check.png  (cyan = rect da xuat, magenta = chua xuat)")

@@ -14,3 +14,4 @@ browser_logs_old.txt
 tools/ui/out/
 __pycache__/
 *.pyc
+client/_atlas-check.png
