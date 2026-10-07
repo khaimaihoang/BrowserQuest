@@ -1531,17 +1531,17 @@
   "_comment_fills": "RESOURCE FILLS (colours live in each column -> themed:false). slice=7: 7px dau bi vat, ruot phang moi tile dung",
   "bar-fill-red": {
    "rect": [
-    64,
-    1818,
-    48,
-    12
+    66,
+    1820,
+    44,
+    8
    ],
    "nine": true,
    "slice": [
     0,
-    10,
+    8,
     0,
-    10
+    8
    ],
    "repeat": "repeat",
    "stretch": "x",
@@ -1549,17 +1549,17 @@
   },
   "bar-fill-blue": {
    "rect": [
-    976,
-    1818,
-    48,
-    12
+    978,
+    1820,
+    44,
+    8
    ],
    "nine": true,
    "slice": [
     0,
-    10,
+    8,
     0,
-    10
+    8
    ],
    "repeat": "repeat",
    "stretch": "x",
@@ -1567,17 +1567,17 @@
   },
   "bar-fill-gold": {
    "rect": [
-    1888,
-    1818,
-    48,
-    12
+    1890,
+    1820,
+    44,
+    8
    ],
    "nine": true,
    "slice": [
     0,
-    10,
+    8,
     0,
-    10
+    8
    ],
    "repeat": "repeat",
    "stretch": "x",
@@ -1585,17 +1585,17 @@
   },
   "bar-fill-green": {
    "rect": [
-    2800,
-    1818,
-    48,
-    12
+    2802,
+    1820,
+    44,
+    8
    ],
    "nine": true,
    "slice": [
     0,
-    10,
+    8,
     0,
-    10
+    8
    ],
    "repeat": "repeat",
    "stretch": "x",
@@ -1603,17 +1603,17 @@
   },
   "bar-fill-purple": {
    "rect": [
-    3712,
-    1818,
-    48,
-    12
+    3714,
+    1820,
+    44,
+    8
    ],
    "nine": true,
    "slice": [
     0,
-    10,
+    8,
     0,
-    10
+    8
    ],
    "repeat": "repeat",
    "stretch": "x",
@@ -1621,16 +1621,16 @@
   },
   "bar-fill-v-red": {
    "rect": [
-    42,
-    1744,
-    12,
-    48
+    44,
+    1746,
+    8,
+    44
    ],
    "nine": true,
    "slice": [
-    10,
+    8,
     0,
-    10,
+    8,
     0
    ],
    "repeat": "repeat",
@@ -1639,16 +1639,16 @@
   },
   "bar-fill-v-blue": {
    "rect": [
-    954,
-    1744,
-    12,
-    48
+    956,
+    1746,
+    8,
+    44
    ],
    "nine": true,
    "slice": [
-    10,
+    8,
     0,
-    10,
+    8,
     0
    ],
    "repeat": "repeat",
@@ -1657,16 +1657,16 @@
   },
   "bar-fill-v-gold": {
    "rect": [
-    1866,
-    1744,
-    12,
-    48
+    1868,
+    1746,
+    8,
+    44
    ],
    "nine": true,
    "slice": [
-    10,
+    8,
     0,
-    10,
+    8,
     0
    ],
    "repeat": "repeat",
@@ -1675,16 +1675,16 @@
   },
   "bar-fill-v-green": {
    "rect": [
-    2778,
-    1744,
-    12,
-    48
+    2780,
+    1746,
+    8,
+    44
    ],
    "nine": true,
    "slice": [
-    10,
+    8,
     0,
-    10,
+    8,
     0
    ],
    "repeat": "repeat",
@@ -1693,16 +1693,16 @@
   },
   "bar-fill-v-purple": {
    "rect": [
-    3690,
-    1744,
-    12,
-    48
+    3692,
+    1746,
+    8,
+    44
    ],
    "nine": true,
    "slice": [
-    10,
+    8,
     0,
-    10,
+    8,
     0
    ],
    "repeat": "repeat",

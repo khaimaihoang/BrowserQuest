@@ -269,12 +269,12 @@ body.components-only #stage { display:none; }
 /* khung tạo stacking context: nền (border-image) < fill < hoạ tiết tâm (::before) */
 .kit-bar .frame::before { z-index:2; }
 .kit-bar .fill { position:absolute; z-index:1; }
-.kit-bar.h .fill { top:0; height:calc(12 * var(--u)); }            /* cross = native bar-h */
-.kit-bar.h .fill[data-anchor="left"]  { left:0;  right:auto; }
-.kit-bar.h .fill[data-anchor="right"] { right:0; left:auto; }
-.kit-bar.v .fill { left:0; width:calc(12 * var(--u)); }            /* cross = native bar-v */
-.kit-bar.v .fill[data-anchor="bottom"] { bottom:0; top:auto; }
-.kit-bar.v .fill[data-anchor="top"]    { top:0;    bottom:auto; }
+.kit-bar.h .fill { top:calc(2 * var(--u)); height:calc(8 * var(--u)); }   /* = long den bar-h */
+.kit-bar.h .fill[data-anchor="left"]  { left:calc(-12 * var(--u)); right:auto; }
+.kit-bar.h .fill[data-anchor="right"] { right:calc(-12 * var(--u)); left:auto; }
+.kit-bar.v .fill { left:calc(2 * var(--u)); width:calc(8 * var(--u)); }    /* = long den bar-v */
+.kit-bar.v .fill[data-anchor="bottom"] { bottom:calc(-12 * var(--u)); top:auto; }
+.kit-bar.v .fill[data-anchor="top"]    { top:calc(-12 * var(--u));    bottom:auto; }
 .kit-bar .cap { color:#e8ddc6; font:calc(9 * var(--u))/1 'GraphicPixel', monospace;
   text-shadow:0 calc(1 * var(--u)) 0 #000; white-space:nowrap; }
 .kit-legend { color:var(--kitdim); font:calc(10 * var(--u))/1.6 monospace; }
@@ -787,8 +787,9 @@ KIT_SCRIPT = r"""
     const vertical = bar.classList.contains('v');
     const fill = $('.fill', bar);
     if (fill) {
-      if (vertical) fill.style.height = pct + '%';
-      else fill.style.width = pct + '%';
+      const span = 'calc((100% + 24 * var(--u)) * ' + (pct / 100) + ')';
+      if (vertical) fill.style.height = span;
+      else fill.style.width = span;
     }
     const cap = $('.cap', bar);
     if (cap && bar.dataset.bar === 'hp' && !cap.dataset.base) cap.dataset.base = cap.textContent.replace(/\s*\d+%?\/?\d*$/, '');

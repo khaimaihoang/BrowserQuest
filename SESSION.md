@@ -301,6 +301,11 @@ CSS không chặn được bubbling. Module dùng chung cho repo khác:
 - **Slider dùng nhầm bar-fill** — slider không dùng `ui-bar-fill-*` (đã bỏ khỏi markup/CSS/JS).
 
 
+
+- **Fill phải khít LÒNG ĐEN bar** — `bar-h` 48×12 có viền sáng y=1/10 ⇒ lòng đen = **44×8**
+  (x 2..45). Cắt `bar-fill-*` = 44×8 (`bar-fill-v-*` = 8×44), art 42×6 canh giữa, slice 8.
+  CSS: fill `top:2u; height:8u` + `left/right:-12u` (chui vào vùng viền để chạm lòng);
+  JS: `width/height = (100% + 24u) * pct` ⇒ đúng bề rộng lòng, không tràn/nhỏ.
 - **Bar-fill/track bị LẶP (sandwich, nửa sprite)** — manifest có key `stretch: x|y` nhưng
   packer **bỏ qua** ⇒ CSS luôn `border-image-repeat: repeat` ⇒ dải giữa lặp. Fix: `rep_for()`
   → `stretch` khi slice có `stretch`, còn lại `repeat`. Áp cho `bar-h/-v`, `bar-fill-*`,
