@@ -299,6 +299,10 @@ CSS không chặn được bubbling. Module dùng chung cho repo khác:
 
 
 - **Slider dùng nhầm bar-fill** — slider không dùng `ui-bar-fill-*` (đã bỏ khỏi markup/CSS/JS).
+
+- **Bar-fill align 2 mode** — fill `ui-bar-h/-v` chỉ giãn **1 chiều** (cross = native 12) và có
+  **2 mode neo**: ngang `data-anchor=left|right`, dọc `top|bottom` (mặc định left/bottom).
+  JS đặt width/height = `pct%` của padding-box (lòng bar) ⇒ fill khớp lòng, không lệch 14px.
 - **Bar-fill không khớp lòng bar** — cắt lại **cùng size bar** (`bar-fill-*` 48×12, `bar-fill-v-*` 12×48;
   art 42×6 canh giữa), slice 10 ⇒ chồng lên `bar-h`/`bar-v` khớp 1:1 (giống `container-fill`).
   CSS: `.kit-bar.h/.v .fill` = size bar (12).

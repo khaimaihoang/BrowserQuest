@@ -94,14 +94,19 @@ def _check(prefix: str, label: str, cls: str, state: str = "") -> str:
             f'<i class="{prefix}-{cls}{s}"></i><span class="lbl">{label}</span></button>')
 
 
-def _bar(prefix: str, key: str, label: str, color: str, pct: int, vertical: bool = False) -> str:
+def _bar(prefix: str, key: str, label: str, color: str, pct: int, vertical: bool = False,
+         anchor: str = "") -> str:
     """Thanh tiến trình: fill nằm TRONG khung (z-index thấp hơn ::before = hoạ tiết tâm),
-    nhờ vậy fill đè lên nền khung nhưng vẫn nằm dưới hoạ tiết + chữ."""
+    nhờ vậy fill đè lên nền khung nhưng vẫn nằm dưới hoạ tiết + chữ.
+    anchor: '' -> trái (h) / dưới (v); 'right'|'top' -> mốc còn lại."""
     v = vertical
+    if not anchor:
+        anchor = "bottom" if v else "left"
     cap = f'<span class="cap">{label}</span>' if label else ""
     return (f'<div class="kit-bar {"v" if v else "h"}" data-bar="{key}" data-pct="{pct}">'
             f'{cap}<div class="{prefix}-bar{"-v" if v else "-h"} frame">'
-            f'<div class="{prefix}-bar-fill{"-v" if v else ""}-{color} fill"></div>'
+            f'<div class="{prefix}-bar-fill{"-v" if v else ""}-{color} fill" '
+            f'data-anchor="{anchor}"></div>'
             f'</div></div>')
 
 
@@ -264,8 +269,12 @@ body.components-only #stage { display:none; }
 /* khung tạo stacking context: nền (border-image) < fill < hoạ tiết tâm (::before) */
 .kit-bar .frame::before { z-index:2; }
 .kit-bar .fill { position:absolute; z-index:1; }
-.kit-bar.h .fill { left:calc(14 * var(--u)); top:50%; height:calc(12 * var(--u)); transform:translateY(-50%); }
-.kit-bar.v .fill { bottom:calc(14 * var(--u)); left:50%; width:calc(12 * var(--u)); transform:translateX(-50%); }
+.kit-bar.h .fill { top:0; height:calc(12 * var(--u)); }            /* cross = native bar-h */
+.kit-bar.h .fill[data-anchor="left"]  { left:0;  right:auto; }
+.kit-bar.h .fill[data-anchor="right"] { right:0; left:auto; }
+.kit-bar.v .fill { left:0; width:calc(12 * var(--u)); }            /* cross = native bar-v */
+.kit-bar.v .fill[data-anchor="bottom"] { bottom:0; top:auto; }
+.kit-bar.v .fill[data-anchor="top"]    { top:0;    bottom:auto; }
 .kit-bar .cap { color:#e8ddc6; font:calc(9 * var(--u))/1 'GraphicPixel', monospace;
   text-shadow:0 calc(1 * var(--u)) 0 #000; white-space:nowrap; }
 .kit-legend { color:var(--kitdim); font:calc(10 * var(--u))/1.6 monospace; }
@@ -485,8 +494,8 @@ nâng 16x16) — icon dán lên nắp, lấy từ sheet <code>icons</code></em>
 </div>
 <div class="row" style="gap:calc(14 * var(--u)); align-items:flex-end">
   {_bar(p, "xp", "XP 42/120", "gold", 35)}
-  {_bar(p, "st", "STAM", "green", 55)}
-  {_bar(p, "stv", "V", "purple", 70, vertical=True)}
+  {_bar(p, "st", "STAM (align right)", "green", 55, anchor="right")}
+  {_bar(p, "stv", "V", "purple", 70, vertical=True, anchor="top")}
 </div>
 <div class="row">
   <button class="{p}-button-thin btn-thin" type="button" data-hp="-15"><span class="ktxt">-15 HP</span></button>
@@ -778,8 +787,8 @@ KIT_SCRIPT = r"""
     const vertical = bar.classList.contains('v');
     const fill = $('.fill', bar);
     if (fill) {
-      if (vertical) fill.style.height = 'calc((100% - 30 * var(--u)) * ' + (pct / 100) + ')';
-      else fill.style.width = 'calc((100% - 30 * var(--u)) * ' + (pct / 100) + ')';
+      if (vertical) fill.style.height = pct + '%';
+      else fill.style.width = pct + '%';
     }
     const cap = $('.cap', bar);
     if (cap && bar.dataset.bar === 'hp' && !cap.dataset.base) cap.dataset.base = cap.textContent.replace(/\s*\d+%?\/?\d*$/, '');
