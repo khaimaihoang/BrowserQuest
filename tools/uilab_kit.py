@@ -270,11 +270,11 @@ body.components-only #stage { display:none; }
 .kit-bar .frame::before { z-index:2; }
 .kit-bar .fill { position:absolute; z-index:1; }
 .kit-bar.h .fill { top:calc(2 * var(--u)); height:calc(8 * var(--u)); }   /* = long den bar-h */
-.kit-bar.h .fill[data-anchor="left"]  { left:calc(-12 * var(--u)); right:auto; }
-.kit-bar.h .fill[data-anchor="right"] { right:calc(-12 * var(--u)); left:auto; }
+.kit-bar.h .fill[data-anchor="left"]  { left:calc(-11 * var(--u)); right:auto; }
+.kit-bar.h .fill[data-anchor="right"] { right:calc(-11 * var(--u)); left:auto; }
 .kit-bar.v .fill { left:calc(2 * var(--u)); width:calc(8 * var(--u)); }    /* = long den bar-v */
-.kit-bar.v .fill[data-anchor="bottom"] { bottom:calc(-12 * var(--u)); top:auto; }
-.kit-bar.v .fill[data-anchor="top"]    { top:calc(-12 * var(--u));    bottom:auto; }
+.kit-bar.v .fill[data-anchor="bottom"] { bottom:calc(-11 * var(--u)); top:auto; }
+.kit-bar.v .fill[data-anchor="top"]    { top:calc(-11 * var(--u));    bottom:auto; }
 .kit-bar .cap { color:#e8ddc6; font:calc(9 * var(--u))/1 'GraphicPixel', monospace;
   text-shadow:0 calc(1 * var(--u)) 0 #000; white-space:nowrap; }
 .kit-legend { color:var(--kitdim); font:calc(10 * var(--u))/1.6 monospace; }
@@ -787,7 +787,7 @@ KIT_SCRIPT = r"""
     const vertical = bar.classList.contains('v');
     const fill = $('.fill', bar);
     if (fill) {
-      const span = 'calc((100% + 24 * var(--u)) * ' + (pct / 100) + ')';
+      const span = 'calc((100% + 22 * var(--u)) * ' + (pct / 100) + ')';
       if (vertical) fill.style.height = span;
       else fill.style.width = span;
     }

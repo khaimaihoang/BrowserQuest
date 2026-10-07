@@ -303,6 +303,10 @@ CSS không chặn được bubbling. Module dùng chung cho repo khác:
 
 
 
+
+- **Bar-fill chồng 1px lên shadow** — lòng thật = **42** (không phải 44; mỗi đầu chừa 1px
+  shadow). Fix: offset neo `-12u → -11u`, span `(100%+24u) → (100%+22u)` ⇒ fill chỉ chạm
+  lòng, không đè viền. Áp cả bar ngang & dọc.
 - **Pixel-perfect bar-fill** — `bar-fill-*` cắt **tight = art 42×6** (slice 7), nhưng element đặt
   đúng **lòng đen 44×8** của `bar-h` (top:2, left/right:-12) ⇒ border-image stretch lấp kín, mép
   chạm đúng pixel lòng (trước đây sprite 44×8 lệch 1px đệm).
