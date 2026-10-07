@@ -6,6 +6,8 @@ Tóm tắt kiến trúc, quy chuẩn dữ liệu và tiến trình của **pipel
 
 Tài liệu chuẩn (canonical) của pipeline: [`docs/ui-slice-pipeline.md`](file:///D:/Develop/Projects/BrowserQuest/docs/ui-slice-pipeline.md).
 
+**Toàn bộ ruling của phiên hoàn thiện kit 3 bộ**: [`docs/ui-slice-rulings.md`](file:///D:/Develop/Projects/BrowserQuest/docs/ui-slice-rulings.md).
+
 ---
 
 ## 1. Mục tiêu & phạm vi
