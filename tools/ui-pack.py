@@ -791,6 +791,29 @@ def generate_lab(mf: dict, themes: list[str]) -> str:
             f'<div class="demos">{"".join(cells)}</div></section>'
         )
 
+    # anim: container + fill (gauge) đặt lên nhau, 3 bộ
+    orb_rows = []
+    for cbase, fbase, nstage in [("container", "container-fill", 14),
+                                 ("container-md", "container-md-fill", 10),
+                                 ("container-sm", "container-sm-fill", 6)]:
+        cspec = mf["slices"].get(cbase)
+        if not cspec:
+            continue
+        group = []
+        for s in slice_sets(mf, cspec):
+            r = rect_for(cspec, mf, s, cspec["rect"])
+            sc = "" if s == default_s else " " + s
+            group.append(
+                f'<span class="orb{sc}" data-fill="{prefix}-{fbase}" data-n="{nstage}" '
+                f'title="{cbase} · {s} · {r[2]}x{r[3]}">'
+                f'<i class="{prefix}-{cbase}" style="width:{r[2]}px;height:{r[3]}px"></i>'
+                f'<i class="{prefix}-{fbase}-1 gfill" style="width:{r[2]}px;height:{r[3]}px"></i></span>'
+            )
+        orb_rows.append(f'<div class="orbrow"><em>{cbase} · {nstage} stage</em>{"".join(group)}</div>')
+    fill_sec = ('<section class="row"><header>ANIM fill &#8594; container'
+                '<em>base 3 bộ · gauge chạy</em></header>'
+                f'<div class="orbs">{"".join(orb_rows)}</div></section>')
+
     theme_buttons = "".join(f'<button data-theme="{t}">{t}</button>' for t in themes)
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -833,6 +856,12 @@ def generate_lab(mf: dict, themes: list[str]) -> str:
       min-width: 46px; min-height: 20px; padding: 3px;
       border: 1px solid #33334a; border-radius: 2px; }}
   .demos i {{ display: block; }}
+  .orbs {{ display: flex; flex-direction: column; gap: 10px; }}
+  .orbrow {{ display: flex; align-items: flex-end; gap: 18px; }}
+  .orbrow em {{ width: 130px; color: #8b93a3; font-style: normal; font-size: 11px; }}
+  .orb {{ position: relative; display: inline-block; }}
+  .orb .gfill {{ position: absolute; left: 0; top: 0; image-rendering: pixelated; }}
+  .orb i {{ display: block; }}
 </style>
 {kit_style()}
 </head>
@@ -849,6 +878,7 @@ def generate_lab(mf: dict, themes: list[str]) -> str:
   {theme_buttons}
 </div>
 <div id="stage">
+{fill_sec}
 {"".join(rows)}
 </div>
 {kit_markup(prefix)}
@@ -863,6 +893,11 @@ def generate_lab(mf: dict, themes: list[str]) -> str:
       for (const cl of [...c.classList]) if (cl.startsWith('theme-')) c.classList.remove(cl);
       if (!dft) c.classList.add('theme-' + t);
     }});
+  }});
+  document.querySelectorAll('.orb[data-fill]').forEach(o => {{
+    const base = o.dataset.fill, n = +o.dataset.n, el = o.querySelector('.gfill');
+    let i = 1;
+    setInterval(() => {{ el.className = 'gfill ' + base + '-' + i; i = i % n + 1; }}, 130);
   }});
 {kit_script()}
 </script>
