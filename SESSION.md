@@ -288,6 +288,9 @@ CSS không chặn được bubbling. Module dùng chung cho repo khác:
   (rect tuyệt đối theo bộ cho từng state — ornament state khác vị trí/kích thước giữa bộ,
   không suy ra được bằng delta của base).
 
+- **Slot `active` khai sai bộ** — `slot`/`slot-md` khai `active` tại **set2**
+  ([33,817]/[109,829]); nhóm SLOTS xếp `[base][active = base+48]` **mỗi bộ** nên set1
+  active đúng là `base+48` ([33,273]/[109,285]) → delta tự ra set2/set3. Đã bỏ `stateSetRect` sai.
 ---
 
 ## 9. TODO
