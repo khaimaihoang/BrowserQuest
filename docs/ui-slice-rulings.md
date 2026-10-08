@@ -14,7 +14,7 @@
 3. **`states` cũng ở set1**. State khác vị trí/kích thước giữa bộ ⇒ khai `stateSetRect`.
 4. **`slice` phải phủ hết hoa văn viền**; ornament set2/set3 dày hơn ⇒ `setSlice`.
 5. **Thanh kéo 1 chiều** (bar/fill/track/slider) ⇒ `stretch: x|y` ⇒ CSS `border-image-repeat: stretch`.
-6. **Fill khít lòng**: cắt sprite = **lòng đen thật** của khung; element neo đúng lòng; pixel-perfect.
+6. **Fill khít lòng**: cross = **native 6u** (sprite 42×6 / 6×42); `top/left = calc((100% - 6u)/2)`; neo đúng lòng (-11u / +22u); snap integer pixel grid.
 7. **Overlay** (`::before/::after`) cần `position: relative` trên **mọi bộ** có overlay.
 8. Soát bằng `tools/ui/atlas-check.py` → phải `CUT=0`.
 9. Xem bằng `tools/ui/qa.py` / `ui-lab.html` (1 bộ, native + kéo dài).
@@ -100,14 +100,21 @@
 - Sprite cắt **TIGHT = art** (42×6 / 6×42), `slice: 7`.
 - Element = **lòng đen thật** của bar, neo bằng offset âm vào vùng viền:
   ```
-  bar-h: top: 2u; height: 8u;  left/right: -11u;  width  = (100% + 22u) * pct
-  bar-v: left: 2u; width: 8u;  top/bottom: -11u;  height = (100% + 22u) * pct
+  bar-h: top: calc((100% - 6u)/2) [=3u ở set1]; height: 6u (native);  left/right: -11u;  span = (100% + 22u) * pct
+  bar-v: left: calc((100% - 6u)/2) [=3u ở set1]; width: 6u (native);  top/bottom: -11u;  span = (100% + 22u) * pct
   ```
+- **Vì sao `height/width: 6u` (cross = native) và `top/left: 3u`**:
+  - Sprite fill native dày **6px** (`42×6` / `6×42`), slice cross = 0. Nếu đặt `8u`, CSS `border-image` sẽ kéo giãn 6px lên 8px gây **pixel bleed** (nhoè hàng pixel, vỡ pixel art).
+  - Khung `bar-h` (48×12) chừa **3px mỗi mép**: 1px viền đen ngoài + 1px viền highlight + 1px shadow đen lòng ⇒ lòng fill chiếm đúng 6px (y=3..8), chừa đúng 3px trên và 3px dưới (`3 + 6 + 3 = 12px`).
+  - Dùng công thức canh giữa `top/left: calc((100% - 6 * var(--u)) / 2)` sẽ tự khớp hoàn hảo cho cả 3 bộ: set1 (12u ⇒ top 3u), set2 (20u ⇒ top 7u), set3 (28u ⇒ top 11u).
 - **Vì sao `-11` / `+22`**: bar-h border `14`, lòng thật chừa **3px mỗi đầu** (1 viền + 2 shadow)
   ⇒ offset = `-(14 − 3) = -11`, span = `100% + 2*(14 − 3) = +22`.
 - **Công thức tổng quát**: `offset = -(border − pad)`, `span = 100% + 2*(border − pad)`, với `pad` = khoảng chừa mỗi đầu trong sprite bar.
+- **Tránh pixel bleed trục chính**: JS tính chiều dài fill snap theo đơn vị pixel sprite `units * u`:
+  `units = Math.round(((frameLen / u - 6) * pct) / 100); span = units * u + 'px'`.
+  Tránh subpixel floating-point (như 60.9px) làm mép bo 7px của `border-image` bị nhoè pixel. Khi `pct === 0`, ẩn fill (`display: none`).
 
-> Bug điển hình: `border-image: repeat` ⇒ sandwich; sprite 44×8 có đệm ⇒ lệch 1px; `left:14` tính theo padding-box ⇒ lệch +14; `width: 100% − 30u` ⇒ sai bề rộng.
+> Bug điển hình: `height: 8u` kéo giãn sprite 6px ⇒ pixel bleed; `border-image: repeat` ⇒ sandwich; sprite 44×8 có đệm ⇒ lệch 1px; `left:14` tính theo padding-box ⇒ lệch +14; `width: 100% − 30u` ⇒ sai bề rộng; frame bị ép `height: 20u` ở set1 làm méo khung 12px.
 
 ---
 
@@ -176,6 +183,9 @@
 | CSS bộ thiếu tiền tố `.set2/.set3` | `.set2 .ui-x` |
 | `border-image-repeat: repeat` cho thanh kéo | `stretch` (theo `stretch: x|y`) |
 | Element thanh cao hơn native | cross = native |
+| Fill cross != native (vd: `height: 8u` trên sprite 6px) | cross = native 6u (`top: calc((100% - 6u)/2)`) |
+| Frame bar-h set1 bị ép `height: 20u` | height = native 12u (20u chỉ cho set2) |
+| Chiều dài fill subpixel (vd: 60.9px) gây nhoè mép | JS snap `units * u`; `pct === 0` ẩn fill |
 | `?v=` chỉ băm manifest | băm manifest **+ source packer** |
 | Sửa file rồi chỉ tin test `file://` | kiểm cả **URL dev-server** + mirror `dist` |
 | Overlay thiếu `position:relative` ở bộ khác | phát `position:relative` mọi bộ |

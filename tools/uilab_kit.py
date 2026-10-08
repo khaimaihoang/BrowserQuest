@@ -269,12 +269,17 @@ body.components-only #stage { display:none; }
 /* khung tạo stacking context: nền (border-image) < fill < hoạ tiết tâm (::before) */
 .kit-bar .frame::before { z-index:2; }
 .kit-bar .fill { position:absolute; z-index:1; }
-.kit-bar.h .fill { top:calc(2 * var(--u)); height:calc(8 * var(--u)); }   /* = long den bar-h */
+.kit-bar.h .fill { top:calc((100% - 6 * var(--u)) / 2); height:calc(6 * var(--u)); }   /* = long den bar-h native 6u (deu 3u moi mep) */
 .kit-bar.h .fill[data-anchor="left"]  { left:calc(-11 * var(--u)); right:auto; }
 .kit-bar.h .fill[data-anchor="right"] { right:calc(-11 * var(--u)); left:auto; }
-.kit-bar.v .fill { left:calc(2 * var(--u)); width:calc(8 * var(--u)); }    /* = long den bar-v */
+.kit-bar.v .fill { left:calc((100% - 6 * var(--u)) / 2); width:calc(6 * var(--u)); }    /* = long den bar-v native 6u (deu 3u moi mep) */
 .kit-bar.v .fill[data-anchor="bottom"] { bottom:calc(-11 * var(--u)); top:auto; }
 .kit-bar.v .fill[data-anchor="top"]    { top:calc(-11 * var(--u));    bottom:auto; }
+/* set2 & set3 bar frame sizes */
+.set2 .kit-bar.h .frame, .kit-bar.h.set2 .frame { height:calc(20 * var(--u)); }
+.set3 .kit-bar.h .frame, .kit-bar.h.set3 .frame { height:calc(28 * var(--u)); }
+.set2 .kit-bar.v .frame, .kit-bar.v.set2 .frame { width:calc(20 * var(--u)); }
+.set3 .kit-bar.v .frame, .kit-bar.v.set3 .frame { width:calc(28 * var(--u)); }
 .kit-bar .cap { color:#e8ddc6; font:calc(9 * var(--u))/1 'GraphicPixel', monospace;
   text-shadow:0 calc(1 * var(--u)) 0 #000; white-space:nowrap; }
 .kit-legend { color:var(--kitdim); font:calc(10 * var(--u))/1.6 monospace; }
@@ -332,7 +337,7 @@ body.components-only #stage { display:none; }
 .kit-hud .abs { position:absolute; }
 .kit-hud .bars { left:calc(10 * var(--u)); top:calc(10 * var(--u)); display:flex; flex-direction:column; gap:calc(6 * var(--u)); }
 .kit-hud .bars .kit-bar { width:calc(150 * var(--u)); }
-.kit-hud .bars .kit-bar .frame { height:calc(20 * var(--u)); }
+.kit-hud .bars .kit-bar .frame { height:calc(12 * var(--u)); }
 .kit-hud .top { right:calc(10 * var(--u)); top:calc(10 * var(--u)); display:flex; gap:calc(4 * var(--u)); }
 .kit-hud .bottom { left:50%; bottom:calc(10 * var(--u)); transform:translateX(-50%); }
 .kit-hud .side { right:calc(10 * var(--u)); bottom:calc(10 * var(--u)); }
@@ -787,15 +792,27 @@ KIT_SCRIPT = r"""
     const vertical = bar.classList.contains('v');
     const fill = $('.fill', bar);
     if (fill) {
-      const span = 'calc((100% + 22 * var(--u)) * ' + (pct / 100) + ')';
-      if (vertical) fill.style.height = span;
-      else fill.style.width = span;
+      if (pct === 0) {
+        fill.style.display = 'none';
+      } else {
+        fill.style.display = '';
+        const u = scale();
+        const frame = bar.querySelector('.frame');
+        const frameLen = vertical ? (frame ? frame.clientHeight : 130 * u) : (frame ? frame.clientWidth : 180 * u);
+        const maxUnits = Math.max(1, Math.round(frameLen / u) - 6);
+        const units = Math.round((maxUnits * pct) / 100);
+        const spanPx = units * u;
+        if (vertical) fill.style.height = spanPx + 'px';
+        else fill.style.width = spanPx + 'px';
+      }
     }
     const cap = $('.cap', bar);
     if (cap && bar.dataset.bar === 'hp' && !cap.dataset.base) cap.dataset.base = cap.textContent.replace(/\s*\d+%?\/?\d*$/, '');
     if (cap && bar.dataset.bar === 'hp') cap.textContent = 'HP ' + pct + '/100';
   };
-  $$('[data-bar]').forEach(b => setBar(b.dataset.bar, parseInt(b.dataset.pct || '0', 10)));
+  const updateAllBars = () => $$('[data-bar]').forEach(b => setBar(b.dataset.bar, parseInt(b.dataset.pct || '0', 10)));
+  updateAllBars();
+  window.addEventListener('resize', updateAllBars);
   $$('[data-hp]').forEach(b => b.addEventListener('click', () => {
     const bar = $('[data-bar="hp"]'); if (!bar) return;
     const next = Math.max(0, Math.min(100, parseInt(bar.dataset.pct || '100', 10) + parseInt(b.dataset.hp, 10)));
